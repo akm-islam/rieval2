@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.bar rect {
+  fill: steelblue;
+}
+.bar text {
+  fill: #fff;
+  font: 10px sans-serif;
+}
+rect.selection {
+    stroke-width: 2px;
+    stroke-opacity: 1;
+    fill: rgb(192, 192, 192);
+    fill-opacity: 0.5;
+  }
+</style>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+      var data=[{name:"AKM",age:1},{name:"AKM",age:1},
+	  {name:"AKM",age:3},
+	  {name:"AKM3",age:10},
+	  {name:"AKM",age:7},{name:"AKM3",age:9},{name:"AKM",age:10},
+	  {name:"AKM3",age:10},{name:"AKM",age:15},{name:"AKM3",age:5}]
+		map = data.map(function(d,i){ return parseFloat(d.age); })
+        var formatCount = d3.format(",.0f");
+
+    var svg = d3.select("svg"),
+        margin = {top: 10, right: 30, bottom: 30, left: 0},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom;
+    var mybins=[0,5,10]
+    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var x = d3.scaleLinear().rangeRound([0, width]).domain([0,d3.max(map)]);
+    var bins = d3.histogram().domain(x.domain()).thresholds(mybins)
+    (map);
+//console.log(x.domain()[1])
+    var y = d3.scaleLinear().domain([0, d3.max(bins, function(d) { return d.length; })]).range([height, 0]);
+    var bar = g.selectAll(".bar").data(bins).enter().append("g").attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+    
+    bar.append("rect").attr("x", 1).attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+        .attr("height", function(d) { return height - y(d.length); });
+
+	bar.append("text").attr("dy", ".75em").attr("y", 6)
+	.attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+        .attr("text-anchor", "middle").text(function(d) { return formatCount(d.length); });
+
+	g.append("g").attr("class", "axis axis--x")
+	.attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).ticks(4));
+//-------- Histogram creation ends here
+var selectionRect = {
+	element			: null,
+	previousElement : null,
+	currentY		: 0,
+	currentX		: 0,
+	originX			: 0,
+	originY			: 0,
+	setElement: function(ele) {
+		this.previousElement = this.element;
+		this.element = ele;
+	},
+	getNewAttributes: function() {
+		var x = this.currentX<this.originX?this.currentX:this.originX;
+		var y = this.currentY<this.originY?this.currentY:this.originY;
+		var width = Math.abs(this.currentX - this.originX);
+		var height = Math.abs(this.currentY - this.originY);
+		return {x:x,y:y,width: width,height:height}; // returning the javascript object
+	},
+	getCurrentAttributes: function() {
+		// use plus sign to convert string into number
+        var x = +this.element.attr("x");
+        //console.log(x,this.element.attr("x"))
+		var y = +this.element.attr("y");
+		var width = +this.element.attr("width");
+		var height = +this.element.attr("height");
+		return {x1:x,y1:y,x2:x + width,y2:y + height}; // returning the javascript object
+	},
+	getCurrentAttributesAsText: function() {
+		var attrs = this.getCurrentAttributes();
+		return "x1: " + attrs.x1 + " x2: " + attrs.x2 + " y1: " + attrs.y1 + " y2: " + attrs.y2;
+	},
+	init: function(newX, newY) {
+        //console.log(newX,newY)
+		var rectElement = svg.append("rect")
+        .attr('rx',4).attr('ry',4).attr("x",0).attr("y",0)
+        .attr('width',0).attr('height',0).classed("selection", true);    
+        //console.log(rectElement)
+	    this.setElement(rectElement);
+		this.originX = newX;
+		this.originY = newY;
+		this.update(newX, newY);
+	},
+	update: function(newX, newY) {
+        //console.log(newX,newY)
+		this.currentX = newX;
+        this.currentY = newY;
+        var NewAttr=this.getNewAttributes()
+		this.element.attr("x",NewAttr.x).attr("y",NewAttr.y)
+        .attr('width',NewAttr.width).attr('height',NewAttr.height)
+	},
+	focus: function() {
+        this.element
+            .style("stroke", "#DE695B")
+            .style("stroke-width", "1.5");
+    },
+    remove: function() {
+    	this.element.remove();
+    	this.element = null;
+    },
+    removePrevious: function() {
+    	if(this.previousElement) {
+    		this.previousElement.remove();
+    	}
+    }
+};
+
+//-----------------
+var attributesText = d3.select("#attributestext");
+function dragStart() {
+    //console.log("dragstart");
+    var p = d3.mouse(this);
+    selectionRect.init(p[0], p[1]);
+	selectionRect.removePrevious();
+}
+function dragMove() {
+	//console.log("dragMove");
+	var p = d3.mouse(this);
+    selectionRect.update(p[0], p[1]);
+    attributesText
+    	.text(selectionRect.getCurrentAttributesAsText());
+}
+function dragEnd() {
+	//console.log("dragEnd");
+	var finalAttributes = selectionRect.getCurrentAttributes();
+    console.dir(finalAttributes);
+    finalAttributes.x1!=finalAttributes.x2?alert(x.invert(finalAttributes.x1).toFixed(2)+" "+x.invert(finalAttributes.x2).toFixed(2)):null
+	if(finalAttributes.x2 - finalAttributes.x1 > 1 && finalAttributes.y2 - finalAttributes.y1 > 1){
+		//console.log("range selected");
+		// range selected
+		d3.event.sourceEvent.preventDefault();
+		selectionRect.focus();
+	} else {
+		//console.log("single point");
+        selectionRect.remove();
+    }
+}
+var dragBehavior = d3.drag()
+    .on("start", dragStart)    
+    .on("drag", dragMove)
+    .on("end", dragEnd);
+svg.call(dragBehavior);
+
+</script>
+</body>

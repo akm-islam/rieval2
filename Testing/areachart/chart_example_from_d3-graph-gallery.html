@@ -1,0 +1,65 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var s_margin = {top: 0, right: 30, bottom: 0, left: 50},
+    s_width = 50 - s_margin.left - s_margin.right,
+    s_height = 50 - s_margin.top - s_margin.bottom;
+
+// append the s_svg object to the body of the page
+var s_svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("s_width", s_width + s_margin.left + s_margin.right)
+    .attr("s_height", s_height + s_margin.top + s_margin.bottom)
+    .append("g")
+    .attr("transform",
+          "translate(" + s_margin.left + "," + s_margin.top + ")");
+
+var data=[{year:1,rank:10},{year:2,rank:20},{year:3,rank:30},{year:4,rank:40},{year:5,rank:50}]  
+  // Add X axis  
+  var x = d3.scaleLinear().domain([1,5]).range([ 0, s_width ]);
+//---
+    var y = d3.scaleLinear().domain([0, d3.max(data, function(d) { return +d.rank; })]).range([s_height,0]);
+//console.log(y(30))
+    // Add the area
+    s_svg.append("path")
+      .datum(data)
+      .attr("fill", "#cce5df")
+      .attr("stroke", "#69b3a2")
+      .attr("stroke-width",(d)=>{
+        //console.log(d)
+        return 1.5
+      })
+      .attr("d", d3.area()
+        .x(function(d) { return x(d.year) })
+        .y0(y(0))
+        .y1(function(d) { return y(d.rank) })
+        )
+
+
+
+
+//------------Circles
+      s_svg.selectAll('circle').data(data).enter().append('circle')
+      .attr('cx', function(d, i) {return x(d.year)})
+      .attr('cy', s_height)
+      .on("mouseover", function(d) {	
+        d3.select(this).style('fill','red')
+        d3.select(this).attr('r', 4)
+      })
+      .on("mouseout", function(d) {	
+        d3.select(this).style('fill','transparent')
+        })
+      .style('fill', (d)=>d.year>1?'transparent':'red')
+      .attr('r', 2)
+</script>

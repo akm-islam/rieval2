@@ -1,0 +1,6 @@
+slope chart 1 - http://bl.ocks.org/eesur/a4679ee453aa9357977c
+slope chart 2 - https://bl.ocks.org/tlfrd/042b2318c8767bad7a485098fbf760fc
+slope chart 1 - https://bl.ocks.org/borgar/67a2173ef40f08129201
+
+d3.nest() - http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
+d3.voronoi() - https://github.com/d3/d3-voronoi
