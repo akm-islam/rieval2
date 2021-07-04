@@ -86,25 +86,54 @@ export function CreateSlopeChart1(selected_instances, original_data, defualt_mod
     })
 }
 
-export function CreatexpChart(selected_instances,sorted_features, lime_data,selected_year,defualt_models) {
+export function CreatexpChart(selected_instances, sorted_features, lime_data, selected_year, defualt_models) {
   var parent_width = $("#exp_container").width()
   var parent_height = $("#exp_container").height()
-  var item_width=parent_width/sorted_features.length
-  var item_height=parent_height/sorted_features.length
-  d3.select("#exp_container").selectAll(".exp_items").data(sorted_features).join('svg').attr('class','exp_items').attr('width',item_width).attr('height',item_height)
-  .attr('x',(d,i)=>item_width*i)
-  .attr('add_circle',function(d){
-    var feature_contrib_name=d[0]+"_contribution"
-    console.log(defualt_models,lime_data)
-    var circ_data=[]
-    defualt_models.map(model=>{
-      lime_data[model].map(item=>{
-        if(item['1-qid']==selected_year&& selected_instances.includes(parseInt(item['two_realRank']))){circ_data.push(item)}
+  var margin = { item_top_margin: 15, right: 14, bottom: 0, left: 20, circ_radius: 5,item_left_margin:20,item_right_margin:10 }
+  var item_width = parent_width / sorted_features.length - margin.item_right_margin
+  var item_height = parent_height
+  d3.select("#exp_container").selectAll(".exp_items").data(sorted_features).join('svg').attr('class', 'exp_items').attr('width', item_width).attr('height', item_height)
+    .attr('x', (d, i) => item_width * i + (margin.item_right_margin*i))
+    .attr('add_circle', function (d,svg_index) {
+      var feature_contrib_name = d[0] + "_contribution"
+      var circ_data = []
+      defualt_models.map(model => {
+        lime_data[model].map(item => {
+          if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) { circ_data.push(item) }
+        })
+      })
+      d3.select(this).selectAll('rect').data([0]).join('rect').attr('width','100%').attr('height','100%').attr('fill','#eaeaea')
+      //d3.select(this).selectAll('.left').data([0]).join('rect').attr('class','left').attr('width',margin.item_left_margin).attr('height','100%').attr('fill','#e0e0e0')
+      d3.select(this).selectAll('.title_rect').data([0]).join('rect').attr('class','title_rect').attr('width','100%').attr('height',margin.item_top_margin).attr('fill','#d1d1d1')
+      d3.select(this).selectAll('title_text').data([0]).join('text').attr('class','title_text').text(d[0]).attr('y', 0).attr('dominant-baseline', 'hanging').attr("font-size", 12).attr('x','50%').attr('text-anchor','middle')
+      var height = parent_height - margin.item_top_margin - margin.bottom;
+      var h_start = margin.item_top_margin, quartile = (height - h_start) / 6;
+      d3.select(this).selectAll(".ylabels").data([[.2, "++"], [.4, "+"],[.5, "0"], [.6, "-"], [.8, "--"]]).join('text').attr('class', 'ylabels')
+        .attr("y", d => d[0] * height).attr("x", margin.left - 3)// change x and text-anchor together
+        .attr('text-anchor', 'end').attr('dominant-baseline', 'hanging')
+        .text(d => d[1]).attr("font-size", 12).attr('fill', "#636363")
+      d3.select(this).selectAll(".mylines").data([[.3], [.5],[.7]]).join('line').attr('class', 'mylines').attr('x1',margin.item_left_margin).attr('x2',item_width)
+      .attr('y1',d=>d*item_height).attr('y2',d=>d[0]*item_height).attr('stroke-width',1).attr("stroke", "#707070")
+
+      var yscale=d3.scaleLinear().domain([d3.min(circ_data.map(item=>parseFloat(item[feature_contrib_name]))),d3.max(circ_data.map(item=>parseFloat(item[feature_contrib_name])))]).range([margin.item_top_margin,item_height])
+      d3.select(this).selectAll(".my_circles"+svg_index).data(circ_data).join('circle').attr('class','my_circles'+svg_index).attr('cx',(d,i)=>margin.item_left_margin+margin.circ_radius/2+Math.random() * (item_width - 0)).attr('cy',d=>margin.circ_radius/2+yscale(parseFloat(d[feature_contrib_name]))).attr('r',margin.circ_radius).attr('fill','grey')
+      .attr('id',d=>d['State'])
+      .on('click',function(d){
+        var data=[]
+        d3.select("#exp_container").selectAll("#"+d['State']).each(function(d) {
+         data.push([d3.select(this).attr('cx'),d3.select(this).attr('cy')])
+        })
+        d3.select(this.parentNode).append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return d[0] })
+          .y(function(d) { return d[1] })
+          )
+          console.log(data)
       })
     })
-    
-    //d3.select(this).selectAll('text').data([0]).join('text').text("hello").attr('y',15)
-    console.log(feature_contrib_name)
-  })
   //console.log(sorted_features, lime_data,selected_year,defualt_models,selected_instances)
 }

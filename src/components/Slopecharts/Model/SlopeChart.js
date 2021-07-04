@@ -23,13 +23,13 @@ class SlopeChart extends Component {
     slopechart1.CreateSlopeChart1(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1])
+    var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1]).slice(0,9)
     slopechart1.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models)
   }
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ padding: "0px 0px", border: "1px solid #eaeaea", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <svg id="dev_plot_container" style={{ width: "100%", height: "50%" }}></svg>
+        <svg id="dev_plot_container" style={{ width: "100%", height: "50%",marginBottom:10 }}></svg>
         <svg id="exp_container" style={{ width: "100%", height: "50%" }}></svg>
       </Grid>
     )
