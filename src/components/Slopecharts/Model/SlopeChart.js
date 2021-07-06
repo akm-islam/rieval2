@@ -23,8 +23,8 @@ class SlopeChart extends Component {
     slopechart1.CreateSlopeChart1(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1]).slice(0,9)
-    slopechart1.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models)
+    var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1]).slice(0,8)
+    slopechart1.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models,this.props.clicked_circles,this.props.Set_clicked_circles)
   }
   render() {
     return (
@@ -61,10 +61,12 @@ const maptstateToprop = (state) => {
     lime_data: state.lime_data,
     features_with_score: state.features_with_score,
     rank_data: state.rank_data,
+    clicked_circles:state.clicked_circles
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
+    Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_prev_prop: (val) => dispatch({ type: "prev_prop", value: val }),
     Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
     Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
