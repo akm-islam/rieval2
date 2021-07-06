@@ -20,6 +20,7 @@ class SlopeChart extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     var selected_instances=d3.range(this.props.state_range[0], this.props.state_range[1]+1)
+    console.log(selected_instances)
     slopechart1.CreateSlopeChart1(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)

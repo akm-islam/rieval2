@@ -6,9 +6,9 @@ export function CreateSlopeChart1(selected_instances, original_data, defualt_mod
   var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#dev_plot_container").width()
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
-
+  console.log(data)
   var temp_scale_data = []
-  data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
+  data.map(item => {defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
 
   var config = { fontSize: 12, font_dy: -6, font_line_gap: 4, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 }
   var y_distance = config.line_stroke_width + 2
@@ -16,13 +16,13 @@ export function CreateSlopeChart1(selected_instances, original_data, defualt_mod
 
   var parent_g = d3.select("#dev_plot_container").style("background-color", "#ededed").attr('height', y_distance + data.length * y_distance)
     .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",20)")
-  parent_g.selectAll(".items").data(selected_instances).join("g").attr("class", "items").attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
+  parent_g.selectAll(".items").data(data).join("g").attr("class", "items").attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
     .attr("add_state", function (d) {
-      d3.select(this).selectAll("text").data([d]).join('text').text(original_data[d]['State']).attr('fill', '#494949').attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
+      d3.select(this).selectAll("text").data([d]).join('text').text(d['State']+" ("+d['two_realRank']+")").attr('fill', '#494949').attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
         .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
     })
     .attr("add_lines_and_circles", function (d) {
-      var data_for_all_years = data.filter(item => d == parseInt(item['two_realRank']))
+      var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var line_data = []
       defualt_models.map(model_name => {
         data_for_all_years.map(item => {
@@ -47,7 +47,7 @@ export function CreateSlopeChart1(selected_instances, original_data, defualt_mod
           return sclale1(d3.max(temp))
         })
       // ------------ Circles start here
-      var data_for_all_years = data.filter(item => d == parseInt(item['two_realRank']))
+      var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var circ_data = []
       defualt_models.map(model_name => {
         data_for_all_years.map(item => {
@@ -108,7 +108,7 @@ export function CreatexpChart(selected_instances, sorted_features, lime_data, se
   .attr('add_circle_rect_line', function (d,svg_index) {
     parent_svg.selectAll(".mylines"+svg_index).data([[.25], [.5],[.75]]).join('line').attr('class', 'mylines'+svg_index)
     .attr('x1',margin.item_left_margin+item_width*svg_index+(margin.item_right_margin*svg_index)).attr('x2',margin.item_left_margin+item_width*svg_index+(margin.item_right_margin*svg_index+item_width))
-    .attr('y1',d=>d*(item_height+margin.item_top_margin)).attr('y2',d=>d*(item_height+margin.item_top_margin)).attr('stroke-width',1).attr("stroke", "#707070")
+    .attr('y1',d=>d*(item_height+margin.item_top_margin)).attr('y2',d=>d*(item_height+margin.item_top_margin)).attr('stroke-width',1).attr("stroke", "#bababa")
 
     var feature_name=d[0]
     var feature_contrib_name = d[0] + "_contribution"

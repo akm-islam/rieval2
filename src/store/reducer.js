@@ -9,7 +9,7 @@ let initialState = {
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
    defualt_models: ["MART", "LinearReg"], // Change the pop_over_models as well
-   state_range: [1, 35], // Change in handleradioChange
+   state_range: [1, 25], // Change in handleradioChange
    deviate_by: 0,
    show: [
       "Slope charts", "Rankings", "Explanation" // change in app.js
@@ -78,7 +78,7 @@ const reducer = (state = initialState, action) => {
    } 
    if (action.type === "selected_years") {
       console.log(action.value)
-      return { ...state, selected_years: action.value }
+      return { ...state, selected_years: action.value[action.value.length-1],selected_year:action.value[action.value.length-1] }
    }
    if (action.type === "default_model_scores") {
       //console.log(action.value)
