@@ -1,6 +1,7 @@
 
 import * as d3 from 'd3';
 import * as $ from 'jquery';
+import * as misc_algo from './misc_algo'
 
 export function CreatexpChart(selected_instances, sorted_features, lime_data, selected_year, defualt_models,clicked_circles,Set_clicked_circles) {
   var margin = { item_top_margin: 15, right: 14, bottom: 0, left: 20, circ_radius: 5,item_left_margin:25,item_right_margin:3 }
@@ -72,19 +73,11 @@ export function CreatexpChart(selected_instances, sorted_features, lime_data, se
           active_ids=[...clicked_circles,d['id']]
           Set_clicked_circles(active_ids)
         } 
-        handle_transparency("circle2",active_ids)
+        misc_algo.handle_transparency("circle2",active_ids)
       })
       */
       }
-      handle_transparency("circle2",active_ids)
+      misc_algo.handle_transparency("circle2",active_ids)
     })
     })
-}
-function handle_transparency(class_name,active_ids,inactive_class){
-  //console.log(active_ids)
-  if(active_ids.length==0){d3.selectAll("."+class_name).attr('opacity',1)}
-  else{
-    d3.selectAll("."+class_name).attr('opacity',0.5)
-    active_ids.map(id=>d3.selectAll("#"+id).attr('opacity',1)) 
-  }
 }

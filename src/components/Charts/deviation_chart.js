@@ -1,17 +1,15 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
-export function Create_deviation_chart(selected_instances, original_data, defualt_models, config, selected_years, average) {
+import * as misc_algo from './misc_algo'
+export function Create_deviation_chart(selected_instances, original_data, defualt_models, config, selected_years, average,clicked_circles,Set_clicked_circles) {
   var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#dev_plot_container").width()
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
-  console.log(data)
   var temp_scale_data = []
   data.map(item => {defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
-
   var config = { fontSize: 12, font_dy: -6, font_line_gap: 4, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 }
   var y_distance = config.line_stroke_width + 2
   var circle_radius = config.line_stroke_width / 2
-
   var parent_g = d3.select("#dev_plot_container").style("background-color", "#ededed").attr('height', y_distance + data.length * y_distance)
     .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",20)")
   parent_g.selectAll(".items").data(data).join("g").attr("class", "items").attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
@@ -35,7 +33,9 @@ export function Create_deviation_chart(selected_instances, original_data, defual
       // This is only for scaling starts here
       var temp_scale_data = []
       data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
-      var sclale1 = d3.scaleLinear().domain([0, d3.max(temp_scale_data)]).range([config.font_line_gap, parent_width - (config.left_margin + circle_radius)])
+      var temp_max=d3.max(temp_scale_data)
+      var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, parent_width - (config.left_margin + circle_radius)])
+      if(temp_max==0){var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, 0])}
       // This is only for scaling ends here
       d3.select(this).selectAll("line").data([d]).join('line')
         .attr("x1", config.font_line_gap).attr("y1", (d, i) => y_distance * i).attr("y2", (d, i) => y_distance * i).attr("stroke-width", config.line_stroke_width).attr("stroke", "#cecece")
@@ -54,6 +54,7 @@ export function Create_deviation_chart(selected_instances, original_data, defual
           a['predicted_rank'] = parseInt(item[model_name])
           a["model"] = model_name
           a['year'] = item['1-qid']
+          a['id'] = item['State'].replace(/\s/g,'')+item['1-qid']+model_name.replace(/\s/g,'')
           circ_data.push(a)
         })
       })
@@ -66,16 +67,29 @@ export function Create_deviation_chart(selected_instances, original_data, defual
           return item;
         })
       }
-      d3.select(this).selectAll("circle").data(circ_data).join("circle")
+      d3.select(this).selectAll("circle").data(circ_data).join("circle").attr('id',d=>d['id']).attr('class','circle2')
         .attr("r", circle_radius).attr('fill', '#7c7b7b')
         // .transition().duration(config.animation_duration)
         .attr("cx", (d2, i) => {
           if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
         })
+        .on('click',d=>{
+          var active_ids=[]
+          if(clicked_circles.includes(d['id'])){
+            d3.selectAll("#"+d['id']).filter(d3.matcher('path')).remove()
+            active_ids=clicked_circles.filter(item=>item!=d['id'])
+            Set_clicked_circles(active_ids)
+          }
+          else{
+            active_ids=[...clicked_circles,d['id']]
+            Set_clicked_circles(active_ids)
+          }
+          misc_algo.handle_transparency("circle2",active_ids)
+        })
         .on("mouseover", function (d2) {
           div.transition().duration(200).style("opacity", .9);
-          div.html("Year : " + d2["year"] + "<br></br>" + d2["model"] + " : " + Math.abs(d2["predicted_rank"] - d2['two_realRank'])).style("left", (d3.event.pageX - 130) + "px").style("top", (d3.event.pageY - 68) + "px");
+          div.html("Year : " + d2["year"] + "<br></br>" +"Model: "+ d2["model"]+"<br></br>"+"Deviation: "+ Math.abs(d2["predicted_rank"] - d2['two_realRank'])).style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
         }).on("mouseout", function (d2) {
           div.transition()
             .duration(500)

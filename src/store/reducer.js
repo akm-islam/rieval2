@@ -118,7 +118,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, state_range: action.value }
    }
    if (action.type === "selected_year") {
-      return { ...state, selected_year: action.value }
+      return { ...state, selected_year: action.value,selected_years: [action.value.toString()] }
    }
    if (action.type === "tracking") {
       return { ...state, tracking: action.value }
