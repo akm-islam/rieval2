@@ -6,7 +6,7 @@ import Chart2 from "../Exp_Chart/Chart2"
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import Popover from "../Exp_Chart/Popover/Popover"
-import * as Legend from '../Legend'
+
 
 class SlopeChart extends Component {
   constructor(props) {
@@ -155,7 +155,7 @@ class SlopeChart extends Component {
       this.line_color = d3.scaleOrdinal().domain(Object.keys(Rgbdict)).range(Object.values(Rgbdict))
       //console.log(Rgbdict,this.line_color.range())  
     }
-    Legend.createLegend("legend", [min, max], Rgbdict)
+    
     //---------------------------------------------------------------------------- Tracking ends here 
     return this.line_color
   }

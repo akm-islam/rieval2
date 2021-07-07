@@ -18,9 +18,9 @@ import house_lime from "./Data/data/house/lime/house_lime.csv";
 import "./App.scss";
 import * as d3 from 'd3';
 import * as algo1 from "./Algorithms/algo1";
-import SlopeChart from "./components/Slopecharts/Model/SlopeChart"
-import RangeChart from "./components/Slopecharts/Range/RangeChart"
-import YearChart from "./components/Slopecharts/Time/YearChart"
+import SlopeChart from "./components/Charts/Model/ModelChart"
+import RangeChart from "./components/Charts/Range/RangeChart"
+import YearChart from "./components/Charts/Time/YearChart"
 import TopBar from "./components/TopBar/TopBar"
 import { Row, Col } from 'reactstrap';
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -33,8 +33,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import "./components/Slopecharts/SlopeChart.css"
-import Replay from "../src/components/Slopecharts/Replay"
+import "./components/Charts/Charts.css"
 class App extends Component {
   constructor(props) {
     super(props);
@@ -209,7 +208,7 @@ class App extends Component {
   render() {
     return (
       <div key={this.state.random}>
-        <Replay key={Math.random()}></Replay>
+        
         <Row>
           <div style={{ width: 207 }} className="Sidebar">
             {this.props.selected_year != null ?

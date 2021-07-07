@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
-import * as slopechart1 from "./slopechart1";
+import * as explanation_chart from "../explanation_chart";
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import * as Legend from '../Legend'
 import * as algo1 from "../../../Algorithms/algo1";
+import * as deviation_chart from "../deviation_chart"
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -21,11 +21,11 @@ class SlopeChart extends Component {
   componentDidUpdate(prevProps, prevState) {
     var selected_instances=d3.range(this.props.state_range[0], this.props.state_range[1]+1)
     console.log(selected_instances)
-    slopechart1.CreateSlopeChart1(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m)
+    deviation_chart.Create_deviation_chart(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
     var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1]).slice(0,8)
-    slopechart1.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models,this.props.clicked_circles,this.props.Set_clicked_circles)
+    explanation_chart.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models,this.props.clicked_circles,this.props.Set_clicked_circles)
   }
   render() {
     return (
