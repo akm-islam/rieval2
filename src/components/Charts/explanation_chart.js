@@ -48,36 +48,11 @@ export function CreatexpChart(selected_instances, sorted_features, lime_data, se
       if(clicked_circles.includes(d['id'])){
         d3.selectAll("#"+d['id']).filter(d3.matcher('path')).remove()
         active_ids=clicked_circles.filter(item=>item!=d['id'])
-        Set_clicked_circles(active_ids)
       }
       else{
         active_ids=[...clicked_circles,d['id']]
-        Set_clicked_circles(active_ids)
-      var data=[]
-      d3.select("#exp_container").selectAll("#"+d['id']).each(function(d) {
-       data.push([d3.select(this).attr('cx'),d3.select(this).attr('cy')])
-      })
-      d3.select(this.parentNode).append("path").datum(data).attr('id',d['id']).attr('class','active').attr("fill", "none").attr("stroke", "grey").attr("stroke-width", 2)
-      .attr("d", d3.line().x(function(d) { return d[0] }).y(function(d) { return d[1] }))
-      /*
-      .on('click',function(){
-        
-        var active_ids=[]
-        d3.select(this).remove()
-        console.log(clicked_circles,d['id'])
-        if(clicked_circles.includes(d['id'])){
-          active_ids=clicked_circles.filter(item=>item!=d['id'])
-          Set_clicked_circles(active_ids)
-        }
-        else{
-          active_ids=[...clicked_circles,d['id']]
-          Set_clicked_circles(active_ids)
-        } 
-        misc_algo.handle_transparency("circle2",active_ids)
-      })
-      */
       }
-      misc_algo.handle_transparency("circle2",active_ids)
+      Set_clicked_circles([...active_ids])
     })
     })
 }

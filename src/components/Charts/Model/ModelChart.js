@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import * as algo1 from "../../../Algorithms/algo1";
 import * as deviation_chart from "../deviation_chart"
+import * as misc_algo from '../misc_algo'
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +20,11 @@ class SlopeChart extends Component {
     return true;
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.clicked_circles)
+    misc_algo.draw_lines(this.props.clicked_circles)
+    misc_algo.handle_transparency("circle2",this.props.clicked_circles)
+
     var selected_instances=d3.range(this.props.state_range[0], this.props.state_range[1]+1)
-    console.log(selected_instances)
     deviation_chart.Create_deviation_chart(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m,this.props.clicked_circles,this.props.Set_clicked_circles)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
@@ -69,7 +73,6 @@ const mapdispatchToprop = (dispatch) => {
   return {
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_prev_prop: (val) => dispatch({ type: "prev_prop", value: val }),
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
     Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
     Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
     Set_replay: (val) => dispatch({ type: "replay", value: val }),

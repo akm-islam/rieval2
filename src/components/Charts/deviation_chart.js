@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as misc_algo from './misc_algo'
 export function Create_deviation_chart(selected_instances, original_data, defualt_models, config, selected_years, average,clicked_circles,Set_clicked_circles) {
-  var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+  var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#dev_plot_container").width()
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []

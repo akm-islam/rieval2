@@ -18,7 +18,7 @@ import house_lime from "./Data/data/house/lime/house_lime.csv";
 import "./App.scss";
 import * as d3 from 'd3';
 import * as algo1 from "./Algorithms/algo1";
-import SlopeChart from "./components/Charts/Model/ModelChart"
+import ModelChart from "./components/Charts/Model/ModelChart"
 import RangeChart from "./components/Charts/Range/RangeChart"
 import YearChart from "./components/Charts/Time/YearChart"
 import TopBar from "./components/TopBar/TopBar"
@@ -208,7 +208,7 @@ class App extends Component {
   render() {
     return (
       <div key={this.state.random}>
-        
+
         <Row>
           <div style={{ width: 207 }} className="Sidebar">
             {this.props.selected_year != null ?
@@ -242,34 +242,9 @@ class App extends Component {
             </div>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
-                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" key={this.props.defualt_models.length} style={{ height: this.props.mode == "Time" ? window.innerHeight - $('.myheader').height() - 5 : window.innerHeight - $('.uploader_topbar').height() - 5, marginLeft: 5, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
-                  {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ?
-                    <SlopeChart task2={this.task2} textClickHandler_original={this.textClickHandler_original} appHandleChange={this.appHandleChange}
-                      model_name={"RandomFor"} grouped_by_year_data={this.state.grouped_by_year_data} cmodel={this.state.cmodel} ref_year={this.state.ref_year}>
-                    </SlopeChart> : null}
-
-                  {this.props.mode == "Range" ?
-                    ["Range1", "Range2"].map((model_name, i) => {
-                      return this.state.grouped_by_year_data != null && this.props.original_data != null ?
-                        <RangeChart task2={this.task2} textClickHandler_original={this.textClickHandler_original} myindex={i} key={model_name + "slopechart" + this.state.show[2] + this.props.mode} chart_scale_type={this.props.chart_scale_type} histogram_data={this.state.histogram_data} original_data={this.props.original_data} sparkline_data={this.props.sparkline_data}
-                          appHandleChange={this.appHandleChange} deviate_by={this.props.deviate_by} model_name={model_name} grouped_by_year_data={this.state.grouped_by_year_data}
-                          cmodel={this.state.cmodel} ref_year={this.state.ref_year} tracking={this.props.tracking}>
-                        </RangeChart>
-                        : null
-                    }) : null}
-                  {this.props.mode == "Time" && this.props.time_mode_year1 != "Null" && this.props.time_mode_year2 != "Null" ?
-                    ["Year1", "Year2"].map((model_name, i) => {
-                      return this.state.grouped_by_year_data != null && this.props.original_data != null ?
-                        <YearChart task2={this.task2} textClickHandler_original={this.textClickHandler_original} myindex={i} key={model_name + "slopechart" + this.state.show[2]} chart_scale_type={this.props.chart_scale_type} histogram_data={this.state.histogram_data} original_data={this.props.original_data} sparkline_data={this.props.sparkline_data}
-                          appHandleChange={this.appHandleChange} deviate_by={this.props.deviate_by} model_name={model_name} grouped_by_year_data={this.state.grouped_by_year_data}
-                          cmodel={this.state.cmodel} ref_year={this.state.ref_year} tracking={this.props.tracking}>
-                        </YearChart> : null
-                    }) : null}
+                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: this.props.mode == "Time" ? window.innerHeight - $('.myheader').height() - 5 : window.innerHeight - $('.uploader_topbar').height() - 5, marginLeft: 5, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
+                  {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                 </Grid>
-                {
-                  //            <div className="legend" style={{height:window.innerHeight/2,width:40}}><p>High</p><svg></svg><p>Low</p></div>
-
-                }
               </Grid> : null}
           </Col>
         </Row>
