@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as slopechart1 from "./slopechart1";
-import Chart2 from "../Exp_Chart/Chart2"
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import Popover from "../Exp_Chart/Popover/Popover"
 
 
 class SlopeChart extends Component {
@@ -171,19 +169,8 @@ class SlopeChart extends Component {
           <div className="mysvg" ref={node => this.node = node}><svg id={this.props.model_name}><g id="myg"></g></svg></div>
         </Grid>
         <Grid item xs="6" className={this.props.model_name == "Range1" ? "exp_chart exp_chart_range1" : "exp_chart exp_chart_range2"}>
-          {this.props.range_mode_model != "ListNet" ? <Chart2
-            task2={this.props.task2}
-            textClickHandler_original={this.props.textClickHandler_original}
-            color_gen={this.color_gen()}
-            model_name={this.props.range_mode_model}
-            model_name2={this.props.model_name}
-            state_range={this.props.model_name == "Range1" ? this.props.range_mode_range1 : this.props.range_mode_range2}
-            selected_year={this.props.selected_year}
-            grouped_by_year_data={this.props.grouped_by_year_data}
-            defualt_models={[this.props.range_mode_model]}
-          >
-          </Chart2> : <div className="not_avail"><h3>NOT AVAILABLE</h3></div>}
-          {this.props.popup_chart_data != null && this.props.myindex == 0 ? <Popover defualt_models={[this.props.range_mode_model]} color_gen={this.color_gen()} textClickHandler_original={this.props.textClickHandler_original}></Popover> : null}
+          
+         
         </Grid>
 
       </Grid > :

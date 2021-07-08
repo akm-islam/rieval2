@@ -20,16 +20,15 @@ class SlopeChart extends Component {
     return true;
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.clicked_circles)
-    misc_algo.draw_lines(this.props.clicked_circles)
-    misc_algo.handle_transparency("circle2",this.props.clicked_circles)
-
     var selected_instances=d3.range(this.props.state_range[0], this.props.state_range[1]+1)
     deviation_chart.Create_deviation_chart(selected_instances, this.props.original_data, this.props.defualt_models, this.props.config, this.props.selected_years, this.props.average_m,this.props.clicked_circles,this.props.Set_clicked_circles)
     var number_of_charts=9
     var features_with_score=algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
     var sorted_features=Object.entries(features_with_score).sort((a,b)=>a[1]-b[1]).slice(0,8)
     explanation_chart.CreatexpChart(selected_instances,sorted_features,this.props.lime_data,this.props.selected_year,this.props.defualt_models,this.props.clicked_circles,this.props.Set_clicked_circles)
+    
+    misc_algo.draw_lines(this.props.clicked_circles)
+    misc_algo.handle_transparency("circle2",this.props.clicked_circles)
   }
   render() {
     return (

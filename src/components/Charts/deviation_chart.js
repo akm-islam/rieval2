@@ -74,19 +74,7 @@ export function Create_deviation_chart(selected_instances, original_data, defual
           if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
         })
-        .on('click',d=>{
-          var active_ids=[]
-          if(clicked_circles.includes(d['id'])){
-            d3.selectAll("#"+d['id']).filter(d3.matcher('path')).remove()
-            active_ids=clicked_circles.filter(item=>item!=d['id'])
-            Set_clicked_circles(active_ids)
-          }
-          else{
-            active_ids=[...clicked_circles,d['id']]
-            Set_clicked_circles(active_ids)
-          }
-          misc_algo.handle_transparency("circle2",active_ids)
-        })
+        .on('click',d=>Set_clicked_circles(clicked_circles.includes(d['id'])?clicked_circles.filter(item=>item!=d['id']):[...clicked_circles,d['id']]))
         .on("mouseover", function (d2) {
           div.transition().duration(200).style("opacity", .9);
           div.html("Year : " + d2["year"] + "<br></br>" +"Model: "+ d2["model"]+"<br></br>"+"Deviation: "+ Math.abs(d2["predicted_rank"] - d2['two_realRank'])).style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
