@@ -7,15 +7,16 @@ export function handle_transparency(class_name, clicked_circles) {
         clicked_circles.map(id => d3.selectAll("#" + id).attr('opacity', 1))
     }
 }
-export function draw_lines(clicked_circles) {
+export function draw_lines(clicked_circles,diverginColor) {
     var lines=[]
+    var two_realRank=0
     clicked_circles.map(d=>{
     var points = []
     d3.select("#exp_container").selectAll("#" + d).each(function (d) {
+        two_realRank=d3.select(this).attr('two_realRank')
         points.push([d3.select(this).attr('cx'), d3.select(this).attr('cy')])
     })
-    lines.push([d,d3.line()(points)])
-    console.log(lines)
+    lines.push([d,d3.line()(points),two_realRank])
 })
-d3.select("#exp_container").selectAll('.mypath').data(lines).join('path').attr('class','mypath').attr('d', d=>d[1]).attr("fill", "none").attr("stroke", "grey").attr("stroke-width", 2);
+d3.select("#exp_container").selectAll('.mypath').data(lines).join('path').attr('class','mypath').attr('d', d=>d[1]).attr("fill", "none").attr("stroke", d=>diverginColor(d[2])).attr("stroke-width", 2);
 }

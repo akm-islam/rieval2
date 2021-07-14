@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as misc_algo from './misc_algo'
 
-export function CreatexpChart(selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles) {
-  console.log(defualt_models)
+export function CreatexpChart(selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles,diverginColor) {
+  
   var margin = { item_top_margin: 15, right: 14, bottom: 0, left: 20, circ_radius: 5, item_left_margin: 25, item_right_margin: 3 }
   var parent_width = $("#exp_container").width() - margin.item_left_margin
   var parent_height = $("#exp_container").height() - margin.item_top_margin * 2
@@ -29,7 +29,7 @@ export function CreatexpChart(selected_instances, sorted_features, lime_data, se
       .attr('y1', d => d * (item_height + margin.item_top_margin)).attr('y2', d => d * (item_height + margin.item_top_margin)).attr('stroke-width', 1).attr("stroke", "#bababa")
     })
 
-    .attr('add_circle_and_contrib_lines', function (d, svg_index) {
+    .attr('add_circle', function (d, svg_index) {
       var feature_name = d[0]
       var feature_contrib_name = d[0] + "_contribution"
       d3.select(this.parentNode).selectAll(".model_g").data(defualt_models).join('g').attr('class','model_g').attr('add_circles',function(model){
@@ -43,9 +43,9 @@ export function CreatexpChart(selected_instances, sorted_features, lime_data, se
         // Draw circle starts here
         var xScale = d3.scaleLinear().domain([d3.min(circ_data.map(item => parseFloat(item[d[0]]))), d3.max(circ_data.map(item => parseFloat(item[d[0]])))]).range([margin.item_left_margin + 2 * margin.circ_radius, item_width - 2 * margin.circ_radius])
         var yScale = d3.scaleLinear().domain([d3.min(circ_data.map(item => parseFloat(item[feature_contrib_name]))), d3.max(circ_data.map(item => parseFloat(item[feature_contrib_name])))]).range([margin.item_top_margin + margin.circ_radius, item_height - margin.circ_radius])
-        d3.select(this).selectAll(".my_circles" + svg_index+model).data(circ_data).join('circle').attr('class', 'circle2 my_circles' + svg_index+model)
-          .attr('cx', (d, i) => (item_width * svg_index) + margin.item_left_margin + margin.circ_radius / 2 + xScale(parseFloat(d[feature_name]))).attr('cy', d => margin.circ_radius / 2 + yScale(parseFloat(d[feature_contrib_name]))).attr('r', margin.circ_radius).attr('fill', 'grey')
-          .attr('id', d => d['id']).on('click', d => Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']]))
+        d3.select(this).selectAll(".my_circles" + svg_index+model).data(circ_data).join('circle').attr('class', 'circle2 my_circles' + svg_index+model).attr('fill', d=>diverginColor(d['two_realRank']))
+          .attr('cx', (d, i) => (item_width * svg_index) + margin.item_left_margin + margin.circ_radius / 2 + xScale(parseFloat(d[feature_name]))).attr('cy', d => margin.circ_radius / 2 + yScale(parseFloat(d[feature_contrib_name]))).attr('r', margin.circ_radius)
+          .attr('two_realRank', d => d['two_realRank']).attr('id', d => d['id']).on('click', d => Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']]))
         // Draw circle ends here
       })
       

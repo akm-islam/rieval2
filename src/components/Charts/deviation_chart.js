@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as misc_algo from './misc_algo'
-export function Create_deviation_chart(selected_instances, original_data, defualt_models, config, selected_years, average,clicked_circles,Set_clicked_circles) {
+export function Create_deviation_chart(selected_instances, original_data, defualt_models, config, selected_years, average,clicked_circles,Set_clicked_circles,diverginColor) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#dev_plot_container").width()
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
@@ -68,7 +68,7 @@ export function Create_deviation_chart(selected_instances, original_data, defual
         })
       }
       d3.select(this).selectAll("circle").data(circ_data).join("circle").attr('id',d=>d['id']).attr('class','circle2')
-        .attr("r", circle_radius).attr('fill', '#7c7b7b')
+        .attr("r", circle_radius).attr('fill', d=>diverginColor(d['two_realRank']))
         // .transition().duration(config.animation_duration)
         .attr("cx", (d2, i) => {
           if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
