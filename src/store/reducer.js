@@ -1,5 +1,5 @@
 let initialState = {
-   config: { "reduced_opacity": 0.2, "animation1": 4000, "animation2": 2000, "animation3": 4000, "animation4": 2500 },
+   anim_config: {rank_animation:3000,deviation_animation:3000,feature_animation:3000,circle_animation:3000},
    appHandleChange: null,
    sparkline_data: null,
    sort_by: "Average Precision",
@@ -90,7 +90,7 @@ const reducer = (state = initialState, action) => {
    if (action.type === "drag_drop_feautre_data") {
       return { ...state, drag_drop_feautre_data: action.value }
    }
-   if (action.type === "config") {
+   if (action.type === "anim_config") {
       return { ...state, config: action.value }
    }
    if (action.type === "show") {

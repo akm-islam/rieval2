@@ -8,8 +8,8 @@ export function CreateSlopeChart1(node, grouped_by_year_data, start_range, end_r
   animate, actual_model_for_range_and_time_mode,config) {
   var base_height_between=18
   // we don't need the delay here because the animations are happening one after the another
-  var slope_chart_anim1 = config.animation1
-  var slope_chart_anim2 = config.animation2
+  var slope_chart_anim1 = config.rank_animation
+  var slope_chart_anim2 = config.deviation_animation
   var number_of_elements = (end_range - start_range); // 
   var all_together = [];
   grouped_by_year_data["A"].forEach(function (d) { all_together.push(d); });
