@@ -24,13 +24,13 @@ class SlopeChart extends Component {
       var d = (max - min) / 8;
       var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    deviation_chart.Create_deviation_chart(selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_years, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles,diverginColor)
     var number_of_charts = 9
     var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
     var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, 18)
-    explanation_chart.CreatexpChart(selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles,diverginColor,this.props.anim_config,this.props.clicked_features,this.props.Set_clicked_features)
-
-    misc_algo.draw_lines(this.props.clicked_circles,diverginColor,this.props.anim_config)
+    
+    deviation_chart.Create_deviation_chart('dev_plot_container',selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_years, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles,diverginColor)
+    explanation_chart.CreatexpChart("exp_container",selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles,diverginColor,this.props.anim_config,this.props.clicked_features,this.props.Set_clicked_features)
+    misc_algo.draw_lines(this.props.clicked_circles,diverginColor,this.props.anim_config,sorted_features)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles,this.props.anim_config)
   }
   render() {

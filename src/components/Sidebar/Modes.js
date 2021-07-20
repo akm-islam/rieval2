@@ -178,16 +178,7 @@ function Modes(props) {
             </div> : null}
             {props.mode == "Range" ? <div style={{ marginTop: 10, paddingLeft: 5, width: $('.Sidebar').width() }}>
                 <div className="range_model">
-                    <Autocomplete
-                        defaultValue={props.range_mode_model}
-                        id="debug"
-                        debug
-                        options={["CordAscent", "LambdaMART", "LambdaRank", "LinearReg", "ListNet", "MART", "RandomFor", "RankBoost", "RankNet"].map((option) => option)}
-                        renderInput={(params) => (
-                            <TextField {...params} label="Model" margin="normal" InputProps={{ ...params.InputProps, disableUnderline: true }} />
-                        )}
-                        onChange={(event, value) => props.Set_range_mode_model(value)}
-                    />
+
                     <p style={{ marginLeft: 0, marginBottom: -5, marginTop: 15, marginRight: 12, paddingLeft: 5, backgroundColor: "#f7f7f7", fontSize: 16 }}>{props.dataset == "fiscal" ? "Select states" : "Select " + props.dataset + "s"}</p>
                 </div>
                 <div className="rangeslider" style={{ width: $('.Sidebar').width() - 12 }} >
@@ -305,16 +296,6 @@ function Modes(props) {
             {props.mode == "Time" ?
                 <div style={{ marginTop: 10, paddingLeft: 5, marginBottom: 10, width: $('.Sidebar').width() }}>
                     <div className="model">
-                        <Autocomplete
-                            defaultValue={props.time_mode_model}
-                            id="debug"
-                            debug
-                            options={["CordAscent", "LambdaMART", "LambdaRank", "LinearReg", "ListNet", "MART", "RandomFor", "RankBoost", "RankNet"].map((option) => option)}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Model" margin="normal" InputProps={{ ...params.InputProps, disableUnderline: true }} />
-                            )}
-                            onChange={(event, value) => props.Set_time_mode_model(value)}
-                        />
                         <p style={{ marginLeft: 0, marginBottom: -5, marginTop: 15, marginRight: 12, paddingLeft: 5, backgroundColor: "#f7f7f7", fontSize: 16 }}>{props.dataset == "fiscal" ? "Select states" : "Select " + props.dataset + "s"}</p>
                         <div className="rangeslider" style={{ width: $('.Sidebar').width() - 12 }} >
                             <Slider

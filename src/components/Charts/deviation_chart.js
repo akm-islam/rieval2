@@ -2,18 +2,18 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { update } from 'lodash';
 import * as misc_algo from './misc_algo'
-export function Create_deviation_chart(selected_instances, original_data, defualt_models, anim_config, selected_years, average,clicked_circles,Set_clicked_circles,diverginColor) {
+export function Create_deviation_chart(parent_id,selected_instances, original_data, defualt_models, anim_config, selected_years, average,clicked_circles,Set_clicked_circles,diverginColor) {
   
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
-  var parent_width = $("#dev_plot_container").width()
+  var parent_width = $("#"+parent_id).width()-5
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
   data.map(item => {defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   var config = { fontSize: 12, font_dy: -6, font_line_gap: 4, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 }
   var y_distance = config.line_stroke_width + 2
   var circle_radius = config.line_stroke_width / 2
-  var parent_g = d3.select("#dev_plot_container").attr('height', y_distance + data.length * y_distance)
-    .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",20)")
+  var parent_g = d3.select("#"+parent_id).attr('height', y_distance + data.length * y_distance)
+    .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",13)")
   var items_g=parent_g.selectAll(".items").data(data,d=>d['State']).join(enter=>enter.append("g").attr("class", "items")
     .attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
     ,update=>update.transition().duration(anim_config.rank_animation).attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
@@ -80,6 +80,7 @@ export function Create_deviation_chart(selected_instances, original_data, defual
       }
       var my_circs=d3.select(this).selectAll("circle").data(circ_data,d=>d['id']).join(enter=>enter.append("circle").attr('id',d=>d['id']).attr('class','circle2').attr("cx", (d2, i) => {
         if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
+        console.log(d3.select(this).attr('id',d2['id']))
         return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
       })
       // Update
