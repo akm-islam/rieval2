@@ -2,27 +2,26 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { update } from 'lodash';
 import * as misc_algo from './misc_algo'
-export function Create_deviation_chart(parent_id,selected_instances, original_data, defualt_models, anim_config, selected_years, average,clicked_circles,Set_clicked_circles,diverginColor) {
-  
+export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_years, average, clicked_circles, Set_clicked_circles, diverginColor) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
-  var parent_width = $("#"+parent_id).width()-5
+  var parent_width = $("#" + parent_id).width() - 5
   var data = original_data.filter(item => selected_years.includes(item['1-qid']) && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
-  data.map(item => {defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
+  data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   var config = { fontSize: 12, font_dy: -6, font_line_gap: 4, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 }
   var y_distance = config.line_stroke_width + 2
   var circle_radius = config.line_stroke_width / 2
-  var parent_g = d3.select("#"+parent_id).attr('height', y_distance + data.length * y_distance)
+  var parent_g = d3.select("#" + parent_id).attr('height', y_distance + data.length * y_distance)
     .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",13)")
-  var items_g=parent_g.selectAll(".items").data(data,d=>d['State']).join(enter=>enter.append("g").attr("class", "items")
+  var items_g = parent_g.selectAll(".items").data(data, d => d['State']).join(enter => enter.append("g").attr("class", "items")
     .attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
-    ,update=>update.transition().duration(anim_config.rank_animation).attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
-    ,exit=>exit.remove()
-    )
-    items_g.attr("add_state", function (d) {
-      d3.select(this).selectAll("text").data([d]).join('text').text(d['State']+" "+d['two_realRank']).attr('fill', d=>diverginColor(d['two_realRank'])).attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
-        .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
-    })
+    , update => update.transition().duration(anim_config.rank_animation).attr('transform', (d, i) => "translate(" + config.left_margin + "," + i * y_distance + ")")
+    , exit => exit.remove()
+  )
+  items_g.attr("add_state", function (d) {
+    d3.select(this).selectAll("text").data([d]).join('text').text(d['State'] + " " + d['two_realRank']).attr('fill', d => diverginColor(d['two_realRank'])).attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
+      .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
+  })
     .attr("add_lines_and_circles", function (d) {
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var line_data = []
@@ -39,18 +38,18 @@ export function Create_deviation_chart(parent_id,selected_instances, original_da
       // This is only for scaling starts here
       var temp_scale_data = []
       data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
-      var temp_max=d3.max(temp_scale_data)
+      var temp_max = d3.max(temp_scale_data)
       var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, parent_width - (config.left_margin + circle_radius)])
-      if(temp_max==0){var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, 0])}
+      if (temp_max == 0) { var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, 0]) }
       // This is only for scaling ends here
-      var mylines=d3.select(this).selectAll("line").data([d]).join(enter=>enter.append('line')
+      d3.select(this).selectAll("line").data([d]).join(enter => enter.append('line')
         .attr("x1", config.font_line_gap).attr("y1", (d, i) => y_distance * i).attr("y2", (d, i) => y_distance * i).attr("stroke-width", config.line_stroke_width).attr("stroke", "#cecece").attr("x2", (d2) => {
           var temp = []
           line_data.map(item => temp.push(Math.abs(item["predicted_rank"] - item["two_realRank"])))
           return sclale1(d3.max(temp))
         })
         // Update
-        ,update=>update.transition().duration(anim_config.deviation_animation).delay(anim_config.rank_animation).attr("x2", (d2) => {
+        , update => update.transition().duration(anim_config.deviation_animation).delay(anim_config.rank_animation).attr("x2", (d2) => {
           var temp = []
           line_data.map(item => temp.push(Math.abs(item["predicted_rank"] - item["two_realRank"])))
           return sclale1(d3.max(temp))
@@ -65,7 +64,7 @@ export function Create_deviation_chart(parent_id,selected_instances, original_da
           a['predicted_rank'] = parseInt(item[model_name])
           a["model"] = model_name
           a['year'] = item['1-qid']
-          a['id'] = item['State'].replace(/\s/g,'')+model_name.replace(/\s/g,'')
+          a['id'] =parent_exp_id+item['State'].replace(/\s/g, '') + model_name.replace(/\s/g, '')
           circ_data.push(a)
         })
       })
@@ -78,28 +77,31 @@ export function Create_deviation_chart(parent_id,selected_instances, original_da
           return item;
         })
       }
-      var my_circs=d3.select(this).selectAll("circle").data(circ_data,d=>d['id']).join(enter=>enter.append("circle").attr('id',d=>d['id']).attr('class','circle2').attr("cx", (d2, i) => {
-        if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
-        console.log(d3.select(this).attr('id',d2['id']))
-        return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
-      })
-      // Update
-      ,update=>update.transition().duration(anim_config.deviation_animation).delay(anim_config.rank_animation).attr("cx", (d2, i) => {
-        if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
-        return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
-      })
-)
-        my_circs.attr("r", circle_radius).attr('fill', d=>diverginColor(d['two_realRank']))
-        .on('click',d=>Set_clicked_circles(clicked_circles.includes(d['id'])?clicked_circles.filter(item=>item!=d['id']):[...clicked_circles,d['id']]))
+      var my_circs = d3.select(this).selectAll("circle").data(circ_data, d => d['id']).join(
+        enter => enter.append("circle").attr('id', d => d['id']).attr('class', 'circle2').attr("cx", (d2, i) => {
+          d3.select(this).classed(d2['id'], true)
+          if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
+          return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
+        })
+        // Update
+        , update => update.transition().duration(anim_config.deviation_animation).delay(anim_config.rank_animation).attr("cx", (d2, i) => {
+          d3.select(this).classed(d2['id'], true)
+          if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
+          return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
+        })
+      )
+      my_circs.attr("r", circle_radius).attr('fill', d => diverginColor(d['two_realRank'])).attr("parent_id", parent_exp_id)
+        .on('click', d => Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']]))
         .on("mouseover", function (d2) {
           div.transition().duration(200).style("opacity", .9);
-          div.html("Year : " + d2["year"] + "<br></br>" +"Model: "+ d2["model"]+"<br></br>"+"Deviation: "+ Math.abs(d2["predicted_rank"] - d2['two_realRank'])).style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
+          div.html("Year : " + d2["year"] + "<br></br>" + "Model: " + d2["model"] + "<br></br>" + "Deviation: " + Math.abs(d2["predicted_rank"] - d2['two_realRank'])).style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
         }).on("mouseout", function (d2) {
+          //d3.select(this).classed(d2['id'],true)
           div.transition()
             .duration(500)
             .style("opacity", 0);
         })
-  
+
     })
-    
+
 }

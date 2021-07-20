@@ -29,14 +29,14 @@ class SlopeChart extends Component {
     var number_of_charts = 9
     var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.time_mode_range, this.props.time_mode_year1, number_of_charts, this.props.rank_data)
     var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts)
-    deviation_chart.Create_deviation_chart('y1d', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor)
+    deviation_chart.Create_deviation_chart('y1d','y1e', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor)
     explanation_chart.CreatexpChart('y1e', selected_instances, sorted_features, this.props.lime_data, this.props.time_mode_year1, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
 
     // Range2
     var selected_instances2 = d3.range(this.props.time_mode_range[0], this.props.time_mode_range[1] + 1)
     var features_with_score2 = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.time_mode_range, this.props.time_mode_year2, number_of_charts, this.props.rank_data)
     var sorted_features2 = Object.entries(features_with_score2).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts)
-    deviation_chart.Create_deviation_chart('y2d', selected_instances2, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor)
+    deviation_chart.Create_deviation_chart('y2d','y2e', selected_instances2, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor)
     explanation_chart.CreatexpChart('y2e', selected_instances2, sorted_features2, this.props.lime_data, this.props.time_mode_year2, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
     //---------------------------------
     misc_algo.draw_lines(this.props.clicked_circles, diverginColor, this.props.anim_config, sorted_features)

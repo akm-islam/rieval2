@@ -52,7 +52,7 @@ export function CreatexpChart(parent_id, selected_instances, sorted_features, li
       var circ_data = []
       lime_data[model].map(item => {
         if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
-          item['id'] = item['State'].replace(/\s/g, '') + model.replace(/\s/g, '')
+          item['id'] = parent_id+item['State'].replace(/\s/g, '') + model.replace(/\s/g, '')
           item["x_transformation"] = x_transformation
           circ_data.push(item)
         }
@@ -64,7 +64,6 @@ export function CreatexpChart(parent_id, selected_instances, sorted_features, li
       var mycircles = d3.select(this).selectAll(".my_circles" + model).data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
           .attr('id', d => d['id'])
-          .attr("parent_id", parent_id)
           .attr('class', 'circle2 my_circles' + model)
           .attr('r', margin.circ_radius)
           .attr('cy', d => margin.circ_radius / 2 + yScale(parseFloat(d[feature_contrib_name])))
@@ -76,7 +75,6 @@ export function CreatexpChart(parent_id, selected_instances, sorted_features, li
         , update => update.attr('class', 'circle2 my_circles' + model)
           .transition().duration(anim_config.circle_animation).delay(anim_config.rank_animation + anim_config.deviation_animation + anim_config.feature_animation)
           .attr('id', d => d['id'])
-          .attr("parent_id", parent_id)
           .attr('class', 'circle2 my_circles' + model)
           .attr('r', margin.circ_radius)
           .attr('cy', d => margin.circ_radius / 2 + yScale(parseFloat(d[feature_contrib_name])))
