@@ -1,15 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import "./TopBar.scss";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import * as d3 from 'd3';
-import DefaultModels from './DefaultModels'
-import Sort from './Sort'
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import * as algo1 from "../../Algorithms/algo1"
 const useStyles = makeStyles((theme) => ({
   MuiAutocompleteroot: {
     marginTop: 0,

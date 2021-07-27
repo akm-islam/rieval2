@@ -44,14 +44,12 @@ function FadeMenu(props) {
         if (item != event.target.value)
           return item
       })
-      temp_Models = algo1.sort(props.sort_by, props.state_range, temp_Models, props.selected_year, props.grouped_by_year_data)[0];
       props.Set_defualt_models(temp_Models)
       props.Set_pop_over_models(temp_Models)
     }
     else {
       temp_Models = props.defualt_models
       temp_Models.push(event.target.value)
-      temp_Models = algo1.sort(props.sort_by, props.state_range, temp_Models, props.selected_year, props.grouped_by_year_data)[0];
       props.Set_defualt_models(temp_Models)
       props.Set_pop_over_models(temp_Models)
     }

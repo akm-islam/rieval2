@@ -12,8 +12,7 @@ import school_lime from "./Data/data/school/lime/school_lime.csv";
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";
-//import fiscal from "./Data/data/fiscal/lime/fiscal.json";
-//import house from "../Data/data/house/lime/house.json";
+
 //------------------------------------------------All datasets imports ends here
 import "./App.scss";
 import * as d3 from 'd3';
@@ -48,11 +47,11 @@ class App extends Component {
     this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
     this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
     this.props.Set_clicked_items_in_slopechart([])
-    this.props.Set_state_range([1, 15])
+    this.props.Set_state_range([1, 25])
     this.props.Set_histogram_data([])
     this.props.Set_mode("Model")
-    this.props.Set_range_mode_range1([5, 35])
-    this.props.Set_range_mode_range2([15, 35])
+    this.props.Set_range_mode_range1([1, 25])
+    this.props.Set_range_mode_range2([15, 40])
     this.props.Set_time_mode_range([5, 35])
     if (event.target.value == 'Fiscal Dataset') {
       this.setState({ dataset: 'fiscal' })
@@ -118,7 +117,6 @@ class App extends Component {
     var self = this
     //-------------
     d3.csv(slopechart_data_filename).then(original_data => {
-
       var grouped_by_year_data = algo1.groupby_year(original_data).years
       var sparkline_data = algo1.groupby_year(original_data).sparkline_data
       var years_for_dropdown = Object.keys(grouped_by_year_data)
@@ -136,22 +134,7 @@ class App extends Component {
       })
       self.setState({ original_data: original_data })
       self.props.Set_original_data(original_data)
-      if (dataset_name == 'fiscal') {
-        self.props.Set_selected_year("2011")
-        var all_models = ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "ListNet", "RankBoost", "RankNet"]
-        var temp_Models = algo1.sort(this.props.sort_by, this.props.state_range, all_models, "2011", grouped_by_year_data)[0];
-        var default_model_scores = algo1.sort(this.props.sort_by, this.props.state_range, all_models, "2011", grouped_by_year_data)[1];
-      }
-      else {
-        self.props.Set_selected_year("2016")
-        var all_models = ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "ListNet", "RankBoost", "RankNet"]
-        var temp_Models = algo1.sort(this.props.sort_by, this.props.state_range, all_models, "2016", grouped_by_year_data)[0];
-        var default_model_scores = algo1.sort(this.props.sort_by, this.props.state_range, all_models, "2016", grouped_by_year_data)[1];
-      }
-      this.props.Set_default_model_scores(default_model_scores)
-      //this.props.Set_defualt_models(temp_Models.slice(2, 3))
-      this.props.Set_pop_over_models(temp_Models.slice(1, 3))
-
+      self.props.Set_selected_year(years_for_dropdown[0])
     })
     //-------------
     d3.csv(rank_data_filename).then(data => {
@@ -185,7 +168,7 @@ class App extends Component {
       else { temp_show.push(data) }
       this.setState({ show: temp_show })
     }
-    temp_Models = algo1.sort(this.props.sort_by, this.props.state_range, temp_Models, this.props.selected_year, this.state.grouped_by_year_data)[0];
+    
     this.setState({ defualt_models: temp_Models })
     //--------------------------------------------------------------------------------------------------------------All types are handled here end
     var prev_year;
@@ -229,7 +212,7 @@ class App extends Component {
                       <FormControl component="fieldset">
                         <FormLabel component="legend"></FormLabel>
                         <RadioGroup aria-label="gender" name="gender1" onChange={this.handleradioChange}>
-                          {['Fiscal Dataset', 'School Dataset'].map((value) => {
+                          {['Fiscal Dataset', 'School Dataset', 'House Dataset'].map((value) => {
                             return <FormControlLabel value={value} control={<Radio />} label={value} />
                           })}
                         </RadioGroup>
@@ -242,7 +225,7 @@ class App extends Component {
             </div>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
-                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height:window.innerHeight - $('.uploader_topbar').height() - 5, marginLeft: 5, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
+                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - $('.uploader_topbar').height() - 5, marginLeft: 5, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                   {this.props.mode == "Range" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}

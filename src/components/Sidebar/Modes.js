@@ -157,11 +157,6 @@ function Modes(props) {
                         <Button className="range_button" style={{ width: $('.Sidebar').width() - 11, backgroundColor: "#ededed", height: 30, marginBottom: 5, marginLeft: -3 }}
                             onClick={() =>{
                                 props.Set_state_range(sliderRange)
-                                var temp_Models = algo1.sort(props.sort_by, sliderRange, props.defualt_models,props.selected_year, props.grouped_by_year_data)[0];
-                                var default_model_scores = algo1.sort(props.sort_by, sliderRange, props.defualt_models,props.selected_year, props.grouped_by_year_data)[1];
-                                props.Set_default_model_scores(default_model_scores)
-                                props.Set_defualt_models([...temp_Models])
-                                
                             }}
                         >Update range</Button>
                     </div> : null}

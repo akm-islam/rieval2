@@ -13,7 +13,7 @@ export default function Create_lasso_circles(parent_id, lime_data, defualt_model
         var temp = []
         if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
             temp_lime_data_label.push({ "model": item["model"], "State": item['State'], "1-qid": item['1-qid'], 'two_realRank': parseInt(item['two_realRank']) })
-            sorted_features.map(feature_arr => temp.push(parseFloat(item[feature_arr[0]+'_contribution'])))
+            sorted_features.map(feature_arr => temp.push(parseFloat(item[feature_arr[0]])))
             temp_lime_data_mds.push(temp)
         }
     })

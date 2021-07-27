@@ -13,11 +13,9 @@ class SlopeChart extends Component {
     this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 }
   }
   componentDidMount() {
-    console.log(this.props.lime_data)
     this.setState({ width: window.innerHeight })
   }
   shouldComponentUpdate(prevProps, prevState) {
-    
     return true;
   }
   componentDidUpdate(prevProps, prevState) {

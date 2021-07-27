@@ -2,9 +2,9 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as misc_algo from './misc_algo'
-import Create_circles from "./lasso_circle"
+import Create_lasso_circles from "./lasso_circle"
 export function CreatexpChart(parent_id, selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features) {
-  Create_circles(parent_id,lime_data,defualt_models,selected_year,selected_instances,sorted_features,diverginColor,Set_clicked_circles)
+  Create_lasso_circles(parent_id,lime_data,defualt_models,selected_year,selected_instances,sorted_features,diverginColor,Set_clicked_circles)
   //----------------
   var margin = { item_top_margin: 15, right: 14, bottom: 0, left: 20, circ_radius: 5, item_left_margin: 25, item_right_margin: 3 }
   var parent_width = $("#" + parent_id).width() - margin.item_left_margin

@@ -7,6 +7,7 @@ export default function Create_sparkline(parent, config, y_distance, sparkline_d
     var s_svg = parent.selectAll(".sparkline_svg").data([0]).join("svg").attr("class", "sparkline_svg").attr("x", 2).attr("y", -3)
         .attr("width", s_width + s_margin.left + s_margin.right)
         .attr("height", s_height + s_margin.top + s_margin.bottom)
+    
     var data = sparkline_data[d['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")]
     // Add X axis  
     var x = d3.scaleLinear().domain(d3.extent(data, function (d) { return d.year; })).range([0, s_width]);
