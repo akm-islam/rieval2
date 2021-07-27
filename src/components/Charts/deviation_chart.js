@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import Create_sparkline from "./Sparkline"
-export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year) {
+export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
@@ -23,7 +23,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
   }).attr("add_sparkline", function (d) {
     // sparkline height is y_distance
-    Create_sparkline(d3.select(this),config,y_distance,sparkline_data,d,diverginColor,selected_year,Set_selected_year)
+    if(dataset!='house'){Create_sparkline(d3.select(this),config,y_distance,sparkline_data,d,diverginColor,selected_year,Set_selected_year)}
   })
     .attr("add_lines_and_circles", function (d) {
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
