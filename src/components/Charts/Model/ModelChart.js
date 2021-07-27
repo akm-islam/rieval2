@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import * as algo1 from "../../../Algorithms/algo1";
 import * as deviation_chart from "../deviation_chart"
 import * as misc_algo from '../misc_algo'
+import * as $ from 'jquery';
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +38,9 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <svg id="dev_plot_container" style={{ width: "100%", height: "50%", marginBottom: 10 }}></svg>
+        <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)",width: "100%", height: ($(".slope_chart_exp").height() * 0.53 - 25), overflow: "scroll" }}>
+          <svg id="dev_plot_container" style={{ width: "100%",marginBottom: 10 }}></svg>
+        </Grid>
         <div style={{ width: "100%", height: "100%" }}>
           <svg id="mds" style={{ width: "20%", height: "50%" }}></svg>
           <svg id="exp" style={{ width: "80%", height: "50%" }}></svg>
