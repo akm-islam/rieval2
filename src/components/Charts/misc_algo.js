@@ -13,7 +13,7 @@ export function handle_transparency(class_name, clicked_circles, anim_config) {
         d3.selectAll("." + "circle2").attr('opacity', 1) // Circles 
     }
 }
-export function draw_lines(clicked_circles, diverginColor, anim_config) {
+export function draw_lines(clicked_circles, diverginColor) {
     d3.selectAll("#mylines").remove()
     clicked_circles.map(d => {
         var lines = []
@@ -25,7 +25,7 @@ export function draw_lines(clicked_circles, diverginColor, anim_config) {
             points.push([d3.select(this).attr('cx2'), d3.select(this).attr('cy')])
         })
         lines.push([d, d3.line()(points), two_realRank])
-        d3.select("#" + parent_id).selectAll('.' + d).raise().data(lines, d => d[0]).join('path').attr("stroke", d => diverginColor(d[2])).attr("stroke-width", 2)
-            .attr('id', 'mylines').attr('State', d => d[2]).attr('class', d).transition().duration(5000).attr('d', d => d[1]).attr("fill", "none")
+        d3.select("#" + parent_id).selectAll('.' + d).data(lines, d => d[0]).join('path').attr("stroke", d => diverginColor(d[2])).attr("stroke-width", 2)
+            .attr('id', 'mylines').attr('State', d => d[2]).attr('class', d).transition().duration(2000).attr('d', d => d[1]).attr("fill", "none")
     })
 }

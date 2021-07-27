@@ -149,7 +149,7 @@ class App extends Component {
         var default_model_scores = algo1.sort(this.props.sort_by, this.props.state_range, all_models, "2016", grouped_by_year_data)[1];
       }
       this.props.Set_default_model_scores(default_model_scores)
-      this.props.Set_defualt_models(temp_Models.slice(1, 3))
+      //this.props.Set_defualt_models(temp_Models.slice(2, 3))
       this.props.Set_pop_over_models(temp_Models.slice(1, 3))
 
     })

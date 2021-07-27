@@ -214,7 +214,7 @@ export default function CreateChart(feature, data, node, feature_height, selecte
       }
       if (finalAttributes.x2 - finalAttributes.x1 > 1 && finalAttributes.y2 - finalAttributes.y1 > 1) {
         // range selected
-        d3.event.sourceEvent.preventDefault();
+       // d3.event.sourceEvent.preventDefault();
         selectionRect.focus();
       } else {
         selectionRect.remove();

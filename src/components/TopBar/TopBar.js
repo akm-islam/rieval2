@@ -38,15 +38,7 @@ function TopBar(props) {
     }
   };
   var handle_year_click = (year) => {
-    if(year=="All"){props.Set_selected_years([...props.years_for_dropdown])}
-    else{
-      if (props.selected_years.includes(year)) {
-        props.Set_selected_years(props.selected_years.filter(item=>item!=year))
-      }
-      else {
-        props.Set_selected_years([...props.selected_years,year])
-      }  
-    }
+    props.Set_selected_year(year)
   }
   var handle_model_click=(model)=>{
     if(model=="All"){props.Set_defualt_models([...props.all_models])}
@@ -93,7 +85,6 @@ const maptstateToprop = (state) => {
 const mapdispatchToprop = (dispatch) => {
   return {
     add: (val) => dispatch({ type: "add", value: val }),
-    Set_selected_years: (val) => dispatch({ type: "selected_years", value: val }),
     Set_selected_year: (val) => dispatch({ type: "selected_year", value: val }),
     set_tracking: (val) => dispatch({ type: "tracking", value: val }),
     Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),

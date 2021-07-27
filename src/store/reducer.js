@@ -8,7 +8,7 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   defualt_models: ["MART", "LinearReg"], // Change the pop_over_models as well
+   defualt_models: ["LinearReg"], // Change the pop_over_models as well
    state_range: [1, 25], // Change in handleradioChange
    deviate_by: 0,
    show: [
