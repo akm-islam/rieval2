@@ -26,6 +26,6 @@ export function draw_lines(clicked_circles, diverginColor) {
         })
         lines.push([d, d3.line()(points), two_realRank])
         d3.select("#" + parent_id).selectAll('.' + d).data(lines, d => d[0]).join('path').attr("stroke", d => diverginColor(d[2])).attr("stroke-width", 2)
-            .attr('id', 'mylines').attr('State', d => d[2]).attr('class', d).transition().duration(2000).attr('d', d => d[1]).attr("fill", "none")
+            .attr('id', 'mylines').attr('State', d => d[2]).attr('class', d).transition().duration(0).attr('d', d => d[1]).attr("fill", "none")
     })
 }
