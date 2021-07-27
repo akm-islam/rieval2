@@ -60,7 +60,7 @@ export function CreatexpCircle(parent_id, selected_instances, sorted_features, l
       var circ_data = []
       lime_data[model].map(item => {
         if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
-          item['id'] = parent_id + item['State'].replace(/\s/g, '') + model.replace(/\s/g, '')
+          item['id'] = parent_id + item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           circ_data.push(item)
         }
       })

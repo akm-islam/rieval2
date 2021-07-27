@@ -33,7 +33,7 @@ export default function Create_circles(parent_id, lime_data, defualt_models, sel
     temp_lime_data_label.map((item, index) => {
         item['x'] = mds_data[index][0]
         item['y'] = mds_data[index][1]
-        item['id'] = parent_id + item['State'].replace(/\s/g, '') + item["model"].replace(/\s/g, '')
+        item['id'] = parent_id + item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
         circle_data.push(item)
     })
     // Create mds ends here

@@ -67,7 +67,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
           a['predicted_rank'] = parseInt(item[model_name])
           a["model"] = model_name
           a['year'] = item['1-qid']
-          a['id'] =parent_exp_id+item['State'].replace(/\s/g, '') + model_name.replace(/\s/g, '')
+          a['id'] =parent_exp_id+item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           circ_data.push(a)
         })
       })
