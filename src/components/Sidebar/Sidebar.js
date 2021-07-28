@@ -70,36 +70,6 @@ function Sidebar(props) {
             style={{height:24}}
           />
         </div>
-        <div className="show">
-          <p className="title_show">Show:</p>
-          <List className={classes.listroot}>
-            {['Rankings', 'Explanation'].map((value) => {
-              const labelId = `checkbox-list-label-${value}`;
-              return (
-                <ListItem key={value} role={undefined} onClick={handleToggle(value)}>
-                  <Checkbox
-                    checked={props.show.includes(value)}
-                    edge="start"
-                    tabIndex={-1}
-                    value={value}
-                    onChange={(event, value) => {
-                      var temp_show=[...props.show]
-                      if(temp_show.includes(event.target.value) && event.target.value!="Rankings"){
-                        temp_show=temp_show.filter(item=>item!=event.target.value)
-                      }
-                      else{
-                        temp_show.push(event.target.value)
-                      }
-                      props.Set_show(temp_show)
-                    }
-                  }
-                  />
-                  <p className="list_item_label" id={labelId}>{value}</p>
-                </ListItem>
-              );
-            })}
-          </List>
-        </div>
       </div>:null}
     </div>
   );

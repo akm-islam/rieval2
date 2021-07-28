@@ -37,7 +37,7 @@ let initialState = {
    legend_model: "CordAscent",
    legend_show_option: "Rank",
    legend_year: 2012,
-   mode: "Model",
+   mode: "Range",
    range_mode_model: "CordAscent",
    range_mode_range1: [1, 25],
    range_mode_range2: [15, 40],

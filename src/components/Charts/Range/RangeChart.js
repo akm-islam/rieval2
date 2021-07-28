@@ -7,6 +7,9 @@ import * as algo1 from "../../../Algorithms/algo1";
 import * as deviation_chart from "../deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
+import SliderGroup1 from './SliderGroup1';
+import SliderGroup2 from './SliderGroup2';
+
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -49,12 +52,14 @@ class SlopeChart extends Component {
       <Grid container direction="row" justifyContent="space-between" className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", width: "100%", boxShadow: "-2px 1px 4px -1px white" }}>
         <Grid container item direction="column" justifyContent="space-between" style={{ paddingRight: 0, border: "1px solid #a0a0a0", height: "100%", width: "49.4%" }}>
           <p style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 1</p>
-          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", height: ($(".slope_chart_exp").height() * 0.69 - 25), overflow: "scroll" }}><svg id="r1d" style={{ width: "100%", marginRight: "3%" }}></svg></Grid>
+          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)"}}><SliderGroup1></SliderGroup1></Grid>
+          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", height: ($(".slope_chart_exp").height() * 0.5 - 25), overflow: "scroll" }}><svg id="r1d" style={{ width: "100%", marginRight: "3%" }}></svg></Grid>
           <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", marginTop: 5, paddingTop: 5, paddingRight: 3, height: $(".slope_chart_exp").height() * 0.3 }}><svg id="r1e" style={{ width: "100%", height: "100%" }}></svg></Grid>
         </Grid>
         <Grid container item direction="column" justifyContent="space-between" style={{ marginLeft: "1%", padding: 0, border: "1px solid #a0a0a0", height: "100%", width: "49.4%" }}>
           <p style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 2</p>
-          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", height: ($(".slope_chart_exp").height() * 0.69 - 25), overflow: "scroll" }}><svg id="r2d" style={{ width: "100%", marginRight: "3%" }}></svg></Grid>
+          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)"}}><SliderGroup2></SliderGroup2></Grid>
+          <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", height: ($(".slope_chart_exp").height() * 0.5 - 25), overflow: "scroll" }}><svg id="r2d" style={{ width: "100%", marginRight: "3%" }}></svg></Grid>
           <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", marginTop: 5, paddingTop: 5, paddingRight: 3, height: $(".slope_chart_exp").height() * 0.3 }}><svg id="r2e" style={{ width: "100%", height: "100%" }}></svg></Grid>
         </Grid>
       </Grid>
