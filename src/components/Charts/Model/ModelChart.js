@@ -26,11 +26,26 @@ class SlopeChart extends Component {
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    //--------------------
+    var under_threshold_instances=[]
+    var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
+    this.props.defualt_models.map(model_name => {
+      year_data.map(item => {
+        var two_realRank = parseInt(item['two_realRank'])
+        var predicted_rank = parseInt(item[model_name])
+        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+          under_threshold_instances.push(two_realRank)
+          //console.log("threshold", item['two_realRank'])
+        }
+      })
+    })
+    //--------------------
+    selected_instances=selected_instances.filter(item=>!under_threshold_instances.includes(item))
     var number_of_charts = 9
     var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
     var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, 18)
 
-    deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor,this.props.sparkline_data,this.props.Set_selected_year,this.props.dataset)
+    deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
     explanation_chart.CreatexpCircle("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
     misc_algo.draw_lines(this.props.clicked_circles, diverginColor, this.props.anim_config, sorted_features)
@@ -39,11 +54,12 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "2px solid grey", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)",width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
+        <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
           <ModelSlider></ModelSlider>
-          <svg id="dev_plot_container" style={{ width: "100%",marginBottom: 10 }}></svg>
+          
+          <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
         </Grid>
-        <div style={{ width: "100%", height: "30%",marginLeft:5 }}>
+        <div style={{ width: "100%", height: "30%", marginLeft: 5 }}>
           <svg id="mds" style={{ width: "10%", height: "100%" }}></svg>
           <svg id="exp" style={{ width: "90%", height: "100%" }}></svg>
         </div>
@@ -76,7 +92,8 @@ const maptstateToprop = (state) => {
     features_with_score: state.features_with_score,
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
-    clicked_features: state.clicked_features
+    clicked_features: state.clicked_features,
+    threshold: state.threshold
   }
 }
 const mapdispatchToprop = (dispatch) => {

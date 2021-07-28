@@ -60,10 +60,15 @@ let initialState = {
    all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
    average_y: false,
    average_m: false,
-   clicked_circles:[]
+   clicked_circles:[],
+   threshold:10,
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "threshold") {
+      //console.log(action.value)
+      return { ...state, threshold: action.value }
+   }
    if (action.type === "clicked_circles") {
       //console.log(action.value)
       return { ...state, clicked_circles: action.value }

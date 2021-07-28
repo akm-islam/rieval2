@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
+import ThresholdSlider from '../ThresholdSlider';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -44,57 +45,60 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="rangeslider" style={{ width: "100%",paddingTop:30,borderBottom:"2px solid #b2b2b2"}} >
+        <div className="rangeslider" style={{ width: "100%", paddingTop: 30, borderBottom: "2px solid #b2b2b2" }} >
             <Grid container direction="row" justifyContent="space-around" alignItems="center">
-                <Grid item xs="1" style={{padding:"0 20px",marginTop:-40}}>
-                <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: 40 }}
-                    onChange={event => {
-                        if (isNaN(parseInt(event.target.value))) {
-                            set_sliderRange(["", sliderRange[1]])
-                        } else {
-                            if (event.target.value > sliderRange[1]) {
-                                alert("Lower range can not be larger than the upper range")
-                            }
-                            else {
-                                set_sliderRange([event.target.value, sliderRange[1]])
+                <Grid item xs="1" style={{ padding: "0 20px", marginTop: -40 }}>
+                    <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: 40 }}
+                        onChange={event => {
+                            if (isNaN(parseInt(event.target.value))) {
+                                set_sliderRange(["", sliderRange[1]])
+                            } else {
+                                if (event.target.value > sliderRange[1]) {
+                                    alert("Lower range can not be larger than the upper range")
+                                }
+                                else {
+                                    set_sliderRange([event.target.value, sliderRange[1]])
+                                }
                             }
                         }
-                    }
-                    }
-                />
+                        }
+                    />
                 </Grid>
-            <Grid item xs="4" style={{padding:"0 20px"}}>
-                <Slider value={sliderRange} onChange={(event, newValue) => set_sliderRange(newValue)} onChangeCommitted={(event, newValue) => props.Set_changed("range")}
-                    valueLabelDisplay="auto" aria-labelledby="range-slider" valueLabelDisplay="on" min={1} max={props.slider_max} marks={marks}
-                />
-            </Grid>
-            {
-            <Grid item xs="1" style={{padding:"0 20px",marginTop:-40}}>
-            <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Upper" value={sliderRange[1]} style={{ width: 40 }}
-                onChange={event => {
-                    if (isNaN(parseInt(event.target.value))) {
-                        set_sliderRange([sliderRange[0], ""])
-                    } else {
-                        if (parseInt(event.target.value) > props.slider_max) {
-                            alert("Upper range can not exceed maximum")
-                            set_sliderRange([sliderRange[0], props.slider_max])
-                        }
-                        else {
-                            set_sliderRange([sliderRange[0], parseInt(event.target.value)])
-                        }
-                    }
+                <Grid item xs="4" style={{ padding: "0 20px" }}>
+                    <Slider value={sliderRange} onChange={(event, newValue) => set_sliderRange(newValue)} onChangeCommitted={(event, newValue) => props.Set_changed("range")}
+                        valueLabelDisplay="auto" aria-labelledby="range-slider" valueLabelDisplay="on" min={1} max={props.slider_max} marks={marks}
+                    />
+                </Grid>
+                {
+                    <Grid item xs="1" style={{ padding: "0 20px", marginTop: -40 }}>
+                        <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Upper" value={sliderRange[1]} style={{ width: 40 }}
+                            onChange={event => {
+                                if (isNaN(parseInt(event.target.value))) {
+                                    set_sliderRange([sliderRange[0], ""])
+                                } else {
+                                    if (parseInt(event.target.value) > props.slider_max) {
+                                        alert("Upper range can not exceed maximum")
+                                        set_sliderRange([sliderRange[0], props.slider_max])
+                                    }
+                                    else {
+                                        set_sliderRange([sliderRange[0], parseInt(event.target.value)])
+                                    }
+                                }
+                            }
+                            }
+                        />
+                    </Grid>
                 }
-                }
-            />
-            </Grid>
-            }
-            <Grid item xs="4" style={{marginTop:-28}}>
-                <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
-                    onClick={() => {
-                        props.Set_state_range(sliderRange)
-                    }}
-                >Update range</Button>
-            </Grid>
+                <Grid item style={{marginTop: -28 }}>
+                    <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
+                        onClick={() => {
+                            props.Set_state_range(sliderRange)
+                        }}
+                    >Update range</Button>
+                </Grid>
+                <Grid item xs="2">
+                    <ThresholdSlider></ThresholdSlider>
+                </Grid>
             </Grid>
         </div>
     );
@@ -117,7 +121,7 @@ const maptstateToprop = (state) => {
         defualt_models: state.defualt_models,
         slider_and_feature_value: state.slider_and_feature_value,
         sort_by: state.sort_by,
-        grouped_by_year_data: state.grouped_by_year_data,
+        grouped_by_year_data: state.grouped_by_year_data
     }
 }
 const mapdispatchToprop = (dispatch) => {

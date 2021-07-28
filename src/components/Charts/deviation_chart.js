@@ -1,7 +1,9 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import Create_sparkline from "./Sparkline"
-export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset) {
+export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
+  console.log(threshold)
+
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
@@ -106,7 +108,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
         .on("mouseover", function (d2) {
           div.transition().duration(200).style("opacity", .9);
           div.html("Year : " + d2["year"] + "<br></br>" + "Model: " + d2["model"] + "<br></br>" + "Deviation: " + Math.abs(d2["predicted_rank"] - d2['two_realRank']))
-          //.style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
+          .style("left", (d3.event.pageX - 140) + "px").style("top", (d3.event.pageY - 98) + "px");
         }).on("mouseout", function (d2) {
           //d3.select(this).classed(d2['id'],true)
           div.transition()
