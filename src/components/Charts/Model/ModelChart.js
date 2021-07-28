@@ -38,12 +38,12 @@ class SlopeChart extends Component {
   }
   render() {
     return (
-      <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
+      <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "2px solid grey", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
         <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)",width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
           <ModelSlider></ModelSlider>
           <svg id="dev_plot_container" style={{ width: "100%",marginBottom: 10 }}></svg>
         </Grid>
-        <div style={{ width: "100%", height: "30%" }}>
+        <div style={{ width: "100%", height: "30%",marginLeft:5 }}>
           <svg id="mds" style={{ width: "10%", height: "100%" }}></svg>
           <svg id="exp" style={{ width: "90%", height: "100%" }}></svg>
         </div>
