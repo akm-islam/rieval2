@@ -52,7 +52,7 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "2px solid grey", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <Grid class="dev_parent" item style={{borderBottom: "1px solid #b2b2b2", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
+        <Grid class="dev_parent" item style={{borderBottom: "0px solid #b2b2b2", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
           <ModelSlider></ModelSlider>
           <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
         </Grid>
