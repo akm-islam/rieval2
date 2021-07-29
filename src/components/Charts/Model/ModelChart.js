@@ -14,16 +14,13 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 }
   }
-  componentDidMount() {this.setState({ width: window.innerHeight })}
-  shouldComponentUpdate(prevProps, prevState) { return true;}
+  componentDidMount() { this.setState({ width: window.innerHeight }) }
+  shouldComponentUpdate(prevProps, prevState) { return true; }
   componentDidUpdate(prevProps, prevState) {
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    if(this.props.histogram_data.length>0){selected_instances=this.props.histogram_data}
-    var min = this.props.state_range[0], max = this.props.state_range[1];
-    var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //--------------------
-    var under_threshold_instances=[]
+    var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
     this.props.defualt_models.map(model_name => {
       year_data.map(item => {
@@ -34,11 +31,17 @@ class SlopeChart extends Component {
         }
       })
     })
+    selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
     //--------------------
-    selected_instances=selected_instances.filter(item=>!under_threshold_instances.includes(item))
+    var min = d3.min(selected_instances), max = d3.max(selected_instances);
+
+    var d = (max - min) / 8;
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     var number_of_charts = 9
-    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, 18)
+    //algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year,number_of_charts,this.props.rank_data)
+    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+    console.log(features_with_score)
+    var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).slice(0, 18)
 
     deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
@@ -49,7 +52,7 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "2px solid grey", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <Grid class="dev_parent" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
+        <Grid class="dev_parent" item style={{borderBottom: "1px solid #b2b2b2", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
           <ModelSlider></ModelSlider>
           <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
         </Grid>

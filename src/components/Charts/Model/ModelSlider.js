@@ -45,7 +45,7 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="rangeslider" style={{ width: "100%", paddingTop: 30, borderBottom: "2px solid #b2b2b2" }} >
+        <div className="rangeslider" style={{backgroundColor: "rgb(232, 232, 232,0.5)",height:70, width: "100%", paddingTop: 30, borderBottom: "2px solid #b2b2b2" }} >
             <Grid container direction="row" justifyContent="space-around" alignItems="center">
                 <Grid item xs="1" style={{ padding: "0 20px", marginTop: -40 }}>
                     <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: 40 }}
