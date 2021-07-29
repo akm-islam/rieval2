@@ -9,7 +9,7 @@ let initialState = {
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
    defualt_models: ["LinearReg"], // Change the pop_over_models as well
-   state_range: [1, 25], // Change in handleradioChange
+   state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
       "Slope charts", "Rankings", "Explanation" // change in app.js
@@ -46,7 +46,7 @@ let initialState = {
    time_mode_year2: "Null",
    time_mode_range: [6, 32],
    chart_scale_type: "true",
-   slider_and_feature_value: { 'Rank range': 1, 'Feature': 0 },
+   slider_and_feature_value: { 'Rank range': 1, 'Feature': 1 },
    prev_prop: {},
    replay: false,
    changed: "year",

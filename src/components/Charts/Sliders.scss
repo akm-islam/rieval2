@@ -161,45 +161,13 @@ $border_color:#eaeaea;
         border-radius: 0px!important;   
     }
 
-/* show options start here */
-.show{
-    margin-top: 1px;
-    border-top: 1px solid $border_color;
-    .MuiListItem-root{
-    padding:0px!important;
-    }
-    .title_show{
-        margin-left: 0px;
-        margin-bottom: 0 !important;
-    }
-    .MuiList-root{
-        padding:0px!important;
-        margin-left: 3px!important;
-    }
-    margin-left:5px ;
-}
+
 .title_show{
     font-size: 18px!important;
     font-weight: bold;
     font-family: "Times New Roman", Times, serif;
 }
-.slider_feature_container{
-    display: flex!important;
-    .listItem{
-        display: inline-block!important;
-    }
-    .listItem:nth-child(2){
-        margin-left: 5px;
-    }
-    margin-top: 1px;
-    .MuiListItem-root{
-    padding:0px!important;
-    }
-    .title_show{
-        font-size: large;
-        margin-bottom: 0 !important;
-    }
-}
+
 .sort{
     .title_sort{
         font-size: large;

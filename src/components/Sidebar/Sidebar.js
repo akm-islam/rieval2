@@ -1,12 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import "./Sidebar.scss";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import TextField from '@material-ui/core/TextField';
 import { connect } from "react-redux";
 import Modes from "./Modes"
+import * as $ from "jquery"
+import HistogramContainer from "./HistogramContainer"
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -48,40 +46,40 @@ function Sidebar(props) {
 
     }
   }
-  const show_checkboxChanged = (event,val) => {
+  const show_checkboxChanged = (event, val) => {
     var myfunc = props.appHandleChange
     myfunc(val, "show_checkboxChanged")
   }
   return (
-    <div className="Sidebar_parent" style={{height:window.innerHeight}}>
-      <h4 className="app_title">RIEVAL </h4>
-      {props.view_data==1?
-      <div className="rangeSlidercontainer">
-        <Modes appHandleChange={props.appHandleChange} ></Modes>
-        <div className="deviation" style={{marginLeft:5, borderTop:"0px solid #eaeaea"}}>
-          <p className="title_show">Margin:</p>
-          <TextField
-            id="outlined-size-normal"
-            defaultValue={props.deviate_by}
-            variant="filled"
-            color="primary"
-            onChange={(event) => inputchanged(event)}
-            fullWidth={false}
-            style={{height:24}}
-          />
-        </div>
-      </div>:null}
+    <div className="Sidebar_parent" style={{ height: window.innerHeight }}>
+      {
+        // <h4 className="app_title">RIEVAL </h4>
+      }
+      {props.view_data == 1 ?
+        <div className="rangeSlidercontainer">
+          <Modes></Modes>
+          {props.mode == "Model" ? <div style={{ marginTop: 10, paddingLeft: 5, width: $('.Sidebar').width() }}>
+            <HistogramContainer
+              year={props.selected_year.toString()} state_range={props.state_range}
+              Sidebar_width={$('.Sidebar').width()} >
+            </HistogramContainer>
+          </div> : null}
+        </div> : null}
+        <p style={{margin:0,marginTop:20,marginLeft:"30%",fontWeight:"bold"}}>MDS Plot</p>
+        <svg id="mds" style={{margin:5, width: "95%", height: 200 }}></svg>
     </div>
   );
 }
 const maptstateToprop = (state) => {
   return {
-    deviate_by:state.deviate_by,
-    state_range:state.state_range,
-    defualt_models:state.defualt_models,
-    selected_year:state.selected_year,
-    sparkline_data:state.sparkline_data,
-    show:state.show,
+    deviate_by: state.deviate_by,
+    state_range: state.state_range,
+    defualt_models: state.defualt_models,
+    selected_year: state.selected_year,
+    sparkline_data: state.sparkline_data,
+    show: state.show,
+    mode:state.mode,
+
   }
 }
 const mapdispatchToprop = (dispatch) => {
@@ -94,8 +92,8 @@ const mapdispatchToprop = (dispatch) => {
     Set_ref_year: (val) => dispatch({ type: "ref_year", value: val }),
     Set_original_data: (val) => dispatch({ type: "original_data", value: val }),
     Set_state_range: (val) => dispatch({ type: "state_range", value: val }),
-    Set_deviate_by:(val) => dispatch({ type: "deviate_by", value: val }),
-    Set_show:(val)=>dispatch({type:"show",value:val}),
+    Set_deviate_by: (val) => dispatch({ type: "deviate_by", value: val }),
+    Set_show: (val) => dispatch({ type: "show", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(Sidebar);

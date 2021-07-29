@@ -9,6 +9,7 @@ import exp_house_CordAscent from "../../Data/data/house/lime/chart1_data.csv";
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core';
 import * as $ from "jquery"
+import { filter } from 'lodash';
 class Chart extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +31,7 @@ class Chart extends Component {
     var legend_data = this.makeArr(this.props.state_range);
     //------
     var height_between = 20
-    var feature_height = 260
+    var feature_height = 260 // scroll down to find the actual one
     var number_of_elements = (this.props.state_range[1] - this.props.state_range[0]) + (2 * this.props.deviate_by);
     if (number_of_elements * height_between < 700) { height_between = 700 / number_of_elements }
     var exp_chart_height = (number_of_elements * height_between);
@@ -50,7 +51,7 @@ class Chart extends Component {
     //--------------------------------Iterate through each features
     if (this.state.feature_data != null) {
       var feature_width=$(".Sidebar_parent").width()
-      var feature_height = 150; // Feature height for individual feature
+      var feature_height = 100; // Feature height for individual feature
  //--------------------------------------------- Iterate trough eact item and create histograms
     items.forEach((feature, feature_index) => {
         var feature_id = "feature"+feature.replace(/[^\w\s]/gi, '')
@@ -74,7 +75,6 @@ class Chart extends Component {
     }
   }
   handleHistogramselection = (data, type) => {
-    
     var temp = this.state.selected_states
     data.forEach(element => {
       if (!temp.includes(element)) { temp.push(element) }
@@ -85,7 +85,6 @@ class Chart extends Component {
     d3.selectAll(".cat_item_clicked").classed("cat_item_clicked",false)
     d3.selectAll(".selection").remove()
     if(this.state.selected_states.length<1){alert("Empty selection!");return}
-    var myfunc = this.props.appHandleChange
     var filtered_states = this.state.selected_states.filter((item) => {
       if (item >= this.props.state_range[0] && item <= this.props.state_range[1]) {
         return item
@@ -93,12 +92,11 @@ class Chart extends Component {
     })
     if(filtered_states.length<1){alert("Empty Selection")}
     if (this.props.slider_and_feature_value["Feature"] == 1 && this.props.slider_and_feature_value["Rank range"] == 1) { // If rank range is selected then filter states within the range
+      console.log("temp",filtered_states)
       this.props.Set_histogram_data(filtered_states)
-      myfunc(filtered_states, "histogram_data")
     }
     else {
       this.props.Set_histogram_data(this.state.selected_states) // else set states as selected
-      myfunc(this.state.selected_states, "histogram_data")
     }
     this.setState({ selected_states: [] })
   }
@@ -119,7 +117,7 @@ class Chart extends Component {
               setTimeout(function(){ self.update_histogram_data(); }, 500);
           }}
           >Update</Button>
-        <div className="hitograms_container">
+        <div className="hitograms_container" style={{height:420,borderBottom:"0px solid #e5e5e5"}}>
         <svg id="histogram_container" style={{ width: this.props.width }}></svg>
         </div>
       </div>

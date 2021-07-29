@@ -14,18 +14,14 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 }
   }
-  componentDidMount() {
-    this.setState({ width: window.innerHeight })
-  }
-  shouldComponentUpdate(prevProps, prevState) {
-    return true;
-  }
+  componentDidMount() {this.setState({ width: window.innerHeight })}
+  shouldComponentUpdate(prevProps, prevState) { return true;}
   componentDidUpdate(prevProps, prevState) {
-    // var diverginColor = d3.scaleLinear().domain([this.props.state_range[0], this.props.state_range[1]]).range(['#93003a','#00429d'])
+    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    if(this.props.histogram_data.length>0){selected_instances=this.props.histogram_data}
     var min = this.props.state_range[0], max = this.props.state_range[1];
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     //--------------------
     var under_threshold_instances=[]
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
@@ -35,7 +31,6 @@ class SlopeChart extends Component {
         var predicted_rank = parseInt(item[model_name])
         if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
           under_threshold_instances.push(two_realRank)
-          //console.log("threshold", item['two_realRank'])
         }
       })
     })
@@ -54,13 +49,11 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "2px solid grey", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
+        <Grid class="dev_parent" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)", width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
           <ModelSlider></ModelSlider>
-          
           <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
         </Grid>
         <div style={{ width: "100%", height: "30%", marginLeft: 5 }}>
-          <svg id="mds" style={{ width: "10%", height: "100%" }}></svg>
           <svg id="exp" style={{ width: "90%", height: "100%" }}></svg>
         </div>
       </Grid>

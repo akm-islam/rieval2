@@ -129,9 +129,7 @@ class App extends Component {
       self.props.Set_legend_year(years_for_dropdown[0])
       self.setState({ ref_year: years_for_dropdown[0] })
       self.props.Set_grouped_by_year_data(grouped_by_year_data)
-      self.setState({ grouped_by_year_data: grouped_by_year_data }, () => {
-        self.appHandleChange(original_data, "original");
-      })
+      self.setState({ grouped_by_year_data: grouped_by_year_data })
       self.setState({ original_data: original_data })
       self.props.Set_original_data(original_data)
       self.props.Set_selected_year(years_for_dropdown[0])
@@ -154,28 +152,6 @@ class App extends Component {
     })
 
   }
-  //---------
-  appHandleChange = (data, type) => { // get the resopnses from Sidebar
-    this.setState({ features_dict: {} })
-    var temp_Models = this.props.defualt_models
-    var temp_show = this.state.show
-    var year = this.props.selected_year
-    if (type == 'year_changed') { this.props.Set_selected_year(data) } // This is called when circles on the sparklines are clicked
-    if (type == 'original') { var original_data = data } else { original_data = this.props.original_data }
-    //-----------------Handle show changes here
-    if (type == "show_checkboxChanged") {
-      if (temp_show.includes(data)) { temp_show = temp_show.filter(element => element != data) }
-      else { temp_show.push(data) }
-      this.setState({ show: temp_show })
-    }
-    
-    this.setState({ defualt_models: temp_Models })
-    //--------------------------------------------------------------------------------------------------------------All types are handled here end
-    var prev_year;
-    if (parseInt(year) == this.state.years_for_dropdown[0]) { prev_year = parseInt(year) } else { prev_year = parseInt(year) - 1 }
-
-  }
-
   buttonclickHandler = (value, type) => {
     setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
     type = "button" ? this.setState({ view_data: value }) : null
@@ -191,11 +167,10 @@ class App extends Component {
   render() {
     return (
       <div key={this.state.random}>
-
         <Row>
           <div style={{ width: 207 }} className="Sidebar">
-            {this.props.selected_year != null ?
-              <Sidebar view_data={this.state.view_data} appHandleChange={this.appHandleChange}
+            {this.props.original_data != null ?
+              <Sidebar view_data={this.state.view_data}
                 dataset={this.props.dataset} sort_by={this.props.sort_by} chart_scale_type={this.props.chart_scale_type}>
               </Sidebar> : null}
           </div>
@@ -221,7 +196,7 @@ class App extends Component {
                     </form>
                   </div></Row>
                 : null}
-              {this.state.view_data == true ? <Row className="Topbar_container"><TopBar key={this.props.selected_year} appHandleChange={this.appHandleChange} tracking={this.props.tracking}></TopBar></Row> : null}
+              {this.state.view_data == true ? <Row className="Topbar_container"><TopBar key={this.props.selected_year}  tracking={this.props.tracking}></TopBar></Row> : null}
             </div>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
