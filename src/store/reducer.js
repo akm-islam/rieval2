@@ -8,12 +8,10 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   defualt_models: ["LinearReg"], // Change the pop_over_models as well
-   state_range: [1, 25], // Change in handleradioChange
+   defualt_models: ["LinearReg"], // Change the pop_over_models as well. Set symbols as well
+   state_range: [1, 40], // Change in handleradioChange
    deviate_by: 0,
-   show: [
-      "Slope charts", "Rankings", "Explanation" // change in app.js
-   ],
+   show: ["Slope charts", "Rankings", "Explanation"], // change in app.js
    years_for_dropdown: [
       "2006"
    ],
@@ -35,9 +33,9 @@ let initialState = {
    features_voted: null,
    Legend_ready_to_vis: null,
    legend_model: "CordAscent",
-   legend_show_option: "Rank",
+   legend_show_option: "Model",
    legend_year: 2012,
-   mode: "Range",
+   mode: "Model",
    range_mode_model: "CordAscent",
    range_mode_range1: [1, 25],
    range_mode_range2: [15, 40],
@@ -60,7 +58,8 @@ let initialState = {
    all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
    average_y: false,
    average_m: false,
-   clicked_circles:[]
+   clicked_circles:[],
+   symbolTypes:{"LinearReg":"symbolDiamond"},
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
@@ -100,7 +99,10 @@ const reducer = (state = initialState, action) => {
       return { ...state, lime_data: action.value }
    }
    if (action.type === "defualt_models") {
-      return { ...state, defualt_models: action.value }
+      var all_symbols=["symbolDiamond", "symbolSquare", "symbolStar", "symbolTriangle","symbolCircle", "symbolWye", , "symbolCross"]
+      var symbolTypes={}
+      action.value.map((item,index)=>{symbolTypes[item]=all_symbols[index]})
+      return { ...state, symbolTypes:symbolTypes,defualt_models: action.value }
    }
    if (action.type === "rank_data") {
       return { ...state, rank_data: action.value }

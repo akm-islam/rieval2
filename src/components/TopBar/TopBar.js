@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
   },
   listroot: {
     width: '100%',
-    maxWidth: 360,
   },
   paper: {
   },
@@ -46,8 +45,8 @@ function TopBar(props) {
   }
   return (
     <div>
-    <div><h5 style={{ display: "inline-block", marginLeft: 30 }}>Years:</h5>{props.years_for_dropdown.map(item => <p className={props.selected_years.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
-    <div><h5 style={{ display: "inline-block", marginLeft: 30 }}>Models:</h5>{props.all_models.map(item => <p className={props.defualt_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}<p className="years_p" style={{ display: "inline-block"}} onClick={() => handle_model_click("All")}>All</p> <p className={props.average_m ? "years_p_selected years_p" : "years_p"} style={{ display: "inline-block"}} onClick={() => handle_model_click("Average")}>Average</p></div>
+    <div><p style={{ display: "inline-block",fontWeight:'bold', margin: 0,marginRight:2 }}>Years:</p>{props.years_for_dropdown.map(item => <p className={props.selected_years.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
+    <div style={{marginTop:5}}><p style={{ display: "inline-block",fontWeight:'bold', margin: 0,marginRight:2 }}>Models:</p>{props.all_models.map(item => <p className={props.defualt_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}<p className="years_p" style={{ display: "inline-block"}} onClick={() => handle_model_click("All")}>All</p></div>
     </div>
   );
 }

@@ -1,54 +1,97 @@
-import React, { Component } from 'react';
-import * as d3 from 'd3';
+import React, { Component } from "react";
+import * as d3 from "d3";
 import * as explanation_chart from "../explanation_chart";
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import * as algo1 from "../../../Algorithms/algo1";
-import * as deviation_chart from "../deviation_chart"
-import * as misc_algo from '../misc_algo'
-import * as $ from 'jquery';
-import ModelSlider from './ModelSlider';
+import * as deviation_chart from "../deviation_chart";
+import * as misc_algo from "../misc_algo";
+import * as $ from "jquery";
+import ModelSlider from "./ModelSlider";
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
     this.line_color = null;
-    this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 }
+    this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 };
   }
   componentDidMount() {
-    this.setState({ width: window.innerHeight })
+    console.log("mounted");
+    this.setState({ width: window.innerHeight });
   }
   shouldComponentUpdate(prevProps, prevState) {
     return true;
   }
   componentDidUpdate(prevProps, prevState) {
     // var diverginColor = d3.scaleLinear().domain([this.props.state_range[0], this.props.state_range[1]]).range(['#93003a','#00429d'])
-    var min = this.props.state_range[0], max = this.props.state_range[1];
+    var min = this.props.state_range[0],
+      max = this.props.state_range[1];
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    var number_of_charts = 9
-    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, 18)
+    var diverginColor = d3
+      .scaleLinear()
+      .domain([
+        min + d * 7,
+        min + d * 6,
+        min + d * 5,
+        min + d * 4,
+        min + d * 3,
+        min + d * 2,
+        min,
+      ])
+      .interpolate(d3.interpolateRgb)
+      .range([
+        "#00429d",
+        "#4771b2",
+        "#73a2c6",
+        "#a5d5d8",
+        /*'#ffffe0',*/ "#ffbcaf",
+        "#f4777f",
+        "#cf3759",
+        "#93003a",
+      ]);
+    var selected_instances = d3.range(
+      this.props.state_range[0],
+      this.props.state_range[1] + 1
+    );
+    var number_of_charts = 9;
+    var features_with_score = algo1.features_with_score(
+      this.props.dataset,
+      this.props.defualt_models,
+      this.props.state_range,
+      this.props.selected_year,
+      number_of_charts,
+      this.props.rank_data
+    );
+    var sorted_features = Object.entries(features_with_score)
+      .sort((a, b) => a[1] - b[1])
+      .slice(0, 18);
 
-    deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor,this.props.sparkline_data,this.props.Set_selected_year,this.props.dataset)
-    explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    explanation_chart.CreatexpCircle("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    misc_algo.draw_lines(this.props.clicked_circles, diverginColor, this.props.anim_config, sorted_features)
-    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    deviation_chart.Create_deviation_chart(
+      "dev_plot_container",
+      "exp",
+      selected_instances,
+      this.props.original_data,
+      this.props.defualt_models,
+      this.props.anim_config,
+      this.props.selected_year,
+      this.props.average_m,
+      this.props.clicked_circles,
+      this.props.Set_clicked_circles,
+      diverginColor,
+      this.props.sparkline_data,
+      this.props.Set_selected_year,
+      this.props.dataset,
+      this.props.symbolTypes,
+    );
+    explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features,this.props.symbolTypes)
+    misc_algo.handle_transparency("circle2",this.props.clicked_circles,this.props.anim_config);
   }
   render() {
     return (
-      <Grid container className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", width: "99%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)",width: "100%", height: ($(".slope_chart_exp").height() * 0.7 - 25), overflow: "scroll" }}>
-          <ModelSlider></ModelSlider>
-          <svg id="dev_plot_container" style={{ width: "100%",marginBottom: 10 }}></svg>
-        </Grid>
-        <div style={{ width: "100%", height: "30%" }}>
-          <svg id="mds" style={{ width: "10%", height: "100%" }}></svg>
-          <svg id="exp" style={{ width: "90%", height: "100%" }}></svg>
-        </div>
-      </Grid>
-    )
+      <svg
+        id="dev_plot_container"
+        style={{ width: "100%", marginBottom: 10 }}
+      ></svg>
+    );
   }
 }
 const maptstateToprop = (state) => {
@@ -76,18 +119,23 @@ const maptstateToprop = (state) => {
     features_with_score: state.features_with_score,
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
-    clicked_features: state.clicked_features
-  }
-}
+    clicked_features: state.clicked_features,
+    symbolTypes:state.symbolTypes,
+  };
+};
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
+    Set_clicked_circles: (val) =>
+      dispatch({ type: "clicked_circles", value: val }),
     Set_prev_prop: (val) => dispatch({ type: "prev_prop", value: val }),
-    Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
-    Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
+    Set_sparkline_data: (val) =>
+      dispatch({ type: "sparkline_data", value: val }),
+    Set_clicked_items_in_slopechart: (val) =>
+      dispatch({ type: "clicked_items_in_slopechart", value: val }),
     Set_replay: (val) => dispatch({ type: "replay", value: val }),
-    Set_clicked_features: (val) => dispatch({ type: "clicked_features", value: val }),
+    Set_clicked_features: (val) =>
+      dispatch({ type: "clicked_features", value: val }),
     Set_selected_year: (val) => dispatch({ type: "selected_year", value: val }),
-  }
-}
+  };
+};
 export default connect(maptstateToprop, mapdispatchToprop)(SlopeChart);

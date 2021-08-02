@@ -1,102 +1,182 @@
-$border_color:#eaeaea;
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap');
-@font-face {
-  font-family: 'Open Sans';
-  src: local('Open Sans'), url(./fonts/Open_Sans/OpenSans-Regular.ttf) format('truetype');
+$color1: #f7f7f7;
+$row_gap:1px;
+.app_container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  column-gap: $row_gap;
+  grid-template-columns: 10% 20% 70%;
 }
-
-@font-face {
-    font-family: 'Open Sans';
-    font-weight: 800;
-    src: local('Open Sans'), url(./fonts/Open_Sans/OpenSans-ExtraBold.ttf) format('truetype');
+.sidebar {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  row-gap: $row_gap;
+  grid-template-rows: 130px auto;
+  .div1 {
+    background-color: $color1;
+  }
+  .div2 {
+    background-color: $color1;
+  }
 }
-.row{
-    margin: 0px !important;
-    padding: 0px !important;
+.dev_container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 130px auto;
+  row-gap: $row_gap;
+  
+  .top {
+    background-color: $color1;
+  }
+  .bottom {
+    background-color: $color1;
+  }
 }
-#root{
-    font-family: 'Open Sans', sans-serif;
-}
-.container_header_and_components{
-    padding: 0px !important;
-}
-.myheader{
+.feature_container{
     width: 100%;
-    height: 35px;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin: 0px!important;
-    z-index: 100;
-    border-bottom: 1px solid $border_color;
-}
-.slopechart_container{
-    overflow: scroll;
-  }
-  .slopechart_expl_container{
-      border-bottom: 1px solid $border_color;
-  }
-.load{
-    margin-left: 25px;
-
-}
-.load .MuiFormGroup-root{
-    padding-left: 15px;
-    color: black;
-}
-.load label{
-    margin-bottom: 0px !important;
-}
-
-.load button{
-    margin-top: 15px!important;
-    margin-left: 20px!important;
-    background-color: grey;
-    color: black;
-}
-.load button:hover{
-    background-color: grey;
-    color: white;
-}
-.chart_parent_container1{
-    padding: 0px!important;
-    border: 1px solid $border_color;
-    margin:15px 0px;
-    box-shadow: 0px 0px 2px 1px rgb(153, 153, 153);
-    display: flex;
-    /*align-items: center;*/
+    height: 100%;
+    display: grid;
+    grid-template-rows: 130px auto;
+    row-gap: $row_gap;
+    .top {
+      background-color: $color1;
     }
-.chart_parent_container{
-display: flex;
-justify-content: space-between;
-margin-left: 0px!important;
-margin-top: 0px!important;
-
-}
-.charts{
-margin-bottom: 0.5em;
-padding-left: 5px!important;
-padding-right: 0px!important;
-}
-.label{
-    transform: translate(0,10);
-    margin-top: -5px !important;
-}
-.leftAx{
-    margin: 0px!important;
-    padding: 0px!important;
-    margin: 15px 0px!important;
-}
-.rightAx{
-    margin: 15px 0px!important;
-    padding: 0px!important;
+    .bottom {
+      background-color: $color1;
+    }
 }
 
-.col-md-3-5 {width: 31.16666667%; }
-.col-xl-3-5 { width: 31.16666667%;}
-.col-lg-3-5 { width: 31.16666667%; }
 
-.Legend_container{
-    overflow-y: scroll;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$border_color: #eaeaea;
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap");
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans"),
+    url(./fonts/Open_Sans/OpenSans-Regular.ttf) format("truetype");
 }
-*{
-    font-family: 'Open Sans', sans-serif;
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 800;
+  src: local("Open Sans"),
+    url(./fonts/Open_Sans/OpenSans-ExtraBold.ttf) format("truetype");
+}
+.row {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+#root {
+  font-family: "Open Sans", sans-serif;
+}
+.container_header_and_components {
+  padding: 0px !important;
+}
+.myheader {
+  width: 100%;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0px !important;
+  z-index: 100;
+  border-bottom: 1px solid $border_color;
+}
+.slopechart_container {
+  overflow: scroll;
+}
+.slopechart_expl_container {
+  border-bottom: 1px solid $border_color;
+}
+.load {
+  margin-left: 25px;
+}
+.load .MuiFormGroup-root {
+  padding-left: 15px;
+  color: black;
+}
+.load label {
+  margin-bottom: 0px !important;
+}
+
+.load button {
+  margin-top: 15px !important;
+  margin-left: 20px !important;
+  background-color: grey;
+  color: black;
+}
+.load button:hover {
+  background-color: grey;
+  color: white;
+}
+.chart_parent_container1 {
+  padding: 0px !important;
+  border: 1px solid $border_color;
+  margin: 15px 0px;
+  box-shadow: 0px 0px $row_gap 1px rgb(153, 153, 153);
+  display: flex;
+  /*align-items: center;*/
+}
+.chart_parent_container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0px !important;
+  margin-top: 0px !important;
+}
+.charts {
+  margin-bottom: 0.5em;
+  padding-left: 5px !important;
+  padding-right: 0px !important;
+}
+.label {
+  transform: translate(0, 10);
+  margin-top: -5px !important;
+}
+.leftAx {
+  margin: 0px !important;
+  padding: 0px !important;
+  margin: 15px 0px !important;
+}
+.rightAx {
+  margin: 15px 0px !important;
+  padding: 0px !important;
+}
+
+.col-md-3-5 {
+  width: 31.16666667%;
+}
+.col-xl-3-5 {
+  width: 31.16666667%;
+}
+.col-lg-3-5 {
+  width: 31.16666667%;
+}
+
+.Legend_container {
+  overflow-y: scroll;
+}
+* {
+  font-family: "Open Sans", sans-serif;
 }
