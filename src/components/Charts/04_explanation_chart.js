@@ -8,7 +8,7 @@ export function CreatexpChart(
   var bottom_parent_width = $("#" + parent_id).width() - 5;
   var bottom_parent_height = $("#" + parent_id).height();
   //----------------------------------------------------------------------
-  var top_histogram_width = 50 // This is the width
+  var top_histogram_width = 30 // This is the width
   var feature_total_width = bottom_parent_width / sorted_features.length; // This is the width each svg has to contain all features
   var feature_width = (bottom_parent_width / sorted_features.length) - top_histogram_width; // This is the width to use for the bottom explanation chart
   d3.select("#" + parent_id).selectAll(".features").data(sorted_features).join("svg").attr("class", "features")
