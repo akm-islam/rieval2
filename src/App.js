@@ -15,6 +15,7 @@ import house_lime from "./Data/data/house/lime/house_lime.csv";
 
 //------------------------------------------------All datasets imports ends here
 import "./App.scss";
+import "./components/Charts/Charts.css";
 import * as d3 from "d3";
 import * as algo1 from "./Algorithms/algo1";
 import ModelChart from "./components/Charts/Model/ModelChart";
@@ -98,7 +99,7 @@ class App extends Component {
       self.props.Set_legend_year(years_for_dropdown[0]);
       self.setState({ ref_year: years_for_dropdown[0] });
       self.props.Set_grouped_by_year_data(grouped_by_year_data);
-      self.setState({ grouped_by_year_data: grouped_by_year_data }, () => {});
+      self.setState({ grouped_by_year_data: grouped_by_year_data }, () => { });
       self.setState({ original_data: original_data });
       self.props.Set_original_data(original_data);
       self.props.Set_selected_year(years_for_dropdown[0]);
@@ -142,13 +143,6 @@ class App extends Component {
   componentDidMount() {
     this.dataprocessor("fiscal");
   }
-  componentDidUpdate() {
-    console.log(
-      this.props.mode,
-      this.props.original_data,
-      this.props.lime_data
-    );
-  }
   shouldComponentUpdate() {
     return true;
   }
@@ -165,20 +159,15 @@ class App extends Component {
           </div>
           <div className="bottom">
             {this.props.mode == "Model" &&
-            this.props.original_data != null &&
-            this.props.lime_data != null ? (
+              this.props.original_data != null &&
+              this.props.lime_data != null ? (
               <ModelChart></ModelChart>
             ) : null}
           </div>
         </div>
         <div className="feature_container">
-          <div className="top"></div>
-          <div className="bottom">
-            <svg
-              id="exp"
-              style={{ width: "100%",height:"100%", marginBottom: 10 }}
-            ></svg>
-          </div>
+          <div className="top"><svg id="top_exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
+          <div className="bottom"><svg id="exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
         </div>
       </div>
     );

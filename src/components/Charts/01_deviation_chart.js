@@ -37,4 +37,9 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
 items_g.attr("add_lines_and_circles", function (d) {
   add_lines_and_circles(d3.select(this),data,defualt_models,config,symbolTypes,clicked_circles,Set_clicked_circles,parent_exp_id,diverginColor,circle_radius,d,anim_config,y_distance,parent_width)
 })
+/*
+.on("click", function() {
+  d3.select(this).classed("visible", d3.select(this).classed("visible") ? false : true);
+});
+*/
 }

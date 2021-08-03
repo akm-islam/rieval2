@@ -1,3 +1,6 @@
+.visible{
+  opacity: 1!important;
+}
 .slopechart{
   overflow-y: hidden;
 }

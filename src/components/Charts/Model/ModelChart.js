@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
-import * as explanation_chart from "../explanation_chart";
+import * as explanation_chart from "../04_explanation_chart";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import * as algo1 from "../../../Algorithms/algo1";
-import * as deviation_chart from "../deviation_chart";
+import * as deviation_chart from "../01_deviation_chart";
 import * as misc_algo from "../misc_algo";
 import * as $ from "jquery";
 import ModelSlider from "./ModelSlider";
@@ -15,7 +15,6 @@ class SlopeChart extends Component {
     this.state = { height_slope_exp_chart: 700, mouseX: 0, mouseY: 0 };
   }
   componentDidMount() {
-    console.log("mounted");
     this.setState({ width: window.innerHeight });
   }
   shouldComponentUpdate(prevProps, prevState) {

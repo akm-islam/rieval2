@@ -1,15 +1,13 @@
 import * as d3 from 'd3';
 export function handle_transparency(class_name, clicked_circles, anim_config) {
     if (clicked_circles.length != 0) {
-        d3.selectAll("." + "items").attr('opacity', 0.3) // Circles
-        clicked_circles.map(circle_id => {
-            //d3.selectAll("." + circle_id).attr('opacity', 1) // Groups
-            d3.selectAll("#" + circle_id).attr('opacity', 1) // Circles
+        d3.selectAll("." + "items").attr('opacity', 0.3) // Reduce the opacity of all groups
+        clicked_circles.map(circle_class => {
+            d3.selectAll("." + circle_class).attr('opacity', 1) // Set opacity of 1 for all clicked instances
         })
     }
     else {
         d3.selectAll(".items").attr('opacity', 1); // Groups
-        d3.selectAll("." + "circle2").attr('opacity', 1) // Circles 
     }
 }
 export function draw_lines(clicked_circles, diverginColor) {

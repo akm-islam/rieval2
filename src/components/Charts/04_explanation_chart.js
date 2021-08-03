@@ -1,18 +1,21 @@
 import * as d3 from "d3";
 import * as $ from "jquery";
 import * as misc_algo from "./misc_algo";
-import Create_lasso_circles from "./05_lasso_circle";
+import create_top_explanation_plot from "./05_top_explanation_plot"
 export function CreatexpChart(
   parent_id, selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles,
-  diverginColor, anim_config, clicked_features, Set_clicked_features,symbolTypes) {
-  var parent_width = $("#" + parent_id).width() - 5;
-  var parent_height = $("#" + parent_id).height();
-  var feature_width = parent_width / sorted_features.length;
+  diverginColor, anim_config, clicked_features, Set_clicked_features, symbolTypes) {
+  var bottom_parent_width = $("#" + parent_id).width() - 5;
+  var bottom_parent_height = $("#" + parent_id).height();
+  //----------------------------------------------------------------------
+  var top_histogram_width = 50 // This is the width
+  var feature_total_width = bottom_parent_width / sorted_features.length; // This is the width each svg has to contain all features
+  var feature_width = (bottom_parent_width / sorted_features.length) - top_histogram_width; // This is the width to use for the bottom explanation chart
   d3.select("#" + parent_id).selectAll(".features").data(sorted_features).join("svg").attr("class", "features")
-    .attr("x", (d, i) => feature_width * i).attr("width", feature_width).attr("height", parent_height)
+    .attr("x", (d, i) => feature_total_width * i).attr("width", feature_width).attr("height", bottom_parent_height)
     .attr("add_lines", function (feature_data, i) {
       // font_line_gap=sparkline_width+4
-      var config = {fontSize: 12, font_dy: -6, sparkline_width: 20, font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100,my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100};
+      var config = { fontSize: 12, font_dy: -6, sparkline_width: 20, font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 };
       var y_distance = config.line_stroke_width + 2;
       d3.select(this).selectAll(".items").data(selected_instances).join("g").attr("class", "items").attr("transform", (d, i) => "translate(" + 0 + "," + (8 + i * y_distance) + ")")
         //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,36 +27,44 @@ export function CreatexpChart(
           var current_item = [];
           //var circ_xscale=d3.scaleLinear().domain
           var circ_data = [];
-          defualt_models.map((model_name,model_index) => {
+          defualt_models.map((model_name, model_index) => {
             lime_data[model_name].map((item) => {
               if (item["1-qid"] == selected_year && selected_instances.includes(parseInt(item["two_realRank"]))) {
-                if (current_two_realRank == parseInt(item["two_realRank"])) {current_item.push(item);}
-                item["id"] =parent_id +item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
-                circ_data.push(item);
+                item["id"] = parent_id + item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
+                circ_data.push(item)
+                if (current_two_realRank == parseInt(item["two_realRank"])) { current_item.push(item); }
               }
             });
           });
-           // Draw circle starts here
-           var xScale = d3.scaleLinear().domain([0,d3.max(circ_data.map((item) =>parseFloat(item[feature_contrib_name])))]).range([5, feature_width - 7]);
-           // ---------------------------------------------------------------------------------Add symbols
-           var symbolGenerator = d3.symbol().size(30);
-           d3.select(this).selectAll("."+"symbols").data(current_item).join("g")
-           .attr('class',d=>"symbols circle2 "+d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
-             .attr("transform", function (d, i) {
-               // make a transformation algorithm to scale modelwise
-               var x_transform = 5
-               if (parseFloat(d[feature_contrib_name]) > 0) {
-                 x_transform = xScale(parseFloat(d[feature_contrib_name]))
-               }
-               return "translate(" + x_transform + "," + 0 + ")";
-             })
-             .attr("Add_symbol", function (d, i) {
-               d3.select(this).selectAll("path").data([0]).join("path").attr("d", function () {symbolGenerator.type(d3[symbolTypes[d['model']]]);return symbolGenerator();})
-                 .attr("fill", d => diverginColor(current_two_realRank));
-             });
+          // Draw circle starts here
+          var xScale = d3.scaleLinear().domain([0, d3.max(circ_data.map((item) => parseFloat(item[feature_contrib_name])))]).range([5, feature_width - 7]);
+          // ---------------------------------------------------------------------------------Add symbols
+          var symbolGenerator = d3.symbol().size(30);
+          d3.select(this).selectAll("." + "symbols").data(current_item).join("g")
+            .attr('class', d => "symbols circle2 " + d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
+            .attr("transform", function (d, i) {
+              // make a transformation algorithm to scale modelwise
+              var x_transform = 5
+              if (parseFloat(d[feature_contrib_name]) > 0) {
+                x_transform = xScale(parseFloat(d[feature_contrib_name]))
+              }
+              return "translate(" + x_transform + "," + 0 + ")";
+            })
+            .attr("Add_symbol", function (d, i) {
+              d3.select(this).selectAll("path").data([0]).join("path").attr("d", function () { symbolGenerator.type(d3[symbolTypes[d['model']]]); return symbolGenerator(); })
+                .attr("fill", d => diverginColor(current_two_realRank));
+            })
+            .attr("add_parent_id", function (d) {
+              d3.select(this.parentNode).classed(d['id'], true)
+            });
           //-----
         });
     });
+  //----------------------------------------------------------------------
+  create_top_explanation_plot("top_exp", selected_instances, sorted_features, lime_data, selected_year, defualt_models, 
+    clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features, feature_total_width, 
+    feature_width,top_histogram_width)
+
 }
 
 
@@ -110,11 +121,11 @@ export function CreatexpCircle(
     item_left_margin: 25,
     item_right_margin: 3,
   };
-  var parent_width = $("#" + parent_id).width() - margin.item_left_margin;
-  var parent_height = $("#" + parent_id).height() - margin.item_top_margin * 2;
+  var bottom_parent_width = $("#" + parent_id).width() - margin.item_left_margin;
+  var bottom_parent_height = $("#" + parent_id).height() - margin.item_top_margin * 2;
   var item_width =
-    parent_width / sorted_features.length - margin.item_right_margin;
-  var item_height = parent_height;
+    bottom_parent_width / sorted_features.length - margin.item_right_margin;
+  var item_height = bottom_parent_height;
   sorted_features.map((d, svg_index) => {
     var x_transformation =
       margin.item_left_margin +

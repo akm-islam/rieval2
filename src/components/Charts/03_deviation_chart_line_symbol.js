@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-import * as $ from 'jquery';
 export default function add_lines_and_circles(selection,data,defualt_models,config,symbolTypes,clicked_circles,Set_clicked_circles,parent_exp_id,diverginColor,circle_radius,d,anim_config,y_distance,parent_width){
   var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
   var line_data = []
@@ -61,6 +60,9 @@ export default function add_lines_and_circles(selection,data,defualt_models,conf
     .attr("Add_symbol", function (d, i) {
       d3.select(this).selectAll("path").data([0]).join("path").attr("d", function () {symbolGenerator.type(d3[symbolTypes[d['model']]]);return symbolGenerator();})
         .attr("fill", () => diverginColor(d["two_realRank"]));
+    })
+    .attr("add_parent_id",function(d){
+      d3.select(this.parentNode).classed(d['id'],true)
     });
  //-----
  mysymbs.attr("parent_id", parent_exp_id)
