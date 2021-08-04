@@ -1,18 +1,18 @@
 import * as d3 from "d3";
 import * as $ from "jquery";
 import * as misc_algo from "./misc_algo";
-import create_top_explanation_plot from "./05_top_explanation_plot"
+import create_top_explanation_plot from "./05_00_top_explanation_plot"
 export function CreatexpChart(
   parent_id, selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles,
   diverginColor, anim_config, clicked_features, Set_clicked_features, symbolTypes) {
   var bottom_parent_width = $("#" + parent_id).width() - 5;
   var bottom_parent_height = $("#" + parent_id).height();
   //----------------------------------------------------------------------
-  var top_histogram_width = 30 // This is the width
+  var top_histogram_width = 20 // This is the width
   var feature_total_width = bottom_parent_width / sorted_features.length; // This is the width each svg has to contain all features
   var feature_width = (bottom_parent_width / sorted_features.length) - top_histogram_width; // This is the width to use for the bottom explanation chart
   d3.select("#" + parent_id).selectAll(".features").data(sorted_features).join("svg").attr("class", "features")
-    .attr("x", (d, i) => feature_total_width * i).attr("width", feature_width).attr("height", bottom_parent_height)
+    .attr("x", (d, i) => top_histogram_width + feature_total_width * i).attr("width", feature_width).attr("height", bottom_parent_height)
     .attr("add_lines", function (feature_data, i) {
       // font_line_gap=sparkline_width+4
       var config = { fontSize: 12, font_dy: -6, sparkline_width: 20, font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10, left_margin: 100 };
