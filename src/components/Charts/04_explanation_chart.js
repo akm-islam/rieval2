@@ -22,7 +22,7 @@ export function CreatexpChart(
         .attr("add_lines_and_circles", function (current_two_realRank, i) {
           var feature_contrib_name = feature_data[0] + "_contribution";
           d3.select(this).selectAll("line").data([current_two_realRank]).join("line")
-            .attr("x1", 0).attr("x2", feature_width - 2).attr("y1", 0).attr("y2", (d) => 0).attr("stroke-width", config.line_stroke_width).attr("stroke", "#CECECE");
+            .attr("x1", 0).attr("x2", feature_width - 2).attr("y1", 0).attr("y2", (d) => 0).attr("stroke-width", 2).attr("stroke", "#CECECE");
           //----------------------------------------------------Add circles
           var current_item = [];
           //var circ_xscale=d3.scaleLinear().domain

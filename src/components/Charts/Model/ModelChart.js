@@ -60,9 +60,7 @@ class SlopeChart extends Component {
       number_of_charts,
       this.props.rank_data
     );
-    var sorted_features = Object.entries(features_with_score)
-      .sort((a, b) => a[1] - b[1])
-      .slice(0, 18);
+    var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts);
 
     deviation_chart.Create_deviation_chart(
       "dev_plot_container",

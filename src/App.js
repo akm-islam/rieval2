@@ -34,6 +34,7 @@ import * as $ from "jquery";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import "./components/Charts/Charts.css";
+import { Hidden } from "@material-ui/core";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -148,10 +149,35 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="app_container">
+      <div className="root_container">
+        <div className="uploader_topbar">
+              <Grid container spacing={0} className="myheader" style={{ left: $('.Sidebar').width(),overflow:"hidden" }}>
+                <Grid item> <h4 className="app_title">RIEVAL </h4></Grid>
+                <Grid item style={{ marginLeft: 100,borderRight: "1px dashed #eaeaea", width: 100 }}><Button onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button></Grid>
+                <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 120 }}><Button onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button></Grid>
+              </Grid>
+              {this.state.view_data == false ?
+                <Row className="Topbar_container">
+                  <div className="load">
+                    <form onSubmit={() => this.buttonclickHandler(1, "form")}>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend"></FormLabel>
+                        <RadioGroup aria-label="gender" name="gender1" onChange={this.handleradioChange}>
+                          {['Fiscal Dataset', 'School Dataset','House Dataset'].map((value) => {
+                            return <FormControlLabel value={value} control={<Radio />} label={value} />
+                          })}
+                        </RadioGroup>
+                        <Button type="submit" variant="outlined" color="primary">Load</Button>
+                      </FormControl>
+                    </form>
+                  </div></Row>
+                : null}
+        
+        </div>
+        {this.state.view_data != false ?
+        <div className="app_container">
         <div className="sidebar">
-          <div className="div1"></div>
-          <div className="div2"></div>
+          <div className="div2 Sidebar"><Sidebar></Sidebar></div>
         </div>
         <div className="dev_container">
           <div className="top">
@@ -169,6 +195,7 @@ class App extends Component {
           <div className="top"><svg id="top_exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
           <div className="bottom"><svg id="exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
         </div>
+      </div>:null}
       </div>
     );
   }

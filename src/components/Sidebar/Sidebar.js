@@ -7,6 +7,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import { connect } from "react-redux";
 import Modes from "./Modes"
+import CreatexpChart from "./Create_model_symbols"
+import * as $ from "jquery";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Sidebar(props) {
+  CreatexpChart(props.defualt_models,props.symbolTypes)
   const classes = useStyles();
   //------------For list and chckbox
   const [checked, setChecked] = React.useState([0]);
@@ -54,7 +57,6 @@ function Sidebar(props) {
   }
   return (
     <div className="Sidebar_parent" style={{height:window.innerHeight}}>
-      <h4 className="app_title">RIEVAL </h4>
       {props.view_data==1?
       <div className="rangeSlidercontainer">
         <Modes appHandleChange={props.appHandleChange} ></Modes>
@@ -70,7 +72,38 @@ function Sidebar(props) {
             style={{height:24}}
           />
         </div>
+        <div className="show">
+          <p className="title_show">Show:</p>
+          <List className={classes.listroot}>
+            {['Rankings', 'Explanation'].map((value) => {
+              const labelId = `checkbox-list-label-${value}`;
+              return (
+                <ListItem key={value} role={undefined} onClick={handleToggle(value)}>
+                  <Checkbox
+                    checked={props.show.includes(value)}
+                    edge="start"
+                    tabIndex={-1}
+                    value={value}
+                    onChange={(event, value) => {
+                      var temp_show=[...props.show]
+                      if(temp_show.includes(event.target.value) && event.target.value!="Rankings"){
+                        temp_show=temp_show.filter(item=>item!=event.target.value)
+                      }
+                      else{
+                        temp_show.push(event.target.value)
+                      }
+                      props.Set_show(temp_show)
+                    }
+                  }
+                  />
+                  <p className="list_item_label" id={labelId}>{value}</p>
+                </ListItem>
+              );
+            })}
+          </List>
+        </div>
       </div>:null}
+      <div style={{width:"100%",padding:3,borderTop:"1px solid #bfbbbb"}}><svg className="symbols_container" style={{width:"100%"}}></svg></div>
     </div>
   );
 }
@@ -82,6 +115,8 @@ const maptstateToprop = (state) => {
     selected_year:state.selected_year,
     sparkline_data:state.sparkline_data,
     show:state.show,
+    view_data:state.view_data,
+    symbolTypes:state.symbolTypes,
   }
 }
 const mapdispatchToprop = (dispatch) => {
@@ -99,8 +134,3 @@ const mapdispatchToprop = (dispatch) => {
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(Sidebar);
-
-//https://material-ui.com/api/slider/
-//https://material-ui.com/components/expansion-panels/
-//https://material-ui.com/api/checkbox/
-//https://material-ui.com/components/radio-buttons/
