@@ -40,7 +40,7 @@ export function CreatexpChart(
           var xScale = d3.scaleLinear().domain([0, d3.max(circ_data.map((item) => parseFloat(item[feature_contrib_name])))]).range([5, feature_width - 7]);
           // ---------------------------------------------------------------------------------Add symbols
           var symbolGenerator = d3.symbol().size(30);
-          d3.select(this).selectAll("." + "symbols").data(current_item).join("g")
+          d3.select(this).selectAll("." + "symbols").data(current_item).join("g").transition().duration(0)
             .attr('class', d => "symbols circle2 " + d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
             .attr("transform", function (d, i) {
               // make a transformation algorithm to scale modelwise
@@ -63,7 +63,7 @@ export function CreatexpChart(
   //----------------------------------------------------------------------
   create_top_explanation_plot("top_exp", selected_instances, sorted_features, lime_data, selected_year, defualt_models, 
     clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features, feature_total_width, 
-    feature_width,top_histogram_width)
+    feature_width,top_histogram_width,symbolTypes)
 
 }
 

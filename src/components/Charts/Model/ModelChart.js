@@ -37,20 +37,8 @@ class SlopeChart extends Component {
         min,
       ])
       .interpolate(d3.interpolateRgb)
-      .range([
-        "#00429d",
-        "#4771b2",
-        "#73a2c6",
-        "#a5d5d8",
-        /*'#ffffe0',*/ "#ffbcaf",
-        "#f4777f",
-        "#cf3759",
-        "#93003a",
-      ]);
-    var selected_instances = d3.range(
-      this.props.state_range[0],
-      this.props.state_range[1] + 1
-    );
+      .range(["#00429d", "#4771b2", "#73a2c6", "#a5d5d8", "#ffbcaf", "#f4777f", "#cf3759", "#93003a"]);
+    var selected_instances = d3.range(this.props.state_range[0],this.props.state_range[1] + 1);
     var number_of_charts = 9;
     var features_with_score = algo1.features_with_score(
       this.props.dataset,
@@ -79,15 +67,12 @@ class SlopeChart extends Component {
       this.props.dataset,
       this.props.symbolTypes,
     );
-    explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features,this.props.symbolTypes)
-    misc_algo.handle_transparency("circle2",this.props.clicked_circles,this.props.anim_config);
+    explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features, this.props.symbolTypes)
+    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config);
   }
   render() {
     return (
-      <svg
-        id="dev_plot_container"
-        style={{ width: "100%", marginBottom: 10 }}
-      ></svg>
+    <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
     );
   }
 }
@@ -117,7 +102,7 @@ const maptstateToprop = (state) => {
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
     clicked_features: state.clicked_features,
-    symbolTypes:state.symbolTypes,
+    symbolTypes: state.symbolTypes,
   };
 };
 const mapdispatchToprop = (dispatch) => {
