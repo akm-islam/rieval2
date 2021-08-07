@@ -49,7 +49,7 @@ export default function add_lines_and_circles(selection,data,defualt_models,conf
 
   var symbolGenerator = d3.symbol().size(30);
   var mysymbs=selection.selectAll("."+"symbols").data(circ_data).join("g")
-  .attr('class',d=>"symbols circle2 "+d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
+  .attr('class',d=>d["id"]+" symbols circle ")
     .attr("transform", function (d2, i) {
       // make a transformation algorithm to scale modelwise
       var x_transform = 5

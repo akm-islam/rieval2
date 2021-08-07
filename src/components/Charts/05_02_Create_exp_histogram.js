@@ -3,7 +3,7 @@ export default function CreatexpHistogram(d, selection, selected_instances, sort
     var margin = { item_top_margin: 6, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var item_width = d3.select("#svg2").attr("width")
     var item_height = d3.select("#svg2").attr("height")
-    
+    var y_axis_x_transform=feature_width+8
     var feature_name = d[0]
     defualt_models.map(model => {
         var hist_data = []
@@ -25,8 +25,6 @@ export default function CreatexpHistogram(d, selection, selected_instances, sort
         var bins = histogram(hist_data);
         var x = d3.scaleLinear().domain([0, d3.max(bins.map(item => item.length))])
         .range([0, item_width])
-
-        //console.log(d[0],bins, hist_data)
         // append the bar rectangles to the svg element
         selection.selectAll("rect")
             .data(bins)
@@ -45,6 +43,10 @@ export default function CreatexpHistogram(d, selection, selected_instances, sort
                 d3.select(this.parentNode).selectAll(".my_vertical_lines").data([0]).join('line').attr("class","my_vertical_lines").attr("transform","translate("+top_histogram_width+",0)")
                 .attr("y1",0).attr("y2",item_height).attr("x1",feature_width/2).attr("x2",feature_width/2).attr('stroke-width', 0.5).attr("stroke", "#bababa")
             })
+    //-------------- Add right axis
+            selection.selectAll(".axisRight").data([0]).join("g").attr("class","axisRight").attr("transform","translate("+y_axis_x_transform+",0)").call(d3.axisRight(y).ticks(3).tickFormat(d3.format(".1s")))
+        .attr("remove",function(){d3.select(this).selectAll(".domain").remove();d3.select(this).selectAll("line").remove();d3.select(this).selectAll("text").attr("font-size",9)})
+        
     })
 
 }

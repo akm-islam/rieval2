@@ -12,17 +12,18 @@ export default function create_top_explanation_plot(parent_id, selected_instance
         .attr("add_feature_name",function(d,i){
             d3.select("#" + parent_id).selectAll(".feature_name"+i).data([0]).join("text").attr("class","feature_name"+i).attr("x", (d) => 10+feature_total_width * i).attr("dominant-baseline","hanging").attr("font-size",12).text(d[0].length>15?d[0].slice(0,15)+"..":d[0])
         })
-        .attr("svg2_add_feature_hist",function(d){
-            d3.select(this).selectAll("#svg2").data([0]).join("g").attr('id','svg2').attr("transform","translate("+0+","+"0)" ).attr("width", top_histogram_width).attr("height", top_parent_height)
-            .attr("add_exp_circles",function(){
-                CreatexpHistogram(d,d3.select(this), selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features,top_histogram_width,feature_width)
-            })
-        })
-        .attr("svg1_add_feature_exp",function(d){
+        .attr("svg2",function(d){
             d3.select(this).selectAll("#svg1").data([0]).join("svg").attr('id','svg1').attr("x", top_histogram_width).attr("width", feature_width).attr("height", top_parent_height)
             .attr("add_exp_circles",function(){
                 CreatexpCircle(d,d3.select(this), selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features,symbolTypes)
             })
         })
+        .attr("svg1",function(d){
+            d3.select(this).selectAll("#svg2").data([0]).join("g").attr('id','svg2').attr("transform","translate("+0+","+"0)" ).attr("width", top_histogram_width).attr("height", top_parent_height)
+            .attr("add_exp_circles",function(){
+                CreatexpHistogram(d,d3.select(this), selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features,top_histogram_width,feature_width)
+            })
+        })
+
 
 }

@@ -7,10 +7,11 @@ export function CreatexpChart(
   diverginColor, anim_config, clicked_features, Set_clicked_features, symbolTypes) {
   var bottom_parent_width = $("#" + parent_id).width() - 5;
   var bottom_parent_height = $("#" + parent_id).height();
+  var space_for_right_y_axis=20
   //----------------------------------------------------------------------
   var top_histogram_width = 20 // This is the width
   var feature_total_width = bottom_parent_width / sorted_features.length; // This is the width each svg has to contain all features
-  var feature_width = (bottom_parent_width / sorted_features.length) - top_histogram_width; // This is the width to use for the bottom explanation chart
+  var feature_width = (bottom_parent_width / sorted_features.length) - (top_histogram_width+space_for_right_y_axis); // This is the width to use for the bottom explanation chart
   d3.select("#" + parent_id).selectAll(".features").data(sorted_features).join("svg").attr("class", "features")
     .attr("x", (d, i) => top_histogram_width + feature_total_width * i).attr("width", feature_width).attr("height", bottom_parent_height)
     .attr("add_lines", function (feature_data, i) {
@@ -30,7 +31,7 @@ export function CreatexpChart(
           defualt_models.map((model_name, model_index) => {
             lime_data[model_name].map((item) => {
               if (item["1-qid"] == selected_year && selected_instances.includes(parseInt(item["two_realRank"]))) {
-                item["id"] = parent_id + item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
+                item["id"] = item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
                 circ_data.push(item)
                 if (current_two_realRank == parseInt(item["two_realRank"])) { current_item.push(item); }
               }
@@ -40,7 +41,7 @@ export function CreatexpChart(
           var xScale = d3.scaleLinear().domain([0, d3.max(circ_data.map((item) => parseFloat(item[feature_contrib_name])))]).range([5, feature_width - 7]);
           // ---------------------------------------------------------------------------------Add symbols
           var symbolGenerator = d3.symbol().size(30);
-          d3.select(this).selectAll("." + "symbols").data(current_item).join("g").transition().duration(0)
+          d3.select(this).selectAll("." + "symbols").data(current_item).join("g")//.transition().duration(0)
             .attr('class', d => "symbols circle2 " + d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
             .attr("transform", function (d, i) {
               // make a transformation algorithm to scale modelwise
@@ -51,14 +52,15 @@ export function CreatexpChart(
               return "translate(" + x_transform + "," + 0 + ")";
             })
             .attr("Add_symbol", function (d, i) {
+              d3.select(this.parentNode).classed(d['id'],true)
               d3.select(this).selectAll("path").data([0]).join("path").attr("d", function () { symbolGenerator.type(d3[symbolTypes[d['model']]]); return symbolGenerator(); })
                 .attr("fill", d => diverginColor(current_two_realRank));
             })
-            .attr("add_parent_id", function (d) {
-              d3.select(this.parentNode).classed(d['id'], true)
-            });
+            .on('click', d => {
+              Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
+          })
           //-----
-        });
+        })
     });
   //----------------------------------------------------------------------
   create_top_explanation_plot("top_exp", selected_instances, sorted_features, lime_data, selected_year, defualt_models, 
