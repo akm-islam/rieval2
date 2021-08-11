@@ -42,14 +42,8 @@ $row_gap:1px;
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-rows: 130px auto;
+    grid-template-rows: auto;
     row-gap: $row_gap;
-    .top {
-      background-color: $color1;
-    }
-    .bottom {
-      background-color: $color1;
-    }
 }
 .load{
   margin-left: 330px!important;

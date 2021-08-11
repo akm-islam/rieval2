@@ -24,7 +24,15 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
 
 //-------------------------------------------------- Add state
   items_g.attr("add_state", function (d) {
-    d3.select(this).selectAll("text").data([d]).join('text').text(d['State'] + " " + d['two_realRank']).attr('fill', d => diverginColor(d['two_realRank'])).attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
+    d3.select(this).selectAll("text").data([d]).join('text')
+    .text(dd=>{
+      var max_textsize=10
+      var val = d['State']
+          if (val.length > max_textsize) { val = val.replace("University", "U") }
+          if(val.length > max_textsize){val = val.substring(0, max_textsize)+".."}
+          return val + " " + d['two_realRank'] 
+    })
+    .attr('fill', d => diverginColor(d['two_realRank'])).attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
       .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
   })
 

@@ -59,7 +59,7 @@ let initialState = {
    average_y: false,
    average_m: false,
    clicked_circles:[],
-   symbolTypes:{"LinearReg":"symbolDiamond"},
+   symbolTypes:{"LinearReg":"symbolCircle"},
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
@@ -99,7 +99,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, lime_data: action.value }
    }
    if (action.type === "defualt_models") {
-      var all_symbols=["symbolDiamond", "symbolSquare", "symbolStar", "symbolTriangle","symbolCircle", "symbolWye", , "symbolCross"]
+      //var all_symbols=["symbolDiamond", "symbolSquare", "symbolStar", "symbolTriangle","symbolCircle", "symbolWye", , "symbolCross"]
+      var all_symbols=["symbolCircle", "symbolCircle", "symbolCircle", "symbolCircle","symbolCircle", "symbolCircle", , "symbolCircle"]
       var symbolTypes={}
       action.value.map((item,index)=>{symbolTypes[item]=all_symbols[index]})
       return { ...state, symbolTypes:symbolTypes,defualt_models: action.value }

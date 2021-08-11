@@ -42,12 +42,12 @@ export default function add_lines_and_circles(selection,data,defualt_models,conf
       a['predicted_rank'] = parseInt(item[model_name])
       a["model"] = model_name
       a['year'] = item['1-qid']
-      a['id'] =item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+      a['id'] ="A"+item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
       circ_data.push(a)
     })
   })
 
-  var symbolGenerator = d3.symbol().size(30);
+  var symbolGenerator = d3.symbol().size(50);
   var mysymbs=selection.selectAll("."+"symbols").data(circ_data).join("g")
   .attr('class',d=>d["id"]+" symbols circle ")
     .attr("transform", function (d2, i) {

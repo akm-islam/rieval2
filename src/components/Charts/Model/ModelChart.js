@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import * as explanation_chart from "../04_explanation_chart";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
 import * as algo1 from "../../../Algorithms/algo1";
 import * as deviation_chart from "../01_deviation_chart";
 import * as misc_algo from "../misc_algo";
 import * as $ from "jquery";
-import ModelSlider from "./ModelSlider";
+import Create_exp_parents from "../ExpCharts/Parent"
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -25,54 +24,24 @@ class SlopeChart extends Component {
     var min = this.props.state_range[0],
       max = this.props.state_range[1];
     var d = (max - min) / 8;
-    var diverginColor = d3
-      .scaleLinear()
-      .domain([
-        min + d * 7,
-        min + d * 6,
-        min + d * 5,
-        min + d * 4,
-        min + d * 3,
-        min + d * 2,
-        min,
-      ])
-      .interpolate(d3.interpolateRgb)
-      .range(["#00429d", "#4771b2", "#73a2c6", "#a5d5d8", "#ffbcaf", "#f4777f", "#cf3759", "#93003a"]);
-    var selected_instances = d3.range(this.props.state_range[0],this.props.state_range[1] + 1);
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min])
+      .interpolate(d3.interpolateRgb).range(["#00429d", "#4771b2", "#73a2c6", "#a5d5d8", "#ffbcaf", "#f4777f", "#cf3759", "#93003a"]);
+    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1);
     var number_of_charts = 9;
-    var features_with_score = algo1.features_with_score(
-      this.props.dataset,
-      this.props.defualt_models,
-      this.props.state_range,
-      this.props.selected_year,
-      number_of_charts,
-      this.props.rank_data
-    );
+    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.state_range, this.props.selected_year, number_of_charts, this.props.rank_data);
     var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts);
 
-    deviation_chart.Create_deviation_chart(
-      "dev_plot_container",
-      "exp",
-      selected_instances,
-      this.props.original_data,
-      this.props.defualt_models,
-      this.props.anim_config,
-      this.props.selected_year,
-      this.props.average_m,
-      this.props.clicked_circles,
-      this.props.Set_clicked_circles,
-      diverginColor,
-      this.props.sparkline_data,
-      this.props.Set_selected_year,
-      this.props.dataset,
-      this.props.symbolTypes,
-    );
+    //-------------------------
+    Create_exp_parents(selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features, this.props.symbolTypes)
+    deviation_chart.Create_deviation_chart("dev_plot_container", "exp", selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.symbolTypes);
     explanation_chart.CreatexpChart("exp", selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features, this.props.symbolTypes)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config);
+    //-------------------------
+
   }
   render() {
     return (
-    <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
+      <svg id="dev_plot_container" style={{ width: "100%", marginBottom: 10 }}></svg>
     );
   }
 }

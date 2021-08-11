@@ -23,7 +23,7 @@ export function CreatexpChart(
         .attr("add_lines_and_circles", function (current_two_realRank, i) {
           var feature_contrib_name = feature_data[0] + "_contribution";
           d3.select(this).selectAll("line").data([current_two_realRank]).join("line")
-            .attr("x1", 0).attr("x2", feature_width - 2).attr("y1", 0).attr("y2", (d) => 0).attr("stroke-width", 2).attr("stroke", "#CECECE");
+            .attr("x1", 0).attr("x2", feature_width - 2).attr("y1", 0).attr("y2", (d) => 0).attr("stroke-width", 0.7).attr("stroke", "#CECECE");
           //----------------------------------------------------Add circles
           var current_item = [];
           //var circ_xscale=d3.scaleLinear().domain
@@ -31,7 +31,7 @@ export function CreatexpChart(
           defualt_models.map((model_name, model_index) => {
             lime_data[model_name].map((item) => {
               if (item["1-qid"] == selected_year && selected_instances.includes(parseInt(item["two_realRank"]))) {
-                item["id"] = item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
+                item["id"] = "A"+item["State"].replace(/ /g, "").replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, "").replace(/[^a-zA-Z ]/g, "");
                 circ_data.push(item)
                 if (current_two_realRank == parseInt(item["two_realRank"])) { current_item.push(item); }
               }
@@ -40,7 +40,7 @@ export function CreatexpChart(
           // Draw circle starts here
           var xScale = d3.scaleLinear().domain([0, d3.max(circ_data.map((item) => parseFloat(item[feature_contrib_name])))]).range([5, feature_width - 7]);
           // ---------------------------------------------------------------------------------Add symbols
-          var symbolGenerator = d3.symbol().size(30);
+          var symbolGenerator = d3.symbol().size(50);
           d3.select(this).selectAll("." + "symbols").data(current_item).join("g")//.transition().duration(0)
             .attr('class', d => "symbols circle2 " + d['model'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, ""))
             .attr("transform", function (d, i) {

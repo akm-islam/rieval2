@@ -1,8 +1,9 @@
 import * as d3 from "d3";
-export default function CreatexpCircle(d, selection, selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features,symbolTypes) {
-    var margin = { item_top_margin: 6,item_bottom_margin:6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
-    var item_width = d3.select("#svg1").attr("width")
-    var item_height = d3.select("#svg1").attr("height")
+export default function CreateTop_exp_Circle(Topmargin,d, temp_selection, selected_instances, sorted_features, lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, clicked_features, Set_clicked_features,symbolTypes,histogram_space_on_left,feature_width,dev_top_h) {
+    var margin =Topmargin
+    var selection=temp_selection.selectAll(".Top_exp_circle_g").data([0]).join("g").attr("class","Top_exp_circle_g").attr("transform","translate("+histogram_space_on_left+","+margin.item_top_margin+")")
+    var item_width = feature_width
+    var item_height = dev_top_h-(margin.item_top_margin+margin.item_bottom_margin)
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
     var symbolGenerator = d3.symbol().size(50);
@@ -16,7 +17,7 @@ export default function CreatexpCircle(d, selection, selected_instances, sorted_
         })})
         // Draw circle starts here
         var yScale = d3.scaleLinear().domain([d3.min(circ_data.map(item => parseFloat(item[d[0]]))), d3.max(circ_data.map(item => parseFloat(item[d[0]])))])
-            .range([margin.item_top_margin, item_height-margin.item_bottom_margin])
+            .range([margin.circ_radius, item_height-(margin.item_bottom_margin+margin.circ_radius)])
         var xScale = d3.scaleLinear().domain([d3.min(circ_data.map(item => parseFloat(item[feature_contrib_name]))), d3.max(circ_data.map(item => parseFloat(item[feature_contrib_name])))])
             .range([margin.item_left_margin, item_width - margin.item_right_margin])
 

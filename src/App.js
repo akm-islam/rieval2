@@ -180,7 +180,7 @@ class App extends Component {
           <div className="div2 Sidebar"><Sidebar></Sidebar></div>
         </div>
         <div className="dev_container">
-          <div className="top">
+          <div className="top dev_top">
             <TopBar></TopBar>
           </div>
           <div className="bottom">
@@ -192,8 +192,13 @@ class App extends Component {
           </div>
         </div>
         <div className="feature_container">
+          <svg className="feature_container_svg" style={{width:"100%",height:"100%"}}></svg>
+          {
+            /*
           <div className="top"><svg id="top_exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
           <div className="bottom"><svg id="exp" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg></div>
+            */
+          }
         </div>
       </div>:null}
       </div>
