@@ -1,0 +1,1 @@
+default models are coming from SlopeChart,Range chart and year chart and they are used to as dropdown.

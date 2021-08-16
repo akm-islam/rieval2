@@ -33,6 +33,7 @@ import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import "./components/Charts/Charts.css"
+import Popover from './components/Popover/Popover';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -196,11 +197,10 @@ class App extends Component {
                     </form>
                   </div></Row>
                 : null}
-              {this.state.view_data == true ? <Row className="Topbar_container"><TopBar key={this.props.selected_year}  tracking={this.props.tracking}></TopBar></Row> : null}
             </div>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
-                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - $('.uploader_topbar').height() - 5, marginLeft: 5, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
+                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - $('.uploader_topbar').height(), width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                   {this.props.mode == "Range" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
@@ -208,6 +208,7 @@ class App extends Component {
               </Grid> : null}
           </Col>
         </Row>
+        <Popover></Popover>
       </div>
     );
   }

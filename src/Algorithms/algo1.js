@@ -14,7 +14,6 @@ export function groupby_year(original_data) {
   return { years: years, sparkline_data: sparkline_data };
 }
 export function features_with_score(dataset, models, state_range, selected_year, number_of_charts, rank_data) {
-  console.log("state_range",state_range)
   var temp1 = {}
   var temp_final = {}
   models.map(model => {
@@ -52,7 +51,6 @@ export function sorted_features(dataset, model, state_range, selected_year,rank_
   if (model == "ListNet") { return [] }
   var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
   data = state_range.map(index => data2[index])
-  console.log('feautures',data2,selected_year)
   feautures = Object.keys(data[0])
 
   data.map(item => {

@@ -2,8 +2,6 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import Create_sparkline from "./Sparkline"
 export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
-  console.log(threshold)
-
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
@@ -77,21 +75,12 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
           a['predicted_rank'] = parseInt(item[model_name])
           a["model"] = model_name
           a['year'] = item['1-qid']
-          a['id'] =parent_exp_id+item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          a['id'] =item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           circ_data.push(a)
         })
       })
-      if (average) {
-        var avg = d3.mean(circ_data.map(item => item['predicted_rank']))
-        circ_data = circ_data.map(item => {
-          item['predicted_rank'] = avg
-          item['model'] = "Average"
-          item['year'] = "Average"
-          return item;
-        })
-      }
-      var my_circs = d3.select(this).selectAll(".circle2").data(circ_data, d => d['id']).join(
-        enter => enter.append("circle").attr('id', d => d['id']).attr('class', 'circle2').attr("cx", (d2, i) => {
+      var my_circs = d3.select(this).selectAll(".my_circles").data(circ_data, d => d['id']).join(
+        enter => enter.append("circle").attr('id', d => d['id']).attr('class', 'my_circles').attr("cx", (d2, i) => {
           d3.select(this).classed(d2['id'], true)
           if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))

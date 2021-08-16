@@ -65,8 +65,7 @@ function Sidebar(props) {
             </HistogramContainer>
           </div> : null}
         </div> : null}
-        <p style={{margin:0,marginTop:20,marginLeft:"30%",fontWeight:"bold"}}>MDS Plot</p>
-        <svg id="mds" style={{margin:5, width: "95%", height: 200 }}></svg>
+       
     </div>
   );
 }

@@ -8,7 +8,7 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   defualt_models: ["LinearReg"], // Change the pop_over_models as well
+   defualt_models: ["LinearReg","CordAscent"], // Change the pop_over_models as well
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
@@ -51,7 +51,7 @@ let initialState = {
    replay: false,
    changed: "year",
    popup_chart_data: null,
-   pop_over: true,
+   pop_over: false,
    pop_over_models: ["MART", "LinearReg"],
    clicked_features: [],
    drag_drop_feautre_data: {},
@@ -61,7 +61,7 @@ let initialState = {
    average_y: false,
    average_m: false,
    clicked_circles:[],
-   threshold:10,
+   threshold:100,
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {

@@ -98,28 +98,7 @@ $border_color:#eaeaea;
     }
 }
 /* -------- slider label container/thumb label  */
-.rangeslider{
-    color: grey!important;
-    margin-top: 0px;
-    .MuiSlider-valueLabel{
-        color:transparent !important;
-        span:nth-child(1)>span {
-            top:-10;
-            color:black !important;    
-            }
-    }
-    /* slider line */
-    .MuiSlider-colorPrimary{
-        color: $icon_color !important;
-    }
-    .MuiSvgIcon-root{
-        color: rgb(104, 103, 103) !important; 
-        }
-    .MuiSlider-markLabel{
-        font-size: 10px!important;
-        top: 20px!important;
-    }
-}
+
 /* input field */
     .deviation{
         margin-left: 0px;
@@ -148,11 +127,6 @@ $border_color:#eaeaea;
         }    
     }
 /* input field ends here */
-    .rangeSlidercontainer{
-        span{
-            font-size: medium;
-        }
-        }
 .list_item_label{
     font-size: medium;
 }
