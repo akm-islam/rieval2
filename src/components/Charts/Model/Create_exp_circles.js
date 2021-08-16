@@ -2,7 +2,7 @@ import * as d3 from "d3";
 export default function CreatexpCircle(d, selection, selected_instances, sorted_features, 
     lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config,
     clicked_features, Set_clicked_features, symbolTypes, item_width, item_height) {
-    var margin = { item_top_margin: 6, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
+    var margin = { item_top_margin: 20, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
 

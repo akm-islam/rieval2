@@ -65,7 +65,6 @@ function Sidebar(props) {
             </HistogramContainer>
           </div> : null}
         </div> : null}
-       
     </div>
   );
 }

@@ -39,33 +39,27 @@ class SlopeChart extends Component {
     var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).slice(0, number_of_charts + 1)
 
     //------------------------------
-    var marginTop = 30;
+    var marginTop = 10;
     var item_width = parseInt($("#all_features_container" + this.props.model_name).width())
     var item_height = parseInt($("#all_features_container" + this.props.model_name).height()) / sorted_features.length - marginTop
 
-    var feature_containers=d3.select("#all_features_container" + this.props.model_name).selectAll(".feature_items").data(sorted_features, d => d[0])
-      .join(enter =>
-        enter.append("svg")
-          .attr("class", "feature_items").attr('width', item_width).attr("height", item_height).style("border", "1px solid #bcbcbc")
-          //.on("click", d => console.log(d[0]))
-          .attr("style", "outline: thin solid #eaeaea;")
-          .attr("y", (d, i) => marginTop + i * (item_height + marginTop))
-        , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
-        , exit => exit.remove()
+    var feature_containers = d3.select("#all_features_container" + this.props.model_name).selectAll(".feature_items").data(sorted_features, d => d[0])
+      .join(enter => enter.append("svg").attr("class", "feature_items").attr('width', item_width).attr("height", item_height).style("border", "1px solid #bcbcbc").attr("style", "outline: thin solid #eaeaea;").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
+        ,update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
+        ,exit => exit.remove()
       )
-      feature_containers.attr("CreatexpCircle", function (d) {
-        CreatexpCircle(d, d3.select(this), selected_instances, sorted_features, self.props.lime_data, 
-        self.props.selected_year, [self.props.model_name], 
+    feature_containers.attr("CreatexpCircle", function (d) {
+      CreatexpCircle(d, d3.select(this), selected_instances, sorted_features, self.props.lime_data,
+        self.props.selected_year, [self.props.model_name],
         self.props.clicked_circles, self.props.Set_clicked_circles,
-          diverginColor, self.props.anim_config, self.props.Set_clicked_circles, self.props.Set_clicked_features, self.props.symbolTypes, item_width, item_height)
-      })
+        diverginColor, self.props.anim_config, self.props.Set_clicked_circles, self.props.Set_clicked_features, self.props.symbolTypes, item_width, item_height)
+    })
 
-    d3.select("#all_features_container" + this.props.model_name).selectAll(".title_text").data(sorted_features).join(
-      enter => enter.append('text').attr("class", "title_text").attr('x', item_width / 2).text((d, i) => d[0]).attr("dominant-baseline", "hanging")
-        .attr("y", (d, i) => i * (item_height + marginTop) + 7).attr('text-anchor', 'middle').attr('font-size',12)
-        ,update=>update.transition().duration(2000).attr("y", (d, i) => i * (item_height + marginTop) + 7).text((d, i) => d[0])
-        ,exit=>exit.remove()
-        )
+    feature_containers.attr("add_text", function (d) {
+      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
+        .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
+    })
+
 
 
     //------------------------------
