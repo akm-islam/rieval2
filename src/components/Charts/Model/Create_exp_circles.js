@@ -2,7 +2,7 @@ import * as d3 from "d3";
 export default function CreatexpCircle(d, selection, selected_instances, sorted_features, 
     lime_data, selected_year, defualt_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config,
     clicked_features, Set_clicked_features, symbolTypes, item_width, item_height) {
-    var margin = { item_top_margin: 20, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
+    var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
 
@@ -26,7 +26,7 @@ export default function CreatexpCircle(d, selection, selected_instances, sorted_
     //----------
     var my_mean = d3.mean(sum_data)
     //----------
-    selection.selectAll(".myline").data([0]).join("line").attr("class","myline").attr("x1",xScale(my_mean)).attr("x2",xScale(my_mean)).attr("y1",0).attr("y2",item_height).attr('stroke',"#d6d6d6").attr('stroke-width',1)
+    selection.selectAll(".myline").data([0]).join("line").attr("class","myline").attr("x1",xScale(my_mean)).attr("x2",xScale(my_mean)).attr("y1",18).attr("y2",item_height).attr('stroke',"#d6d6d6").attr('stroke-width',1)
 
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
