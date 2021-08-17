@@ -22,12 +22,18 @@ import RangeChart from "./components/Charts/Range/RangeChart"
 import YearChart from "./components/Charts/Time/YearChart"
 import TopBar from "./components/TopBar/TopBar"
 import { Row, Col } from 'reactstrap';
+import Sidebar from "./components/Sidebar/Sidebar";
+import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormLabel from '@material-ui/core/FormLabel';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import "./components/Charts/Charts.css"
 import Popover from './components/Popover/Popover';
-import Top from './components/Top/Top';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -71,6 +77,7 @@ class App extends Component {
     }
     this.props.clicked_items_in_slopechart.map(idName => d3.selectAll('#' + idName).attr('opacity', 1))
   }
+
   textClickHandler_original = (state_name) => { // state_name is set as the id of each element
     var idName = state_name.replace(/ +/g, "")
 
@@ -100,6 +107,7 @@ class App extends Component {
 
     //d3.selectAll('.line1,.line2').attr('opacity',1)
   }
+
   //--------- data processor processes data for initial render
   dataprocessor = (dataset_name) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
@@ -145,6 +153,11 @@ class App extends Component {
     })
 
   }
+  buttonclickHandler = (value, type) => {
+    setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
+    type = "button" ? this.setState({ view_data: value }) : null
+    type = "form" ? this.setState({ view_data: value }) : null
+  }
   //-----------------Models are generated ends here
   componentDidMount() {
     this.dataprocessor("fiscal")
@@ -155,10 +168,41 @@ class App extends Component {
   render() {
     return (
       <div>
-     <Top></Top>
         <Row>
-          <div className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
-
+          {
+            /*
+                      <div style={{ width: 100 }} className="Sidebar">
+                        {this.props.original_data != null ?
+                          <Sidebar view_data={this.state.view_data}
+                            dataset={this.props.dataset} sort_by={this.props.sort_by} chart_scale_type={this.props.chart_scale_type}>
+                          </Sidebar> : null}
+                      </div>
+            
+            */
+          }
+          <Col className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
+            <div className="uploader_topbar">
+              <Grid container spacing={0} className="myheader" style={{ left: $('.Sidebar').width() }}>
+                <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 100 }}><Button onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button></Grid>
+                <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 120 }}><Button onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button></Grid>
+              </Grid>
+              {this.state.view_data == false ?
+                <Row className="Topbar_container">
+                  <div className="load">
+                    <form onSubmit={() => this.buttonclickHandler(1, "form")}>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend"></FormLabel>
+                        <RadioGroup aria-label="gender" name="gender1" onChange={this.handleradioChange}>
+                          {['Fiscal Dataset', 'School Dataset', 'House Dataset'].map((value) => {
+                            return <FormControlLabel value={value} control={<Radio />} label={value}/>
+                          })}
+                        </RadioGroup>
+                        <Button type="submit" variant="outlined" color="primary">Load</Button>
+                      </FormControl>
+                    </form>
+                  </div></Row>
+                : null}
+            </div>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
                 <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - $('.uploader_topbar').height(), width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
@@ -167,11 +211,21 @@ class App extends Component {
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
                 </Grid>
               </Grid> : null}
-          </div>
+          </Col>
         </Row>
         <Popover></Popover>
       </div>
     );
+  }
+  makeArr = () => {
+    var startValue = this.props.state_range[0];
+    var stopValue = this.props.state_range[1];
+    var arr = [];
+    for (var i = startValue; i <= stopValue; i++) {
+      arr.push(i);
+    }
+    //hi
+    return arr;
   }
 }
 const maptstateToprop = (state) => {

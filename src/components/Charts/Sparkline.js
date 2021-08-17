@@ -3,7 +3,7 @@ export default function Create_sparkline(parent, config, y_distance, sparkline_d
     var year = selected_year
     var s_margin = { top: 0, right: 0, bottom: 0, left: 4 },
         s_width = config.sparkline_width - 2,
-        s_height = y_distance - 5;
+        s_height = y_distance - 2;
     var s_svg = parent.selectAll(".sparkline_svg").data([0]).join("svg").attr("class", "sparkline_svg").attr("x", 2).attr("y", -3)
         .attr("width", s_width + s_margin.left + s_margin.right)
         .attr("height", s_height + s_margin.top + s_margin.bottom)
