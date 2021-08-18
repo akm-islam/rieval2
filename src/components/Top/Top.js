@@ -11,6 +11,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
+import FeaturesDropdown from "./FeaturesDropdown"
 
 class App extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class App extends Component {
     return (
       <div className="uploader_topbar">
         <Grid container spacing={0} className="myheader" style={{ left: $('.Sidebar').width() }}>
+          <FeaturesDropdown></FeaturesDropdown>
           <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 100 }}><Button onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button></Grid>
           <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 120 }}><Button onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button></Grid>
         </Grid>

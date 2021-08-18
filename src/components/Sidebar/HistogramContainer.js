@@ -112,20 +112,23 @@ class Chart extends Component {
   render() {
     return (
       <div>
-        <Button className="update" style={{ marginLeft: 0, padding: 0, width: 197 }} onClick={() => {
-          var self = this
-          if (!this.props.slider_and_feature_value["Rank range"]) {
-            if (d3.min(this.state.selected_states) < this.props.state_range[0]) {
-              this.props.Set_state_range([d3.min(this.state.selected_states), this.props.state_range[1]])
+        <div style={{position:"sticky",top:0,backgroundColor:"white"}}>
+          <Button onClick={() => this.props.handleClose()} style={{ color: "red", fontWeight: "bold", marginLeft: "78%" }}>Close</Button>
+          <Button className="update" style={{ marginRight: 30, padding: 0, width: "99%" }} onClick={() => {
+            var self = this
+            if (!this.props.slider_and_feature_value["Rank range"]) {
+              if (d3.min(this.state.selected_states) < this.props.state_range[0]) {
+                this.props.Set_state_range([d3.min(this.state.selected_states), this.props.state_range[1]])
+              }
+              if (d3.max(this.state.selected_states) > this.props.state_range[1]) {
+                this.props.Set_state_range([this.props.state_range[0], d3.max(this.state.selected_states)])
+              }
             }
-            if (d3.max(this.state.selected_states) > this.props.state_range[1]) {
-              this.props.Set_state_range([this.props.state_range[0], d3.max(this.state.selected_states)])
-            }
-          }
-          setTimeout(function () { self.update_histogram_data(); }, 500);
-        }}
-        >Update</Button>
-        <div className="hitograms_container" style={{ height: 420, borderBottom: "0px solid #e5e5e5" }}>
+            setTimeout(function () { self.update_histogram_data(); }, 500);
+          }}
+          >Update</Button>
+        </div>
+        <div className="histograms_container" style={{ borderBottom: "0px solid #e5e5e5" }}>
           <svg id="histogram_container" style={{ width: this.props.width }}></svg>
         </div>
       </div>
@@ -142,8 +145,8 @@ const maptstateToprop = (state) => {
     deviate_by: state.deviate_by,
     rank_data: state.rank_data,
     histogram_data: state.histogram_data,
-    original_data:state.original_data,
-    threshold:state.threshold,
+    original_data: state.original_data,
+    threshold: state.threshold,
   }
 }
 const mapdispatchToprop = (dispatch) => {

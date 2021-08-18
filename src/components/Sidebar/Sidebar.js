@@ -4,6 +4,7 @@ import "./Sidebar.scss";
 import { connect } from "react-redux";
 import Modes from "./Modes"
 import * as $ from "jquery"
+import { Button } from '@material-ui/core';
 import HistogramContainer from "./HistogramContainer"
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,26 +47,12 @@ function Sidebar(props) {
 
     }
   }
-  const show_checkboxChanged = (event, val) => {
-    var myfunc = props.appHandleChange
-    myfunc(val, "show_checkboxChanged")
-  }
   return (
-    <div className="Sidebar_parent" style={{ height: window.innerHeight }}>
-      {
-        // <h4 className="app_title">RIEVAL </h4>
-      }
-      {props.view_data == 1 ?
-        <div className="rangeSlidercontainer">
-          <Modes></Modes>
-          {props.mode == "Model" ? <div style={{ marginTop: 10, paddingLeft: 5, width: $('.Sidebar').width() }}>
-            <HistogramContainer
-              year={props.selected_year.toString()} state_range={props.state_range}
-              Sidebar_width={$('.Sidebar').width()} >
-            </HistogramContainer>
-          </div> : null}
-        </div> : null}
-    </div>
+    props.original_data != null ? <div className="Sidebar_parent" style={{height: window.innerHeight -100}}>
+          <div style={{ paddingLeft: 5, width: $('.Sidebar').width() }}>
+            <HistogramContainer handleClose={props.handleClose} year={props.selected_year.toString()} state_range={props.state_range} Sidebar_width={200} > </HistogramContainer>
+          </div>
+    </div>:null
   );
 }
 const maptstateToprop = (state) => {
@@ -77,7 +64,7 @@ const maptstateToprop = (state) => {
     sparkline_data: state.sparkline_data,
     show: state.show,
     mode:state.mode,
-
+    original_data:state.original_data,
   }
 }
 const mapdispatchToprop = (dispatch) => {
