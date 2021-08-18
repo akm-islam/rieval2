@@ -49,7 +49,6 @@ export default function CreateChart(feature, data, node, feature_height, selecte
       .on("click", (d, i) => {
         d3.select("#" + y[i]).classed("cat_item_clicked", () => {
           if (d3.select("#" + y[i]).classed("cat_item_clicked")) {
-
             return false
           }
           else {
@@ -79,56 +78,44 @@ export default function CreateChart(feature, data, node, feature_height, selecte
   }
   else {
     //----------------------------------------------------------- Handle the Numeric features here)
+    var margin = { top: 10, right: 30, bottom: 30, left: 50 },
+    width = feature_width - margin.left - margin.right,
+    height = feature_height - margin.top - margin.bottom;
+
     svg.selectAll(".hist_title").data([feature], d => d).join("text").attr("class", "hist_title").attr("y", 15).attr("x", width / 2).attr("text-anchor", "middle").text(feature.replace(/_/g, ' '));
-
     var temp_x = data.map(item => parseFloat(item['y'])),
-      x = d3.scaleLinear().domain([d3.min(temp_x), d3.max(temp_x)]).range([0, width]).nice(),
-      tick_values = x.ticks(4),
-      hist_height = height,
-      histogram = d3.histogram()
-        .value(d => d)   // I need to give the vector of value
-        .domain(x.domain())  // then the domain of the graphic
-        .thresholds(4); // then the numbers of bins
-    var bins = histogram(temp_x),
-      y_hist = d3.scaleLinear()
-        .range([hist_height, 0]);
-    y_hist.domain([0, d3.max(bins, function (d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-    var svg0 = svg.selectAll('.svg0').data([0]).join('svg').attr("class", "svg0").selectAll(".myg0").data([0]).join('g').attr("class", "myg0").attr("transform",
-      "translate(" + margin.left + "," + margin.top + ")")
+      //x = d3.scaleLinear().domain([d3.min(temp_x), d3.max(temp_x)]).range([0, width])
+      x = d3.scaleLinear().domain([0, 1000]).range([0, width]);
+    // add the x Axis
+    svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
+    // add the y Axis
+    var y = d3.scaleLinear().range([height, 0]).domain([0, 0.01]);
+    // Compute kernel density estimation
+    var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(50))
+    var density = kde(temp_x)
 
-    svg0.selectAll("rect").data(bins).join('rect')
-      .attr("x", 1)
-      .attr("fill", "#999999b3")
-      .attr("transform", function (d) {
-        if(d.x0==d.x1){return "translate(" + 0 + "," + y_hist(d.length) + ")"}
-        return "translate(" + x(d.x0) + "," + y_hist(d.length) + ")";
-      })
-      .attr("width", function (d) { 
-        if(d.x0==d.x1){return width}
-        return x(d.x1) - x(d.x0) - 0.2; })
-      .attr("height", function (d) { return hist_height - y_hist(d.length); });
-    //-------Add text of bars
-    
-    svg0.selectAll(".mylabel").data(bins).join('text').attr("class","mylabel")
-      .attr("x", d=>x(d.x0)+((x(d.x1)-x(d.x0))/3))
-      .text(d=>d.length)
-      .attr('y',d=> y_hist(d.length)-2)
-      .attr('font-size',10)
-  
-    //------------- Add X axis
-    if(d3.max(tick_values)>1000){
-      svg0.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
-      .attr("transform", "translate(0," + hist_height + ")")
-      .call(d3.axisBottom(x).tickValues(tick_values).tickFormat(d3.format(".2s")))
+    // Plot the area
+    svg.append("path").attr("class", "mypath").datum(density)
+      .attr("fill", "#69b3a2").attr("opacity", ".8").attr("stroke", "#000").attr("stroke-width", 1).attr("stroke-linejoin", "round")
+      .attr("d", d3.line()
+        .curve(d3.curveBasis)
+        .x(function (d) { return x(d[0]); })
+        .y(function (d) { return y(d[1]); })
+      );
+
+    // Function to compute density
+    function kernelDensityEstimator(kernel, X) {
+      return function (V) {
+        return X.map(function (x) {
+          return [x, d3.mean(V, function (v) { return kernel(x - v); })];
+        });
+      };
     }
-    else{
-      svg0.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
-      .attr("transform", "translate(0," + hist_height + ")")
-      .call(d3.axisBottom(x).tickValues(tick_values))
+    function kernelEpanechnikov(k) {
+      return function (v) {
+        return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+      };
     }
-
-    svg0.selectAll(".tick line,.domain").attr("stroke", "#adadad")
-
     //------------------------------------------------------------------------------------------------------ Create Histogram ends here    
     //---drag starts here
     var selectionRect = {
@@ -214,7 +201,7 @@ export default function CreateChart(feature, data, node, feature_height, selecte
       }
       if (finalAttributes.x2 - finalAttributes.x1 > 1 && finalAttributes.y2 - finalAttributes.y1 > 1) {
         // range selected
-       // d3.event.sourceEvent.preventDefault();
+        // d3.event.sourceEvent.preventDefault();
         selectionRect.focus();
       } else {
         selectionRect.remove();
@@ -227,20 +214,20 @@ export default function CreateChart(feature, data, node, feature_height, selecte
     svg.call(dragBehavior);
     //---drag ends here
   }
-  function states(original_data,range,year,feature){
-    var temp=[]
+  function states(original_data, range, year, feature) {
+    var temp = []
     original_data.forEach(element => {
-      if(element["1-qid"]==year && parseFloat(element[feature])>=range[0] && parseFloat(element[feature])<=range[1]){
-       temp.push(parseInt(element['two_realRank']))
+      if (element["1-qid"] == year && parseFloat(element[feature]) >= range[0] && parseFloat(element[feature]) <= range[1]) {
+        temp.push(parseInt(element['two_realRank']))
       }
     });
     return temp;
   }
-  function cat_states(original_data,year,country){
-    var temp=[]
+  function cat_states(original_data, year, country) {
+    var temp = []
     original_data.forEach(element => {
-      if(element["1-qid"]==year && element["country"]==country){
-       temp.push(parseInt(element['two_realRank']))
+      if (element["1-qid"] == year && element["country"] == country) {
+        temp.push(parseInt(element['two_realRank']))
       }
     });
     return temp;

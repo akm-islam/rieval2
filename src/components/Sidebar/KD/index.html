@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<body>
+    <div id="my_dataviz">
+</body>
+<script>
+    // set the dimensions and margins of the graph
+    var margin = { top: 50, right: 30, bottom: 30, left: 50 },
+        width = 260 - margin.left - margin.right,
+        height = 100 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+        .append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom)
+        .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    //var data2=[100,200,300,400,500,500]
+    var data2 = [19539717857, 7865476190, 27939922619, 16101307143, 217000000000, 20240750000, 25278785714, 6723867857, 79320172619, 41371958333, 9285032143, 7040030952, 60693691667, 27457141667, 16575086905, 12621820238, 21454684524, 26814445238, 7965201190, 28980952381, 46396296429, 53633294048, 30156898810, 16278317857, 24773103571, 4548894048, 7458333333, 7392009524, 5855373810, 60394961463, 15385594048, 139000000000, 39386804762, 4110455202, 56882620238, 15351745238, 20361590476, 64887105952, 8519885714, 23032082143, 3316476190, 24382816667, 99537561905, 9517422619, 4781967429, 31917701190, 39258119048, 12256496429, 31843569048, 3545971979]
+    // add the x Axis
+    var x = d3.scaleLinear().domain([d3.min(data2), d3.max(data2)]).range([0, width]);
+    svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
+
+    // add the y Axis
+    var y = d3.scaleLinear().domain([0, 0.01]).range([height, 0])
+
+    // Compute kernel density estimation
+    var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(100))
+    var density = kde(data2)
+
+    console.log(density)
+    // Plot the area
+    svg.append("path").attr("class", "mypath").datum(density)
+        .attr("fill", "#69b3a2").attr("opacity", ".8").attr("stroke", "#000").attr("stroke-width", 1).attr("stroke-linejoin", "round")
+        .attr("d", d3.line()
+            .curve(d3.curveBasis)
+            .x(function (d) { return x(d[0]); })
+            .y(function (d) { return y(d[1]); })
+        );
+
+    // Function to compute density
+    function kernelDensityEstimator(kernel, X) {
+        return function (V) {
+            return X.map(function (x) {
+                return [x, d3.mean(V, function (v) { return kernel(x - v); })];
+            });
+        };
+    }
+    function kernelEpanechnikov(k) {
+        return function (v) {
+            return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+        };
+    }
+</script>
+</html>

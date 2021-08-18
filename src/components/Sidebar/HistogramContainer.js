@@ -27,7 +27,6 @@ class Chart extends Component {
   }
   componentDidUpdate() {
     var self = this
-
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //--------------------
