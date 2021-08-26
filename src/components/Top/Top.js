@@ -24,6 +24,7 @@ class App extends Component {
     };
   }
   buttonclickHandler = (value, type) => {
+    console.log(value,type)
     setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
     type = "button" ? this.setState({ view_data: value }) : null
     type = "form" ? this.setState({ view_data: value }) : null
@@ -45,7 +46,7 @@ class App extends Component {
               <form onSubmit={() => this.buttonclickHandler(1, "form")}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
-                  <RadioGroup aria-label="gender" name="gender1" onChange={this.handleradioChange}>
+                  <RadioGroup aria-label="gender" name="gender1" onChange={(event,val)=>this.props.handleradioChange(val)}>
                     {['Fiscal Dataset', 'School Dataset', 'House Dataset'].map((value) => {
                       return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}

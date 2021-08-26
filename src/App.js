@@ -37,7 +37,8 @@ class App extends Component {
       histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",
     };
   }
-  handleradioChange = (event) => {
+  handleradioChange = (selected_dataset) => {
+    console.log(selected_dataset)
     this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
     this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
     this.props.Set_clicked_items_in_slopechart([])
@@ -47,12 +48,12 @@ class App extends Component {
     this.props.Set_range_mode_range1([1, 25])
     this.props.Set_range_mode_range2([15, 40])
     this.props.Set_time_mode_range([5, 35])
-    if (event.target.value == 'Fiscal Dataset') {
+    if (selected_dataset == 'Fiscal Dataset') {
       this.setState({ dataset: 'fiscal' })
       this.props.Set_dataset('fiscal')
       this.dataprocessor("fiscal")
     }
-    else if (event.target.value == 'House Dataset') {
+    else if (selected_dataset == 'House Dataset') {
       this.setState({ dataset: 'house' })
       this.props.Set_dataset('house')
       this.dataprocessor("house")
@@ -154,7 +155,7 @@ class App extends Component {
   render() {
     return (
       <div>
-     <Top></Top>
+     <Top handleradioChange={this.handleradioChange}></Top>
         <Row>
           <div className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
 
