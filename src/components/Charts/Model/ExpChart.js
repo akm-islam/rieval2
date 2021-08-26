@@ -41,9 +41,10 @@ class SlopeChart extends Component {
     //------------------------------
     var marginTop = 5;
     var item_width = parseInt($("#all_features_container" + this.props.model_name).width())
+    console.log("item_width",item_width)
     var item_height = (parseInt(window.innerHeight) - (this.state.mds_height+80)) / sorted_features.length - marginTop
     var feature_containers = d3.select("#all_features_container" + this.props.model_name).selectAll(".feature_items").data(sorted_features, d => d[0])
-      .join(enter => enter.append("svg").attr("class", "feature_items").attr('width', item_width).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
+      .join(enter => enter.append("svg").attr("class", "feature_items").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         ,update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         ,exit => exit.remove()
       )
@@ -57,9 +58,9 @@ class SlopeChart extends Component {
       d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
         .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
     })
-    feature_containers.attr("height", item_height).attr("CreatexpCircle", function (d) {
+    feature_containers.attr("CreatexpCircle", function (d) {
       CreatexpCircle(d, d3.select(this), selected_instances, sorted_features, self.props.lime_data,self.props.selected_year, [self.props.model_name],self.props.clicked_circles, self.props.Set_clicked_circles,diverginColor, self.props.anim_config, self.props.Set_clicked_circles, self.props.Set_clicked_features, self.props.symbolTypes, item_width, item_height)
-    })
+    }).attr("height", item_height).attr('width', item_width)
 
 
 
@@ -73,7 +74,7 @@ class SlopeChart extends Component {
       <div className={"exp" + this.props.model_name} style={{ width: item_width, "border": "2px solid #e2e2e2", padding: "2px 10px" }}>
         <p style={{ margin: 0, padding: 0, marginLeft: "45%" }}>{this.props.model_name}</p>
         <svg id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
-        <svg id={"all_features_container" + this.props.model_name} style={{ marginTop: 5, width: "100%", height: parseInt($(".exp_parent").height()) - this.state.mds_height }}> </svg>
+        <svg id={"all_features_container" + this.props.model_name} style={{ marginTop: 5, width: "100%", height: parseInt($(".exp_parent").height()) - (this.state.mds_height+36) }}> </svg>
       </div>
     )
   }

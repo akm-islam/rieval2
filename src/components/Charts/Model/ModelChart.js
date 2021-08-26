@@ -8,7 +8,7 @@ import * as deviation_chart from "../deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
-import TopBar from "../../TopBar/TopBar"
+import YearsModel from "../../YearsModelContainer/YearsModel"
 import ExpChart from './ExpChart';
 import './ModelSlider.scss';
 
@@ -50,12 +50,16 @@ class SlopeChart extends Component {
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
   render() {
+    //console.log(parseInt($(".uploader_topbar").height()),parseInt($(".years_model_container").height()),parseInt($(".Modelslider").height()))
     return (
       <div className="ModelChartParent" style={{backgroundColor: 'white', margin: 2, padding: 2, border: "2px solid grey", width: "100%", boxShadow: "-2px 1px 4px -1px white" }}>
-        <div class="dev_parent" style={{display: "inline-block", minWidth: 405, width: "22%", paddingRight: 3, backgroundColor: "#fcfcfc", height: ($(".ModelChartParent").height()), overflow: "scroll" }}>
-          <TopBar></TopBar>
+        <div class="dev_parent" style={{display: "inline-block", minWidth: 405, width: "22%", paddingRight: 3, backgroundColor: "#fcfcfc", height: ($(".ModelChartParent").height())}}>
+          <YearsModel></YearsModel>
           <ModelSlider></ModelSlider>
-          <svg id="dev_plot_container" style={{ width: "100%", height: "100%", marginBottom: 10 }}></svg>
+          <svg id="dev_plot_container" style={{ width: "100%", height:window.innerHeight - 200, marginBottom: 10,overflow:'hidden' }}></svg>
+          {
+            // subtracting 200 because this is the space take by uploader_topbar, years_model_container and Modelslider
+          }
         </div>
 
         <div class="exp_parent" style={{ width: "78%"}}>

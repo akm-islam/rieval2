@@ -20,7 +20,6 @@ import * as algo1 from "./Algorithms/algo1";
 import ModelChart from "./components/Charts/Model/ModelChart"
 import RangeChart from "./components/Charts/Range/RangeChart"
 import YearChart from "./components/Charts/Time/YearChart"
-import TopBar from "./components/TopBar/TopBar"
 import { Row, Col } from 'reactstrap';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
