@@ -38,7 +38,7 @@ class App extends Component {
     };
   }
   handleradioChange = (selected_dataset) => {
-    console.log(selected_dataset)
+    console.log('Radio changed',selected_dataset)
     this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
     this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
     this.props.Set_clicked_items_in_slopechart([])
@@ -147,7 +147,7 @@ class App extends Component {
   }
   //-----------------Models are generated ends here
   componentDidMount() {
-    this.dataprocessor("fiscal")
+    this.dataprocessor(this.props.dataset)
   }
   shouldComponentUpdate() {
     return true;
@@ -196,7 +196,6 @@ const maptstateToprop = (state) => {
     clicked_items_in_slopechart: state.clicked_items_in_slopechart,
     config: state.config,
     lime_data: state.lime_data,
-    rank_data: state.rank_data,
   }
 }
 const mapdispatchToprop = (dispatch) => {
