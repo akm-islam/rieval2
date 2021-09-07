@@ -12,6 +12,7 @@ import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FeaturesDropdown from "./FeaturesDropdown"
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class App extends Component {
     };
   }
   buttonclickHandler = (value, type) => {
-    console.log(value,type)
+    console.log(value, type)
     setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
     type = "button" ? this.setState({ view_data: value }) : null
     type = "form" ? this.setState({ view_data: value }) : null
@@ -36,9 +37,11 @@ class App extends Component {
     return (
       <div className="uploader_topbar">
         <Grid container spacing={0} className="myheader" style={{ left: $('.Sidebar').width() }}>
+          <ButtonGroup aria-label="outlined button group">
+          <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
+          <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
+          </ButtonGroup>
           <FeaturesDropdown></FeaturesDropdown>
-          <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 100 }}><Button onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button></Grid>
-          <Grid item style={{ borderRight: "1px dashed #eaeaea", width: 120 }}><Button onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button></Grid>
         </Grid>
         {this.state.view_data == false ?
           <Row className="Topbar_container">
@@ -46,7 +49,7 @@ class App extends Component {
               <form onSubmit={() => this.buttonclickHandler(1, "form")}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
-                  <RadioGroup aria-label="gender" name="gender1" onChange={(event,val)=>this.props.handleradioChange(val)}>
+                  <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => this.props.handleradioChange(val)}>
                     {['Fiscal Dataset', 'School Dataset', 'House Dataset'].map((value) => {
                       return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}

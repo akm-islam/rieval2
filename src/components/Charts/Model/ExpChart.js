@@ -41,13 +41,14 @@ class SlopeChart extends Component {
     //------------------------------
     var marginTop = 5;
     var item_width = parseInt($("#all_features_container" + this.props.model_name).width())
-    console.log("item_width",item_width)
+   //console.log("item_width",item_width)
     var item_height = (parseInt(window.innerHeight) - (this.state.mds_height+80)) / sorted_features.length - marginTop
     var feature_containers = d3.select("#all_features_container" + this.props.model_name).selectAll(".feature_items").data(sorted_features, d => d[0])
-      .join(enter => enter.append("svg").attr("class", "feature_items").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
+      .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         ,update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         ,exit => exit.remove()
       )
+    feature_containers.attr("class", d=>"feature_items "+d[0])
     feature_containers.attr("add_text_rect", function (d) {
       d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("width","100%").attr("height",18).attr("fill","#e2e2e2").attr("y",0).attr("x",0)
     })
@@ -61,8 +62,22 @@ class SlopeChart extends Component {
     feature_containers.attr("CreatexpCircle", function (d) {
       CreatexpCircle(d, d3.select(this), selected_instances, sorted_features, self.props.lime_data,self.props.selected_year, [self.props.model_name],self.props.clicked_circles, self.props.Set_clicked_circles,diverginColor, self.props.anim_config, self.props.Set_clicked_circles, self.props.Set_clicked_features, self.props.symbolTypes, item_width, item_height)
     }).attr("height", item_height).attr('width', item_width)
+    feature_containers.attr('check_clicked_features',d =>{
+      if(this.props.clicked_features.includes(d[0])){
+        d3.selectAll("."+d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)          
+      }
+    })
 
-
+    feature_containers.on('click',d =>{
+      if(this.props.clicked_features.includes(d[0])){
+        this.props.Set_clicked_features(this.props.clicked_features.filter(item=>item!=d[0]))
+        d3.selectAll("."+d[0]).selectAll(".border_rect").remove()
+      }
+      else{
+        this.props.Set_clicked_features([...this.props.clicked_features,d[0]])
+        d3.selectAll("."+d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)          
+      }
+    })
 
     //------------------------------
     Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)

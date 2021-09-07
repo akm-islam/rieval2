@@ -15,16 +15,6 @@ class Chart extends Component {
     this.myRef = React.createRef();
     this.state = { feaures_dict: {}, features_voted: null, feature_data: null, selected_states: [] } // This is the default height
   }
-  componentDidMount() {
-    var self = this
-    var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent }
-    d3.csv(filename).then(function (feature_data) {
-      self.setState({ feature_data: feature_data })
-    })
-  }
-  shouldComponentUpdate() {
-    return true;
-  }
   componentDidUpdate() {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
@@ -44,7 +34,6 @@ class Chart extends Component {
     selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
     //--------------------
     var number_of_charts = 9
-    //------
     var features_dict = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     var items = Object.keys(features_dict).map(function (key) {
       return [key, features_dict[key]];

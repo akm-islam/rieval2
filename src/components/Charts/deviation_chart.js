@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
+import textures from 'textures';
+
 import Create_sparkline from "./Sparkline"
 export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
@@ -7,6 +9,8 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   var parent_height = $("#" + parent_id).height()-10
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
+  var t = textures.lines().size(5).strokeWidth(2).stroke("#cccccc").background("gray");
+
   data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   // font_line_gap=sparkline_width+4
   var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:20,font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
@@ -15,8 +19,8 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   //if(y_distance<parent_height/selected_instances.length){var y_distance=parent_height/selected_instances.length}
 
   var circle_radius = config.line_stroke_width / 2
-  var parent_g = d3.select("#" + parent_id).attr('height', y_distance + data.length * y_distance)
-    .selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",13)")
+  var svg=d3.select("#" + parent_id).attr('height', y_distance + data.length * y_distance).call(t)
+  var parent_g = svg.selectAll(".parent_g").data([0]).join('g').attr('class', 'parent_g').attr('transform', "translate(" + 0 + ",13)")
   var items_g = parent_g.selectAll(".items").data(data, d => d['State']).join(enter => enter.append("g").attr("class", "items")
     .attr('transform', (d, i) => "translate(" + config.space_for_state_name + "," + i * y_distance + ")")
     , update => update.transition().duration(anim_config.rank_animation).attr('transform', (d, i) => "translate(" + config.space_for_state_name + "," + i * y_distance + ")")
@@ -58,7 +62,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       if (temp_max == 0) { var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, 0]) }
       // This is only for scaling ends here
       d3.select(this).selectAll("line").data([d]).join(enter => enter.append('line')
-        .attr("x1", config.font_line_gap).attr("y1", (d, i) => y_distance * i).attr("y2", (d, i) => y_distance * i).attr("stroke-width", config.line_stroke_width).attr("stroke", "#cecece").attr("x2", (d2) => {
+        .attr("x1", config.font_line_gap).attr("y1", (d, i) => y_distance * i).attr("y2", (d, i) => y_distance * i).attr("stroke-width", config.line_stroke_width).attr("stroke", t.url()).attr("x2", (d2) => {
           var temp = []
           line_data.map(item => temp.push(Math.abs(item["predicted_rank"] - item["two_realRank"])))
           return sclale1(d3.max(temp))

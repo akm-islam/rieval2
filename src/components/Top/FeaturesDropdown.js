@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import Sidebar from "../Sidebar/Sidebar"
+import Sidebar from "../FeatureHistograms/FeatureHistograms"
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -15,16 +16,11 @@ export default function SimpleMenu() {
   };
 
   return (
-    <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Features</Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <Sidebar handleClose={handleClose}></Sidebar>
+    <div style={{marginLeft:50}}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Select Features</Button>
+      <ArrowDropDownIcon onClick={handleClick}></ArrowDropDownIcon>
+      <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} style={{marginTop:20}}>
+       {anchorEl?<Sidebar handleClose={handleClose}></Sidebar>:null}
       </Menu>
     </div>
   );
