@@ -8,6 +8,8 @@ import exp_house_CordAscent from "../../../Data/data/house/lime/chart1_data.csv"
 import * as algo1 from "../../../Algorithms/algo1";
 import CreateHistogram from './CreateHistogram'
 import CreateBarChart from './CreateBarChart';
+import Button from '@material-ui/core/Button';
+import { delay } from 'lodash';
 class FeatureHistograms extends Component {
     constructor(props) {
         super(props);
@@ -16,8 +18,19 @@ class FeatureHistograms extends Component {
     componentDidMount() {
         var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent }
         d3.csv(filename).then(feature_data => {
-            this.setState({ feature_data: feature_data })
+            this.setState({ feature_data: feature_data,all_instances:{} })
         })
+    }
+    store_instances=(feature_name,instances)=>{
+        var temp={...this.state.all_instances}
+        temp[feature_name]=instances
+        this.setState({all_instances:temp})
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        if(typeof(this.state.all_instances)!="undefined" && JSON.stringify(nextState.all_instances)!==JSON.stringify(this.state.all_instances)){
+            return false
+        }
+        return true    
     }
     componentDidUpdate() {
         var self = this
@@ -30,21 +43,23 @@ class FeatureHistograms extends Component {
         //--------------------
         if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent }
         //--------------------------------Iterate through each features
+        const margin = { top: 10, right: 5, bottom: 50, left: 5 }; // Histogram
+        //const margin = { top: 10, right: 5, bottom: 40, left: 5 } // Barchart
         d3.select(".feature_histograms_container").selectAll(".feature").data(sorted_features, d => d).join("svg").attr("class", 'feature')
             //.attr("width", feature_width)
             //.attr("y", (d, feature_index) => feature_height * feature_index)
             .attr("add_histogram", function (d, feature_index) {
-                var data = []
+                var histogram_data = []
                 if (!isNaN(self.state.feature_data[0][d])) {
                     self.state.feature_data.forEach(element => {
                         if (element["1-qid"] == self.props.selected_year) {
                             var temp_dict = {}
                             temp_dict["x"] = parseInt(element['two_realRank'])
                             temp_dict["y"] = parseFloat(element[d])
-                            data.push(temp_dict)
+                            histogram_data.push(temp_dict)
                         }
                     });
-                    CreateHistogram(data, d3.select(this), d, feature_index, sorted_features.length)
+                    CreateHistogram(histogram_data, d3.select(this), d, feature_index, sorted_features.length,self.store_instances)
                 }
                 else {
                     self.state.feature_data.forEach(element => {
@@ -52,18 +67,28 @@ class FeatureHistograms extends Component {
                             var temp_dict = {}
                             temp_dict["x"] = parseInt(element['two_realRank'])
                             temp_dict["y"] = element[d]
-                            data.push(temp_dict)
+                            histogram_data.push(temp_dict)
                         }})
-                    CreateBarChart(data, d3.select(this), d, feature_index, sorted_features.length)
+                    CreateBarChart(histogram_data, d3.select(this), d, feature_index, sorted_features.length,self.store_instances,self.state.all_instances)
                 }
             })
-
+            .attr('id',d=>d)
+            //.call(d3.brush().extent([[0, margin.top], [400, 65]]))
         //--------------------------------Iterate through each features
     }
     render() {
         return (
-            this.props.original_data != null ? <div style={{ width: 400, height: window.innerHeight, overflow: "scroll" }}>
+            this.props.original_data != null ? <div style={{display:'relative', width: 400,marginTop:-8 }}>
+                <Button fullWidth style={{margin:0,position:'sticky',top:0,backgroundColor:"gray",borderRadius:0}} onClick={()=>{
+                    var selected_instances=[...new Set([].concat(...Object.values(this.state.all_instances)))]
+                    var filtered_instances=selected_instances.filter(item => item>=this.props.state_range[0] && item<=this.props.state_range[1])
+                    this.props.handleClose() // This will close the select menu
+                    if(filtered_instances.length==0){alert("No instance is available withing the selected range!")}
+                    this.props.Set_histogram_data([...filtered_instances])
+                }}> Update </Button>
+                <div className="feature_histograms_container_div" style={{display:'relative', width: 400, height: window.innerHeight, overflow: "scroll",marginTop:-8 }}>
                 <svg className="feature_histograms_container" style={{ width: "100%", padding: 10 }}> </svg>
+                </div>
             </div> : null
         );
     }
@@ -84,16 +109,9 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
     return {
-        Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
-        Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
         Set_slider_max: (val) => dispatch({ type: "slider_max", value: val }),
-        Set_years_for_dropdown: (val) => dispatch({ type: "years_for_dropdown", value: val }),
-        Set_selected_year: (val) => dispatch({ type: "selected_year", value: val }),
-        Set_ref_year: (val) => dispatch({ type: "ref_year", value: val }),
-        Set_original_data: (val) => dispatch({ type: "original_data", value: val }),
         Set_state_range: (val) => dispatch({ type: "state_range", value: val }),
-        Set_deviate_by: (val) => dispatch({ type: "deviate_by", value: val }),
-        Set_show: (val) => dispatch({ type: "show", value: val }),
+        Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),
     }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(FeatureHistograms);

@@ -31,7 +31,8 @@
     "react-scripts": "3.4.1",
     "reactstrap": "^8.6.0",
     "redux": "^4.0.5",
-    "textures": "^1.2.3"
+    "textures": "^1.2.3",
+    "underscore": "^1.13.1"
   },
   "scripts": {
     "start": "react-scripts start",

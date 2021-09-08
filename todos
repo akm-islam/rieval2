@@ -2,3 +2,7 @@
 make the contribution range for each model so that it doesn't change when another model is added
 Add drag and drop feature
 Adjust the heigh of deviation plot
+
+
+-------------
+Remove all special characters from the featureName

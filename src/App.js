@@ -27,6 +27,7 @@ import Grid from '@material-ui/core/Grid';
 import "./components/Charts/Charts.css"
 import Popover from './components/Popover/Popover';
 import Top from './components/Top/Top';
+import BrushTest from './components/BrushTest/BrushTest';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -37,69 +38,7 @@ class App extends Component {
       histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",
     };
   }
-  handleradioChange = (selected_dataset) => {
-    console.log('Radio changed',selected_dataset)
-    this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
-    this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
-    this.props.Set_clicked_items_in_slopechart([])
-    this.props.Set_state_range([1, 25])
-    this.props.Set_histogram_data([])
-    this.props.Set_mode("Model")
-    this.props.Set_range_mode_range1([1, 25])
-    this.props.Set_range_mode_range2([15, 40])
-    this.props.Set_time_mode_range([5, 35])
-    if (selected_dataset == 'Fiscal Dataset') {
-      this.setState({ dataset: 'fiscal' })
-      this.props.Set_dataset('fiscal')
-      this.dataprocessor("fiscal")
-    }
-    else if (selected_dataset == 'House Dataset') {
-      this.setState({ dataset: 'house' })
-      this.props.Set_dataset('house')
-      this.dataprocessor("house")
-    }
-    else {
-      this.setState({ dataset: 'school' })
-      this.props.Set_dataset('school')
-      this.dataprocessor("school")
-    }
-  };
-
-  task2 = () => {
-    if (this.props.clicked_items_in_slopechart.length > 0) {
-      d3.selectAll('circle,.datapoint').attr('opacity', this.props.config.reduced_opacity)
-    }
-    this.props.clicked_items_in_slopechart.map(idName => d3.selectAll('#' + idName).attr('opacity', 1))
-  }
-  textClickHandler_original = (state_name) => { // state_name is set as the id of each element
-    var idName = state_name.replace(/ +/g, "")
-
-    //----Whatever properties are changed due to click change back here for the original 
-    d3.selectAll('#' + idName).filter(d3.matcher('line')).style('stroke-width', 1)
-    //----Whatever properties are changed due to click change back here for the original
-
-    //-----Store the clicked items
-    var clicked_items_in_slopechart = [...this.props.clicked_items_in_slopechart]
-    if (clicked_items_in_slopechart.includes(idName)) {
-      clicked_items_in_slopechart = clicked_items_in_slopechart.filter(element => element != idName)
-    }
-    else { clicked_items_in_slopechart.push(idName) }
-    this.props.Set_clicked_items_in_slopechart(clicked_items_in_slopechart)
-    //-----Store the clicked items ends here
-
-    if (clicked_items_in_slopechart.length > 0) {
-      d3.selectAll('circle,.datapoint').attr('opacity', this.props.config.reduced_opacity)
-      this.props.clicked_items_in_slopechart.map(idName => {
-        d3.selectAll('#' + idName).attr('opacity', 1)
-        d3.selectAll('#' + idName).filter(d3.matcher('line')).style('stroke-width', 3)
-      })
-    }
-    else {
-      d3.selectAll('circle,.datapoint').attr('opacity', 1)
-    }
-
-    //d3.selectAll('.line1,.line2').attr('opacity',1)
-  }
+  componentDidMount() {this.dataprocessor(this.props.dataset)}
   //--------- data processor processes data for initial render
   dataprocessor = (dataset_name) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
@@ -145,13 +84,32 @@ class App extends Component {
     })
 
   }
-  //-----------------Models are generated ends here
-  componentDidMount() {
-    this.dataprocessor(this.props.dataset)
-  }
-  shouldComponentUpdate() {
-    return true;
-  }
+  handleradioChange = (selected_dataset) => {
+    this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
+    this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
+    this.props.Set_clicked_items_in_slopechart([])
+    this.props.Set_state_range([1, 25])
+    this.props.Set_histogram_data([])
+    this.props.Set_mode("Model")
+    this.props.Set_range_mode_range1([1, 25])
+    this.props.Set_range_mode_range2([15, 40])
+    this.props.Set_time_mode_range([5, 35])
+    if (selected_dataset == 'Fiscal Dataset') {
+      this.setState({ dataset: 'fiscal' })
+      this.props.Set_dataset('fiscal')
+      this.dataprocessor("fiscal")
+    }
+    else if (selected_dataset == 'House Dataset') {
+      this.setState({ dataset: 'house' })
+      this.props.Set_dataset('house')
+      this.dataprocessor("house")
+    }
+    else {
+      this.setState({ dataset: 'school' })
+      this.props.Set_dataset('school')
+      this.dataprocessor("school")
+    }
+  };
   render() {
     return (
       <div>
