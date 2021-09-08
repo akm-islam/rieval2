@@ -15,14 +15,14 @@ export default function CreateHistogram(data, svg, feature_name, feature_index, 
   var area_chart_width = feature_width - margin.left - margin.right
   const y = d3.scaleLinear().domain(d3.extent(item_data)).range([margin.top, area_chart_height])
 
-  var myticks = y.ticks(35)
+  var myticks = y.ticks(25)
   var binned_data = d3.histogram().value(d => d).domain(y.domain()).thresholds(myticks)(item_data)
   //--------- Create the areaChart
   var data = []
   binned_data.map((item, i) => data.push([item.x1, item.length]))
   var xScale = d3.scaleLinear().domain(d3.extent(data.map(item => item[0]))).range([margin.left, feature_width - margin.right]) // 20 is the baseline
   var yScale = d3.scaleLinear().domain([0, d3.max(data.map(item => item[1]))]).range([area_chart_height, 0])
-  const areaGenerator = d3.area().curve(d3.curveMonotoneY).x(d => xScale(d[0])).y0(yScale(0)).y1(d => yScale(d[1]))
+  const areaGenerator = d3.area().curve(d3.curveMonotoneX).x(d => xScale(d[0])).y0(yScale(0)).y1(d => yScale(d[1]))
 
   svg.append("path").attr('transform', 'translate(0,' + margin.top + ')')
     .attr("d", areaGenerator(data))
