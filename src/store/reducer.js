@@ -129,6 +129,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, tracking: action.value }
    }
    if (action.type === "grouped_by_year_data") {
+      console.log(action.value)
       return { ...state, grouped_by_year_data: action.value }
    }
    if (action.type === "sort_by") {
