@@ -12,7 +12,7 @@ export default function CreateHistogram(histogram_data, svg, feature_name, featu
   var area_chart_width = feature_width - margin.left - margin.right
   const y = d3.scaleLinear().domain(d3.extent(item_data)).range([margin.top, area_chart_height])
 
-  var myticks = y.ticks(35)
+  var myticks = y.ticks(25)
   var binned_data = d3.histogram().value(d => d).domain(y.domain()).thresholds(myticks)(item_data)
   //--------- Create the areaChart
   var area_chart_data = []
