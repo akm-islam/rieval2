@@ -1,3 +1,5 @@
+import { mode } from "d3-array";
+
 export function groupby_year(original_data) {
   var years = {}
   var sparkline_data = {}
@@ -50,9 +52,10 @@ export function sorted_features(dataset, model, state_range, selected_year,rank_
 
   if (model == "ListNet") { return [] }
   var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
+  
   data = state_range.map(index => data2[index])
+  //console.log('test',data,data2,rank_data[model],selected_year)
   feautures = Object.keys(data[0])
-
   data.map(item => {
     feautures.forEach(feauture => {
       if (tempvoted_data_with_score[feauture] >= 0 || tempvoted_data_with_score[feauture] < 0) {

@@ -65,58 +65,12 @@ class App extends Component {
 }
 const maptstateToprop = (state) => {
   return {
-    tracking: state.tracking,
-    state_range: state.state_range,
-    deviate_by: state.deviate_by,
-    defualt_models: state.defualt_models,
-    sparkline_data: state.sparkline_data,
-    selected_year: state.selected_year,
-    mode: state.mode,
-    range_mode_model: state.range_mode_model,
-    original_data: state.original_data,
-    time_mode_model: state.time_mode_model,
-    chart_scale_type: state.chart_scale_type,
-    dataset: state.dataset,
-    histogram_data: state.histogram_data,
-    sort_by: state.sort_by,
-    time_mode_year1: state.time_mode_year1,
-    time_mode_year2: state.time_mode_year2,
-    popup_chart_data: state.popup_chart_data,
-    clicked_items_in_slopechart: state.clicked_items_in_slopechart,
-    config: state.config,
-    lime_data: state.lime_data,
     rank_data: state.rank_data,
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_dataset: (val) => dispatch({ type: "dataset", value: val }),
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
-    Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
-    Set_slider_max: (val) => dispatch({ type: "slider_max", value: val }),
-    Set_years_for_dropdown: (val) => dispatch({ type: "years_for_dropdown", value: val }),
-    Set_selected_year: (val) => dispatch({ type: "selected_year", value: parseInt(val) }),
-    Set_ref_year: (val) => dispatch({ type: "ref_year", value: val }),
-    Set_original_data: (val) => dispatch({ type: "original_data", value: val }),
-    Set_grouped_by_year_data: (val) => dispatch({ type: "grouped_by_year_data", value: val }),
-    Set_slider_and_feature_value: (val) => dispatch({ type: "slider_and_feature_value", value: val }),
-    Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
-    Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),
-    Set_state_range: (val) => dispatch({ type: "state_range", value: val }),
-    Set_legend_year: (val) => dispatch({ type: "legend_year", value: val }),
-
-    Set_mode: (val) => dispatch({ type: "mode", value: val }),
-    Set_range_mode_range1: (val) => dispatch({ type: "range_mode_range1", value: val }),
-    Set_range_mode_range2: (val) => dispatch({ type: "range_mode_range2", value: val }),
-    Set_time_mode_range: (val) => dispatch({ type: "time_mode_range", value: val }),
-    Set_time_mode_year1: (val) => dispatch({ type: "time_mode_year1", value: val }),
-    Set_time_mode_year2: (val) => dispatch({ type: "time_mode_year2", value: val }),
-
-    Set_rank_data: (val) => dispatch({ type: "rank_data", value: val }),
-    Set_lime_data: (val) => dispatch({ type: "lime_data", value: val }),
-    Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
     Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
-
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(App);

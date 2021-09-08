@@ -18,7 +18,7 @@ let initialState = {
       "2006"
    ],
    selected_year: 2006,
-   selected_years: ["2006"],
+   selected_years: ["2011"],
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
@@ -66,27 +66,25 @@ let initialState = {
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
    if (action.type === "threshold") {
-      //console.log(action.value)
+  
       return { ...state, threshold: action.value }
    }
    if (action.type === "clicked_circles") {
-      //console.log(action.value)
       return { ...state, clicked_circles: action.value }
    }
    if (action.type === "average_y") {
-      console.log(action.value)
+      
       return { ...state, average_y: action.value }
    }
    if (action.type === "average_m") {
-      console.log(action.value)
+      
       return { ...state, average_m: action.value }
    } 
    if (action.type === "selected_years") {
-      console.log(action.value)
       return { ...state, selected_years: action.value[action.value.length-1],selected_year:action.value[action.value.length-1] }
    }
    if (action.type === "default_model_scores") {
-      //console.log(action.value)
+     
       return { ...state, default_model_scores: action.value }
    }
    if (action.type === "dbclicked_features") {
@@ -108,6 +106,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, defualt_models: action.value }
    }
    if (action.type === "rank_data") {
+      console.log('test',action.value)
       return { ...state, rank_data: action.value }
    }
    if (action.type === "original_data") {
@@ -129,7 +128,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, tracking: action.value }
    }
    if (action.type === "grouped_by_year_data") {
-      console.log(action.value)
+     
       return { ...state, grouped_by_year_data: action.value }
    }
    if (action.type === "sort_by") {

@@ -38,8 +38,8 @@ class App extends Component {
       histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",
     };
   }
-  componentDidMount() {this.dataprocessor(this.props.dataset)}
-  //--------- data processor processes data for initial render
+  componentDidMount() { this.dataprocessor(this.props.dataset) }
+  //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
   dataprocessor = (dataset_name) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, fiscal_lime, dataset_name) }
@@ -52,6 +52,7 @@ class App extends Component {
       var grouped_by_year_data = algo1.groupby_year(original_data).years
       var sparkline_data = algo1.groupby_year(original_data).sparkline_data
       var years_for_dropdown = Object.keys(grouped_by_year_data)
+      //console.log(grouped_by_year_data,sparkline_data,years_for_dropdown,'selected_year')
       self.props.Set_sparkline_data(sparkline_data)
       self.props.Set_slider_max(grouped_by_year_data[years_for_dropdown[0]].length)
       self.setState({ years_for_dropdown: years_for_dropdown })
@@ -82,11 +83,10 @@ class App extends Component {
       })
       self.props.Set_lime_data(nested_data)
     })
-
   }
+  //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
+
   handleradioChange = (selected_dataset) => {
-    this.setState({ show: ["Slope charts", "Rankings", "Explanation"] })
-    this.props.Set_slider_and_feature_value({ 'Rank range': 1, 'Feature': 0 })
     this.props.Set_clicked_items_in_slopechart([])
     this.props.Set_state_range([1, 25])
     this.props.Set_histogram_data([])
@@ -113,7 +113,7 @@ class App extends Component {
   render() {
     return (
       <div>
-     <Top handleradioChange={this.handleradioChange}></Top>
+        <Top handleradioChange={this.handleradioChange}></Top>
         <Row>
           <div className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
 

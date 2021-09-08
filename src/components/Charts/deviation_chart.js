@@ -14,7 +14,6 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   // font_line_gap=sparkline_width+4
   var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:20,font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
-  console.log(parent_height)
   var y_distance = parent_height/selected_instances.length
   //if(y_distance<parent_height/selected_instances.length){var y_distance=parent_height/selected_instances.length}
 

@@ -10,7 +10,7 @@ import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
 import ExpChart from './ExpChart';
 import './ModelSlider.scss';
-
+import YearModelSelection from "../../YearModelSelection/YearModelSelection"
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +53,7 @@ class SlopeChart extends Component {
     return (
       <div className="ModelChartParent" style={{backgroundColor: 'white', margin: 2, padding: 2, border: "2px solid grey", width: "100%", boxShadow: "-2px 1px 4px -1px white" }}>
         <div class="dev_parent" style={{display: "inline-block", minWidth: 405, width: "22%", paddingRight: 3, backgroundColor: "#fcfcfc", height: ($(".ModelChartParent").height())}}>
+          <YearModelSelection></YearModelSelection>
           <ModelSlider></ModelSlider>
           <svg id="dev_plot_container" style={{ width: "100%", height:window.innerHeight - 200, marginBottom: 10,overflow:'hidden' }}></svg>
           {

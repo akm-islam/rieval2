@@ -8,7 +8,6 @@ import Grid from "@material-ui/core/Grid"
 import FilterModel from "./FilterModel"
 import * as $ from 'jquery';
 export function SimplePopover(props) {
-    console.log(props.dbclicked_features)
     const handleClose = () =>{
         props.set_pop_over(false)
         props.set_dbclicked_features([])
