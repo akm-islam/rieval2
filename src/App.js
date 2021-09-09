@@ -17,7 +17,7 @@ import house_lime from "./Data/data/house/lime/house_lime.csv";
 import "./App.scss";
 import * as d3 from 'd3';
 import * as algo1 from "./Algorithms/algo1";
-import ModelChart from "./components/Charts/Model/ModelChart"
+import ModelChart from "./components/Charts/Model/ModelChartComponent"
 import RangeChart from "./components/Charts/Range/RangeChart"
 import YearChart from "./components/Charts/Time/YearChart"
 import { Row, Col } from 'reactstrap';

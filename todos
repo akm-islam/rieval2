@@ -1,7 +1,10 @@
 ----------------------------------------------------
 make the contribution range for each model so that it doesn't change when another model is added
 Add drag and drop feature
-Adjust the heigh of deviation plot
+Adjust the height of deviation plot
+color legend
+circle size legend
+add circle size scaling 
 
 
 -------------

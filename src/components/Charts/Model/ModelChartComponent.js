@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid';
-import * as algo1 from "../../../Algorithms/algo1";
 import * as deviation_chart from "../deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
-import ExpChart from './ExpChart';
+import ExpChart from './ExpChartComponent';
 import './ModelSlider.scss';
 import YearModelSelection from "../../YearModelSelection/YearModelSelection"
 class SlopeChart extends Component {
@@ -39,11 +37,6 @@ class SlopeChart extends Component {
 
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    //var number_of_charts = 9
-    //algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year,number_of_charts,this.props.rank_data)
-    //var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    //var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).slice(0, 18)
-
     deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }

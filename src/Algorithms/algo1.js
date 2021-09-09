@@ -50,8 +50,6 @@ export function sorted_features(dataset, model, selected_instances, selected_yea
   var tempvoted_data_with_score = {},items,data,feautures;
 
   if (model == "ListNet") { return [] }
-  //console.log('algo1',selected_year)
-  console.log('algo1',selected_year,rank_data[model][0])
   var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
   data = selected_instances.map(index => data2[index])
   feautures = Object.keys(data[0])
