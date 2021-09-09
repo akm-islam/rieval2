@@ -7,7 +7,7 @@ import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
 import ExpChart from './ExpChartComponent';
 import './ModelSlider.scss';
-import YearModelSelection from "../../YearModelSelection/YearModelSelection"
+import YearModelSelection from "./YearModelSelection/YearModelSelection"
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +47,9 @@ class SlopeChart extends Component {
         <div class="dev_parent" style={{display: "inline-block", minWidth: 405, width: "22%", paddingRight: 3, backgroundColor: "#fcfcfc", height: ($(".ModelChartParent").height())}}>
           <YearModelSelection></YearModelSelection>
           <ModelSlider></ModelSlider>
-          <svg id="dev_plot_container" style={{ width: "100%", height:window.innerHeight - 200, marginBottom: 10,overflow:'hidden' }}></svg>
+          <div class="dev_plot_container_div" style={{width: "100%", height:window.innerHeight - 200, marginBottom: 0,overflow:'scroll' }}>
+          <svg id="dev_plot_container" style={{ width: "100%",overflow:'hidden' }}></svg>
+          </div>
           {
             // subtracting 200 because this is the space take by uploader_topbar, years_model_container and Modelslider
           }

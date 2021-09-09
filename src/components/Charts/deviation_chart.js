@@ -6,7 +6,7 @@ import Create_sparkline from "./Sparkline"
 export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
-  var parent_height = $("#" + parent_id).height()-10
+  var parent_height = $(".dev_plot_container_div").height()
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
  
   var temp_scale_data = []
@@ -14,7 +14,8 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   // font_line_gap=sparkline_width+4
   var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:20,font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
   var y_distance = parent_height/selected_instances.length
-  //if(y_distance<parent_height/selected_instances.length){var y_distance=parent_height/selected_instances.length}
+  if(y_distance<15){var y_distance=15}
+  d3.select("#" + parent_id).attr("height",y_distance*selected_instances)
 
   var circle_radius = config.line_stroke_width / 2
   var t = textures.lines().size(5).strokeWidth(2).stroke("#cccccc").background("gray");

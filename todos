@@ -6,6 +6,7 @@ color legend
 circle size legend
 add circle size scaling 
 
+handle the select features when circles are clicked - exclude clicked circles that falls outside of the selected range
 
 -------------
 Remove all special characters from the featureName

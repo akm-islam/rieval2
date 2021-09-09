@@ -1,10 +1,12 @@
 import React from 'react';
 import "../Sliders.scss";
+import * as $ from 'jquery';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
+import ThresholdSlider from '../ThresholdSlider';
 import './ModelSlider.scss';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 function Modes(props) {
     const classes = useStyles();
     // states 
-    const [sliderRange, set_sliderRange] = React.useState(props.range_mode_range1);
+    const [sliderRange, set_sliderRange] = React.useState(props.state_range);
     //-----------------------------------------------------------------
     var temp_marks = [];
     var step = (props.slider_max - 1) / (6 - 1);
@@ -89,7 +91,7 @@ function Modes(props) {
             <div className="button" item xs="2" style={{ marginTop: -10 }}>
                 <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
                     onClick={() => {
-                        props.Set_range_mode_range1(sliderRange)
+                        props.Set_state_range(sliderRange)
                     }}
                 >Update range</Button>
             </div>
@@ -98,13 +100,28 @@ function Modes(props) {
 }
 const maptstateToprop = (state) => {
     return {
+        selected_year: state.selected_year,
+        state_range: state.state_range,
+        mode: state.mode, // Model mode model
         slider_max: state.slider_max,
+        range_mode_model: state.range_mode_model, // Range mode model
         range_mode_range1: state.range_mode_range1,
+        range_mode_range2: state.range_mode_range2,
+        time_mode_model: state.time_mode_model, // Time mode model
+        time_mode_range: state.time_mode_range,
+        time_mode_year1: state.time_mode_year1,
+        time_mode_year2: state.time_mode_year2,
+        years_for_dropdown: state.years_for_dropdown,
+        dataset: state.dataset,
+        defualt_models: state.defualt_models,
+        slider_and_feature_value: state.slider_and_feature_value,
+        sort_by: state.sort_by,
+        grouped_by_year_data: state.grouped_by_year_data
     }
 }
 const mapdispatchToprop = (dispatch) => {
     return {
-        Set_range_mode_range1: (val) => dispatch({ type: "range_mode_range1", value: val }),
+        Set_state_range: (val) => dispatch({ type: "state_range", value: val }),
         Set_changed: (val) => dispatch({ type: "changed", value: val }),
     }
 }

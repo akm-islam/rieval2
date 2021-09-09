@@ -36,7 +36,7 @@ let initialState = {
    legend_model: "CordAscent",
    legend_show_option: "Rank",
    legend_year: 2012,
-   mode: "Model",
+   mode: "Ranges",
    range_mode_model: "CordAscent",
    range_mode_range1: [1, 25],
    range_mode_range2: [15, 40],
@@ -146,9 +146,11 @@ const reducer = (state = initialState, action) => {
    }
    //----
    if (action.type === "range_mode_range1") {
+      console.log(action.value)
       return { ...state, range_mode_range1: action.value }
    }
    if (action.type === "range_mode_range2") {
+      console.log(action.value)
       return { ...state, range_mode_range2: action.value }
    }
    if (action.type === "time_mode_range") {

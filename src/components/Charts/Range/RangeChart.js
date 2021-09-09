@@ -9,6 +9,7 @@ import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import SliderGroup1 from './SliderGroup1';
 import SliderGroup2 from './SliderGroup2';
+import YearModelSelection from "./YearModelSelection/YearModelSelection"
 
 class SlopeChart extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid container direction="row" justifyContent="space-between" className="slope_chart_exp" style={{ backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", width: "100%", boxShadow: "-2px 1px 4px -1px white" }}>
+        <YearModelSelection></YearModelSelection>
         <Grid container item direction="column" justifyContent="space-between" style={{ paddingRight: 0, border: "1px solid #a0a0a0", height: "100%", width: "49.4%" }}>
           <p style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 1</p>
           <Grid item style={{ backgroundColor: "rgb(232, 232, 232,0.4)"}}><SliderGroup1></SliderGroup1></Grid>

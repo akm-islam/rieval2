@@ -121,7 +121,7 @@ class App extends Component {
               <Grid container direction="row" justify="flex-start" alignItems="center" >
                 <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - 35, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
-                  {this.props.mode == "Range" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
+                  {this.props.mode == "Ranges" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
                 </Grid>
               </Grid> : null}

@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FeaturesDropdown from "./FeaturesDropdown"
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import SelectMode from './SelectMode'
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends Component {
           <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
           <FeaturesDropdown></FeaturesDropdown>
+          <SelectMode></SelectMode>
         </Grid>
         {this.props.view_data == false ?
           <Row className="Topbar_container">
