@@ -46,7 +46,7 @@ function YearModelSelection(props) {
   }
   return (
     <div className="topbar" style={{width:"100%",marginBottom:2}}>
-    <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14 }}>Years:</h5>{props.years_for_dropdown.map(item => <p className={props.selected_years.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
+    <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14 }}>Years:</h5>{props.years_for_dropdown.map(item => <p className={props.selected_year==item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
     <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14}}>Models:</h5>{props.all_models.map(item => <p className={props.defualt_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}<p className="years_p" style={{ display: "inline-block"}} onClick={() => handle_model_click("All")}>All</p> <p className={props.average_m ? "years_p_selected years_p" : "years_p"} style={{ display: "inline-block"}} onClick={() => handle_model_click("Average")}>Average</p></div>
     </div>
   );
@@ -54,7 +54,6 @@ function YearModelSelection(props) {
 const maptstateToprop = (state) => {
   return {
     all_models:state.all_models,
-    selected_years: state.selected_years,
     tracking: state.tracking,
     selected_year: state.selected_year,
     years_for_dropdown: state.years_for_dropdown,

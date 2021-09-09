@@ -27,7 +27,7 @@ class App extends Component {
   buttonclickHandler = (value, type) => {
     console.log(value, type)
     setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
-    type = "button" ? this.setState({ view_data: value }) : null
+    type = "button" ? this.props.Set_view_data(value) : null
     type = "form" ? this.setState({ view_data: value }) : null
   }
   shouldComponentUpdate() {
@@ -43,7 +43,7 @@ class App extends Component {
           </ButtonGroup>
           <FeaturesDropdown></FeaturesDropdown>
         </Grid>
-        {this.state.view_data == false ?
+        {this.props.view_data == false ?
           <Row className="Topbar_container">
             <div className="load">
               <form onSubmit={() => this.buttonclickHandler(1, "form")}>
@@ -65,12 +65,12 @@ class App extends Component {
 }
 const maptstateToprop = (state) => {
   return {
-    rank_data: state.rank_data,
+    view_data: state.view_data,
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
+    Set_view_data: (val) => dispatch({ type: "view_data", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(App);

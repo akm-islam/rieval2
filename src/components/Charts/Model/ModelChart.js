@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import * as explanation_chart from "../explanation_chart";
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import * as algo1 from "../../../Algorithms/algo1";
@@ -40,10 +39,10 @@ class SlopeChart extends Component {
 
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    var number_of_charts = 9
+    //var number_of_charts = 9
     //algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year,number_of_charts,this.props.rank_data)
-    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).slice(0, 18)
+    //var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+    //var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).slice(0, 18)
 
     deviation_chart.Create_deviation_chart('dev_plot_container', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
@@ -60,14 +59,15 @@ class SlopeChart extends Component {
             // subtracting 200 because this is the space take by uploader_topbar, years_model_container and Modelslider
           }
         </div>
-
-        <div class="exp_parent" style={{ width: "78%"}}>
-      {
-        this.props.defualt_models.map(model_name=>{
-          return <ExpChart model_name={model_name}></ExpChart>
-        })
-      }
-      </div>
+{
+  this.props.rank_data!=null?<div class="exp_parent" style={{ width: "78%"}}>
+  {
+    this.props.defualt_models.map(model_name=>{
+      return <ExpChart model_name={model_name}></ExpChart>
+    })
+  }
+  </div>:null
+}
       </div>
     )
   }
@@ -83,7 +83,6 @@ const maptstateToprop = (state) => {
     original_data: state.original_data,
     time_mode_model: state.time_mode_model,
     chart_scale_type: state.chart_scale_type,
-    features_with_score: state.features_with_score,
     dataset: state.dataset,
     histogram_data: state.histogram_data,
     sparkline_data: state.sparkline_data,
@@ -94,7 +93,6 @@ const maptstateToprop = (state) => {
     average_m: state.average_m,
     average_y: state.average_y,
     lime_data: state.lime_data,
-    features_with_score: state.features_with_score,
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
     clicked_features: state.clicked_features,

@@ -87,6 +87,7 @@ class App extends Component {
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
 
   handleradioChange = (selected_dataset) => {
+    this.props.Set_rank_data(null)
     this.props.Set_clicked_items_in_slopechart([])
     this.props.Set_state_range([1, 25])
     this.props.Set_histogram_data([])
@@ -114,19 +115,18 @@ class App extends Component {
     return (
       <div>
         <Top handleradioChange={this.handleradioChange}></Top>
-        <Row>
-          <div className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
-
+        {this.props.view_data?<Row>
+          <div key={this.props.view_data} className="container_header_and_components" style={{ width: window.innerWidth, minHeight: window.innerHeight }}>
             {this.state.view_data == true ?
               <Grid container direction="row" justify="flex-start" alignItems="center" >
-                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - $('.uploader_topbar').height(), width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
+                <Grid container spacing={0} direction="row" justify="space-evenly" className="slopechart_container" style={{ height: window.innerHeight - 35, width: window.innerWidth - ($('.Sidebar_parent').width() + $('.legend').width() + 15) }}>
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                   {this.props.mode == "Range" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
                 </Grid>
               </Grid> : null}
           </div>
-        </Row>
+        </Row>:null}
         <Popover></Popover>
       </div>
     );
@@ -154,6 +154,7 @@ const maptstateToprop = (state) => {
     clicked_items_in_slopechart: state.clicked_items_in_slopechart,
     config: state.config,
     lime_data: state.lime_data,
+    view_data:state.view_data
   }
 }
 const mapdispatchToprop = (dispatch) => {

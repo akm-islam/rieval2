@@ -80,7 +80,7 @@ class SlopeChart extends Component {
     })
 
     //------------------------------
-    Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
+    //Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
     //------------------------------
   }
   render() {
@@ -105,7 +105,6 @@ const maptstateToprop = (state) => {
     original_data: state.original_data,
     time_mode_model: state.time_mode_model,
     chart_scale_type: state.chart_scale_type,
-    features_with_score: state.features_with_score,
     dataset: state.dataset,
     histogram_data: state.histogram_data,
     sparkline_data: state.sparkline_data,
@@ -116,7 +115,6 @@ const maptstateToprop = (state) => {
     average_m: state.average_m,
     average_y: state.average_y,
     lime_data: state.lime_data,
-    features_with_score: state.features_with_score,
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
     clicked_features: state.clicked_features,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import * as explanation_chart from "../explanation_chart";
+
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import * as algo1 from "../../../Algorithms/algo1";
@@ -23,29 +23,7 @@ class SlopeChart extends Component {
     return true;
   }
   componentDidUpdate(prevProps, prevState) {
-    // Range1
-    var min = d3.min([this.props.range_mode_range1[0],this.props.range_mode_range2[0]]), max = d3.max([this.props.range_mode_range1[1],this.props.range_mode_range2[1]]);
-    var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    
-    var selected_instances = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
-    var number_of_charts = 9
-    var features_with_score = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.range_mode_range1, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features = Object.entries(features_with_score).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts)
-    deviation_chart.Create_deviation_chart('r1d','r1e', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_years, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor,this.props.sparkline_data,this.props.Set_selected_year)
-    explanation_chart.CreatexpChart('r1e', selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    explanation_chart.CreatexpCircle('r1e', selected_instances, sorted_features, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    // Range2
-    var selected_instances2 = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
-    var features_with_score2 = algo1.features_with_score(this.props.dataset, this.props.defualt_models, this.props.range_mode_range2, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features2 = Object.entries(features_with_score2).sort((a, b) => a[1] - b[1]).slice(0, number_of_charts)
-    deviation_chart.Create_deviation_chart('r2d','r2e', selected_instances2, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_years, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor,this.props.sparkline_data,this.props.Set_selected_year)
-    explanation_chart.CreatexpChart('r2e', selected_instances2, sorted_features2, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    explanation_chart.CreatexpCircle('r2e', selected_instances2, sorted_features2, this.props.lime_data, this.props.selected_year, this.props.defualt_models, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.anim_config, this.props.clicked_features, this.props.Set_clicked_features)
-    //---------------------------------
-    misc_algo.draw_lines(this.props.clicked_circles, diverginColor, this.props.anim_config, sorted_features)
-    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
-
+   
   }
   render() {
     return (
@@ -71,7 +49,6 @@ const maptstateToprop = (state) => {
     range_mode_range1: state.range_mode_range1,
     range_mode_range2: state.range_mode_range2,
     selected_year: state.selected_year,
-    selected_years: state.selected_years,
     deviate_by: state.deviate_by,
     clicked_items_in_slopechart: state.clicked_items_in_slopechart,
     tracking: state.tracking,

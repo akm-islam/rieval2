@@ -1,5 +1,3 @@
-import { mode } from "d3-array";
-
 export function groupby_year(original_data) {
   var years = {}
   var sparkline_data = {}
@@ -15,13 +13,13 @@ export function groupby_year(original_data) {
   });
   return { years: years, sparkline_data: sparkline_data };
 }
-export function features_with_score(dataset, models, state_range, selected_year, number_of_charts, rank_data) {
+export function features_with_score(dataset, models, selected_instances, selected_year, number_of_charts, rank_data) {
   var temp1 = {}
   var temp_final = {}
   models.map(model => {
     var temp2 = {}
     var v = number_of_charts;
-    var top_nine = sorted_features(dataset, model, state_range, selected_year,rank_data)
+    var top_nine = sorted_features(dataset, model, selected_instances, selected_year,rank_data)
     if (top_nine.length < number_of_charts) { v = top_nine.length;; number_of_charts = top_nine.length } // This is because number of charts is calculated based on space but there are cases when we don't have that many features
     for (var i = 0; i < number_of_charts; i++) {
       temp2[top_nine[i]] = v;
@@ -45,16 +43,17 @@ export function features_with_score(dataset, models, state_range, selected_year,
 }
 
 
-export function sorted_features(dataset, model, state_range, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
-  if (!state_range.length > 0) { return [] }
-  state_range = state_range.map(element => element - 1)
+export function sorted_features(dataset, model, selected_instances, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
+ //return Object.keys(rank_data[model][0]).filter(item=>!['1-qid','model'].includes(item)).map(item=>item.replace("_feature_rank", ""))
+  if (!selected_instances.length > 0) { return [] }
+  selected_instances = selected_instances.map(element => element - 1)
   var tempvoted_data_with_score = {},items,data,feautures;
 
   if (model == "ListNet") { return [] }
+  //console.log('algo1',selected_year)
+  console.log('algo1',selected_year,rank_data[model][0])
   var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
-  
-  data = state_range.map(index => data2[index])
-  //console.log('test',data,data2,rank_data[model],selected_year)
+  data = selected_instances.map(index => data2[index])
   feautures = Object.keys(data[0])
   data.map(item => {
     feautures.forEach(feauture => {

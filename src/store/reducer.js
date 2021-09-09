@@ -18,7 +18,6 @@ let initialState = {
       "2006"
    ],
    selected_year: 2006,
-   selected_years: ["2011"],
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
@@ -65,8 +64,10 @@ let initialState = {
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "view_data") {
+      return { ...state, view_data: action.value }
+   }
    if (action.type === "threshold") {
-  
       return { ...state, threshold: action.value }
    }
    if (action.type === "clicked_circles") {
@@ -79,9 +80,6 @@ const reducer = (state = initialState, action) => {
    if (action.type === "average_m") {
       
       return { ...state, average_m: action.value }
-   } 
-   if (action.type === "selected_years") {
-      return { ...state, selected_years: action.value[action.value.length-1],selected_year:action.value[action.value.length-1] }
    }
    if (action.type === "default_model_scores") {
      
@@ -106,7 +104,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, defualt_models: action.value }
    }
    if (action.type === "rank_data") {
-      console.log('test',action.value)
+
       return { ...state, rank_data: action.value }
    }
    if (action.type === "original_data") {
@@ -122,7 +120,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, state_range: action.value }
    }
    if (action.type === "selected_year") {
-      return { ...state, selected_year: action.value,selected_years: [action.value.toString()] }
+      return { ...state, selected_year: action.value}
    }
    if (action.type === "tracking") {
       return { ...state, tracking: action.value }
