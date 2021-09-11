@@ -6,9 +6,8 @@ import Create_sparkline from "./Sparkline"
 export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
-  var parent_height = $(".dev_plot_container_div").height()
+  var parent_height = $("." + 'deviation_plot_container_div').height() // deviation_plot_container_div is the div that contains the deviation plot for all modes
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
- 
   var temp_scale_data = []
   data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   // font_line_gap=sparkline_width+4
