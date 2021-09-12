@@ -45,7 +45,7 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="Modelslider" style={{height: 70, width: "100%",
+        <div className="Modelslider" style={{height: 70, width: "99%",
             paddingTop: 30, border: "2px solid rgb(178, 178, 178,0.5)"
         }} >
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>

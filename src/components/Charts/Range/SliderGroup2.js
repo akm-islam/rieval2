@@ -43,7 +43,7 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="Modelslider" style={{height: 70, width: "100%", paddingTop: 30,paddingLeft:15, border: "2px solid rgb(178, 178, 178,0.5)"}}>
+        <div className="Modelslider" style={{height: 70, width: "100%",marginBottom:5, paddingTop: 30,paddingLeft:15, border: "1px solid rgb(178, 178, 178,0.5)"}}>
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>
                 <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: "100%" }}
                     onChange={event => {

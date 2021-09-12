@@ -52,7 +52,7 @@ class SlopeChart extends Component {
           <YearModelSelection></YearModelSelection>
         </div>
         {/* Group 1 */}
-        <Grid className="Group1_container" style={{ height: "100%", width: "49.4%", paddingRight: 0, border: "1px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
+        <Grid className="Group1_container" style={{ height: "100%", width: "49.4%", paddingRight: 0, border: "2px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
           <p className="title_p1" style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 1</p>
           <Grid className="slidergroup1" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><SliderGroup1></SliderGroup1></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
@@ -67,7 +67,7 @@ class SlopeChart extends Component {
           </Grid>
         </Grid>
         {/* Group 2 */}
-        <Grid className="Group2_container" style={{ height: "100%", width: "49.4%",marginLeft:'0.5%', paddingRight: 0, border: "1px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
+        <Grid className="Group2_container" style={{ height: "100%", width: "49.4%",marginLeft:'0.5%', paddingRight: 0, border: "2px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
           <p className="title_p2" style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 2</p>
           <Grid className="slidergroup2" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><SliderGroup2></SliderGroup2></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
