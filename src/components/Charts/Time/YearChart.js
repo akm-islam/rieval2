@@ -3,15 +3,13 @@ import * as d3 from 'd3';
 import './ModelSlider.scss';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import * as algo1 from "../../../Algorithms/algo1";
-import * as deviation_chart from "../deviation_chart"
+import * as deviation_chart from "../DevPlot/deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import ExpChart from '../ExpChart/ExpChartComponent';
-
 class SlopeChart extends Component {
   constructor(props) {
     super(props);

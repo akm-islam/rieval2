@@ -41,7 +41,7 @@ class App extends Component {
           <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
           <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
-          <FeaturesDropdown></FeaturesDropdown>
+          {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
           <SelectMode></SelectMode>
         </Grid>
         {this.props.view_data == false ?
@@ -67,6 +67,7 @@ class App extends Component {
 const maptstateToprop = (state) => {
   return {
     view_data: state.view_data,
+    mode:state.mode,
   }
 }
 const mapdispatchToprop = (dispatch) => {

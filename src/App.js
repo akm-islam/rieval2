@@ -24,7 +24,6 @@ import { Row, Col } from 'reactstrap';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import "./components/Charts/Charts.css"
 import Popover from './components/Popover/Popover';
 import Top from './components/Top/Top';
 import BrushTest from './components/BrushTest/BrushTest';

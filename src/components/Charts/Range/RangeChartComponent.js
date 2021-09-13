@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import * as algo1 from "../../../Algorithms/algo1";
-import * as deviation_chart from "../deviation_chart"
+import * as deviation_chart from "../DevPlot/deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import SliderGroup1 from './SliderGroup1';
