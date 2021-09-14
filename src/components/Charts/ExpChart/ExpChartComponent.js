@@ -35,9 +35,6 @@ class SlopeChart extends Component {
     })
     selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
     //------------------------------
-    var min = d3.min(selected_instances), max = d3.max(selected_instances);
-    var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])).slice(0, number_of_charts + 1)
@@ -109,7 +106,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [self.props.model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, diverginColor, self.props.anim_config, item_width, item_height,self.props.deviation_array)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height,self.props.deviation_array)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (this.props.clicked_features.includes(d[0])) {

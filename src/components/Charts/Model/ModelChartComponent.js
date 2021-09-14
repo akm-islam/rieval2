@@ -84,7 +84,7 @@ class SlopeChart extends Component {
               {
                 this.props.default_models.map(model_name => {
                   return <Grid item xs={parseInt(12 / this.props.default_models.length)} style={{ height: "100%", overflow: 'hidden' }}>
-                    <ExpChart exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
+                    <ExpChart diverginColor={diverginColor} exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
                   </Grid>
                 })
               }

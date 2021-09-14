@@ -25,7 +25,7 @@ class SlopeChart extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     //------------------------------
-    var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0],this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1],this.props.range_mode_range2[1]]) + 1)
+    var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0], this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1], this.props.range_mode_range2[1]]) + 1)
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
@@ -41,16 +41,26 @@ class SlopeChart extends Component {
 
   }
   render() {
-        //------------------------------
-        var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0],this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1],this.props.range_mode_range2[1]]) + 1)
-        var min = d3.min(selected_instances), max = d3.max(selected_instances);
-        var d = (max - min) / 8;
-        var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    //------------------------------
+    var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0], this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1], this.props.range_mode_range2[1]]) + 1)
+    var min = d3.min(selected_instances), max = d3.max(selected_instances);
+    var d = (max - min) / 8;
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    //--------------------
+    var deviation_array = []
     
+      this.props.lime_data[this.props.range_mode_model].map(item => {
+        if (item['1-qid'] == this.props.selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+          deviation_array.push(item['deviation'])
+        }
+      })
+    this.props.Set_deviation_array(deviation_array)
+    //console.log('deviation_array: ', d3.extent(deviation_array))
+    //--------------------
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
         className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", overflow: 'hidden' }}>
-        <div className="year_and_model_selector_and_slider_container" style={{ width: "100%"}}> {/* This is used to calculate the deviation plot height */}
+        <div className="year_and_model_selector_and_slider_container" style={{ width: "100%" }}> {/* This is used to calculate the deviation plot height */}
           <YearModelSelection></YearModelSelection>
         </div>
         {/* Group 1 */}
@@ -58,27 +68,27 @@ class SlopeChart extends Component {
           <p className="title_p1" style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 1</p>
           <Grid className="slidergroup1" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><SliderGroup1></SliderGroup1></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll',borderRight:'1px solid #dbdbdb' }}>
+            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
               <svg id="r1d" style={{ width: "100%", padding: 5 }}></svg>
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r1exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_id="r1exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
         </Grid>
         {/* Group 2 */}
-        <Grid className="Group2_container" style={{ height: "100%", width: "49.4%",marginLeft:'0.5%', paddingRight: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
+        <Grid className="Group2_container" style={{ height: "100%", width: "49.4%", marginLeft: '0.5%', paddingRight: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
           <p className="title_p2" style={{ margin: 0, paddingLeft: "45%", backgroundColor: "rgb(232, 232, 232,0.4)", fontWeight: "bolder", borderBottom: "1px solid #cecece" }}>Group 2</p>
           <Grid className="slidergroup2" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><SliderGroup2></SliderGroup2></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll',borderRight:'1px solid #dbdbdb' }}>
+            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
               <svg id="r2d" style={{ width: "100%", padding: 5 }}></svg>
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r2exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_id="r2exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -94,6 +104,7 @@ const maptstateToprop = (state) => {
     range_mode_range1: state.range_mode_range1,
     range_mode_range2: state.range_mode_range2,
     range_mode_model: state.range_mode_model,
+    lime_data:state.lime_data,
     selected_year: state.selected_year,
     default_models: state.default_models,
     original_data: state.original_data,
@@ -111,6 +122,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
+    Set_deviation_array: (val) => dispatch({ type: "deviation_array", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_selected_year: (val) => dispatch({ type: "selected_year", value: val }),
   }

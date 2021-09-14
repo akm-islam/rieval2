@@ -27,6 +27,7 @@ import Grid from '@material-ui/core/Grid';
 import Top from './components/Top/Top';
 import BrushTest from './components/BrushTest/BrushTest';
 import { Hidden } from '@material-ui/core';
+import Legend from '../src/components/Legend/Legend'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -117,7 +118,7 @@ class App extends Component {
     }
   };
   render() {
-    var legend_width = 0
+    var legend_width = 70
     return (
       <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth, overflow: "hidden" }}>
         <div className="topBar_root" style={{ height: 30, width: window.innerWidth}}>
@@ -132,7 +133,7 @@ class App extends Component {
                   {this.props.mode == "Ranges" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
                 </Grid>
-                <div className="legend_container" style={{ padding: 5, height: '100%', width: legend_width, backgroundColor: "grey" }}></div>
+                <div style={{ padding: 0,marginTop:5, height: '100%', width: legend_width }}><Legend legend_width={legend_width}></Legend></div>
               </Grid> : null}
           </div>
         </Row> : null}
