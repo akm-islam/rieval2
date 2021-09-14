@@ -165,7 +165,7 @@ class Chart extends Component {
         .attr("actual_Y_valu", d => d[feature_contribute])
         .attr("r", 4)
         .attr("class", "random")
-        .attr("fill", (d) => self.props.color_gen(d['State']))
+        //.attr("fill", (d) => self.props.color_gen(d['State']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
@@ -302,7 +302,7 @@ class Chart extends Component {
         .attr("actual_Y_valu", d => d[feature_contribute])
         .attr("r", 4)
         .attr("class", "random")
-        .attr("fill", (d) => self.props.color_gen(d['State']))
+        //.attr("fill", (d) => self.props.color_gen(d['State']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
@@ -340,7 +340,7 @@ d3.selectAll('.exp_circles')
     return (
       <div style={{ margin: 10, padding: 10, border: this.props.index == 0 ? "3px solid #e5e5e5" : "white" }}>
         <svg id={this.props.myid}> </svg>
-        
+        <p style={{ color: "#4f4c4c", marginLeft: "42%", marginTop: -25, marginBottom: 0 }}>{this.props.popup_chart_data[1]}</p>
       </div>
     );
   }
@@ -354,7 +354,6 @@ const maptstateToprop = (state) => {
     mode: state.mode,
     range_mode_model: state.range_mode_model,
     time_mode_model: state.time_mode_model,
-    default_models:state.default_models
   }
 }
 const mapdispatchToprop = (dispatch) => {

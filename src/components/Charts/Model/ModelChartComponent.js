@@ -9,6 +9,7 @@ import ExpChart from '../ExpChart/ExpChartComponent';
 import './ModelSlider.scss';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import Grid from '@material-ui/core/Grid';
+import Popover from '../Popover/Popover';
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +25,7 @@ class SlopeChart extends Component {
     /*
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
-    this.props.defualt_models.map(model_name => {
+    this.props.default_models.map(model_name => {
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[model_name])
@@ -39,7 +40,7 @@ class SlopeChart extends Component {
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    deviation_chart.Create_deviation_chart('dev_plot_container_svg', 'exp', selected_instances, this.props.original_data, this.props.defualt_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    deviation_chart.Create_deviation_chart('dev_plot_container_svg', 'exp', selected_instances, this.props.original_data, this.props.default_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
   render() {
@@ -61,15 +62,16 @@ class SlopeChart extends Component {
           <Grid item className="right_container" style={{ height: '100%', width: $('.ModelChartParent').width() - $('.left_container').width()}}>
             <Grid container direction="row" justify="flex-start" alignItems="center" style={{width:'100%',height:'100%'}}>
             {
-              this.props.defualt_models.map(model_name => {
-                return <Grid item xs={parseInt(12/this.props.defualt_models.length)} style={{ height: "100%",overflow: 'hidden' }}>
-                  <ExpChart exp_id="exp" default_models={this.props.defualt_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
+              this.props.default_models.map(model_name => {
+                return <Grid item xs={parseInt(12/this.props.default_models.length)} style={{ height: "100%",overflow: 'hidden' }}>
+                  <ExpChart exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
                 </Grid>
               })
             }
             </Grid>
           </Grid> : null}
         {/* The explanation plot container ends here */}
+        <Popover default_models={this.props.default_models}></Popover>
       </Grid>
     )
   }
@@ -79,7 +81,7 @@ const maptstateToprop = (state) => {
     histogram_data: state.histogram_data,
     state_range: state.state_range,
     selected_year: state.selected_year,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,

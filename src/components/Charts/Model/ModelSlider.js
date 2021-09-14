@@ -111,7 +111,7 @@ const maptstateToprop = (state) => {
         time_mode_year2: state.time_mode_year2,
         years_for_dropdown: state.years_for_dropdown,
         dataset: state.dataset,
-        defualt_models: state.defualt_models,
+        default_models: state.default_models,
         slider_and_feature_value: state.slider_and_feature_value,
         sort_by: state.sort_by,
         grouped_by_year_data: state.grouped_by_year_data

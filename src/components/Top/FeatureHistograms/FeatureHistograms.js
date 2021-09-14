@@ -38,7 +38,7 @@ class FeatureHistograms extends Component {
         var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
         //--------------------
         var number_of_charts = 9
-        var features_dict = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+        var features_dict = algo1.features_with_score(this.props.dataset, this.props.default_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
         var sorted_features = Object.entries(features_dict).sort((first, second) => second[1] - first[1]).map(element => element[0])
         //--------------------
         if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent }
@@ -98,7 +98,7 @@ const maptstateToprop = (state) => {
         dataset: state.dataset,
         deviate_by: state.deviate_by,
         state_range: state.state_range,
-        defualt_models: state.defualt_models,
+        default_models: state.default_models,
         selected_year: state.selected_year,
         sparkline_data: state.sparkline_data,
         show: state.show,

@@ -39,18 +39,18 @@ function FadeMenu(props) {
   }
   const checkboxChanged = (event) => {
     var temp_Models;
-    if (props.defualt_models.includes(event.target.value)) {
-      temp_Models = props.defualt_models.filter(item => {
+    if (props.default_models.includes(event.target.value)) {
+      temp_Models = props.default_models.filter(item => {
         if (item != event.target.value)
           return item
       })
-      props.Set_defualt_models(temp_Models)
+      props.Set_default_models(temp_Models)
       props.Set_pop_over_models(temp_Models)
     }
     else {
-      temp_Models = props.defualt_models
+      temp_Models = props.default_models
       temp_Models.push(event.target.value)
-      props.Set_defualt_models(temp_Models)
+      props.Set_default_models(temp_Models)
       props.Set_pop_over_models(temp_Models)
     }
     var myfunc = props.appHandleChange
@@ -77,7 +77,7 @@ function FadeMenu(props) {
               return (
                 <ListItem key={value} role={undefined} onClick={handleToggle(value)}>
                   <Checkbox
-                    checked={props.defualt_models.includes(value)}
+                    checked={props.default_models.includes(value)}
                     edge="start"
                     tabIndex={-1}
                     value={value}
@@ -98,7 +98,7 @@ function FadeMenu(props) {
 }
 const maptstateToprop = (state) => {
   return {
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     sort_by: state.sort_by,
     state_range: state.state_range,
     selected_year: state.selected_year,
@@ -107,7 +107,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
   }
 }

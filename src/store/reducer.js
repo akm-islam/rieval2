@@ -8,7 +8,7 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   defualt_models: ["LinearReg","CordAscent"], // Change the pop_over_models as well
+   default_models: ["LinearReg","CordAscent"], // Change the pop_over_models as well
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
@@ -51,7 +51,7 @@ let initialState = {
    changed: "year",
    popup_chart_data: null,
    pop_over: false,
-   pop_over_models: ["MART", "LinearReg"],
+   pop_over_models: ["LinearReg","CordAscent"],
    clicked_features: [],
    drag_drop_feautre_data: {},
    dbclicked_features: [],
@@ -100,8 +100,8 @@ const reducer = (state = initialState, action) => {
    if (action.type === "lime_data") {
       return { ...state, lime_data: action.value }
    }
-   if (action.type === "defualt_models") {
-      return { ...state, defualt_models: action.value }
+   if (action.type === "default_models") {
+      return { ...state, default_models: action.value }
    }
    if (action.type === "rank_data") {
 

@@ -43,7 +43,7 @@ const maptstateToprop = (state) => {
         time_mode_year2: state.time_mode_year2,
         years_for_dropdown: state.years_for_dropdown,
         dataset: state.dataset,
-        defualt_models: state.defualt_models,
+        default_models: state.default_models,
         slider_and_feature_value: state.slider_and_feature_value,
         sort_by: state.sort_by,
         grouped_by_year_data: state.grouped_by_year_data,
@@ -67,7 +67,7 @@ const mapdispatchToprop = (dispatch) => {
         Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
         Set_changed: (val) => dispatch({ type: "changed", value: val }),
         Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
-        Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+        Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
         Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
 
     }

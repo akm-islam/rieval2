@@ -25,10 +25,10 @@ function Sort(props) {
         if(event.target.value=="None"){var val="Alphabetically"}
         else{var val=event.target.value}
         props.Set_sort_by(val)
-        var temp_Models = algo1.sort(val, props.state_range, props.defualt_models, props.selected_year,props.grouped_by_year_data)[0];
-        var default_model_scores = algo1.sort(val, props.state_range, props.defualt_models, props.selected_year,props.grouped_by_year_data)[1];
+        var temp_Models = algo1.sort(val, props.state_range, props.default_models, props.selected_year,props.grouped_by_year_data)[0];
+        var default_model_scores = algo1.sort(val, props.state_range, props.default_models, props.selected_year,props.grouped_by_year_data)[1];
         props.Set_default_model_scores(default_model_scores)
-        props.Set_defualt_models(temp_Models)
+        props.Set_default_models(temp_Models)
       };
     return (
         <div className="sort" style={{borderRight:"1px dashed #eaeaea"}}>
@@ -55,7 +55,7 @@ function Sort(props) {
 }
 const maptstateToprop = (state) => {
     return {
-        defualt_models: state.defualt_models,
+        default_models: state.default_models,
         sort_by:state.sort_by,
         state_range: state.state_range,
         selected_year: state.selected_year,
@@ -65,7 +65,7 @@ const maptstateToprop = (state) => {
 const mapdispatchToprop = (dispatch) => {
     return {
         Set_sort_by: (val) => dispatch({ type: "sort_by", value: val }),
-        Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+        Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
         Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
     }
 }

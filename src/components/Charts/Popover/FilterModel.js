@@ -60,7 +60,10 @@ function FadeMenu(props) {
               const labelId = `checkbox-list-label-${value}`;
               return (
                 <ListItem key={value} role={undefined} onClick={handleToggle(value)}>
-                  <Checkbox checked={props.pop_over_models.includes(value)} edge="start" tabIndex={-1}
+                  <Checkbox
+                    checked={props.pop_over_models.includes(value)}
+                    edge="start"
+                    tabIndex={-1}
                     value={value}
                     onChange={(event, value) => {
                       checkboxChanged(event, value)
@@ -79,8 +82,7 @@ function FadeMenu(props) {
 }
 const maptstateToprop = (state) => {
   return {
-    pop_over_models:state.pop_over_models,
-    default_models:state.default_models
+    pop_over_models:state.pop_over_models
   }
 }
 const mapdispatchToprop = (dispatch) => {

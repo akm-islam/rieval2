@@ -87,7 +87,7 @@ const maptstateToprop = (state) => {
     mode: state.mode,
     time_mode_range: state.time_mode_range,
     range_mode_model: state.range_mode_model,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,

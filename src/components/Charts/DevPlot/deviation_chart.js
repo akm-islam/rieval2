@@ -3,14 +3,14 @@ import * as $ from 'jquery';
 import textures from 'textures';
 import Create_sparkline from "./Sparkline"
 
-export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, defualt_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
+export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, default_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var parent_height = $("." + 'deviation_plot_container_div').height() // deviation_plot_container_div is the div that contains the deviation plot for all modes
   console.log($('.Group1_container').height(),$('.title_p1').height() , $('.slidergroup1').height() , $('.year_and_model_selector_and_slider_container').height(),'parent_height')
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
-  data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
+  data.map(item => { default_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
   // font_line_gap=sparkline_width+4
   var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:20,font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
   var y_distance = parent_height/selected_instances.length
@@ -44,7 +44,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
     .attr("add_lines_and_circles", function (d) {
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var line_data = []
-      defualt_models.map(model_name => {
+      default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
           a['two_realRank'] = parseInt(item['two_realRank'])
@@ -56,7 +56,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       })
       // This is only for scaling starts here
       var temp_scale_data = []
-      data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
+      data.map(item => { default_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
       var temp_max = d3.max(temp_scale_data)
       var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, parent_width - (config.space_for_state_name + circle_radius)])
       if (temp_max == 0) { var sclale1 = d3.scaleLinear().domain([0, temp_max]).range([config.font_line_gap, 0]) }
@@ -76,7 +76,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       // ------------ Circles start here
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var circ_data = []
-      defualt_models.map(model_name => {
+      default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
           a['two_realRank'] = parseInt(item['two_realRank'])

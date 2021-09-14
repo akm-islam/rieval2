@@ -57,7 +57,7 @@ class Chart extends Component {
     if (number_of_charts < 9) { number_of_charts = 9 }
     var identifier = "svg_" + this.props.model_name2
     d3.selectAll(".exp_chart").style("height", ((number_of_charts / 3) * 260) + "px");
-    var features_with_score = algo1.voted_dict4(this.props.dataset, this.props.defualt_models, d3.range(this.props.state_range[0], this.props.state_range[1]), this.props.selected_year, number_of_charts)
+    var features_with_score = algo1.voted_dict4(this.props.dataset, this.props.default_models, d3.range(this.props.state_range[0], this.props.state_range[1]), this.props.selected_year, number_of_charts)
 
     //-----------------------------
     var number_of_contribution_text = (number_of_charts / 3) * 2 // multiplied by two because we need them on both sides
@@ -202,7 +202,7 @@ class Chart extends Component {
     var width_for_each_feature = total_width_for_all_features / 3
 
     var sorted_features = algo1.sorted_features(this.props.dataset, this.props.model_name, d3.range(this.props.state_range[0], this.props.state_range[1]), this.props.selected_year,number_of_charts);
-    var features_with_score = algo1.voted_dict4(this.props.dataset, this.props.defualt_models, d3.range(this.props.state_range[0], this.props.state_range[1]), this.props.selected_year, number_of_charts)
+    var features_with_score = algo1.voted_dict4(this.props.dataset, this.props.default_models, d3.range(this.props.state_range[0], this.props.state_range[1]), this.props.selected_year, number_of_charts)
     console.log("features_with_score",features_with_score,number_of_charts)
     if (sorted_features.length < number_of_charts) { number_of_charts = sorted_features.length }
     if (number_of_charts < 9) { number_of_charts = 9 }
@@ -304,7 +304,7 @@ class Chart extends Component {
     var number_of_filters_end = this.props.state_range[1];
     var dataset = this.props.dataset;
     var histogram_data = this.props.histogram_data;
-    var models = this.props.defualt_models;
+    var models = this.props.default_models;
     var selected_range = [];
     var formatSuffix = d3.format(".0s");
     var formatDecimal = d3.format(".2f");
@@ -685,7 +685,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
   }
 }

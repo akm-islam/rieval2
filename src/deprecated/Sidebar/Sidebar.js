@@ -56,7 +56,7 @@ const maptstateToprop = (state) => {
   return {
     deviate_by: state.deviate_by,
     state_range: state.state_range,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     selected_year: state.selected_year,
     sparkline_data: state.sparkline_data,
     show: state.show,
@@ -66,7 +66,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
     Set_slider_max: (val) => dispatch({ type: "slider_max", value: val }),
     Set_years_for_dropdown: (val) => dispatch({ type: "years_for_dropdown", value: val }),

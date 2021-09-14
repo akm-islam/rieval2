@@ -20,7 +20,7 @@ const maptstateToprop = (state) => {
     all_models: state.all_models,
     selected_year: state.selected_year,
     years_for_dropdown: state.years_for_dropdown,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     range_mode_model: state.range_mode_model,
   }
 }

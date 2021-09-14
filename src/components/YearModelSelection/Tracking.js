@@ -52,7 +52,7 @@ function Tracking(props) {
 const maptstateToprop = (state) => {
   return {
     tracking: state.tracking,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     sort_by: state.sort_by,
     state_range: state.state_range,
     selected_year: state.selected_year,

@@ -33,21 +33,21 @@ function TopBar(props) {
     props.Set_selected_year(year)
   }
   var handle_model_click=(model)=>{
-    if(model=="All"){props.Set_defualt_models([...props.all_models])}
+    if(model=="All"){props.Set_default_models([...props.all_models])}
     else if(model=="Average"){props.Set_average_m(!props.average_m)}
     else{
-      if (props.defualt_models.includes(model)) {
-        props.Set_defualt_models(props.defualt_models.filter(item=>item!=model))
+      if (props.default_models.includes(model)) {
+        props.Set_default_models(props.default_models.filter(item=>item!=model))
       }
       else {
-        props.Set_defualt_models([...props.defualt_models,model])
+        props.Set_default_models([...props.default_models,model])
       }  
     }
   }
   return (
     <div className="years_model_container" style={{width:"100%",marginBottom:2}}>
     <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14 }}>Years:</h5>{props.years_for_dropdown.map(item => <p className={props.selected_year==item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
-    <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14}}>Models:</h5>{props.all_models.map(item => <p className={props.defualt_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}<p className="years_p" style={{ display: "inline-block"}} onClick={() => handle_model_click("All")}>All</p> <p className={props.average_m ? "years_p_selected years_p" : "years_p"} style={{ display: "inline-block"}} onClick={() => handle_model_click("Average")}>Average</p></div>
+    <div><h5 style={{ display: "inline-block", marginLeft: 0,fontSize:14}}>Models:</h5>{props.all_models.map(item => <p className={props.default_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}<p className="years_p" style={{ display: "inline-block"}} onClick={() => handle_model_click("All")}>All</p> <p className={props.average_m ? "years_p_selected years_p" : "years_p"} style={{ display: "inline-block"}} onClick={() => handle_model_click("Average")}>Average</p></div>
     </div>
   );
 }
@@ -57,7 +57,7 @@ const maptstateToprop = (state) => {
     tracking: state.tracking,
     selected_year: state.selected_year,
     years_for_dropdown: state.years_for_dropdown,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     mode: state.mode,
     prev_prop: state.prev_prop,
     state_range: state.state_range,
@@ -86,7 +86,7 @@ const mapdispatchToprop = (dispatch) => {
     Set_range_mode_range2: (val) => dispatch({ type: "range_mode_range2", value: val }),
     Set_time_mode_range: (val) => dispatch({ type: "time_mode_range", value: val }),
     Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
     Set_average_m: (val) => dispatch({ type: "average_m", value: val }),
   }

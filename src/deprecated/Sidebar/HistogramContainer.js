@@ -22,7 +22,7 @@ class Chart extends Component {
     //--------------------
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
-    this.props.defualt_models.map(model_name => {
+    this.props.default_models.map(model_name => {
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[model_name])
@@ -34,7 +34,7 @@ class Chart extends Component {
     selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
     //--------------------
     var number_of_charts = 9
-    var features_dict = algo1.features_with_score(this.props.dataset, this.props.defualt_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+    var features_dict = algo1.features_with_score(this.props.dataset, this.props.default_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     var items = Object.keys(features_dict).map(function (key) {
       return [key, features_dict[key]];
     });
@@ -126,7 +126,7 @@ class Chart extends Component {
 const maptstateToprop = (state) => {
   return {
     state_range: state.state_range,
-    defualt_models: state.defualt_models,
+    default_models: state.default_models,
     dataset: state.dataset,
     selected_year: state.selected_year,
     slider_and_feature_value: state.slider_and_feature_value,
@@ -139,7 +139,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_defualt_models: (val) => dispatch({ type: "defualt_models", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),
     Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),
     Set_state_range: (val) => dispatch({ type: "state_range", value: val }),

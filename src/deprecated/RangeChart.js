@@ -291,7 +291,7 @@ const maptstateToprop=(state)=>{
 }
 const mapdispatchToprop=(dispatch)=>{
   return{
-    Set_defualt_models:(val)=>dispatch({type:"defualt_models",value:val}),
+    Set_default_models:(val)=>dispatch({type:"default_models",value:val}),
     Set_sparkline_data:(val)=>dispatch({type:"sparkline_data",value:val}),
     Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
   }
