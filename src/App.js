@@ -75,7 +75,13 @@ class App extends Component {
       self.props.Set_rank_data(nested_data)
     })
     //-------------
-    d3.csv(lime_data_filename).then(data => {
+    d3.csv(lime_data_filename).then(temp_data => {
+      var data=temp_data.map(item=>{
+        item['predicted']=parseInt(item['predicted'])
+        item['two_realRank']=parseInt(item['two_realRank'])
+        item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
+        return item
+      })
       var nested_data = {}
       d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {
         nested_data[item.key] = item.values

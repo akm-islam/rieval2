@@ -61,9 +61,13 @@ let initialState = {
    average_m: false,
    clicked_circles:[],
    threshold:1000,
+   deviation_array:[],
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "deviation_array") {
+      return { ...state, deviation_array: action.value }
+   }
    if (action.type === "view_data") {
       return { ...state, view_data: action.value }
    }

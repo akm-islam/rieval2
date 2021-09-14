@@ -17,7 +17,7 @@ class SlopeChart extends Component {
     this.setState({ width: window.innerHeight })
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('width and height upd', $('.explanation_chart_parent').height())
+    console.log(this.props.lime_data[this.props.default_models[0]][2]['deviation'],'lime_data')
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
@@ -109,7 +109,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [self.props.model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, diverginColor, self.props.anim_config, item_width, item_height)
+        self.props.Set_clicked_circles, diverginColor, self.props.anim_config, item_width, item_height,self.props.deviation_array)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (this.props.clicked_features.includes(d[0])) {
@@ -132,6 +132,7 @@ class SlopeChart extends Component {
 }
 const maptstateToprop = (state) => {
   return {
+    deviation_array:state.deviation_array,
     original_data: state.original_data,
     time_mode_model: state.time_mode_model,
     chart_scale_type: state.chart_scale_type,

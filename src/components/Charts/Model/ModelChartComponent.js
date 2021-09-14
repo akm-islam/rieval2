@@ -53,7 +53,17 @@ class SlopeChart extends Component {
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     //--------------------
-
+    var deviation_array = []
+    this.props.default_models.map(model => {
+      this.props.lime_data[model].map(item => {
+        if (item['1-qid'] == this.props.selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+          deviation_array.push(item['deviation'])
+        }
+      })
+    })
+    this.props.Set_deviation_array(deviation_array)
+    //console.log('deviation_array: ', d3.extent(deviation_array))
+    //--------------------
     return (
       <Grid className="ModelChartParent" container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%', width: '100%', backgroundColor: 'white', margin: 2, padding: 2, boxShadow: "-2px 1px 4px -1px white" }}> {/* This model chart's height and width is the parent*/}
         <Grid item className="left_container" style={{ width: 420, backgroundColor: "#fcfcfc" }}>
@@ -91,6 +101,7 @@ const maptstateToprop = (state) => {
     histogram_data: state.histogram_data,
     state_range: state.state_range,
     selected_year: state.selected_year,
+    lime_data: state.lime_data,
     default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
@@ -105,6 +116,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
+    Set_deviation_array: (val) => dispatch({ type: "deviation_array", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_selected_year: (val) => dispatch({ type: "selected_year", value: val }),
   }
