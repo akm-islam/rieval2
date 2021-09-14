@@ -9,6 +9,7 @@ import SliderGroup1 from './SliderGroup1';
 import SliderGroup2 from './SliderGroup2';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import ExpChart from '../ExpChart/ExpChartComponent';
+import Popover from '../Popover/Popover';
 
 class SlopeChart extends Component {
   constructor(props) {
@@ -24,29 +25,32 @@ class SlopeChart extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     //------------------------------
-    var selected_instances = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
-    //if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
+    var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0],this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1],this.props.range_mode_range2[1]]) + 1)
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
-    var selected_instances = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
-    //if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
-    var min = d3.min(selected_instances), max = d3.max(selected_instances);
-    var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    var selected_instances1 = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
+    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    //------------------------------
+    var selected_instances2 = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
+    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
 
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
 
   }
   render() {
+        //------------------------------
+        var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0],this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1],this.props.range_mode_range2[1]]) + 1)
+        var min = d3.min(selected_instances), max = d3.max(selected_instances);
+        var d = (max - min) / 8;
+        var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
         className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", overflow: 'hidden' }}>
-        <div className="year_and_model_selector_and_slider_container"> {/* This is used to calculate the deviation plot height */}
+        <div className="year_and_model_selector_and_slider_container" style={{ width: "100%"}}> {/* This is used to calculate the deviation plot height */}
           <YearModelSelection></YearModelSelection>
         </div>
         {/* Group 1 */}
@@ -79,7 +83,7 @@ class SlopeChart extends Component {
             }
           </Grid>
         </Grid>
-
+        <Popover diverginColor={diverginColor} default_models={[this.props.range_mode_model]}></Popover>
       </Grid>
     )
   }

@@ -14,7 +14,7 @@ export function SimplePopover(props) {
         props.set_dbclicked_features([])
     };
     return (
-        <div style={{ position: "relative" }}>
+        <div className="pop_over" style={{ position: "relative" }}>
             {props.pop_over == true ?
                 <div style={{ top: "2%", left: "14%", position: "fixed",pointerEvents:"none",backgroundColor:"transparent" }}>
                     <Draggable>
@@ -29,11 +29,12 @@ export function SimplePopover(props) {
                             </Grid>
                             <Grid container direction="row" justify="center" alignItems="center" style={{maxHeight:700,overflow:"scroll",maxWidth:1600}}>
                                 {
-                                props.dbclicked_features.length>0?props.dbclicked_features.map((item,index)=><Chart_pop index={index} 
+                                props.dbclicked_features.length>0?props.dbclicked_features.map((item,index)=><Chart_pop index={index}
                                 popup_chart_data={[props.popup_chart_data[0],item]} default_models={props.default_models} 
-                                myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')} color_gen={props.color_gen} t
-                                extClickHandler_original={props.textClickHandler_original}></Chart_pop>):<Chart_pop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" 
-                                color_gen={props.color_gen} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
+                                myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')} diverginColor={props.diverginColor} 
+                                textClickHandler_original={props.textClickHandler_original}></Chart_pop>):<Chart_pop popup_chart_data={props.popup_chart_data} 
+                                default_models={props.default_models} myid="myid1" 
+                                diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
                                 }
                             </Grid>
                         </Grid>

@@ -40,10 +40,20 @@ class SlopeChart extends Component {
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    //--------------------
+
     deviation_chart.Create_deviation_chart('dev_plot_container_svg', 'exp', selected_instances, this.props.original_data, this.props.default_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
   render() {
+    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
+    //--------------------
+    var min = d3.min(selected_instances), max = d3.max(selected_instances);
+    var d = (max - min) / 8;
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+    //--------------------
+
     return (
       <Grid className="ModelChartParent" container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%', width: '100%', backgroundColor: 'white', margin: 2, padding: 2, boxShadow: "-2px 1px 4px -1px white" }}> {/* This model chart's height and width is the parent*/}
         <Grid item className="left_container" style={{ width: 420, backgroundColor: "#fcfcfc" }}>
@@ -59,19 +69,19 @@ class SlopeChart extends Component {
         </Grid>
         {/* The explanation plot container starts below */}
         {this.props.rank_data != null ?
-          <Grid item className="right_container" style={{ height: '100%', width: $('.ModelChartParent').width() - $('.left_container').width()}}>
-            <Grid container direction="row" justify="flex-start" alignItems="center" style={{width:'100%',height:'100%'}}>
-            {
-              this.props.default_models.map(model_name => {
-                return <Grid item xs={parseInt(12/this.props.default_models.length)} style={{ height: "100%",overflow: 'hidden' }}>
-                  <ExpChart exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
-                </Grid>
-              })
-            }
+          <Grid item className="right_container" style={{ height: '100%', width: $('.ModelChartParent').width() - $('.left_container').width() }}>
+            <Grid container direction="row" justify="flex-start" alignItems="center" style={{ width: '100%', height: '100%' }}>
+              {
+                this.props.default_models.map(model_name => {
+                  return <Grid item xs={parseInt(12 / this.props.default_models.length)} style={{ height: "100%", overflow: 'hidden' }}>
+                    <ExpChart exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
+                  </Grid>
+                })
+              }
             </Grid>
           </Grid> : null}
         {/* The explanation plot container ends here */}
-        <Popover default_models={this.props.default_models}></Popover>
+        <Popover diverginColor={diverginColor} default_models={this.props.default_models}></Popover>
       </Grid>
     )
   }

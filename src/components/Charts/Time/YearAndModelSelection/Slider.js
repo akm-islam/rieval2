@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import './YearModelSelection.scss';
+import './Slider.scss';
 import * as $ from 'jquery'
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +44,7 @@ function Modes(props) {
     //-----------------------------------------------------------------
     return (
         <div className="YearSlider" 
-        style={{height: 70, width: '100%',padding: 30}}>
+        style={{height: 70, width:'100%',padding: 30}}>
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>
                 <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: "100%" }}
                     onChange={event => {

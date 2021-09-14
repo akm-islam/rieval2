@@ -83,6 +83,7 @@ class SlopeChart extends Component {
               d3.selectAll(".rect").classed("exp_chart_clicked", true)
           }
           self.props.set_dbclicked_features(temp)
+          //self.props.set_dbclicked_features([feature])
           //----------------------------Data for popup chart
           var popup_chart_data = {}
           self.props.default_models.filter(item=>item!="ListNet").map(model_name => {

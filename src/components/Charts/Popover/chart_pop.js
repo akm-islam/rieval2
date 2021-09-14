@@ -7,6 +7,7 @@ class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = { "a": 10 }
+    this.myid=React.createRef()
   }
   componentDidMount() {
     this.setState({ a: 5 })
@@ -41,7 +42,6 @@ class Chart extends Component {
     //----------------------------------------------------------------------------------------------------------
   }
   CreateChart = (data, feature, scatterplot_data) => {
-    console.log(scatterplot_data)
     var self = this,
       feature_contribute = feature + "_contribution"
     // set the dimensions and margins of the graph
@@ -165,14 +165,14 @@ class Chart extends Component {
         .attr("actual_Y_valu", d => d[feature_contribute])
         .attr("r", 4)
         .attr("class", "random")
-        //.attr("fill", (d) => self.props.color_gen(d['State']))
+        .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
         })
         .attr('dataset_name',d[0])
         .on("click", d => {
-          self.props.textClickHandler_original("A" + d["State"])
+          //self.props.textClickHandler_original("A" + d["State"])
         })
     })
 
@@ -214,8 +214,6 @@ class Chart extends Component {
 
     // add the x Axis
     //svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
-
-
     //-------------------------------------------------------------All svgs
     var parent_svg = d3.select("#" + self.props.myid).attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom + margin.space_for_hist),
       svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("y", margin.space_for_hist).attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
@@ -302,14 +300,14 @@ class Chart extends Component {
         .attr("actual_Y_valu", d => d[feature_contribute])
         .attr("r", 4)
         .attr("class", "random")
-        //.attr("fill", (d) => self.props.color_gen(d['State']))
+        .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
         })
         .attr('dataset_name',d[0])
         .on("click", d => {
-          self.props.textClickHandler_original("A" + d["State"])
+          //self.props.textClickHandler_original("A" + d["State"])
         })
     })
 
@@ -338,8 +336,8 @@ d3.selectAll('.exp_circles')
 
   render() {
     return (
-      <div style={{ margin: 10, padding: 10, border: this.props.index == 0 ? "3px solid #e5e5e5" : "white" }}>
-        <svg id={this.props.myid}> </svg>
+      <div key={this.props.popup_chart_data[1]} style={{ margin: 10, padding: 10, border: this.props.index == 0 ? "3px solid #e5e5e5" : "white" }}>
+        <svg ref={this.myid} id={this.props.myid}> </svg>
         <p style={{ color: "#4f4c4c", marginLeft: "42%", marginTop: -25, marginBottom: 0 }}>{this.props.popup_chart_data[1]}</p>
       </div>
     );

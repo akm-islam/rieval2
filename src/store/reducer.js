@@ -36,7 +36,7 @@ let initialState = {
    legend_model: "CordAscent",
    legend_show_option: "Rank",
    legend_year: 2012,
-   mode: "Model",
+   mode: "Time",
    range_mode_model: "CordAscent",
    range_mode_range1: [1, 25],
    range_mode_range2: [15, 40],
@@ -101,7 +101,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, lime_data: action.value }
    }
    if (action.type === "default_models") {
-      return { ...state, default_models: action.value }
+      return { ...state,pop_over_models:action.value, default_models: action.value }
    }
    if (action.type === "rank_data") {
 
@@ -142,7 +142,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, slider_max: action.value }
    }
    if (action.type === "range_mode_model") {
-      return { ...state, range_mode_model: action.value }
+      return { ...state,pop_over_models:[action.value],range_mode_model: action.value }
    }
    //----
    if (action.type === "range_mode_range1") {
@@ -157,7 +157,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, time_mode_range: action.value }
    }
    if (action.type === "time_mode_model") {
-      return { ...state, time_mode_model: action.value }
+      return { ...state, pop_over_models:[action.value],time_mode_model: action.value }
    }
    if (action.type === "time_mode_year1") {
       return { ...state, time_mode_year1: action.value }

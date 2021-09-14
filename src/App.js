@@ -24,7 +24,6 @@ import { Row, Col } from 'reactstrap';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import Popover from './components/Popover/Popover';
 import Top from './components/Top/Top';
 import BrushTest from './components/BrushTest/BrushTest';
 import { Hidden } from '@material-ui/core';
@@ -131,7 +130,7 @@ class App extends Component {
               </Grid> : null}
           </div>
         </Row> : null}
-        <Popover></Popover>
+
       </div>
     );
   }

@@ -10,6 +10,8 @@ import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import ExpChart from '../ExpChart/ExpChartComponent';
+import Popover from '../Popover/Popover';
+
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -28,18 +30,20 @@ class SlopeChart extends Component {
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
-    var min = d3.min(selected_instances), max = d3.max(selected_instances);
-    var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
 
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
 
   }
   render() {
+    var selected_instances = d3.range(this.props.time_mode_range[0], this.props.time_mode_range[1] + 1)
+    var min = d3.min(selected_instances), max = d3.max(selected_instances);
+    var d = (max - min) / 8;
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
         className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "0px solid #eaeaea", overflow: 'hidden' }}>
@@ -56,7 +60,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r1exp" default_models={[this.props.range_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart exp_id="r1exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.time_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -70,12 +74,12 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r2exp" default_models={[this.props.range_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart exp_id="r2exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.time_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
         </Grid>
-
+        <Popover diverginColor={diverginColor} default_models={[this.props.time_mode_model]}></Popover>
       </Grid>
     )
   }
@@ -86,7 +90,7 @@ const maptstateToprop = (state) => {
     time_mode_year2: state.time_mode_year2,
     mode: state.mode,
     time_mode_range: state.time_mode_range,
-    range_mode_model: state.range_mode_model,
+    time_mode_model: state.time_mode_model,
     default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
