@@ -35,11 +35,11 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="uploader_topbar">
-        <Grid container spacing={0} className="myheader" style={{ left: $('.Sidebar').width() }}>
-          <ButtonGroup aria-label="outlined button group">
-          <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
-          <Button style={{borderRadius:0}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
+      <div>
+        <Grid container>
+          <ButtonGroup aria-label="outlined button group" style={{marginRight:150,border:'none'}}>
+          <Button style={{borderRadius:0,border:'none',borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
+          <Button style={{borderRadius:0,border:'none', borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
           <SelectMode></SelectMode>

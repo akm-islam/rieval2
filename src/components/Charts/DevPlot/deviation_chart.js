@@ -7,6 +7,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var parent_height = $("." + 'deviation_plot_container_div').height() // deviation_plot_container_div is the div that contains the deviation plot for all modes
+  console.log($('.Group1_container').height(),$('.title_p1').height() , $('.slidergroup1').height() , $('.year_and_model_selector_and_slider_container').height(),'parent_height')
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
   data.map(item => { defualt_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import './ModelSlider.scss';
+import './YearModeComponent.scss';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import * as deviation_chart from "../DevPlot/deviation_chart"
@@ -24,15 +24,12 @@ class SlopeChart extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     //------------------------------
-    var selected_instances = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
-    //if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
+    var selected_instances = d3.range(this.props.time_mode_range[0], this.props.time_mode_range[1] + 1)
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
-    var selected_instances = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
-    //if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
@@ -45,34 +42,35 @@ class SlopeChart extends Component {
   render() {
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
-        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", overflow: 'hidden' }}>
-        <div className="year_and_model_selector_and_slider_container"> {/* This is used to calculate the deviation plot height */}
+        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "0px solid #eaeaea", overflow: 'hidden' }}>
+        <div className="year_and_model_selector_and_slider_container" style={{width:'100%',marginBottom:5,borderBottom:'2px solid grey'}}> {/* This is used to calculate the deviation plot height */}
           <YearModelSelection></YearModelSelection>
         </div>
         {/* Group 1 */}
-        <Grid className="Group1_container" style={{ height: "100%", width: "49.4%", paddingRight: 0, border: "2px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
-          <Grid className="slidergroup1" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year1DropDown></Year1DropDown></Grid>
+        <Grid className="Group1_container" style={{ height: "100%", width: "49.6%",marginLeft:'0.2%', paddingRight: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container item direction="column">
+          <Grid className="slidergroup1" item style={{width:"100%",height:30, backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year1DropDown></Year1DropDown></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll' }}>
+            <Grid className="deviation_plot_container_div" item 
+            style={{ width: '49%', height: $('.Group1_container').height() - ($('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll',borderRight:'1px solid #dbdbdb' }}>
               <svg id="r1d" style={{ width: "100%", padding: 5 }}></svg>
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r1exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range1} selected_year={this.props.time_mode_year1} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart exp_id="r1exp" default_models={[this.props.range_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
         </Grid>
         {/* Group 2 */}
-        <Grid className="Group2_container" style={{ height: "100%", width: "49.4%",marginLeft:'0.5%', paddingRight: 0, border: "2px solid #a0a0a0", overflow: 'hidden' }} container item direction="column" justifyContent="space-between">
-          <Grid className="slidergroup2" item style={{ backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year2DropDown></Year2DropDown></Grid>
+        <Grid className="Group2_container" style={{ height: "100%", width: "49.6%",marginLeft:'0.4%', paddingRight: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container direction="column">
+          <Grid className="slidergroup2" item style={{width:"100%", backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year2DropDown></Year2DropDown></Grid>
           <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll' }}>
+            <Grid className="deviation_plot_container_div" item style={{width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll',borderRight:'1px solid #dbdbdb' }}>
               <svg id="r2d" style={{ width: "100%", padding: 5 }}></svg>
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_id="r2exp" default_models={[this.props.range_mode_model]} state_range={this.props.range_mode_range2} selected_year={this.props.time_mode_year2} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart exp_id="r2exp" default_models={[this.props.range_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -87,8 +85,7 @@ const maptstateToprop = (state) => {
     time_mode_year1: state.time_mode_year1,
     time_mode_year2: state.time_mode_year2,
     mode: state.mode,
-    range_mode_range1: state.range_mode_range1,
-    range_mode_range2: state.range_mode_range2,
+    time_mode_range: state.time_mode_range,
     range_mode_model: state.range_mode_model,
     defualt_models: state.defualt_models,
     original_data: state.original_data,

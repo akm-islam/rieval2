@@ -94,7 +94,7 @@ class SlopeChart extends Component {
   }
   render() {
     return (
-     <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": "2px solid #e2e2e2", padding: "2px 5px" }}>
+     <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border":this.props.mode=='Model'?"2px solid #e2e2e2":'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
         <svg id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg ref={this.exp} id={this.props.exp_id} style={{ marginTop: 5, width: "100%"}}></svg>
@@ -120,7 +120,8 @@ const maptstateToprop = (state) => {
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
     clicked_features: state.clicked_features,
-    threshold: state.threshold
+    threshold: state.threshold,
+    mode:state.mode,
   }
 }
 const mapdispatchToprop = (dispatch) => {

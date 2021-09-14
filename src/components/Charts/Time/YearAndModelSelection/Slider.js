@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import './ModelSlider.scss';
+import './YearModelSelection.scss';
 import * as $ from 'jquery'
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function Modes(props) {
     const classes = useStyles();
     // states 
-    const [sliderRange, set_sliderRange] = React.useState(props.range_mode_range1);
+    const [sliderRange, set_sliderRange] = React.useState(props.time_mode_range);
     //-----------------------------------------------------------------
     var temp_marks = [];
     var step = (props.slider_max - 1) / (6 - 1);
@@ -43,8 +43,8 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="Modelslider" 
-        style={{height: 70, width: '100%',marginBottom:5,padding: 30, border: "1px solid rgb(178, 178, 178,0.5)"}}>
+        <div className="YearSlider" 
+        style={{height: 70, width: '100%',padding: 30}}>
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>
                 <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: "100%" }}
                     onChange={event => {
@@ -85,10 +85,10 @@ function Modes(props) {
                     }
                 />
             </div>
-            <div className="button" item xs="2" style={{ marginTop: -10 }}>
-                <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
+            <div className="button" item style={{ marginTop: -10 }}>
+                <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30,fontWeight:600,fontSize:18 }}
                     onClick={() => {
-                        props.Set_range_mode_range1(sliderRange)
+                        props.Set_time_mode_range(sliderRange)
                     }}
                 >Update range</Button>
             </div>
@@ -98,12 +98,12 @@ function Modes(props) {
 const maptstateToprop = (state) => {
     return {
         slider_max: state.slider_max,
-        range_mode_range1: state.range_mode_range1,
+        time_mode_range: state.time_mode_range,
     }
 }
 const mapdispatchToprop = (dispatch) => {
     return {
-        Set_range_mode_range1: (val) => dispatch({ type: "range_mode_range1", value: val }),
+        Set_time_mode_range: (val) => dispatch({ type: "time_mode_range", value: val }),
         Set_changed: (val) => dispatch({ type: "changed", value: val }),
     }
 }

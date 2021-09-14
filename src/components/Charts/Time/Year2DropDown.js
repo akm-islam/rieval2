@@ -6,7 +6,7 @@ function FadeMenu(props) {
     return (
         <div className="year_drop_down_container1">
             <p style={{margin:0,marginTop:3,fontSize:16,fontWeight:600}}>Year 2 :</p>
-            <Autocomplete style={{width:100}}
+            <Autocomplete style={{width:100}} disableClearable
                 defaultValue={props.time_mode_year2.toString()}
                 id="debug"
                 debug
