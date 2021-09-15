@@ -16,7 +16,7 @@ function FadeMenu(props) {
                         <TextField {...params} margin="normal" fullWidth={true} InputProps={{ ...params.InputProps, disableUnderline: true }} />
                     )}
                     onChange={(event, value) => {
-                        props.Set_time_mode_year1(value)``
+                        props.Set_time_mode_year1(value)
                     }}
                 />
             </div>

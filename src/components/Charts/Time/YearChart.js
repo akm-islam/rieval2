@@ -43,7 +43,7 @@ class SlopeChart extends Component {
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-
+    this.props.Set_selected_instances(selected_instances)
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
         className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "0px solid #eaeaea", overflow: 'hidden' }}>
@@ -107,6 +107,7 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
+    Set_selected_instances: (val) => dispatch({ type: "selected_instances", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
   }
 }

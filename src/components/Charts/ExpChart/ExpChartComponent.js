@@ -104,9 +104,9 @@ class SlopeChart extends Component {
       d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
         .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
     })
-    feature_containers.attr("CreatexpCircle", function (d) {
+    feature_containers.attr("CreatexpCircle", function (d,index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [self.props.model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height,self.props.deviation_array)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height,self.props.deviation_array,index)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (this.props.clicked_features.includes(d[0])) {

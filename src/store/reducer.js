@@ -61,10 +61,15 @@ let initialState = {
    average_m: false,
    clicked_circles:[],
    threshold:1000,
-   deviation_array:[],
+   deviation_array:[], // This is for legend
+   selected_instances:[], // This is for legend
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "selected_instances") {
+      console.log('selected_instances',action.value)
+      return { ...state, selected_instances: action.value }
+   }
    if (action.type === "deviation_array") {
       return { ...state, deviation_array: action.value }
    }

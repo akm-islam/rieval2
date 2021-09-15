@@ -4,8 +4,12 @@ Add drag and drop feature
 color legend
 circle size legend
 add circle size scaling 
-
+cross icon clicked remove on all - if crossed how you want to get it back
 handle the select features when circles are clicked - exclude clicked circles that falls outside of the selected range
 
 -------------
 Remove all special characters from the featureName
+
+------Ask professor
+when clicked on a circle should it be highlighted everywhere?
+use logscale for circle scaling

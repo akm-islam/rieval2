@@ -2,39 +2,67 @@ import React, { Component, PureComponent } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
+import Grid from '@material-ui/core/Grid'
+import './legend.scss'
 class Legend extends Component {
   constructor(props) {
     super(props);
-    this.state = { } // This is the default height
+    this.state = {} // This is the default height
   }
-  componentDidMount() {this.setState({rand:10})}
+  componentDidMount() { this.setState({ rand: 10 }) }
   componentDidUpdate() {
-    console.log('deviation_array',this.props.deviation_array,$('.legend_container').height(),$('.legend_container').width())
-    var legend_container_width=$('.legend_container').width()
-    var legend_container_height=$('.legend_container').height()
-    var legend1_height=legend_container_height/3
-    var legend1_rScale=d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([2,5])
-    var legend1_yScale=d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([15,legend1_height-5])
-    var legend1_ticks=legend1_yScale.ticks(7)
-    //console.log('deviation_array',legend1_ticks)
-    var legend1_svg = d3.select('#legend1').attr('width',legend_container_width).attr('height',legend_container_height/2)
-    legend1_svg.selectAll('.legend1_circles').data(legend1_ticks).join('circle').attr('class','legend1_circles').attr('cx',10).attr('cy',d=>legend1_yScale(d)).attr('r',d=>legend1_rScale(d)).attr('fill','red')
-    legend1_svg.selectAll('.legend1_text').data(legend1_ticks).join('text').attr('class','legend1_text').attr('x',20).attr('y',d=>legend1_yScale(d)).text(d=>d).attr('dominant-baseline','middle').attr('font-size',10)
+    var legend_container_width = $('.legend_container').width()
+    var legend_container_height = $('.legend_container').height()
+
+    //--------------------------- Legend 1
+    var legend1_height = 100
+    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([5, 2])
+    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([15, legend1_height - 5])
+    var legend1_ticks = legend1_yScale.ticks(4)
+    var legend1_svg = d3.select('#legend1').attr('width', legend_container_width).attr('height', legend1_height)
+    legend1_svg.selectAll('.legend1_circles').data(legend1_ticks).join('circle').attr('class', 'legend1_circles').attr('cx', 10).attr('cy', d => legend1_yScale(d)).attr('r', d => legend1_rScale(d)).attr('fill', 'grey')
+    legend1_svg.selectAll('.legend1_text').data(legend1_ticks).join('text').attr('class', 'legend1_text').attr('x', 20).attr('y', d => legend1_yScale(d)).text(d => d).attr('dominant-baseline', 'middle').attr('font-size', 10)
+
+    //--------------------------- Legend 2
+    var min = d3.min(this.props.selected_instances), max = d3.max(this.props.selected_instances);
+    var d = (max - min) / 8;
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+
+    var legend2_svg_height = legend_container_height/2 - 50
+    var legend2_height = legend2_svg_height - 50
+
+    var legend2_yScale = d3.scaleLinear().domain([min, max]).range([22, legend2_height - 15])
+    var legend2_ticks = d3.range(min, max + 1, max / 10)
+    var rect_height = (legend2_height - 30) / legend2_ticks.length
+    var rect_width=8
+    var legend2_svg = d3.select('#legend2').attr('width', legend_container_width).attr('height', legend2_svg_height)
+    legend2_svg.selectAll('.legend2_rects').data(legend2_ticks).join('rect').attr('class', 'legend2_rects').attr('x', 10).attr('y', (d, i) => legend2_yScale(d)).attr('width', rect_width).attr('height', rect_height).attr('fill', d => diverginColor(d))
+    //legend2_svg.selectAll('.legend2_text').data(legend1_ticks).join('text').attr('class','legend1_text').attr('x',20).attr('y',d=>legend1_yScale(d)).text(d=>d).attr('dominant-baseline','middle').attr('font-size',10)
+    legend2_svg.selectAll(".High").data(['High']).join("text").attr("x", 0).attr("class", "High").attr('dominant-baseline', "hanging").attr("y", 0).text('High').attr('font-size', 12)
+    legend2_svg.selectAll(".Low").data(['Low']).join("text").attr("x", 0).attr("class", "Low").attr('dominant-baseline', "hanging").attr("y", legend2_height).text('Low').attr('font-size', 12)
+    legend2_svg.selectAll(".legend2_labels").data([min,max/2,max]).join("text").attr("x", 10+rect_width+2).attr("class", "legend2_labels").attr('dominant-baseline', "middle").attr('y', (d, i) => i==0?legend2_yScale(d)+rect_height/2:legend2_yScale(d)).text(d=>d).attr('font-size', 12)
   }
-  
+
   render() {
     return (
-      <div className="legend_container" style={{ height:'100%',width:'100%'}}>
-      <svg id="legend1"> </svg>
-      <svg id="legend2"> </svg>
-      </div>
+      <Grid className="legend_container" style={{ height: '100%', width: '100%' }} container direction="row" justifyContent="center" alignItems="center" >
+        <Grid item style={{ backgroundColor: '#f7f7f7',padding:5 }}>
+        <span className="title"> Model Precision</span>
+          <svg id="legend1"> </svg>
+        </Grid>
+        <Grid item style={{ backgroundColor: '#f7f7f7',padding:5 }}>
+          <span className="title"> Rank Range</span>
+          <svg id="legend2"> </svg>
+        </Grid>
+      </Grid>
     );
   }
 }
 
 const maptstateToprop = (state) => {
   return {
-    deviation_array:state.deviation_array,
+    selected_instances: state.selected_instances,
+    deviation_array: state.deviation_array,
   }
 }
 const mapdispatchToprop = (dispatch) => {
