@@ -113,6 +113,21 @@ class SlopeChart extends Component {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
+    feature_containers.attr('add_drag_drop',function(){
+      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("width", "100%").attr("height", "100%").style("fill", "transparent").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
+      function dragstarted(event, d) {
+        d3.select(this).raise()
+      }
+    
+      function dragged(event, d) {
+        console.log(d3.event)
+        d3.select(this.parentNode).attr("y", d3.event.y);
+      }
+    
+      function dragended(event, d) {
+        d3.select(this.parentNode).attr("y", d3.event.y);
+      }     
+    })
     //------------------------------
     //Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
     //------------------------------
@@ -122,7 +137,7 @@ class SlopeChart extends Component {
      <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border":this.props.mode=='Model'?"2px solid #e2e2e2":'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
         <svg id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
-        <svg ref={this.exp} id={this.props.exp_id} style={{ marginTop: 5, width: "100%"}}></svg>
+        <svg ref={this.exp} id={this.props.exp_id} style={{ marginTop: 0, width: "100%"}}></svg>
       </div>
     )
   }
