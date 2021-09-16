@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index) {
-    console.log('index', index)
     var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
@@ -51,11 +50,11 @@ export default function CreatexpCircle(d, selection, selected_instances,
             })
             .attr('id', d => d['id'])
         , exit => exit.remove())
-    mycircles.on('click', d => {
+    mycircles.attr("myindex",index).on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
     }
     )
-    if(index==0){selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean)+5).attr("class", "avg_text").attr("y", (item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin).text('avg').attr('font-size', 12)
+    if(index==0){selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean)+5).attr("class", "avg_text").attr("myindex",index).attr("y", (item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin).text('avg').attr('font-size', 12)
     .attr('dominant-baseline', "middle").attr('text-anchor','middle').attr('transform',d=>"rotate(-90,"+(xScale(my_mean)+5)+","+((item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin)+")")        
 }
     // Draw circle ends here

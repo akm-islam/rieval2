@@ -48,18 +48,18 @@ class SlopeChart extends Component {
         , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         , exit => exit.remove()
       )
-    feature_containers.attr("class", d => "feature_items " + d[0])
-    feature_containers.attr("add_text_rect", function (d) {
-      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
+    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex",(d,i)=>i)
+    feature_containers.attr("add_text_rect", function (d,index) {
+      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex",index).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
     })
-    feature_containers.attr("add_cross_button", function (d) {
-      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle')
+    feature_containers.attr("add_cross_button", function (d,index) {
+      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex",index)
         .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => self.setState({ excluded_features: [...self.state.excluded_features, d[0]] }))
 
     })
-    feature_containers.attr("add_circ_rect", function (d) {
-      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("width", "100%").attr("height", item_height - 18).attr("fill", "#ededed").attr("y", 18).attr("x", 0)
+    feature_containers.attr("add_circ_rect", function (d,index) {
+      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex",index).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#ededed").attr("y", 18).attr("x", 0)
         .on('click', () => {
           if (self.props.clicked_features.includes(d[0])) {
             self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))
@@ -100,8 +100,8 @@ class SlopeChart extends Component {
         })
 
     })
-    feature_containers.attr("add_text", function (d) {
-      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
+    feature_containers.attr("add_text", function (d,index) {
+      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex",index).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
         .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
@@ -114,19 +114,22 @@ class SlopeChart extends Component {
       }
     })
     feature_containers.attr('add_drag_drop', function () {
-      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("width", "100%").attr("height", "100%").style("fill", "transparent").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
-      var deltaX, deltaY, is_dragging;
+      d3.select(this).call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
+      var deltaY, is_dragging;
       function dragstarted(event, d) {
-        d3.select(this.parentNode).raise()
-        deltaY = d3.select(this.parentNode).attr("y") - d3.event.y;
+        d3.select(this).raise()
+        deltaY = d3.select(this).attr("y") - d3.event.y;
       }
       function dragged(event, d) {
+        console.log(d3.event.y,d3.event.sourceEvent.pageY,d3.event.sourceEvent.offsetY)
         is_dragging = true
-        d3.select(this.parentNode).raise()
-        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
+        d3.select(this).raise()
+        d3.select(this).attr("y", d3.event.y + deltaY);
       }
       function dragended(event, d) {
-        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
+        var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this).lower();
+        d3.select(this).attr("y", d3.event.y + deltaY);
+        var dest_index=d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex")
       }
     })
     //------------------------------
