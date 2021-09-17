@@ -2,7 +2,6 @@ import React, { Component, PureComponent } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid'
 import './legend.scss'
 class Legend extends Component {
   constructor(props) {
@@ -13,11 +12,10 @@ class Legend extends Component {
   componentDidUpdate() {
     var legend_container_width = $('.legend_container').width()
     var legend_container_height = $('.legend_container').height()
-
     //--------------------------- Legend 1
     var legend1_height = 100
     var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([5, 2])
-    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([15, legend1_height - 5])
+    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([5, legend1_height - 5])
     var legend1_ticks = legend1_yScale.ticks(4)
     var legend1_svg = d3.select('#legend1').attr('width', legend_container_width).attr('height', legend1_height)
     legend1_svg.selectAll('.legend1_circles').data(legend1_ticks).join('circle').attr('class', 'legend1_circles').attr('cx', 10).attr('cy', d => legend1_yScale(d)).attr('r', d => legend1_rScale(d)).attr('fill', 'grey')
@@ -45,16 +43,18 @@ class Legend extends Component {
 
   render() {
     return (
-      <Grid className="legend_container" style={{ height: '100%', width: '100%' }} container direction="row" justifyContent="center" alignItems="center" >
-        <Grid item style={{ backgroundColor: '#f7f7f7',padding:5 }}>
-        <span className="title"> Model Precision</span>
+      <div className="legend_container" style={{ height: '100%', width: '100%'}}>
+        <div>
+        <div item style={{ backgroundColor: 'rgb(211, 211, 211,0.5)',padding:5,marginBottom:5 }}>
+        <p className="title" style={{marginBottom:10}}> Model Precision</p>
           <svg id="legend1"> </svg>
-        </Grid>
-        <Grid item style={{ backgroundColor: '#f7f7f7',padding:5 }}>
-          <span className="title"> Rank Range</span>
+        </div>
+        <div item style={{ backgroundColor: 'rgb(211, 211, 211,0.5)',padding:5 }}>
+          <p className="title" style={{marginBottom:10}}> Rank Range</p>
           <svg id="legend2"> </svg>
-        </Grid>
-      </Grid>
+        </div>
+        </div>
+      </div>
     );
   }
 }

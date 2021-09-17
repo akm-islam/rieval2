@@ -5,19 +5,21 @@ import * as algo1 from "../../../Algorithms/algo1";
 import * as $ from 'jquery';
 import Create_MDS from "./MDS"
 import CreatexpCircle from "./Create_exp_circles"
+import { object } from 'underscore';
 
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
     this.line_color = null;
     this.exp = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [] }
+    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
+
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.lime_data[this.props.default_models[0]][2]['deviation'], 'lime_data')
+    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) { this.setState({ sorted_features: null }) }
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
@@ -37,7 +39,25 @@ class SlopeChart extends Component {
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])).slice(0, number_of_charts + 1)
+    var temp_sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])) 
+    //-------------------
+    var only_feature_names=temp_sorted_features.map(item=>item[0])
+    if(self.props.dragged_features.length>0){
+      self.props.dragged_features.map(item=>{
+        var origin_index=only_feature_names.indexOf(item[0])
+        var dest_index=only_feature_names.indexOf(item[1])
+
+        var b=temp_sorted_features[dest_index]
+        temp_sorted_features[dest_index]=temp_sorted_features[origin_index]
+        temp_sorted_features[origin_index]=b
+       
+        console.log(origin_index,dest_index,'Test')
+      })
+    }
+    console.log(only_feature_names,'Test')
+    var sorted_features=temp_sorted_features.slice(0, number_of_charts + 1)
+    //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
+
     //------------------------------
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
@@ -48,18 +68,23 @@ class SlopeChart extends Component {
         , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         , exit => exit.remove()
       )
-    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex",(d,i)=>i)
-    feature_containers.attr("add_text_rect", function (d,index) {
-      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex",index).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
+    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
+    feature_containers.attr("add_title_text_and_rect_for_title_text", function (d, index) {
+      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
+      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex", index).attr('feature_name', d[0]).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
+        .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
     })
-    feature_containers.attr("add_cross_button", function (d,index) {
-      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex",index)
+    feature_containers.attr("add_cross_button", function (d, index) {
+      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
         .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
-        .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => self.setState({ excluded_features: [...self.state.excluded_features, d[0]] }))
-
+        .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => {
+          //alert("clicked!")
+          d3.event.preventDefault()
+          self.setState({ excluded_features: [...self.state.excluded_features, d[0]] })
+        })
     })
-    feature_containers.attr("add_circ_rect", function (d,index) {
-      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex",index).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#ededed").attr("y", 18).attr("x", 0)
+    feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
+      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18).attr("x", 0)
         .on('click', () => {
           if (self.props.clicked_features.includes(d[0])) {
             self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))
@@ -93,43 +118,56 @@ class SlopeChart extends Component {
             }
             popup_chart_data[model_name] = data
           })
-          //console.log('clicked_data',[popup_chart_data, feature])
           self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
           //self.props.Set_popup_chart_data([popup_chart_data, feature])
           self.props.set_pop_over(true)
         })
 
     })
-    feature_containers.attr("add_text", function (d,index) {
-      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex",index).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
-        .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
-    })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [self.props.model_name], self.props.clicked_circles,
         self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
-      if (this.props.clicked_features.includes(d[0])) {
+      if (self.props.clicked_features.includes(d[0])) {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
-    feature_containers.attr('add_drag_drop', function () {
-      d3.select(this).call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
+    feature_containers.attr('add_drag_drop', function (d, index) {
+      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 18).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
+        .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
       var deltaY, is_dragging;
       function dragstarted(event, d) {
-        d3.select(this).raise()
-        deltaY = d3.select(this).attr("y") - d3.event.y;
+        //d3.select(this).attr("width", '100%').attr("height", '100%').style('fill','rgb(249, 195, 87,0.3)')
+        d3.select(this.parentNode).raise()
+        deltaY = d3.select(this.parentNode).attr("y") - d3.event.y;
       }
       function dragged(event, d) {
-        console.log(d3.event.y,d3.event.sourceEvent.pageY,d3.event.sourceEvent.offsetY)
         is_dragging = true
-        d3.select(this).raise()
-        d3.select(this).attr("y", d3.event.y + deltaY);
+        d3.select(this.parentNode).raise()
+        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
       }
       function dragended(event, d) {
-        var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this).lower();
-        d3.select(this).attr("y", d3.event.y + deltaY);
-        var dest_index=d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex")
+        var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this.parentNode).lower();
+        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
+        var dest_index = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))
+        if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
+        
+        var origin_feature = d3.select(this).attr("feature_name")
+        var dest_feature = d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("feature_name")
+        var temp={...self.props.dragged_features}
+        temp[origin_feature]=dest_feature
+        self.props.Set_dragged_features([...self.props.dragged_features,[origin_feature,dest_feature]])
+        /*
+         var temp=self.state.sorted_features
+         var b=temp[dest_index]
+         temp[dest_index]=temp[origin_index]
+         temp[origin_index]=b
+         self.sorted_features=temp
+         self.setState({sorted_features:temp})
+        */
+        //-------------------------------------
+        d3.select(this).raise()
       }
     })
     //------------------------------
@@ -167,10 +205,12 @@ const maptstateToprop = (state) => {
     threshold: state.threshold,
     mode: state.mode,
     dbclicked_features: state.dbclicked_features,
+    dragged_features: state.dragged_features,
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
+    Set_dragged_features: (val) => dispatch({ type: "dragged_features", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_prev_prop: (val) => dispatch({ type: "prev_prop", value: val }),
     Set_sparkline_data: (val) => dispatch({ type: "sparkline_data", value: val }),

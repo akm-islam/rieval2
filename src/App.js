@@ -137,7 +137,6 @@ class App extends Component {
               </Grid> : null}
           </div>
         </Row> : null}
-
       </div>
     );
   }

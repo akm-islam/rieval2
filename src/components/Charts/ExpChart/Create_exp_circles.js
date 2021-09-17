@@ -50,13 +50,13 @@ export default function CreatexpCircle(d, selection, selected_instances,
             })
             .attr('id', d => d['id'])
         , exit => exit.remove())
-    mycircles.attr("myindex",index).on('click', d => {
+    mycircles.attr("myindex",index).attr('feature_name',d[0]).on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
     }
     )
     if(index==0){selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean)+5).attr("class", "avg_text").attr("myindex",index).attr("y", (item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin).text('avg').attr('font-size', 12)
-    .attr('dominant-baseline', "middle").attr('text-anchor','middle').attr('transform',d=>"rotate(-90,"+(xScale(my_mean)+5)+","+((item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin)+")")        
-}
+    .attr('dominant-baseline', "middle").attr('text-anchor','middle').attr('transform',d=>"rotate(-90,"+(xScale(my_mean)+5)+","+((item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin)+")")}
+    else{selection.selectAll('.avg_text').remove()}
     // Draw circle ends here
     function getRandomArbitrary(min, max, seed) {
         min = min || 0;

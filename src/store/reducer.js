@@ -63,9 +63,14 @@ let initialState = {
    threshold:1000,
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
+   dragged_features:[],
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "dragged_features") {
+      console.log('dragged_features',action.value)
+      return { ...state, dragged_features: action.value }
+   }
    if (action.type === "selected_instances") {
       console.log('selected_instances',action.value)
       return { ...state, selected_instances: action.value }

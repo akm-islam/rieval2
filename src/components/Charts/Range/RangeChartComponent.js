@@ -60,7 +60,7 @@ class SlopeChart extends Component {
     //--------------------
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
-        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "1px solid #eaeaea", overflow: 'hidden' }}>
+        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", overflow: 'hidden' }}>
         <div className="year_and_model_selector_and_slider_container" style={{ width: "100%" }}> {/* This is used to calculate the deviation plot height */}
           <YearModelSelection></YearModelSelection>
         </div>

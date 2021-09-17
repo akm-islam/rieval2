@@ -1,8 +1,7 @@
 .legend_container{
+    display: flex; align-items: center;
     .title{
         font-size: 12px;
         font-weight: 600;
-        display: flex; align-items: center;
-        margin-bottom: 5px;
     }
 }
