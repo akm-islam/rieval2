@@ -39,25 +39,21 @@ class SlopeChart extends Component {
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var temp_sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])) 
+    var temp_sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0]))
     //-------------------
     var only_feature_names=temp_sorted_features.map(item=>item[0])
+    if(this.state.sorted_features!=null){only_feature_names=this.state.sorted_features}else(this.setState({sorted_features:only_feature_names}))
     if(self.props.dragged_features.length>0){
       self.props.dragged_features.map(item=>{
         var origin_index=only_feature_names.indexOf(item[0])
         var dest_index=only_feature_names.indexOf(item[1])
-
         var b=temp_sorted_features[dest_index]
         temp_sorted_features[dest_index]=temp_sorted_features[origin_index]
         temp_sorted_features[origin_index]=b
-       
-        console.log(origin_index,dest_index,'Test')
       })
     }
-    console.log(only_feature_names,'Test')
     var sorted_features=temp_sorted_features.slice(0, number_of_charts + 1)
     //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
-
     //------------------------------
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
@@ -148,24 +144,27 @@ class SlopeChart extends Component {
         d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
       }
       function dragended(event, d) {
-        var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this.parentNode).lower();
+        //var origin_index = parseInt(d3.select(this).attr("myindex")); 
+        d3.select(this.parentNode).lower();
         d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
-        var dest_index = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))
-        if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
+        //var dest_index = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))
+        //if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
         
         var origin_feature = d3.select(this).attr("feature_name")
         var dest_feature = d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("feature_name")
         var temp={...self.props.dragged_features}
         temp[origin_feature]=dest_feature
         self.props.Set_dragged_features([...self.props.dragged_features,[origin_feature,dest_feature]])
-        /*
+        
+
          var temp=self.state.sorted_features
+         var origin_index =temp.indexOf(origin_feature)
+         var dest_index =temp.indexOf(dest_feature)
+        console.log('Test : ',origin_index,dest_index,temp,origin_feature,dest_feature)
          var b=temp[dest_index]
          temp[dest_index]=temp[origin_index]
          temp[origin_index]=b
-         self.sorted_features=temp
          self.setState({sorted_features:temp})
-        */
         //-------------------------------------
         d3.select(this).raise()
       }
