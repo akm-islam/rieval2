@@ -12,6 +12,7 @@ class SlopeChart extends Component {
     super(props);
     this.line_color = null;
     this.exp = React.createRef()
+    this.mds = React.createRef()
     this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null,circle_data:null }
   }
   componentDidMount() {
@@ -150,7 +151,7 @@ class SlopeChart extends Component {
     //Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
     //--------------------------------------Data for MDS-------------------------------------//
     if(this.state.circle_data==null){
-      console.log("null")
+     // console.log("null")
       var feature_contrib_data_for_mds=this.props.lime_data[this.props.model_name].filter(item=>item['year']==this.props.selected_year && selected_instances.includes(item['two_realRank']))
       getMdsData("http://0.0.0.0:5000/test",{"data":feature_contrib_data_for_mds}).then(data=>{
         var MDS_response=JSON.parse(data.response)
@@ -161,7 +162,7 @@ class SlopeChart extends Component {
           return item
         })
         this.setState({circle_data:circle_data})
-        Create_MDS(circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)
+        Create_MDS(this.mds,circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)
         })  
     }
     
@@ -171,7 +172,7 @@ class SlopeChart extends Component {
     return (
       <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
-        <svg id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
+        <svg ref={this.mds} id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg ref={this.exp} id={this.props.exp_id} style={{ marginTop: 0, width: "100%" }}></svg>
       </div>
     )
