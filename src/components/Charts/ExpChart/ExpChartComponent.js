@@ -13,7 +13,7 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.exp = React.createRef()
     this.mds = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null,circle_data:null }
+    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null,circle_data:null,features_with_score:null }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
@@ -28,16 +28,21 @@ class SlopeChart extends Component {
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+    //if(this.state.features_with_score==null){this.setState({features_with_score:features_with_score})}else{features_with_score=this.state.features_with_score}
+
     var temp_sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])) 
-    //-------------------
     var only_feature_names=temp_sorted_features.map(item=>item[0])
-    if(self.props.dragged_features.length>0){
-      self.props.dragged_features.map(item=>{
+    if(Object.entries(self.props.dragged_features).length>0){
+      Object.entries(self.props.dragged_features).map(item=>{
         var origin_index=only_feature_names.indexOf(item[0])
-        var dest_index=only_feature_names.indexOf(item[1])
-        var b=temp_sorted_features[dest_index]
-        temp_sorted_features[dest_index]=temp_sorted_features[origin_index]
-        temp_sorted_features[origin_index]=b
+        //var origin_index=parseInt(d3.select(this.exp.current).select('.'+item[0]).attr('myindex'))
+        var destination_index=parseInt(d3.select(this.exp.current).select('.'+item[0]).attr('myindex'))+item[1]
+        console.log(origin_index,destination_index,'this.exp')
+        var b=temp_sorted_features[origin_index]
+        if(destination_index<number_of_charts){
+          temp_sorted_features[origin_index]=temp_sorted_features[destination_index]
+          temp_sorted_features[destination_index]=b    
+        }
       })
     }
     var sorted_features=temp_sorted_features.slice(0, number_of_charts + 1)
@@ -137,32 +142,38 @@ class SlopeChart extends Component {
         d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
         var dest_index = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))
         if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
-        
         var origin_feature = d3.select(this).attr("feature_name")
         var dest_feature = d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("feature_name")
         var temp={...self.props.dragged_features}
-        temp[origin_feature]=dest_feature
-        self.props.Set_dragged_features([...self.props.dragged_features,[origin_feature,dest_feature]])
+        temp[origin_feature]=dest_index-origin_index
+        //if(origin_feature in temp){temp[origin_feature]=temp[origin_feature]+(dest_index-origin_index)}
+        //else{temp[origin_feature]=dest_index-origin_index}
+
+        /*
+        if(dest_feature in temp){temp[dest_feature]=temp[dest_feature]+(origin_index-dest_index)}
+        else{temp[dest_feature]=origin_index-dest_index}
+        */
+
+        self.props.Set_dragged_features(temp)
         //-------------------------------------
         d3.select(this).raise()
       }
     })
-    //------------------------------
-    //Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
-    //--------------------------------------Data for MDS-------------------------------------//
+    //--------------------------------------MDS Plot-------------------------------------//
     if(this.state.circle_data==null){
-     // console.log("null")
       var feature_contrib_data_for_mds=this.props.lime_data[this.props.model_name].filter(item=>item['year']==this.props.selected_year && selected_instances.includes(item['two_realRank']))
-      getMdsData("http://0.0.0.0:5000/test",{"data":feature_contrib_data_for_mds}).then(data=>{
-        var MDS_response=JSON.parse(data.response)
-        var circle_data=feature_contrib_data_for_mds.map((item,index)=>{
-          item['x']=MDS_response[index][0]
-          item['y']=MDS_response[index][1]
-          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-          return item
-        })
-        this.setState({circle_data:circle_data})
-        Create_MDS(this.mds,circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)
+      getMdsData(this.props.url,{"data":feature_contrib_data_for_mds}).then(data=>{
+        if(typeof data !='undefined'){
+          var MDS_response=JSON.parse(data.response)
+          var circle_data=feature_contrib_data_for_mds.map((item,index)=>{
+            item['x']=MDS_response[index][0]
+            item['y']=MDS_response[index][1]
+            item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+            return item
+          })
+          this.setState({circle_data:circle_data})
+          Create_MDS(this.mds,circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)          
+        }
         })  
     }
     
@@ -200,6 +211,7 @@ const maptstateToprop = (state) => {
     mode: state.mode,
     dbclicked_features: state.dbclicked_features,
     dragged_features: state.dragged_features,
+    url:state.url,
   }
 }
 const mapdispatchToprop = (dispatch) => {

@@ -63,7 +63,9 @@ let initialState = {
    threshold:1000,
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
-   dragged_features:[],
+   dragged_features:{},
+   //url:"http://0.0.0.0:5000/test",
+   url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
