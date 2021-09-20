@@ -3,16 +3,16 @@ import * as d3 from 'd3';
 import { connect } from "react-redux";
 import * as algo1 from "../../../Algorithms/algo1";
 import * as $ from 'jquery';
-import Create_MDS from "./MDS"
 import CreatexpCircle from "./Create_exp_circles"
-import { object } from 'underscore';
-
+import getMdsData from "./MDS"
+import {Create_MDS} from "./MDS"
+import "./MDS.css"
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
     this.line_color = null;
     this.exp = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null }
+    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null,circle_data:null }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
@@ -34,15 +34,11 @@ class SlopeChart extends Component {
       self.props.dragged_features.map(item=>{
         var origin_index=only_feature_names.indexOf(item[0])
         var dest_index=only_feature_names.indexOf(item[1])
-
         var b=temp_sorted_features[dest_index]
         temp_sorted_features[dest_index]=temp_sorted_features[origin_index]
         temp_sorted_features[origin_index]=b
-       
-        console.log(origin_index,dest_index,'Test')
       })
     }
-    console.log(only_feature_names,'Test')
     var sorted_features=temp_sorted_features.slice(0, number_of_charts + 1)
     //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
 
@@ -152,6 +148,23 @@ class SlopeChart extends Component {
     })
     //------------------------------
     //Create_MDS("mds_parent", "#mds" + this.props.model_name, this.props.lime_data, this.props.model_name, this.props.selected_year, selected_instances, sorted_features, diverginColor, this.props.Set_clicked_circles)
+    //--------------------------------------Data for MDS-------------------------------------//
+    if(this.state.circle_data==null){
+      console.log("null")
+      var feature_contrib_data_for_mds=this.props.lime_data[this.props.model_name].filter(item=>item['year']==this.props.selected_year && selected_instances.includes(item['two_realRank']))
+      getMdsData("http://0.0.0.0:5000/test",{"data":feature_contrib_data_for_mds}).then(data=>{
+        var MDS_response=JSON.parse(data.response)
+        var circle_data=feature_contrib_data_for_mds.map((item,index)=>{
+          item['x']=MDS_response[index][0]
+          item['y']=MDS_response[index][1]
+          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          return item
+        })
+        this.setState({circle_data:circle_data})
+        Create_MDS(circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)
+        })  
+    }
+    
     //------------------------------
   }
   render() {
