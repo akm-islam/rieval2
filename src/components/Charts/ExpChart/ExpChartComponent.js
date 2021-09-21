@@ -5,7 +5,7 @@ import * as algo1 from "../../../Algorithms/algo1";
 import * as $ from 'jquery';
 import CreatexpCircle from "./Create_exp_circles"
 import getMdsData from "./MDS"
-import {Create_MDS} from "./MDS"
+import { Create_MDS } from "./MDS"
 import "./MDS.css"
 class SlopeChart extends Component {
   constructor(props) {
@@ -13,41 +13,48 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.exp = React.createRef()
     this.mds = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null,circle_data:null,features_with_score:null }
+    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
-
+  shouldComponentUpdate(prevProps, prevState) { 
+    if(this.state.indexed_features==null){return true}
+    else if(JSON.stringify(this.state.indexed_features) != JSON.stringify(prevState.indexed_features)) { return false }
+    else{return true}
+  }
   componentDidUpdate(prevProps, prevState) {
-    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) { this.setState({ sorted_features: null }) }
     var self = this
-    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) { 
+      console.log("Update called - Setting state to null")      
+      this.setState({ indexed_features: null }); this.props.Set_dragged_features({}) }
+      var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
- 
+    console.log("Update called",this.state.indexed_features)
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    //if(this.state.features_with_score==null){this.setState({features_with_score:features_with_score})}else{features_with_score=this.state.features_with_score}
+    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
+    if (this.state.indexed_features == null) { this.setState({ indexed_features: indexed_features }) } else { indexed_features = [...this.state.indexed_features] }
+    Object.entries(this.props.dragged_features).map(item => {
+      var origin_index = indexed_features.indexOf(item[0])
+      var dest_index = origin_index + item[1][1]
+      if (dest_index < 0 || dest_index > number_of_charts - 1) {
+      } else {
+        var b = indexed_features[origin_index]
+        indexed_features[origin_index] = indexed_features[dest_index]
+        indexed_features[dest_index] = b
+      }
+      if (JSON.stringify(this.state.indexed_features) != JSON.stringify(indexed_features)) {
+        console.log(indexed_features, this.state.indexed_features, 'dragged_features if')
+        this.setState({ indexed_features: indexed_features })
+        this.setState({ random: !this.state.random })
+      }
+    })
+    var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
+    var sorted_features = temp_sorted_features.slice(0, number_of_charts + 1).map((item, index) => [item, index])
 
-    var temp_sorted_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).filter(item => !this.state.excluded_features.includes(item[0])) 
-    var only_feature_names=temp_sorted_features.map(item=>item[0])
-    if(Object.entries(self.props.dragged_features).length>0){
-      Object.entries(self.props.dragged_features).map(item=>{
-        var origin_index=only_feature_names.indexOf(item[0])
-        //var origin_index=parseInt(d3.select(this.exp.current).select('.'+item[0]).attr('myindex'))
-        var destination_index=parseInt(d3.select(this.exp.current).select('.'+item[0]).attr('myindex'))+item[1]
-        console.log(origin_index,destination_index,'this.exp')
-        var b=temp_sorted_features[origin_index]
-        if(destination_index<number_of_charts){
-          temp_sorted_features[origin_index]=temp_sorted_features[destination_index]
-          temp_sorted_features[destination_index]=b    
-        }
-      })
-    }
-    var sorted_features=temp_sorted_features.slice(0, number_of_charts + 1)
     //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
-
     //------------------------------
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
@@ -144,39 +151,32 @@ class SlopeChart extends Component {
         if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
         var origin_feature = d3.select(this).attr("feature_name")
         var dest_feature = d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("feature_name")
-        var temp={...self.props.dragged_features}
-        temp[origin_feature]=dest_index-origin_index
-        //if(origin_feature in temp){temp[origin_feature]=temp[origin_feature]+(dest_index-origin_index)}
-        //else{temp[origin_feature]=dest_index-origin_index}
-
-        /*
-        if(dest_feature in temp){temp[dest_feature]=temp[dest_feature]+(origin_index-dest_index)}
-        else{temp[dest_feature]=origin_index-dest_index}
-        */
-
+        var temp = {}
+        temp[origin_feature] = [dest_feature, dest_index - origin_index]
+        console.log(self.state.indexed_features, 'indexed features')
         self.props.Set_dragged_features(temp)
         //-------------------------------------
         d3.select(this).raise()
+        setTimeout(() => self.props.Set_dragged_features({}), 5000)
       }
     })
     //--------------------------------------MDS Plot-------------------------------------//
-    if(this.state.circle_data==null){
-      var feature_contrib_data_for_mds=this.props.lime_data[this.props.model_name].filter(item=>item['year']==this.props.selected_year && selected_instances.includes(item['two_realRank']))
-      getMdsData(this.props.url,{"data":feature_contrib_data_for_mds}).then(data=>{
-        if(typeof data !='undefined'){
-          var MDS_response=JSON.parse(data.response)
-          var circle_data=feature_contrib_data_for_mds.map((item,index)=>{
-            item['x']=MDS_response[index][0]
-            item['y']=MDS_response[index][1]
+    if (this.state.circle_data == null) {
+      var feature_contrib_data_for_mds = this.props.lime_data[this.props.model_name].filter(item => item['year'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
+      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds }).then(data => {
+        if (typeof data != 'undefined') {
+          var MDS_response = JSON.parse(data.response)
+          var circle_data = feature_contrib_data_for_mds.map((item, index) => {
+            item['x'] = MDS_response[index][0]
+            item['y'] = MDS_response[index][1]
             item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
             return item
           })
-          this.setState({circle_data:circle_data})
-          Create_MDS(this.mds,circle_data,"#mds"+this.props.model_name,self.props.diverginColor, this.props.Set_clicked_circles)          
+          this.setState({ circle_data: circle_data })
+          Create_MDS(this.mds, circle_data, "#mds" + this.props.model_name, self.props.diverginColor, this.props.Set_clicked_circles)
         }
-        })  
+      })
     }
-    
     //------------------------------
   }
   render() {
@@ -211,7 +211,7 @@ const maptstateToprop = (state) => {
     mode: state.mode,
     dbclicked_features: state.dbclicked_features,
     dragged_features: state.dragged_features,
-    url:state.url,
+    url: state.url,
   }
 }
 const mapdispatchToprop = (dispatch) => {
