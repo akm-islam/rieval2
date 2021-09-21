@@ -18,23 +18,28 @@ class SlopeChart extends Component {
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
-  shouldComponentUpdate(prevProps, prevState) { 
-    if(this.state.indexed_features==null){return true}
-    else if(JSON.stringify(this.state.indexed_features) != JSON.stringify(prevState.indexed_features)) { return false }
-    else{return true}
+  shouldComponentUpdate(prevProps, prevState) {
+    if(this.state.indexed_features==null || this.state.circle_data==null){return true}
+    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) {
+      return true
+    }
+    else if (JSON.stringify(this.props.dragged_features) == JSON.stringify(prevProps.dragged_features)) { return false }
+    else { return true }
   }
   componentDidUpdate(prevProps, prevState) {
     var self = this
-    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) { 
-      console.log("Update called - Setting state to null")      
-      this.setState({ indexed_features: null }); this.props.Set_dragged_features({}) }
-      var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) {
+      this.setState({ indexed_features: null });
+      this.setState({ circle_data: null })
+      this.props.Set_dragged_features({})
+    }
+    var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
-    console.log("Update called",this.state.indexed_features)
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
+    console.log(this.props.selected_year,indexed_features,"indexed_features")
     if (this.state.indexed_features == null) { this.setState({ indexed_features: indexed_features }) } else { indexed_features = [...this.state.indexed_features] }
     Object.entries(this.props.dragged_features).map(item => {
       var origin_index = indexed_features.indexOf(item[0])
@@ -46,14 +51,12 @@ class SlopeChart extends Component {
         indexed_features[dest_index] = b
       }
       if (JSON.stringify(this.state.indexed_features) != JSON.stringify(indexed_features)) {
-        console.log(indexed_features, this.state.indexed_features, 'dragged_features if')
         this.setState({ indexed_features: indexed_features })
-        this.setState({ random: !this.state.random })
       }
     })
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts + 1).map((item, index) => [item, index])
-
+    
     //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
     //------------------------------
     var marginTop = 5;
@@ -163,7 +166,7 @@ class SlopeChart extends Component {
     //--------------------------------------MDS Plot-------------------------------------//
     if (this.state.circle_data == null) {
       var feature_contrib_data_for_mds = this.props.lime_data[this.props.model_name].filter(item => item['year'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
-      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds,"weight":features_with_score }).then(data => {
+      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
         if (typeof data != 'undefined') {
           var MDS_response = JSON.parse(data.response)
           var circle_data = feature_contrib_data_for_mds.map((item, index) => {
