@@ -163,7 +163,7 @@ class SlopeChart extends Component {
     //--------------------------------------MDS Plot-------------------------------------//
     if (this.state.circle_data == null) {
       var feature_contrib_data_for_mds = this.props.lime_data[this.props.model_name].filter(item => item['year'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
-      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds }).then(data => {
+      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds,"weight":features_with_score }).then(data => {
         if (typeof data != 'undefined') {
           var MDS_response = JSON.parse(data.response)
           var circle_data = feature_contrib_data_for_mds.map((item, index) => {

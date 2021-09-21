@@ -11,11 +11,16 @@ CORS(app)
 def test():
    if(request.is_json):
       req=request.get_json()
+      weight=req["weight"]
       df=pd.DataFrame.from_dict(req["data"])
+      print(df.dtypes)
       contribution_cols = [col for col in df.columns if '_contribution' in col]
+      for col in list(weight.keys()):
+         col2=col+'_contribution'
+         df[col2]=pd.to_numeric(df[col2])
+         df[col2]=df[col2]*weight[col]
       embedding = MDS(n_components=2)
       X_transformed = embedding.fit_transform(df[contribution_cols].to_numpy())
-      print()
    response=make_response(jsonify({"response":json.dumps(X_transformed.tolist())}), 200)
    response.headers.add('Access-Control-Allow-Origin', '*')
    return response
