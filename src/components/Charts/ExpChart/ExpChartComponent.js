@@ -18,52 +18,28 @@ class SlopeChart extends Component {
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
-  shouldComponentUpdate(prevProps, prevState) {
-    if(this.state.indexed_features==null || this.state.circle_data==null){return true}
-    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) {
-      return true
-    }
-    else if (JSON.stringify(this.props.dragged_features) == JSON.stringify(prevProps.dragged_features)) { return false }
-    else { return true }
-  }
   componentDidUpdate(prevProps, prevState) {
+    this.Createsvg(this.props.model_name, this.props.dragged_features, null)
+  }
+  Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
-    if ((JSON.stringify(prevState.excluded_features) != JSON.stringify(this.state.excluded_features)) || (JSON.stringify(this.props.state_range) != JSON.stringify(prevProps.state_range)) || (this.props.selected_year != prevProps.selected_year)) {
-      this.setState({ indexed_features: null });
-      this.setState({ circle_data: null })
-      this.props.Set_dragged_features({})
-    }
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
-    var features_with_score = algo1.features_with_score(this.props.dataset, [this.props.model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
-    console.log(this.props.selected_year,indexed_features,"indexed_features")
-    if (this.state.indexed_features == null) { this.setState({ indexed_features: indexed_features }) } else { indexed_features = [...this.state.indexed_features] }
-    Object.entries(this.props.dragged_features).map(item => {
-      var origin_index = indexed_features.indexOf(item[0])
-      var dest_index = origin_index + item[1][1]
-      if (dest_index < 0 || dest_index > number_of_charts - 1) {
-      } else {
-        var b = indexed_features[origin_index]
-        indexed_features[origin_index] = indexed_features[dest_index]
-        indexed_features[dest_index] = b
-      }
-      if (JSON.stringify(this.state.indexed_features) != JSON.stringify(indexed_features)) {
-        this.setState({ indexed_features: indexed_features })
-      }
-    })
+    var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
+    if(model_name in self.props.dragged_features){features_with_score=self.props.dragged_features[model_name]}
+
+    if (indexed_features == null) { var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0]) }
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts + 1).map((item, index) => [item, index])
-    
     //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
     //------------------------------
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
-    var item_width = parseInt($("#" + this.props.exp_id).width())
+    var item_width = parseInt($("#" + model_name).width())
     var item_height = (parent_height - 10) / sorted_features.length - marginTop // 10 is the top margin
-    var feature_containers = d3.select(this.exp.current).attr('height', parent_height).selectAll(".feature_items").data(sorted_features, d => d[0])
+    var feature_containers = d3.select('#' + model_name).attr('height', parent_height).selectAll(".feature_items").data(sorted_features, d => d[0])
       .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
         , exit => exit.remove()
@@ -125,7 +101,7 @@ class SlopeChart extends Component {
 
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
-      CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [self.props.model_name], self.props.clicked_circles,
+      CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
         self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
@@ -150,44 +126,54 @@ class SlopeChart extends Component {
       function dragended(event, d) {
         var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this.parentNode).lower();
         d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
-        var dest_index = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))
-        if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
+        var difference = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))-origin_index
+        //if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
         var origin_feature = d3.select(this).attr("feature_name")
-        var dest_feature = d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("feature_name")
-        var temp = {}
-        temp[origin_feature] = [dest_feature, dest_index - origin_index]
-        console.log(self.state.indexed_features, 'indexed features')
-        self.props.Set_dragged_features(temp)
+        
+        var temp1={}
+        self.props.default_models.map(model_name => {
+          var features_with_score = algo1.features_with_score(self.props.dataset, [model_name], selected_instances, self.props.selected_year,number_of_charts, self.props.rank_data)
+          if(model_name in self.props.dragged_features){
+            features_with_score=self.props.dragged_features[model_name]
+          }
+          var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
+          var origin_index=indexed_features.indexOf(origin_feature)
+          var dest_index=origin_index+difference
+          if(dest_index<0){var dest_feature=indexed_features[0]}
+          else if(dest_index>number_of_charts-1){var dest_feature=indexed_features[number_of_charts-1]}
+          else{var dest_feature=indexed_features[dest_index]}
+
+          features_with_score[origin_feature]=features_with_score[origin_feature]-difference
+          features_with_score[dest_feature]=features_with_score[dest_feature]+difference
+          temp1[model_name]=features_with_score
+        })
+        self.props.Set_dragged_features(temp1)
         //-------------------------------------
         d3.select(this).raise()
-        setTimeout(() => self.props.Set_dragged_features({}), 5000)
       }
     })
     //--------------------------------------MDS Plot-------------------------------------//
-    if (this.state.circle_data == null) {
-      var feature_contrib_data_for_mds = this.props.lime_data[this.props.model_name].filter(item => item['year'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
-      getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
-        if (typeof data != 'undefined') {
-          var MDS_response = JSON.parse(data.response)
-          var circle_data = feature_contrib_data_for_mds.map((item, index) => {
-            item['x'] = MDS_response[index][0]
-            item['y'] = MDS_response[index][1]
-            item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-            return item
-          })
-          this.setState({ circle_data: circle_data })
-          Create_MDS(this.mds, circle_data, "#mds" + this.props.model_name, self.props.diverginColor, this.props.Set_clicked_circles)
-        }
-      })
-    }
-    //------------------------------
+    var feature_contrib_data_for_mds = this.props.lime_data[model_name].filter(item => item['year'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
+    getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
+      if (typeof data != 'undefined') {
+        var MDS_response = JSON.parse(data.response)
+        var circle_data = feature_contrib_data_for_mds.map((item, index) => {
+          item['x'] = MDS_response[index][0]
+          item['y'] = MDS_response[index][1]
+          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          return item
+        })
+        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles)
+      }
+    })
   }
+  //------------------------------
   render() {
     return (
       <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
         <svg ref={this.mds} id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
-        <svg ref={this.exp} id={this.props.exp_id} style={{ marginTop: 0, width: "100%" }}></svg>
+        <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: 0, width: "100%" }}></svg>
       </div>
     )
   }
@@ -215,6 +201,7 @@ const maptstateToprop = (state) => {
     dbclicked_features: state.dbclicked_features,
     dragged_features: state.dragged_features,
     url: state.url,
+    default_models: state.default_models,
   }
 }
 const mapdispatchToprop = (dispatch) => {

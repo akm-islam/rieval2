@@ -4,7 +4,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
-
+console.log(feature_contrib_name,'called')
     var circ_data = []
     var sum_data = []
     default_models.map(model => {

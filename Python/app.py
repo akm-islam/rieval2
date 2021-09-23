@@ -19,7 +19,7 @@ def test():
          col2=col+'_contribution'
          df[col2]=pd.to_numeric(df[col2])
          df[col2]=df[col2]*weight[col]
-      embedding = MDS(n_components=2)
+      embedding = MDS(n_components=2,random_state=6)
       X_transformed = embedding.fit_transform(df[contribution_cols].to_numpy())
    response=make_response(jsonify({"response":json.dumps(X_transformed.tolist())}), 200)
    response.headers.add('Access-Control-Allow-Origin', '*')

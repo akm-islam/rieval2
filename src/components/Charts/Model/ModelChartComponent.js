@@ -22,20 +22,7 @@ class SlopeChart extends Component {
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //--------------------
-    /*
-    var under_threshold_instances = []
-    var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
-    this.props.default_models.map(model_name => {
-      year_data.map(item => {
-        var two_realRank = parseInt(item['two_realRank'])
-        var predicted_rank = parseInt(item[model_name])
-        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
-          under_threshold_instances.push(two_realRank)
-        }
-      })
-    })
-    selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
-    */
+  
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
@@ -83,9 +70,9 @@ class SlopeChart extends Component {
           <Grid item className="right_container" style={{ height: '100%', width: $('.ModelChartParent').width() - $('.left_container').width() }}>
             <Grid container spacing={1} direction="row" justify="flex-start" alignItems="center" style={{ width: '100%', height: '100%' }}>
               {
-                this.props.default_models.map(model_name => {
+                this.props.default_models.map((model_name,index) => {
                   return <Grid item xs={parseInt(12 / this.props.default_models.length)} style={{ height: "100%", overflow: 'hidden' }}>
-                    <ExpChart diverginColor={diverginColor} exp_id="exp" default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
+                    <ExpChart diverginColor={diverginColor} exp_id={"exp"+index} default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
                   </Grid>
                 })
               }

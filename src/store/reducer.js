@@ -64,8 +64,8 @@ let initialState = {
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
    dragged_features:{},
-   url:"http://0.0.0.0:5000/test",
-   //url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
+   //url:"http://0.0.0.0:5000/test",
+   url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
@@ -133,10 +133,10 @@ const reducer = (state = initialState, action) => {
       return { ...state, appHandleChange: action.value }
    }
    if (action.type === "state_range") {
-      return { ...state, state_range: action.value }
+      return { ...state, dragged_features:{},state_range: action.value }
    }
    if (action.type === "selected_year") {
-      return { ...state, selected_year: action.value}
+      return { ...state,dragged_features:{}, selected_year: action.value}
    }
    if (action.type === "tracking") {
       return { ...state, tracking: action.value }
