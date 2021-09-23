@@ -64,8 +64,8 @@ let initialState = {
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
    dragged_features:{},
-   //url:"http://0.0.0.0:5000/test",
-   url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
+   url:"http://0.0.0.0:5000/test",
+   //url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
@@ -197,7 +197,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, legend_model: action.value }
    }
    if (action.type === "histogram_data") {
-      return { ...state, histogram_data: action.value }
+      return { ...state,dragged_features:{}, histogram_data: action.value }
    }
    if (action.type === "dataset") {
       return { ...state, dataset: action.value }
