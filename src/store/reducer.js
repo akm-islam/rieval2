@@ -74,7 +74,6 @@ const reducer = (state = initialState, action) => {
       return { ...state, dragged_features: action.value }
    }
    if (action.type === "selected_instances") {
-      console.log('selected_instances',action.value)
       return { ...state, selected_instances: action.value }
    }
    if (action.type === "deviation_array") {

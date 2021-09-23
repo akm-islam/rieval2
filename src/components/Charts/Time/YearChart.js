@@ -9,7 +9,7 @@ import * as $ from 'jquery';
 import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
-import ExpChart from '../ExpChart/ExpChartComponent';
+import ExpChart from './ExpChartComponent';
 import Popover from '../Popover/Popover';
 
 class SlopeChart extends Component {
@@ -60,7 +60,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_id="r1exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.time_mode_model}></ExpChart>
+                <ExpChart exp_data={[["r1exp",this.props.time_mode_year1],["r2exp",this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r1exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.time_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -74,7 +74,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_id="r2exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.time_mode_model}></ExpChart>
+                <ExpChart exp_data={[["r1exp",this.props.time_mode_year1],["r2exp",this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r2exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.time_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>

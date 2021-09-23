@@ -5,7 +5,7 @@ import * as deviation_chart from "../DevPlot/deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
-import ExpChart from '../ExpChart/ExpChartComponent';
+import ExpChart from './ExpChartComponent';
 import './ModelSlider.scss';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import Grid from '@material-ui/core/Grid';
