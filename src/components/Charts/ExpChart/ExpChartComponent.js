@@ -29,12 +29,10 @@ class SlopeChart extends Component {
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     if(model_name in self.props.dragged_features){features_with_score=self.props.dragged_features[model_name]}
-
-    if (indexed_features == null) { var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0]) }
+    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0]) 
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
-    var sorted_features = temp_sorted_features.slice(0, number_of_charts + 1).map((item, index) => [item, index])
-    //if (this.state.sorted_features == null) { var sorted_features = temp_sorted_features; this.setState({ sorted_features: temp_sorted_features }) } else { var sorted_features = this.state.sorted_features }
-    //------------------------------
+    var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
+    console.log(self.state.excluded_features.length,number_of_charts,sorted_features.length,"feature_contrib_data_for_mds")
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
@@ -154,8 +152,6 @@ class SlopeChart extends Component {
     })
     //--------------------------------------MDS Plot-------------------------------------//
     var feature_contrib_data_for_mds = this.props.lime_data[model_name].filter(item => item['1-qid'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
-    console.clear()
-    console.log(this.props.lime_data[model_name],feature_contrib_data_for_mds,this.props.lime_data,features_with_score,this.props.selected_year,'feature_contrib_data_for_mds')
     getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
       if (typeof data != 'undefined') {
         var MDS_response = JSON.parse(data.response)
