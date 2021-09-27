@@ -19,6 +19,7 @@ class SlopeChart extends Component {
     this.setState({ width: window.innerHeight })
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log($('.right_container').width(),'right_container')
     this.Createsvg(this.props.model_name, this.props.dragged_features, null)
   }
   Createsvg = (model_name, dragged_features, indexed_features) => {

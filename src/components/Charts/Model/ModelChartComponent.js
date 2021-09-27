@@ -71,7 +71,7 @@ class SlopeChart extends Component {
             <Grid container spacing={1} direction="row" justify="flex-start" alignItems="center" style={{ width: '100%', height: '100%' }}>
               {
                 this.props.default_models.map((model_name,index) => {
-                  return <Grid item xs={parseInt(12 / this.props.default_models.length)} style={{ height: "100%", overflow: 'hidden' }}>
+                  return <Grid item style={{width:($('.ModelChartParent').width() - $('.left_container').width())/this.props.default_models.length, height: "100%", overflow: 'hidden' }}>
                     <ExpChart diverginColor={diverginColor} exp_id={"exp"+index} default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
                   </Grid>
                 })
