@@ -31,11 +31,34 @@ class SlopeChart extends Component {
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     //------------------------------
     var selected_instances1 = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
+    //-------------------- Threshold filter
+    var under_threshold_instances = []
+    var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
+  
+      year_data.map(item => {
+        var two_realRank = parseInt(item['two_realRank'])
+        var predicted_rank = parseInt(item[this.props.range_mode_model])
+        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+          under_threshold_instances.push(two_realRank)
+        }
+      })
+    
+    selected_instances1 = selected_instances1.filter(item => !under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     var selected_instances2 = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
-    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    var under_threshold_instances = []
+    var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
+    year_data.map(item => {
+      var two_realRank = parseInt(item['two_realRank'])
+      var predicted_rank = parseInt(item[this.props.range_mode_model])
+      if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+        under_threshold_instances.push(two_realRank)
+      }
+    })
+    selected_instances2 = selected_instances2.filter(item => !under_threshold_instances.includes(item))
 
+    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
 
@@ -49,12 +72,12 @@ class SlopeChart extends Component {
     this.props.Set_selected_instances(selected_instances)
     //--------------------
     var deviation_array = []
-    
-      this.props.lime_data[this.props.range_mode_model].map(item => {
-        if (item['1-qid'] == this.props.selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
-          deviation_array.push(item['deviation'])
-        }
-      })
+
+    this.props.lime_data[this.props.range_mode_model].map(item => {
+      if (item['1-qid'] == this.props.selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+        deviation_array.push(item['deviation'])
+      }
+    })
     this.props.Set_deviation_array(deviation_array)
     //console.log('deviation_array: ', d3.extent(deviation_array))
     //--------------------
@@ -74,7 +97,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp",this.props.range_mode_range1],["r2exp",this.props.range_mode_range2]]} exp_id="r1exp" state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r1exp" state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -89,7 +112,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp",this.props.range_mode_range1],["r2exp",this.props.range_mode_range2]]} exp_id="r2exp" state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r2exp" state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -105,7 +128,7 @@ const maptstateToprop = (state) => {
     range_mode_range1: state.range_mode_range1,
     range_mode_range2: state.range_mode_range2,
     range_mode_model: state.range_mode_model,
-    lime_data:state.lime_data,
+    lime_data: state.lime_data,
     selected_year: state.selected_year,
     default_models: state.default_models,
     original_data: state.original_data,

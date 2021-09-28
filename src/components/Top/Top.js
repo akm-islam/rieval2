@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import FeaturesDropdown from "./FeaturesDropdown"
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import SelectMode from './SelectMode'
+import Threshold from './Threshold';
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class App extends Component {
           </ButtonGroup>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
           <SelectMode></SelectMode>
+          <Threshold></Threshold>
         </Grid>
         {this.props.view_data == false ?
           <Row className="Topbar_container">

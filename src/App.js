@@ -121,7 +121,7 @@ class App extends Component {
     var legend_width = 70
     return (
       <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth, overflow: "hidden" }}>
-        <div className="topBar_root" style={{ height: 30, width: window.innerWidth}}>
+        <div className="topBar_root" style={{ height: 35, width: window.innerWidth}}>
           <Top handleradioChange={this.handleradioChange}></Top>
         </div>
         {this.props.view_data ? <Row>

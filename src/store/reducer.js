@@ -60,7 +60,7 @@ let initialState = {
    average_y: false,
    average_m: false,
    clicked_circles:[],
-   threshold:1000,
+   threshold:10,
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
    dragged_features:{},
@@ -70,7 +70,7 @@ let initialState = {
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
    if (action.type === "dragged_features") {
-      console.log('dragged_features',action.value)
+      //console.log('dragged_features',action.value)
       return { ...state, dragged_features: action.value }
    }
    if (action.type === "selected_instances") {

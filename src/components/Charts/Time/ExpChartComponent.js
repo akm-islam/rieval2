@@ -23,6 +23,21 @@ class SlopeChart extends Component {
     var self = this
     var selected_instances = d3.range(state_range[0], state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
+    //-------------------- Threshold filter
+    var under_threshold_instances = []
+    var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
+    this.props.default_models.map(model_name => {
+      year_data.map(item => {
+        var two_realRank = parseInt(item['two_realRank'])
+        var predicted_rank = parseInt(item[model_name])
+        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+          under_threshold_instances.push(two_realRank)
+        }
+      })
+    })
+    selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    //--------------------
+
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, selected_year, number_of_charts, this.props.rank_data)
