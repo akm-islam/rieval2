@@ -33,12 +33,12 @@ class SlopeChart extends Component {
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[model_name])
-        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+        if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
           under_threshold_instances.push(two_realRank)
         }
       })
     })
-    selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
     //--------------------
 
     //------------------------------

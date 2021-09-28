@@ -34,12 +34,12 @@ class SlopeChart extends Component {
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[model_name])
-        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+        if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
           under_threshold_instances.push(two_realRank)
         }
       })
     })
-    selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('dev_plot_container_svg', 'exp', selected_instances, this.props.original_data, this.props.default_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
