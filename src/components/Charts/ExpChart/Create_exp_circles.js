@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 export default function CreatexpCircle(d, selection, selected_instances,
-    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index) {
+    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index,threshold) {
     var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
@@ -8,7 +8,6 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var sum_data = []
     default_models.map(model => {
         lime_data[model].map(item => {
-            console.log(item,'item')
             if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
                 sum_data.push(parseFloat(item[feature_contrib_name]))
                 item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
@@ -39,7 +38,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
-            .attr("r", d => rScale(d['deviation']))
+            .attr("r", d => d['deviation']>threshold?0:rScale(d['deviation']))
         // Update
         , update => update.attr('class', d => d['id'] + ' items circle2 my_circles')
             .transition().duration(anim_config.circle_animation).delay(anim_config.rank_animation + anim_config.deviation_animation + anim_config.feature_animation)
@@ -49,6 +48,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr('id', d => d['id'])
+            .attr("r", d => d['deviation']>threshold?0:rScale(d['deviation']))
         , exit => exit.remove())
     mycircles.attr("myindex",index).attr('feature_name',d[0]).on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])

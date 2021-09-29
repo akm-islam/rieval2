@@ -7,7 +7,6 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var parent_height = $("." + 'deviation_plot_container_div').height() // deviation_plot_container_div is the div that contains the deviation plot for all modes
-  console.log($('.Group1_container').height(),$('.title_p1').height() , $('.slidergroup1').height() , $('.year_and_model_selector_and_slider_container').height(),'parent_height')
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
   data.map(item => { default_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
@@ -47,11 +46,15 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
-          a['two_realRank'] = parseInt(item['two_realRank'])
-          a['predicted_rank'] = parseInt(item[model_name])
+          var two_realRank = parseInt(item['two_realRank'])
+          var predicted_rank = parseInt(item[model_name])
+          a['two_realRank'] = two_realRank
+          a['predicted_rank'] = predicted_rank
           a["model"] = model_name
           a['year'] = item['1-qid']
-          line_data.push(a)
+          if (Math.abs(predicted_rank - two_realRank) < threshold) {
+            line_data.push(a)
+          }
         })
       })
       // This is only for scaling starts here
@@ -79,12 +82,16 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
-          a['two_realRank'] = parseInt(item['two_realRank'])
-          a['predicted_rank'] = parseInt(item[model_name])
+          var two_realRank = parseInt(item['two_realRank'])
+          var predicted_rank = parseInt(item[model_name])
+          a['two_realRank'] = two_realRank
+          a['predicted_rank'] = predicted_rank
           a["model"] = model_name
           a['year'] = item['1-qid']
           a['id'] =item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-          circ_data.push(a)
+          if (Math.abs(predicted_rank - two_realRank) < threshold) {
+            circ_data.push(a)            
+          }
         })
       })
       var my_circs = d3.select(this).selectAll(".my_circles").data(circ_data, d => d['id']).join(
@@ -100,7 +107,10 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
         })
       )
-      my_circs.attr("r", circle_radius).attr('fill', d => diverginColor(d['two_realRank'])).attr("parent_id", parent_exp_id)
+      my_circs.attr("r",item=> {
+          return circle_radius
+    })
+      .attr('fill', d => diverginColor(d['two_realRank'])).attr("parent_id", parent_exp_id)
         .on('click', d => Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']]))
         .on("mouseover", function (d2) {
           div.transition().duration(200).style("opacity", .9);

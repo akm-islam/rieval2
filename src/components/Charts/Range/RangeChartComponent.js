@@ -38,12 +38,12 @@ class SlopeChart extends Component {
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[this.props.range_mode_model])
-        if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+        if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
           under_threshold_instances.push(two_realRank)
         }
       })
     
-    selected_instances1 = selected_instances1.filter(item => !under_threshold_instances.includes(item))
+    selected_instances1 = selected_instances1.filter(item => under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     var selected_instances2 = d3.range(this.props.range_mode_range2[0], this.props.range_mode_range2[1] + 1)
@@ -52,11 +52,11 @@ class SlopeChart extends Component {
     year_data.map(item => {
       var two_realRank = parseInt(item['two_realRank'])
       var predicted_rank = parseInt(item[this.props.range_mode_model])
-      if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+      if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
         under_threshold_instances.push(two_realRank)
       }
     })
-    selected_instances2 = selected_instances2.filter(item => !under_threshold_instances.includes(item))
+    selected_instances2 = selected_instances2.filter(item => under_threshold_instances.includes(item))
 
     deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------

@@ -37,11 +37,11 @@ class SlopeChart extends Component {
     year_data.map(item => {
       var two_realRank = parseInt(item['two_realRank'])
       var predicted_rank = parseInt(item[this.props.time_mode_model])
-      if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+      if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
         under_threshold_instances.push(two_realRank)
       }
     })
-    var selected_instances1 = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    var selected_instances1 = selected_instances.filter(item => under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     var under_threshold_instances = []
@@ -49,11 +49,11 @@ class SlopeChart extends Component {
     year_data.map(item => {
       var two_realRank = parseInt(item['two_realRank'])
       var predicted_rank = parseInt(item[this.props.time_mode_model])
-      if (Math.abs(predicted_rank - two_realRank) > this.props.threshold) {
+      if (Math.abs(predicted_rank - two_realRank) < this.props.threshold) {
         under_threshold_instances.push(two_realRank)
       }
     })
-    var selected_instances2 = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    var selected_instances2 = selected_instances.filter(item => under_threshold_instances.includes(item))
     console.log(selected_instances2,'selected_instances2')
     deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
@@ -87,10 +87,12 @@ class SlopeChart extends Component {
           </Grid>
         </Grid>
         {/* Group 2 */}
-        <Grid className="Group2_container" xs={6} style={{ height: "100%", padding: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container direction="row">
+        <Grid className="Group2_container" container direction="row" xs={6} style={{ height: "100%", padding: 0, border: "2px solid #eaeaea", overflow: 'hidden' }}>
           <Grid className="slidergroup2" style={{width: "100%", height: 30, backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year2DropDown></Year2DropDown></Grid>
-          <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
+          <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row">
+            <Grid className="deviation_plot_container_div" item 
+            style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), 
+            overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
               <svg id="r2d" style={{ width: "100%", padding: 5 }}></svg>
             </Grid>
             {
