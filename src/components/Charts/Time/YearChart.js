@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import './YearModeComponent.scss';
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid';
 import * as deviation_chart from "../DevPlot/deviation_chart"
 import * as misc_algo from '../misc_algo'
 import * as $ from 'jquery';
@@ -11,6 +10,8 @@ import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import ExpChart from './ExpChartComponent';
 import Popover from '../Popover/Popover';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 class SlopeChart extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class SlopeChart extends Component {
       }
     })
     var selected_instances2 = selected_instances.filter(item => under_threshold_instances.includes(item))
-    console.log(selected_instances2,'selected_instances2')
+    console.log(selected_instances2, 'selected_instances2')
     deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
@@ -67,43 +68,49 @@ class SlopeChart extends Component {
     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
     this.props.Set_selected_instances(selected_instances)
     return (
-      <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between" spacing={2}
-        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", border: "0px solid #eaeaea", overflow: 'hidden' }}>
-        <div className="year_and_model_selector_and_slider_container" style={{ width: '100%' }}> {/* This is used to calculate the deviation plot height */}
-          <YearModelSelection></YearModelSelection>
-        </div>
-        {/* Group 1 */}
-        <Grid className="Group1_container" xs={6} style={{ height: "100%", padding: 0, border: "2px solid #eaeaea", overflow: 'hidden' }} container item direction="column">
-          <Grid className="slidergroup1" item style={{ width: "100%", height: 30, backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year1DropDown></Year1DropDown></Grid>
-          <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group1_container').height() - ($('.title_p1').height() + $('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row" justify="center" alignItems="center">
-            <Grid className="deviation_plot_container_div" item style={{ width: '49%', height: $('.Group1_container').height() - ($('.slidergroup1').height() + $('.year_and_model_selector_and_slider_container').height() + 5), overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
-              <svg id="r1d" style={{ width: "100%", padding: 5 }}></svg>
+      <Box className="box_root" sx={{ width: '100%',height:'100%', padding: 0.5 }}>
+        <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+          <Grid item xs={12}>
+            <div className="year_and_model_selector_and_slider_container" style={{ width: '100%' }}><YearModelSelection></YearModelSelection></div>
+          </Grid>
+          {/* Group 1 */}
+          <Grid item xs={6} className="Group1_container" style={{ borderTop: '2px solid grey',borderLeft: '2px solid grey',borderRight: '2px solid grey' }}>
+            <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+              <Grid item xs={12} style={{padding:0}}>
+                <div className="slidergroup1" style={{ width: '100%', height: 30 }}><Year1DropDown></Year1DropDown></div>
+              </Grid>
+              <Grid className="dev_plot_and_exp_container" item xs={6}>
+                <div className="deviation_plot_container_div" style={{ width: '100%', height:$('.box_root').height() - ($('.year_and_model_selector_and_slider_container').height() + $('.slidergroup1').height()),overflow: 'scroll' }}><svg id="r1d" style={{ width: "100%"}}></svg></div>
+              </Grid>
+              <Grid item xs={6}>
+                {
+                  this.props.rank_data != null ? <div className="explanation_plot_container" style={{ width: '100%', height: '100%', }}>
+                    <ExpChart exp_data={[["r1exp", this.props.time_mode_year1], ["r2exp", this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r1exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.time_mode_model}></ExpChart>
+                  </div> : null
+                }
+              </Grid>
             </Grid>
-            {
-              this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_data={[["r1exp", this.props.time_mode_year1], ["r2exp", this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r1exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year1} model_name={this.props.time_mode_model}></ExpChart>
-              </Grid> : null
-            }
+          </Grid>
+          {/* Group 2 */}
+          <Grid item xs={6} style={{ borderTop: '2px solid grey',borderRight: '2px solid grey' }}>
+            <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+              <Grid item xs={12} style={{padding:0}}>
+                <div className="slidergroup2" style={{ width: '100%', height: 30 }}><Year2DropDown></Year2DropDown></div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="deviation_plot_container_div" style={{ width: '100%', height:$('.box_root').height() - ($('.year_and_model_selector_and_slider_container').height() + $('.slidergroup2').height()),overflow: 'scroll' }}><svg id="r2d" style={{ width: "100%" }}></svg></div>
+              </Grid>
+              <Grid item xs={6}>
+                  {
+                    this.props.rank_data != null ? <div className="explanation_plot_container" style={{ width: '100%', height: 500, }}>
+                      <ExpChart exp_data={[["r1exp", this.props.time_mode_year1], ["r2exp", this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r2exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.time_mode_model}></ExpChart>
+                    </div> : null
+                  }
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-        {/* Group 2 */}
-        <Grid className="Group2_container" container direction="row" xs={6} style={{ height: "100%", padding: 0, border: "2px solid #eaeaea", overflow: 'hidden' }}>
-          <Grid className="slidergroup2" style={{width: "100%", height: 30, backgroundColor: "rgb(232, 232, 232,0.4)" }}><Year2DropDown></Year2DropDown></Grid>
-          <Grid className="dev_plot_and_exp_container" style={{ width: '100%', height: $('.Group2_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5) }} container direction="row">
-            <Grid className="deviation_plot_container_div" item 
-            style={{ width: '49%', height: $('.Group1_container').height() - ($('.title_p2').height() + $('.slidergroup2').height() + $('.year_and_model_selector_and_slider_container').height() + 5), 
-            overflow: 'scroll', borderRight: '1px solid #dbdbdb' }}>
-              <svg id="r2d" style={{ width: "100%", padding: 5 }}></svg>
-            </Grid>
-            {
-              this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart exp_data={[["r1exp", this.props.time_mode_year1], ["r2exp", this.props.time_mode_year2]]} diverginColor={diverginColor} exp_id="r2exp" default_models={[this.props.time_mode_model]} state_range={this.props.time_mode_range} selected_year={this.props.time_mode_year2} model_name={this.props.time_mode_model}></ExpChart>
-              </Grid> : null
-            }
-          </Grid>
-        </Grid>
-        <Popover diverginColor={diverginColor} default_models={[this.props.time_mode_model]}></Popover>
-      </Grid>
+      </Box>
     )
   }
 }
