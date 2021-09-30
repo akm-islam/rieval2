@@ -9,7 +9,8 @@ export default function CreatexpCircle(d, selection, selected_instances,
     default_models.map(model => {
         lime_data[model].map(item => {
             if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
-                sum_data.push(parseFloat(item[feature_contrib_name]))
+                console.log('test',item['deviation'])
+                if(item['deviation']<threshold){sum_data.push(parseFloat(item[feature_contrib_name]))}
                 item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
                 circ_data.push(item)
             }
