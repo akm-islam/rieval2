@@ -7,6 +7,7 @@ import CreatexpCircle from "../ExpChart/Create_exp_circles"
 import getMdsData from "../ExpChart/MDS"
 import { Create_MDS } from "../ExpChart/MDS"
 import "../ExpChart/MDS.css"
+import * as misc_algo from '../misc_algo'
 class SlopeChart extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +20,12 @@ class SlopeChart extends Component {
     this.setState({ width: window.innerHeight })
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log($('.right_container').width(), 'right_container')
     this.Createsvg(this.props.model_name, this.props.dragged_features, null)
+    /*
+    setTimeout(()=>{
+      misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    },3000)
+    */
   }
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
@@ -179,6 +184,7 @@ class SlopeChart extends Component {
           return item
         })
         Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles)
+        misc_algo.handle_transparency("circle2", self.props.clicked_circles, self.props.anim_config)
       }
     })
   }

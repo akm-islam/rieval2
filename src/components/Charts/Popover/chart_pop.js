@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";
-//import {get_feature_voting} from "../Algorithms/exp_algo";
+import * as misc_algo from '../misc_algo'
 
 class Chart extends Component {
   constructor(props) {
@@ -48,6 +48,7 @@ class Chart extends Component {
     }
     this.props.clicked_items_in_slopechart.map(idName => d3.selectAll('#' + idName).attr('opacity', 1))
     //----------------------------------------------------------------------------------------------------------
+    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
   CreateChart = (data, feature, scatterplot_data) => {
     var self = this,
@@ -323,6 +324,7 @@ const maptstateToprop = (state) => {
     time_mode_model: state.time_mode_model,
     clicked_circles: state.clicked_circles,
     threshold: state.threshold,
+    anim_config:state.anim_config,
   }
 }
 //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")

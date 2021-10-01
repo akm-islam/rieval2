@@ -13,6 +13,8 @@ Remove all special characters from the featureName
 ------Ask professor
 when clicked on a circle should it be highlighted everywhere?
 use logscale for circle scaling
+when you click on circles do you highlight all or highlight by model
+clear all clicked circles
 
 ------Discuss later
 Cross icon when clicked- 
