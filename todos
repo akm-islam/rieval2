@@ -11,11 +11,21 @@ handle the select features when circles are clicked - exclude clicked circles th
 Remove all special characters from the featureName
 
 ------Ask professor
-when clicked on a circle should it be highlighted everywhere?
-use logscale for circle scaling
-when you click on circles do you highlight all or highlight by model
 clear all clicked circles
 
 ------Discuss later
 Cross icon when clicked- 
 Model precision on the legend- 
+
+
+---------------------------------------- Meeting oct 1 Friday
+* Remove ++ and + from pop over characters
+* Add Regression line on pop over characters
+* Make the bar charts a histogram - continous
+* Model sorting
+* Circle border color to stand out selected ones.
+* Logarithmic scaling for circles
+* Change Threshold to deviation threshold
+* Double click and single click on model to highlight circles of a model
+* 
+* 
