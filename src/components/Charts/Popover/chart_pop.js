@@ -19,7 +19,6 @@ class Chart extends Component {
     })
     var merged_arr = [].concat.apply([], Object.values(temp_dict))
     var scatterplot_data = Object.entries(this.props.popup_chart_data[0]).filter(item => this.props.pop_over_models.includes(item[0]))
-
     //console.log(this.props.popup_chart_data[0],this.props.pop_over_models)
     //----------------------------------------------------------------------------------------------------------Call createChart
     if (merged_arr.length > 0) { // This is to avoid the error caused by the next line
@@ -48,6 +47,7 @@ class Chart extends Component {
     var margin = { top: 0, right: 30, bottom: 45, left: 50, space_for_hist: 50 },
       width = 520 - margin.left - margin.right,
       height = 250 - margin.top - margin.bottom;
+      data=data.filter(d=>parseFloat(d[feature_contribute])>0)
     var temp_x = data.map(item => parseFloat(item[feature])),
       temp_y = data.map(item => parseFloat(item[feature_contribute]))
     var x = d3.scaleLinear().domain([d3.min(temp_x), d3.max(temp_x)]).range([0, width]).nice(),
@@ -95,28 +95,12 @@ class Chart extends Component {
     //------------- Add Y axis
     var y2 = d3.scaleOrdinal().domain([".", "0", ".."]).range([height / 4, height / 2, (3 * height) / 4]); // circles will start from y position 10 and go upto height-10
     svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
-      .call(d3.axisLeft(y2).tickSize(-width * 1.0).ticks(3).tickValues([",", "0", ".."]).tickFormat(d => d))
+      .call(d3.axisLeft(y2).tickSize(-width * 1.0).ticks(1).tickValues(["0"]).tickFormat(d => d))
       .select(".domain").remove()
     svg1.selectAll(".myYaxis").selectAll('text').remove()
 
-    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height / 8], ["+ ve", (3 * height) / 8], ["0", height / 2], ["- ve", (5 * height) / 8], ["-- ve", (7 * height) / 8]]).join("text").attr("class", "myYtext")
+    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height *.25], ["+ ve", height *.75]]).join("text").attr("class", "myYtext")
       .attr("x", 45).attr("y", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
-    d3.selectAll('.svg11').attr('add_horizontal_lines', function () { //horizontal lines starts here
-      d3.select(this).selectAll(".horiz_line").data([3.85, 1.31]).join('line').attr('class', "horiz_line")
-        .attr("x1", 11)
-        .attr("x2", 50)
-        .attr("y1", d => (height / d) - 2)
-        .attr("y2", d => (height / d) - 2)
-        .style("stroke", "#EBEBEB")
-    })
-
-    d3.selectAll('.svg11').selectAll(".line0").data([0]).join('line').attr('class', "line0")
-      .attr("x1", 11)
-      .attr("x2", 35)
-      .attr("y1", d => (height / 2))
-      .attr("y2", d => (height / 2))
-      .style("stroke", "#EBEBEB")
-
 
     //------------- Add X axis
     if (d3.max(d3.max(bins)) > 1000) {
@@ -163,7 +147,8 @@ class Chart extends Component {
 
         })
         .attr("actual_Y_valu", d => d[feature_contribute])
-        .attr("r", 4)
+        //.attr("r", 4)
+        .attr("r", d=>parseFloat(d[feature_contribute])<=0?0:4)
         .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
@@ -204,6 +189,7 @@ class Chart extends Component {
       feature_contribute = feature + "_contribution"
     var margin = { top: 0, right: 30, bottom: 75, left: 50, space_for_hist: 50 }, width = 520 - margin.left - margin.right, height = 270 - margin.top - margin.bottom;
     var barplot_data = {}
+    data=data.filter(d=>parseFloat(d[feature_contribute])>0)
     data.map(item => { if (barplot_data[item[feature]] > 0) { barplot_data[item[feature]] += 1 } else { barplot_data[item[feature]] = 1 } })
 
     var temp_x = Object.keys(barplot_data),
@@ -242,28 +228,11 @@ class Chart extends Component {
 
     //------------- Add Y axis
     var y2 = d3.scaleOrdinal().domain([".", "0", ".."]).range([height / 4, height / 2, (3 * height) / 4]); // circles will start from y position 10 and go upto height-10
-    svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
-      .call(d3.axisLeft(y2).tickSize(-width * 1.0).ticks(3).tickValues([",", "0", ".."]).tickFormat(d => d))
+    svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis").call(d3.axisLeft(y2).tickSize(-width * 1.0).ticks(1).tickValues(["0"]).tickFormat(d => d))
       .select(".domain").remove()
     svg1.selectAll(".myYaxis").selectAll('text').remove()
-    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ve", height / 8], ["+ve", (3 * height) / 8], ["0", height / 2], ["-ve", (5 * height) / 8], ["--ve", (7 * height) / 8]]).join("text").attr("class", "myYtext")
+    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height *.25], ["+ ve", height *.75]]).join("text").attr("class", "myYtext")
       .attr("x", 45).attr("y", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
-    d3.selectAll('.svg11').attr('add_horizontal_lines', function () { //horizontal lines starts here
-      d3.select(this).selectAll(".horiz_line").data([3.85, 1.31]).join('line').attr('class', "horiz_line")
-        .attr("x1", 11)
-        .attr("x2", 50)
-        .attr("y1", d => (height / d) - 2)
-        .attr("y2", d => (height / d) - 2)
-        .style("stroke", "#EBEBEB")
-    })
-
-    d3.selectAll('.svg11').selectAll(".line0").data([0]).join('line').attr('class', "line0")
-      .attr("x1", 11)
-      .attr("x2", 35)
-      .attr("y1", d => (height / 2))
-      .attr("y2", d => (height / 2))
-      .style("stroke", "#EBEBEB")
-
 
     //------------- Add X axis
     svg1.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
@@ -298,7 +267,8 @@ class Chart extends Component {
 
         })
         .attr("actual_Y_valu", d => d[feature_contribute])
-        .attr("r", 4)
+        //.attr("r", 4)
+        .attr("r", d=>parseFloat(d[feature_contribute])<=0?0:4)
         .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
