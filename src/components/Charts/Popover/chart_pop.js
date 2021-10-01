@@ -15,10 +15,19 @@ class Chart extends Component {
   componentDidUpdate() {
     var temp_dict = {}
     this.props.default_models.filter(item => item != "ListNet").map(model => {
-      temp_dict[model] = this.props.popup_chart_data[0][model]
+      temp_dict[model] = this.props.popup_chart_data[0][model].filter(item=>item['deviation']<this.props.threshold).map(item=>{
+        console.log(item['deviation'],'deviation')
+        item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+        return item
+      })
     })
     var merged_arr = [].concat.apply([], Object.values(temp_dict))
     var scatterplot_data = Object.entries(this.props.popup_chart_data[0]).filter(item => this.props.pop_over_models.includes(item[0]))
+    scatterplot_data=scatterplot_data.map(data_arr=>{
+      var temp=data_arr[1].filter(item=>item['deviation']<this.props.threshold)
+      return [data_arr[0],temp]
+    })
+    console.log(scatterplot_data,"scatterplot_data")
     //console.log(this.props.popup_chart_data[0],this.props.pop_over_models)
     //----------------------------------------------------------------------------------------------------------Call createChart
     if (merged_arr.length > 0) { // This is to avoid the error caused by the next line
@@ -149,16 +158,12 @@ class Chart extends Component {
         .attr("actual_Y_value", d => d[feature_contribute])
         //.attr("r", 4)
         .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
-        .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
-        .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
-        .attr("class", function (d) {
-          return "bar myid" + String(d['two_realRank']) + " exp_circles"
-        })
-        .attr('dataset_name', d[0])
-        .on("click", d => {
-          //self.props.textClickHandler_original("A" + d["State"])
-        })
+        .attr('class', d => 'my_circles')
+        .attr("id", d => d['id'])
+        .on('click', d => {
+          self.props.Set_clicked_circles(self.props.clicked_circles.includes(d['id']) ? self.props.clicked_circles.filter(item => item != d['id']) : [...self.props.clicked_circles, d['id']])
+      })
     })
 
     // Define the div for the tooltip
@@ -267,16 +272,12 @@ class Chart extends Component {
         .attr("actual_Y_value", d => d[feature_contribute])
         //.attr("r", 4)
         .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
-        .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
-        .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
-        .attr("class", function (d) {
-          return "bar myid" + String(d['two_realRank']) + " exp_circles"
-        })
-        .attr('dataset_name', d[0])
-        .on("click", d => {
-          //self.props.textClickHandler_original("A" + d["State"])
-        })
+        .attr('class', d => 'my_circles')
+        .attr("id", d => d['id'])
+        .on('click', d => {
+          self.props.Set_clicked_circles(self.props.clicked_circles.includes(d['id']) ? self.props.clicked_circles.filter(item => item != d['id']) : [...self.props.clicked_circles, d['id']])
+      })
     })
 
     // Define the div for the tooltip
@@ -320,11 +321,16 @@ const maptstateToprop = (state) => {
     mode: state.mode,
     range_mode_model: state.range_mode_model,
     time_mode_model: state.time_mode_model,
+    clicked_circles: state.clicked_circles,
+    threshold: state.threshold,
   }
 }
+//item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
 const mapdispatchToprop = (dispatch) => {
   return {
     Set_clicked_items_in_slopechart: (val) => dispatch({ type: "clicked_items_in_slopechart", value: val }),
+    Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
+    
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(Chart);
