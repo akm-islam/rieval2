@@ -7,7 +7,7 @@ class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = { "a": 10 }
-    this.myid=React.createRef()
+    this.myid = React.createRef()
   }
   componentDidMount() {
     this.setState({ a: 5 })
@@ -47,7 +47,7 @@ class Chart extends Component {
     var margin = { top: 0, right: 30, bottom: 45, left: 50, space_for_hist: 50 },
       width = 520 - margin.left - margin.right,
       height = 250 - margin.top - margin.bottom;
-      data=data.filter(d=>parseFloat(d[feature_contribute])>0)
+    data = data.filter(d => parseFloat(d[feature_contribute]) > 0)
     var temp_x = data.map(item => parseFloat(item[feature])),
       temp_y = data.map(item => parseFloat(item[feature_contribute]))
     var x = d3.scaleLinear().domain([d3.min(temp_x), d3.max(temp_x)]).range([0, width]).nice(),
@@ -99,7 +99,7 @@ class Chart extends Component {
       .select(".domain").remove()
     svg1.selectAll(".myYaxis").selectAll('text').remove()
 
-    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height *.25], ["+ ve", height *.75]]).join("text").attr("class", "myYtext")
+    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height * .25], ["+ ve", height * .75]]).join("text").attr("class", "myYtext")
       .attr("x", 45).attr("y", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
 
     //------------- Add X axis
@@ -146,22 +146,22 @@ class Chart extends Component {
           return y(parseFloat(d[feature_contribute])) - 0
 
         })
-        .attr("actual_Y_valu", d => d[feature_contribute])
+        .attr("actual_Y_value", d => d[feature_contribute])
         //.attr("r", 4)
-        .attr("r", d=>parseFloat(d[feature_contribute])<=0?0:4)
+        .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
         .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
         })
-        .attr('dataset_name',d[0])
+        .attr('dataset_name', d[0])
         .on("click", d => {
           //self.props.textClickHandler_original("A" + d["State"])
         })
     })
 
-// Define the div for the tooltip
+    // Define the div for the tooltip
     var div = d3.select("body").append("div")
       .attr("class", "tooltip2")
       .style("opacity", 0);
@@ -171,7 +171,7 @@ class Chart extends Component {
           .duration(200)
           .style("opacity", .9);
         div.html("<p>" + d['State'] + "</p>" + "<p>" + "Model: " + d3.select(this).attr('dataset_name') + "</p>")
-        //div.html(d['State'])
+          //div.html(d['State'])
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       })
@@ -189,7 +189,7 @@ class Chart extends Component {
       feature_contribute = feature + "_contribution"
     var margin = { top: 0, right: 30, bottom: 75, left: 50, space_for_hist: 50 }, width = 520 - margin.left - margin.right, height = 270 - margin.top - margin.bottom;
     var barplot_data = {}
-    data=data.filter(d=>parseFloat(d[feature_contribute])>0)
+    data = data.filter(d => parseFloat(d[feature_contribute]) > 0)
     data.map(item => { if (barplot_data[item[feature]] > 0) { barplot_data[item[feature]] += 1 } else { barplot_data[item[feature]] = 1 } })
 
     var temp_x = Object.keys(barplot_data),
@@ -197,9 +197,7 @@ class Chart extends Component {
       y = d3.scaleLinear().domain([d3.min(temp_y), d3.max(temp_y)]).range([height, 0]).nice(); // circles will start from y position 10 and go upto height-10
 
     var x = d3.scaleBand().domain(temp_x).range([0, width]).padding(0.1);
-
     // add the x Axis
-    //svg.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
     //-------------------------------------------------------------All svgs
     var parent_svg = d3.select("#" + self.props.myid).attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom + margin.space_for_hist),
       svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("y", margin.space_for_hist).attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
@@ -231,7 +229,7 @@ class Chart extends Component {
     svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis").call(d3.axisLeft(y2).tickSize(-width * 1.0).ticks(1).tickValues(["0"]).tickFormat(d => d))
       .select(".domain").remove()
     svg1.selectAll(".myYaxis").selectAll('text').remove()
-    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height *.25], ["+ ve", height *.75]]).join("text").attr("class", "myYtext")
+    d3.selectAll('.svg11').selectAll('.myYtext').data([["++ ve", height * .25], ["+ ve", height * .75]]).join("text").attr("class", "myYtext")
       .attr("x", 45).attr("y", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
 
     //------------- Add X axis
@@ -266,40 +264,40 @@ class Chart extends Component {
           return y(parseFloat(d[feature_contribute])) - 0
 
         })
-        .attr("actual_Y_valu", d => d[feature_contribute])
+        .attr("actual_Y_value", d => d[feature_contribute])
         //.attr("r", 4)
-        .attr("r", d=>parseFloat(d[feature_contribute])<=0?0:4)
+        .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
         .attr("class", "random")
         .attr("fill", (d) => self.props.diverginColor(d['two_realRank']))
         .attr("id", d => "A" + String(d['State']).replace(/ +/g, ""))
         .attr("class", function (d) {
           return "bar myid" + String(d['two_realRank']) + " exp_circles"
         })
-        .attr('dataset_name',d[0])
+        .attr('dataset_name', d[0])
         .on("click", d => {
           //self.props.textClickHandler_original("A" + d["State"])
         })
     })
 
-// Define the div for the tooltip
-var div = d3.select("body").append("div")
-.attr("class", "tooltip2")
-.style("opacity", 0);
-d3.selectAll('.exp_circles')
-.on("mouseover", function (d) {
-  div.transition()
-    .duration(200)
-    .style("opacity", .9);
-  div.html("<p>" + d['State'] + "</p>" + "<p>" + "Model: " + d3.select(this).attr('dataset_name') + "</p>")
-  //div.html(d['State'])
-    .style("left", (d3.event.pageX) + "px")
-    .style("top", (d3.event.pageY - 28) + "px");
-})
-.on("mouseout", function (d) {
-  d3.selectAll('.tooltip2').transition()
-    .duration(500)
-    .style("opacity", 0);
-})
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")
+      .attr("class", "tooltip2")
+      .style("opacity", 0);
+    d3.selectAll('.exp_circles')
+      .on("mouseover", function (d) {
+        div.transition()
+          .duration(200)
+          .style("opacity", .9);
+        div.html("<p>" + d['State'] + "</p>" + "<p>" + "Model: " + d3.select(this).attr('dataset_name') + "</p>")
+          //div.html(d['State'])
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function (d) {
+        d3.selectAll('.tooltip2').transition()
+          .duration(500)
+          .style("opacity", 0);
+      })
 
     //------------------------------------------------------------------------------------------------------ Scatterplot ends here
   }
