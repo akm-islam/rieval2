@@ -1,6 +1,7 @@
 import React from 'react';
 import "./YearModelSelection.scss";
 import { connect } from "react-redux";
+import * as d3 from 'd3';
 function YearModelSelection(props) {
   var handle_year_click = (year) => {
     props.Set_selected_year(year)
@@ -16,7 +17,7 @@ function YearModelSelection(props) {
   return (
     <div className="model_topbar" style={{width:"100%",marginBottom:2,display:'flex',justifyContent: "center",margin:0}}>
     <div ><h5 style={{ display: "inline-block", marginLeft: 0,marginRight:3,fontSize:16,fontWeight:600 }}>Years: </h5>{props.years_for_dropdown.map(item => <p className={props.selected_year==item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
-    <div style={{marginLeft:20}}><h5 style={{ display: "inline-block", marginLeft: 0,marginRight:3,fontSize:16,fontWeight:600}}>Models:</h5>{props.all_models.map(item => <p className={props.default_models.includes(item) ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}</div>
+    <div style={{marginLeft:20}}><h5 style={{ display: "inline-block", marginLeft: 0,marginRight:3,fontSize:16,fontWeight:600}}>Models:</h5>{props.all_models.map(item => <p modelName={item} className={props.default_models.includes(item) ? "years_p_selected years_p model_p" : "years_p model_p"} onClick={() => handle_model_click(item)}>{item}</p>)}</div>
     </div>
   );
 }

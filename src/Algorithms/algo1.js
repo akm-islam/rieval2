@@ -1,3 +1,65 @@
+//------------------------------------------------------------------------------------------------- Sort Models
+export function sort(type, state_range, default_models, selected_year, grouped_by_year_data) {
+  console.log(type, state_range, default_models, selected_year, grouped_by_year_data,'sort')
+  //------------Handle ndgc sorting
+  if (type == 'Discounted Cumulative Gain') {
+    var nDCG_dict = { "ndcg_term_CordAscent": 0, "ndcg_term_LambdaMART": 0, "ndcg_term_LambdaRank": 0, "ndcg_term_LinearReg": 0, "ndcg_term_ListNet": 0, "ndcg_term_MART": 0, "ndcg_term_RandomFor": 0, "ndcg_term_RankBoost": 0, "ndcg_term_RankNet": 0 }
+    for (var i = state_range[0]; i < state_range[1]; i++) {
+      Object.keys(nDCG_dict).forEach(key => {
+          nDCG_dict[key] = nDCG_dict[key] + parseFloat(grouped_by_year_data[selected_year][i][key])
+      })
+    }
+    //---- sort
+    var items = Object.keys(nDCG_dict).map(function (key) {
+      return [key.substring(10), nDCG_dict[key]];
+    });
+    items.sort(function (first, second) {
+      return second[1] - first[1];
+    });
+    var temp_ndcg = []
+    for (var i = 0; i < items.length; i++) {
+      if (default_models.includes(items[i][0])) {
+        temp_ndcg.push(items[i][0])
+      }
+    }
+    var temp1={}
+    items.map(myitem=>{temp1[myitem[0]]=myitem[1]})
+    console.log(items)
+    return [temp_ndcg,temp1]
+  }
+  //----
+
+  //------------Handle AP sorting
+  if (type == 'Average Precision') {
+    var mydict = {}
+    default_models.forEach((model) => {
+      var temp = 1
+      for (var i = state_range[0]; i < state_range[1]; i++) {
+        temp = temp + (grouped_by_year_data[selected_year][i]["two_realRank"] - grouped_by_year_data[selected_year][i][model]) ** 2
+      }
+      mydict[model] = ((state_range[1] - state_range[0]) + 1) / (Math.sqrt(temp))
+    })
+    //---- sort
+    var items = Object.keys(mydict).map(function (key) {
+      return [key, mydict[key]];
+    });
+    items.sort(function (first, second) {
+      return second[1] - first[1];
+    });
+    var temp_ap = []
+    for (var i = 0; i < items.length; i++) {
+      if (default_models.includes(items[i][0])) {
+        temp_ap.push(items[i][0])
+      }
+    }
+    return [temp_ap,mydict]
+  }
+  //------------Handle Alphabatic sorting
+  if (type == 'Alphabetically') {
+    var temp=default_models.sort()
+    return [temp,[0]]
+  }
+}
 export function groupby_year(original_data) {
   var years = {}
   var sparkline_data = {}

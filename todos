@@ -19,13 +19,13 @@ Model precision on the legend-
 
 
 ---------------------------------------- Meeting oct 1 Friday
-* Remove ++ and + from pop over characters
-* Add Regression line on pop over characters
-* Make the bar charts a histogram - continous
-* Model sorting
+done - Add Regression line on pop over characters
+* Model sorting - partially done
+done - Make the bar charts a histogram - continous
+
+
+done - Remove ++ and + from pop over characters
+done - Logarithmic scaling for circles (made exponent(0.2))
+done - Change Threshold to deviation threshold
+done - Double click and single click on model to highlight circles of a model
 * Circle border color to stand out selected ones.
-* Logarithmic scaling for circles
-* Change Threshold to deviation threshold
-* Double click and single click on model to highlight circles of a model
-* 
-* 

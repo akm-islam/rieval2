@@ -89,13 +89,14 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
           a["model"] = model_name
           a['year'] = item['1-qid']
           a['id'] =item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          a['className']="deviation_circles "+model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           if (Math.abs(predicted_rank - two_realRank) < threshold) {
             circ_data.push(a)            
           }
         })
       })
       var my_circs = d3.select(this).selectAll(".my_circles").data(circ_data, d => d['id']).join(
-        enter => enter.append("circle").attr('id', d => d['id']).attr('class', 'my_circles').attr("cx", (d2, i) => {
+        enter => enter.append("circle").attr('id', d => d['id']).attr("cx", (d2, i) => {
           d3.select(this).classed(d2['id'], true)
           if (d2["predicted_rank"] - d2['two_realRank'] == 0) { return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank'])) + circle_radius }
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
@@ -107,9 +108,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
           return sclale1(Math.abs(d2["predicted_rank"] - d2['two_realRank']))
         })
       )
-      my_circs.attr("r",item=> {
-          return circle_radius
-    })
+      my_circs.attr("r",circle_radius).attr('class', d=>'my_circles '+d['className'])
       .attr('fill', d => diverginColor(d['two_realRank'])).attr("parent_id", parent_exp_id)
         .on('click', d => Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']]))
         .on("mouseover", function (d2) {

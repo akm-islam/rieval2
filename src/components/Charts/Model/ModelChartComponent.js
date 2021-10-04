@@ -19,6 +19,7 @@ class SlopeChart extends Component {
   componentDidMount() { this.setState({ width: window.innerHeight }) }
   shouldComponentUpdate(prevProps, prevState) { return true; }
   componentDidUpdate(prevProps, prevState) {
+    var self=this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
 
@@ -42,6 +43,18 @@ class SlopeChart extends Component {
     selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('dev_plot_container_svg', 'exp', selected_instances, this.props.original_data, this.props.default_models, this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    //-------------------------Handle model mousever start here 
+    d3.selectAll(".model_p").on('mouseover',function(){
+      var selectedModel=d3.select(this).attr('modelName')
+      if(self.props.default_models.includes(selectedModel)){
+        d3.selectAll('.deviation_circles').attr('opacity',0.1)
+        d3.selectAll('.'+selectedModel).attr('opacity',1)  
+      }
+    })
+    .on('mouseout',function(){
+      d3.selectAll('.deviation_circles').attr('opacity',1)
+    })
+  //-------------------------Handle model mousever start here
   }
   render() {
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)

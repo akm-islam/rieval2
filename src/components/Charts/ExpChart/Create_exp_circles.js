@@ -27,7 +27,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var my_mean = d3.mean(sum_data)
     //----------
     selection.selectAll(".my_mean_line").data([0]).join("line").attr("class", "my_mean_line").attr("x1", xScale(my_mean)).attr("x2", xScale(my_mean)).attr("y1", 18).attr("y2", item_height).attr('stroke', "rgb(96, 96, 96,0.5)").attr('stroke-width', 1)
-    var rScale = d3.scaleLinear().domain(d3.extent(deviation_array)).range([5, 2])
+    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([5, 1])
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])
@@ -39,6 +39,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr("r", d => d['deviation']>threshold?0:rScale(d['deviation']))
+            //.attr('test',(d)=>console.log(rScale(50),'rScale',d['deviation']))
         // Update
         , update => update.attr('class', d => d['id'] + ' items circle2 my_circles')
             .transition().duration(anim_config.circle_animation).delay(anim_config.rank_animation + anim_config.deviation_animation + anim_config.feature_animation)

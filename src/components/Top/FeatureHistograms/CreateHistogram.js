@@ -24,7 +24,7 @@ export default function CreateHistogram(histogram_data, svg, feature_name, featu
   svg.append("path").attr('transform', 'translate(0,' + margin.top + ')')
     .attr("d", areaGenerator(area_chart_data))
     .style("fill", "gray");
-  //svg.selectAll(".graph_lines").area_chart_data(ticks).join('line').attr("class", "graph_lines").attr("x1", 0).attr("x2", baseline).attr("y1",d=>y(d)).attr("y2", d=>y(d)).attr("stroke-width", 0.1).attr("stroke", "black").raise()
+//--------------------------------
   svg.selectAll(".xAxis_g").data([0]).join('g').attr('class', 'xAxis_g').attr("transform", "translate(0," + (feature_height - margin.bottom) + ")")
     .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(".2s")));
   //.call(d3.axisBottom(xScale).ticks(5));

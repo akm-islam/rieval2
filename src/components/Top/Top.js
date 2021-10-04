@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports ends here
 import { Row, Col } from 'reactstrap';
-
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,6 +14,7 @@ import FeaturesDropdown from "./FeaturesDropdown"
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import SelectMode from './SelectMode'
 import Threshold from './Threshold';
+import SortModels from './SortModels';
 
 class App extends Component {
   constructor(props) {
@@ -42,8 +42,9 @@ class App extends Component {
           <Button style={{borderRadius:0,border:'none',borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
           <Button style={{borderRadius:0,border:'none', borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
-          {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
           <SelectMode></SelectMode>
+          {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
+          <SortModels></SortModels>
           <Threshold></Threshold>
         </Grid>
         {this.props.view_data == false ?
