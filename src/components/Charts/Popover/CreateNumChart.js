@@ -1,3 +1,4 @@
+import { width } from '@mui/system';
 import * as d3 from 'd3';
 import SimpleLinearRegression from 'ml-regression-simple-linear';
 var CreateNumChart = (data, feature, scatterplot_data, props) => {
@@ -43,10 +44,11 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
         .attr("d", areaGenerator(area_chart_data))
         .style("fill", "gray");
     //------------------------------------------------------------------------------------------------------ Create the areaChart ends here
-    
     var svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
         "translate(" + margin.left + "," + margin.top + ")")
     svg1.selectAll(".myline2").data([0]).join('line').attr("class", "myline2").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", height).attr("stroke", "#EBEBEB");
+    svg1.selectAll(".myline3").data([0]).join('line').attr("class", "myline3").attr("x1", 0).attr("y1", height).attr("x2", feature_width).attr("y2", height).attr("stroke", "#EBEBEB");
+
     //------------- Add X axis
     if (d3.max(d3.max(bins)) > 1000) {
         svg1.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
@@ -64,22 +66,22 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
 
     //------------------------------------------------------------------------------------------------------ Scatterplot starts here
     svg1.selectAll(".scatterplot_g").data(scatterplot_data).join('g').attr("id", d => d[0] + "scatterplot_g_id").attr("class", "scatterplot_g").attr("ax", function (d) {
-        data_for_x_axis = d[1].map(item => parseFloat(item[feature]))
-        data_for_y_axis = d[1].map(item => parseFloat(item[feature_contribute]))
+        var data_for_x_axis2 = d[1].map(item => parseFloat(item[feature]))
+        var data_for_y_axis2 = d[1].map(item => parseFloat(item[feature_contribute]))
 
-        xScale = d3.scaleLinear().domain([d3.min(data_for_x_axis), d3.max(data_for_x_axis)]).range([0, feature_width]).nice()
-        yScale = d3.scaleLinear().domain([d3.min(data_for_y_axis), d3.max(data_for_y_axis)]).range([height, 0]).nice();
+        var xScale2 = d3.scaleLinear().domain([d3.min(data_for_x_axis2), d3.max(data_for_x_axis2)]).range([0, feature_width]).nice() // This scaling is for individual model
+        var yScale2 = d3.scaleLinear().domain([d3.min(data_for_y_axis2), d3.max(data_for_y_axis2)]).range([height, 0]).nice(); // This scaling is for individual model
         d3.select(this).selectAll('circle').data(d[1])
             .join("circle")
-            .attr("cx", (d, i) => xScale(d[feature]))
+            .attr("cx", (d, i) => xScale2(d[feature]))
             .attr("cy", (d, i) => {
-                if (yScale(parseFloat(d[feature_contribute])) < 10) {
+                if (yScale2(parseFloat(d[feature_contribute])) < 10) {
                     return 10;
                 }
-                else if (yScale(parseFloat(d[feature_contribute])) > (height - 10)) {
+                else if (yScale2(parseFloat(d[feature_contribute])) > (height - 10)) {
                     return height - 10;
                 }
-                return yScale(parseFloat(d[feature_contribute])) - 0
+                return yScale2(parseFloat(d[feature_contribute])) - 0
 
             })
             .attr("actual_Y_value", d => d[feature_contribute] + " : x value : " + d[feature])
@@ -93,10 +95,14 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
             })
     })
     //------------------------------------------------------------------------------------------------------ Regression Line
+    var xScale3 = d3.scaleLinear().domain([d3.min(data_for_x_axis), d3.max(data_for_x_axis)]).range([0, feature_width]).nice() // This scaling is only for regression line
+    var yScale3 = d3.scaleLinear().domain([d3.min(data_for_y_axis), d3.max(data_for_y_axis)]).range([height, 0]).nice();
     const regression = new SimpleLinearRegression(data_for_x_axis, data_for_y_axis);
     var predicted_data = data_for_x_axis.map(item => [item, regression.predict(item)])
-    var lineGenerator = d3.line().x(d => xScale(d[0])).y(d => yScale(d[1]))
+    predicted_data=predicted_data.filter(item=>yScale3(item[1])<height)
+    var lineGenerator = d3.line().x(d => xScale3(d[0])).y(d => yScale3(d[1]))
     var pathData = lineGenerator(predicted_data)
-    svg1.append('path').attr('d', pathData).attr('stroke', 'rgb(188, 188, 188,0.5)').attr('stroke-width',3);
+    console.log(data_for_x_axis,"data_for_x_axis",predicted_data,pathData)
+    svg1.selectAll('.regression_path').data([0]).join('path').attr('class','regression_path').attr('d', pathData).attr('stroke', 'rgb(188, 188, 188,0.5)').attr('stroke-width',3);
 }
 export default CreateNumChart

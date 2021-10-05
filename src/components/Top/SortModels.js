@@ -20,7 +20,7 @@ function Sort(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleradioChange = (event) => {
+    const sortModels = (event) => {
         set_sort_by(event.target.value)
         if(event.target.value=="None"){var val="Alphabetically"}
         else{var val=event.target.value}
@@ -28,7 +28,7 @@ function Sort(props) {
         var temp_Models = algo1.sort(val, props.state_range, props.default_models, props.selected_year,props.grouped_by_year_data)[0];
         var default_model_scores = algo1.sort(val, props.state_range, props.default_models, props.selected_year,props.grouped_by_year_data)[1];
         props.Set_default_model_scores(default_model_scores)
-        props.Set_default_models(temp_Models)
+        props.Set_default_models([...temp_Models])
       };
     return (
         <div className="sort" style={{borderRight:"1px dashed #eaeaea",paddingLeft:5}}>
@@ -43,7 +43,7 @@ function Sort(props) {
             >
             <FormControl component="fieldset">
                 <FormLabel component="legend"></FormLabel>
-                <RadioGroup aria-label="gender" name="gender1" value={sort_by} onChange={handleradioChange}>
+                <RadioGroup aria-label="gender" name="gender1" value={sort_by} onChange={sortModels}>
                     {['Discounted Cumulative Gain', 'Average Precision', 'None'].map((value) => {
                         return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}

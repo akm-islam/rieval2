@@ -53,7 +53,6 @@ class SlopeChart extends Component {
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
-    console.log(self.state.excluded_features.length, number_of_charts, sorted_features.length, "feature_contrib_data_for_mds")
     var marginTop = 5;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
@@ -191,7 +190,7 @@ class SlopeChart extends Component {
   //------------------------------
   render() {
     return (
-      <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
+      <div key={this.props.model_name} className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
         <svg ref={this.mds} id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: 0, width: "100%" }}></svg>

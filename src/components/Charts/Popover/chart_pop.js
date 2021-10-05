@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as d3 from 'd3';
 import { connect } from "react-redux";
 import * as misc_algo from '../misc_algo'
 import CreateCatChart from './CreateCatChart'
