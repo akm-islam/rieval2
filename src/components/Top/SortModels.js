@@ -10,6 +10,9 @@ import Menu from '@material-ui/core/Menu';
 import Fade from '@material-ui/core/Fade';
 import * as algo1 from "../../Algorithms/algo1";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+/*
+Change in year,model selection and state range selection as well 
+*/
 function Sort(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [sort_by, set_sort_by] = React.useState(props.sort_by);
