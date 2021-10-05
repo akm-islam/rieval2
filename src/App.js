@@ -120,14 +120,14 @@ class App extends Component {
   render() {
     var legend_width = 70
     return (
-      <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth, overflow: "hidden" }}>
+      <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth}}>
         <div className="topBar_root" style={{ height: 35, width: window.innerWidth}}>
           <Top handleradioChange={this.handleradioChange}></Top>
         </div>
         {this.props.view_data ? <Row>
           <div style={{ width: window.innerWidth, height: window.innerHeight - $('.topBar_root').height(), padding: "2px 0px" }} key={this.props.view_data}>
             {this.state.view_data == true ?
-              <Grid className="charts_and_legend_container" style={{ height: '100%', width: '100%', border: "2px solid grey", overflow: "hidden" }} container direction="row" justify="flex-start" alignItems="center" >
+              <Grid className="charts_and_legend_container" style={{ height: '100%', width: '100%', border: "2px solid grey"}} container direction="row" justify="flex-start" alignItems="center" >
                 <Grid className="charts_container" style={{ height: '100%', width: $('.charts_and_legend_container').width() - legend_width }} container spacing={0} direction="row" justify="space-evenly" >
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                   {this.props.mode == "Ranges" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}

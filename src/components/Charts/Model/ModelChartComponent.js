@@ -8,7 +8,7 @@ import ModelSlider from './ModelSlider';
 import ExpChart from './ExpChartComponent';
 import './ModelSlider.scss';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import Popover from '../Popover/Popover';
 class SlopeChart extends Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class SlopeChart extends Component {
     //--------------------
     return (
       <Grid className="ModelChartParent" container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%', width: '100%', backgroundColor: 'white', margin: 2, padding: 2, boxShadow: "-2px 1px 4px -1px white" }}> {/* This model chart's height and width is the parent*/}
-        <Grid item className="left_container" style={{ width: 420, backgroundColor: "#fcfcfc" }}>
+        <Grid item className="left_container" style={{width:400, backgroundColor: "#fcfcfc" }}>
           {/* The deviation plot container starts below */}
           <div className="year_and_model_selector_and_slider_container"> {/* This is used to calculate the deviation plot height */}
             <YearModelSelection></YearModelSelection><ModelSlider></ModelSlider>
@@ -91,16 +91,15 @@ class SlopeChart extends Component {
         </Grid>
         {/* The explanation plot container starts below */}
         {this.props.rank_data != null ?
-          <Grid item className="right_container" style={{ height: '100%', width: $('.ModelChartParent').width() - $('.left_container').width() }}>
-            <Grid container spacing={1} direction="row" justify="flex-start" alignItems="center" style={{ width: '100%', height: '100%' }}>
+          <Grid className="right_container" item container xs direction="row" columnSpacing={1} style={{ height: '100%'}}>
               {
                 this.props.default_models.map((model_name, index) => {
-                  return <Grid item style={{ width: ($('.ModelChartParent').width() - $('.left_container').width()) / this.props.default_models.length, height: "100%", overflow: 'hidden' }}>
+                  return <Grid item xs={12/this.props.default_models.length} style={{height: "100%"}}>
                     <ExpChart diverginColor={diverginColor} exp_id={"exp" + index} default_models={this.props.default_models} state_range={this.props.state_range} selected_year={this.props.selected_year} model_name={model_name}></ExpChart>
                   </Grid>
                 })
               }
-            </Grid>
+            
           </Grid> : null}
         {/* The explanation plot container ends here */}
         <Popover diverginColor={diverginColor} default_models={this.props.default_models}></Popover>
