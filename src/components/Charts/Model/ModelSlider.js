@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import './ModelSlider.scss';
+import * as algo1 from "../../../Algorithms/algo1";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -89,6 +90,10 @@ function Modes(props) {
             <div className="button" item xs="2" style={{ marginTop: -10 }}>
                 <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
                     onClick={() => {
+                        var temp_Models = algo1.sort(props.sort_by, sliderRange, props.default_models, props.selected_year, props.grouped_by_year_data)[0];
+                        var default_model_scores = algo1.sort(props.sort_by, sliderRange,props.default_models, props.selected_year, props.grouped_by_year_data)[1];
+                        props.Set_default_model_scores(default_model_scores)
+                        props.Set_default_models([...temp_Models])
                         props.Set_state_range(sliderRange)
                     }}
                 >Update range</Button>
@@ -121,6 +126,8 @@ const mapdispatchToprop = (dispatch) => {
     return {
         Set_state_range: (val) => dispatch({ type: "state_range", value: val }),
         Set_changed: (val) => dispatch({ type: "changed", value: val }),
+        Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
+        Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
     }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(Modes);
