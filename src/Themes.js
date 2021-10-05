@@ -1,5 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#7f7f7f"
+    },
+    secondary: {
+      main: "#7f7f7f"
+    }
+  },
   spacing:3,      
   typography: {
     button: {
