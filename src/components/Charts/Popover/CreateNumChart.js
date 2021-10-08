@@ -2,6 +2,7 @@ import { width } from '@mui/system';
 import * as d3 from 'd3';
 import SimpleLinearRegression from 'ml-regression-simple-linear';
 var CreateNumChart = (data, feature, scatterplot_data, props) => {
+    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(props.deviation_array)).range([8, 1])
     var feature_contribute = feature + "_contribution"
     var scatterplot_data = scatterplot_data.map(data_arr => {
         var temp = data_arr[1].filter(item => item['deviation'] < props.threshold && parseFloat(item[feature_contribute]) > 0)
@@ -86,8 +87,13 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
             })
             .attr("actual_Y_value", d => d[feature_contribute] + " : x value : " + d[feature])
             //.attr("r", 4)
-            .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
-            .attr("fill", (d) => props.diverginColor(d['two_realRank']))
+            .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : rScale(d['deviation']))
+            .attr("fill", (d) => {
+                return props.diverginColor(d['two_realRank']).replace(")",",.6)")
+            })
+            .style('stroke',(d) => {
+                return props.diverginColor(d['two_realRank'])
+            })
             .attr('class', d => 'my_circles')
             .attr("id", d => d['id'])
             .on('click', d => {

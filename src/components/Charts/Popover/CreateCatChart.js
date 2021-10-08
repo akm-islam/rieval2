@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 var CreateCatChart = (data, feature, scatterplot_data,props) => {
+    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(props.deviation_array)).range([8, 1])
     var feature_contribute = feature + "_contribution"
     var margin = { top: 0, right: 30, bottom: 75, left: 50, space_for_hist: 50 }, width = 520 - margin.left - margin.right, height = 270 - margin.top - margin.bottom;
     var barplot_data = {}
@@ -12,7 +13,7 @@ var CreateCatChart = (data, feature, scatterplot_data,props) => {
 
     var x = d3.scaleBand().domain(temp_x).range([0, width]).padding(0.1);
     // add the x Axis
-    //-------------------------------------------------------------All svgs
+    //------------------------------------------------------------- All svgs
     var parent_svg = d3.select("#" + props.myid).attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom + margin.space_for_hist),
         svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("y", margin.space_for_hist).attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
@@ -61,8 +62,8 @@ var CreateCatChart = (data, feature, scatterplot_data,props) => {
     svg1.selectAll(".scatterplot_g").data(scatterplot_data).join('g').attr("id", d => d[0] + "scatterplot_g_id").attr("class", "scatterplot_g").attr("ax", function (d) {
         var temp_y = d[1].map(item => parseFloat(item[feature + "_contribution"])) // d[1] 
         y = d3.scaleLinear().domain([d3.min(temp_y), d3.max(temp_y)]).range([height, 0]).nice();
-
-        d3.select(this).selectAll('circle').data(d[1])
+        var circle_data=d[1].sort((a,b)=>a['deviation']-b['deviation'])
+        d3.select(this).selectAll('circle').data(circle_data)
             .join("circle")
             .attr("cx", (d, i) => {
                 return x(d[feature]) + x.bandwidth() / 2
@@ -78,9 +79,13 @@ var CreateCatChart = (data, feature, scatterplot_data,props) => {
 
             })
             .attr("actual_Y_value", d => d[feature_contribute])
-            //.attr("r", 4)
-            .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : 4)
-            .attr("fill", (d) => props.diverginColor(d['two_realRank']))
+            .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : rScale(d['deviation']))
+            .attr("fill", (d) => {
+                return props.diverginColor(d['two_realRank']).replace(")",",.7)")
+            })
+            .style('stroke',(d) => {
+                return props.diverginColor(d['two_realRank'])
+            })
             .attr('class', d => 'my_circles')
             .attr("id", d => d['id'])
             .on('click', d => {

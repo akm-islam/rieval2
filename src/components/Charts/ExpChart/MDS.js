@@ -26,14 +26,18 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
   var yScale = d3.scaleLinear().domain(d3.extent(circle_data.map(item => item['y']))).range([r * 2, h - r * 2])
 
   var svg = d3.select(mds_ref.current).style("border", "1px solid #eaeaea")
-
   var circles = svg.selectAll("circle")
     .data(circle_data)
     .join("circle")
     .attr("cx", d => xScale(d['x']))
     .attr("cy", d => yScale(d['y']))
     .attr("r", r)
-    .attr("fill", d => diverginColor(d["two_realRank"]))
+    .attr("fill", (d) => {
+      return diverginColor(d['two_realRank']).replace(")",",.7)")
+  })
+  .style('stroke',(d) => {
+      return diverginColor(d['two_realRank'])
+  })
     .attr('id', d => d['id'])
     .attr('class', 'my_circles')
   // Lasso functions

@@ -27,12 +27,11 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var my_mean = d3.mean(sum_data)
     //----------
     selection.selectAll(".my_mean_line").data([0]).join("line").attr("class", "my_mean_line").attr("x1", xScale(my_mean)).attr("x2", xScale(my_mean)).attr("y1", 18).attr("y2", item_height).attr('stroke', "rgb(96, 96, 96,0.5)").attr('stroke-width', 1)
-    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([5, 1])
+    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([8, 1])
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])
             .attr('class', d => 'my_circles')
-            .attr('fill', d => diverginColor(d['two_realRank']))
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
@@ -53,8 +52,13 @@ export default function CreatexpCircle(d, selection, selected_instances,
         , exit => exit.remove())
     mycircles.attr("myindex",index).attr('feature_name',d[0]).on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
-    }
-    )
+    })
+    .attr("fill", (d) => {
+        return diverginColor(d['two_realRank']).replace(")",",.7)")
+    })
+    .style('stroke',(d) => {
+        return diverginColor(d['two_realRank'])
+    })
     if(index==0){selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean)+5).attr("class", "avg_text").attr("myindex",index).attr("y", (item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin).text('avg').attr('font-size', 12)
     .attr('dominant-baseline', "middle").attr('text-anchor','middle').attr('transform',d=>"rotate(-90,"+(xScale(my_mean)+5)+","+((item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin)+")")}
     else{selection.selectAll('.avg_text').remove()}

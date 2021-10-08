@@ -23,14 +23,14 @@ class Chart extends Component {
     //----------------------------------------------------------------------------------------------------------Call createChart
     if (merged_arr.length > 0) { // This is to avoid the error caused by the next line
       if (isNaN(merged_arr[0][this.props.popup_chart_data[1]])) {
-        CreateCatChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props)
+        CreateCatChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props,this.props.deviation_array)
       }
       else {
-        CreateNumChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props)
+        CreateNumChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props,this.props.deviation_array)
       }
     }
     else {
-      CreateNumChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props) // calling the function to set the  graph empty when all models are unselected
+      CreateNumChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props,this.props.deviation_array) // calling the function to set the  graph empty when all models are unselected
     }
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
   }
@@ -56,6 +56,7 @@ const maptstateToprop = (state) => {
     clicked_circles: state.clicked_circles,
     threshold: state.threshold,
     anim_config:state.anim_config,
+    deviation_array: state.deviation_array,
   }
 }
 //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
