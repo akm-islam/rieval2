@@ -69,13 +69,13 @@ class SlopeChart extends Component {
     this.props.Set_selected_instances(selected_instances)
     return (
       <Box className="box_root" sx={{ width: '100%',height:'100%', padding: 0.5 }}>
-        <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+        <Grid container justifyContent="space-between">
           <Grid item xs={12}>
             <div className="year_and_model_selector_and_slider_container" style={{ width: '100%' }}><YearModelSelection></YearModelSelection></div>
           </Grid>
           {/* Group 1 */}
-          <Grid item xs={6} className="Group1_container" style={{ borderTop: '2px solid grey',borderLeft: '2px solid grey',borderRight: '2px solid grey' }}>
-            <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+          <Grid item xs={5.9} className="Group1_container" style={{ borderTop: '2px solid #eaeaea',borderLeft: '2px solid #eaeaea',borderRight: '2px solid #eaeaea'}}>
+            <Grid container>
               <Grid item xs={12} style={{padding:0}}>
                 <div className="slidergroup1" style={{ width: '100%', height: 30 }}><Year1DropDown></Year1DropDown></div>
               </Grid>
@@ -92,8 +92,8 @@ class SlopeChart extends Component {
             </Grid>
           </Grid>
           {/* Group 2 */}
-          <Grid item xs={6} style={{ borderTop: '2px solid grey',borderRight: '2px solid grey' }}>
-            <Grid container rowSpacing={0.3} columnSpacing={{ xs: 0.3 }}>
+          <Grid item xs={5.9} style={{ borderTop: '2px solid #eaeaea',borderLeft: '2px solid #eaeaea',borderRight: '2px solid #eaeaea' }}>
+            <Grid container>
               <Grid item xs={12} style={{padding:0}}>
                 <div className="slidergroup2" style={{ width: '100%', height: 30 }}><Year2DropDown></Year2DropDown></div>
               </Grid>

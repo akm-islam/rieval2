@@ -19,14 +19,12 @@ import * as d3 from 'd3';
 import * as algo1 from "./Algorithms/algo1";
 import ModelChart from "./components/Charts/Model/ModelChartComponent"
 import RangeChart from "./components/Charts/Range/RangeChartComponent"
-import YearChart from "./components/Charts/Time/YearChart"
+import YearChart from "./components/Charts/Time/YearChartComponent"
 import { Row, Col } from 'reactstrap';
 import * as $ from 'jquery';
 import { connect } from "react-redux";
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import Top from './components/Top/Top';
-import BrushTest from './components/BrushTest/BrushTest';
-import { Hidden } from '@material-ui/core';
 import Legend from '../src/components/Legend/Legend'
 class App extends Component {
   constructor(props) {
