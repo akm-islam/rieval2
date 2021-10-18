@@ -51,7 +51,7 @@ let initialState = {
    changed: "year",
    popup_chart_data: null,
    pop_over: false,
-   pop_over_models: ["LinearReg","CordAscent"],
+   pop_over_models: ["CordAscent"],
    clicked_features: [],
    drag_drop_feautre_data: {},
    dbclicked_features: [],
