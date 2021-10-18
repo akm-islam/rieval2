@@ -29,3 +29,7 @@ done - Logarithmic scaling for circles (made exponent(0.2))
 done - Change Threshold to deviation threshold
 done - Double click and single click on model to highlight circles of a model
 * Circle border color to stand out selected ones.
+
+
+------------------------------------------
+double click on yearchart deviation plot to change the year has bug

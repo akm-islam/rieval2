@@ -110,6 +110,7 @@ class SlopeChart extends Component {
             </Grid>
           </Grid>
         </Grid>
+        <Popover diverginColor={diverginColor} default_models={[this.props.time_mode_model]}></Popover>
       </Box>
     )
   }
