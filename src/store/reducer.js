@@ -155,10 +155,10 @@ const reducer = (state = initialState, action) => {
          return { ...state,pop_over_models:state.default_models, mode: action.value }
       }
       if(action.value=='Ranges'){
-         return { ...state,pop_over_models:state.range_mode_model, mode: action.value }
+         return { ...state,pop_over_models:[state.range_mode_model], mode: action.value }
       }
       else{
-         return { ...state,pop_over_models:state.time_mode_model, mode: action.value }
+         return { ...state,pop_over_models:[state.time_mode_model], mode: action.value }
       }
    }
    if (action.type === "slider_max") {

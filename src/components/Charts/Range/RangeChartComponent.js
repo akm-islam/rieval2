@@ -97,7 +97,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r1exp" state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r1exp" state_range={this.props.range_mode_range1} selected_year={this.props.selected_year} model_name={this.props.range_mode_model} default_models={[this.props.range_mode_model]}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -112,7 +112,7 @@ class SlopeChart extends Component {
             </Grid>
             {
               this.props.rank_data != null ? <Grid className="explanation_plot_container" item style={{ width: '49%', height: '100%' }}>
-                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r2exp" state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model}></ExpChart>
+                <ExpChart diverginColor={diverginColor} exp_data={[["r1exp", this.props.range_mode_range1], ["r2exp", this.props.range_mode_range2]]} exp_id="r2exp" state_range={this.props.range_mode_range2} selected_year={this.props.selected_year} model_name={this.props.range_mode_model} default_models={[this.props.range_mode_model]}></ExpChart>
               </Grid> : null
             }
           </Grid>
@@ -130,7 +130,6 @@ const maptstateToprop = (state) => {
     range_mode_model: state.range_mode_model,
     lime_data: state.lime_data,
     selected_year: state.selected_year,
-    default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,
@@ -141,7 +140,6 @@ const maptstateToprop = (state) => {
     clicked_circles: state.clicked_circles,
     threshold: state.threshold,
     histogram_data: state.histogram_data,
-
   }
 }
 const mapdispatchToprop = (dispatch) => {

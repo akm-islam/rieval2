@@ -220,7 +220,6 @@ const maptstateToprop = (state) => {
     dbclicked_features: state.dbclicked_features,
     dragged_features: state.dragged_features,
     url: state.url,
-    default_models: state.default_models,
   }
 }
 const mapdispatchToprop = (dispatch) => {

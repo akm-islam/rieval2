@@ -11,6 +11,7 @@ class Chart extends Component {
     this.setState({ a: 5 })
   }
   componentDidUpdate() {
+    console.log(this.props.default_models,'popover',this.props.popup_chart_data[0])
     var temp_dict = {}
     this.props.default_models.filter(item => item != "ListNet").map(model => {
       temp_dict[model] = this.props.popup_chart_data[0][model].filter(item=>item['deviation']<this.props.threshold).map(item=>{
