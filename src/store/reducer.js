@@ -51,7 +51,7 @@ let initialState = {
    changed: "year",
    popup_chart_data: null,
    pop_over: false,
-   pop_over_models: ["CordAscent"],
+   pop_over_models: ["LinearReg","CordAscent"],
    clicked_features: [],
    drag_drop_feautre_data: {},
    dbclicked_features: [],
@@ -151,7 +151,15 @@ const reducer = (state = initialState, action) => {
       return { ...state, deviate_by: action.value }
    }
    if (action.type === "mode") {
-      return { ...state, mode: action.value }
+      if(action.value=='Model'){
+         return { ...state,pop_over_models:state.default_models, mode: action.value }
+      }
+      if(action.value=='Ranges'){
+         return { ...state,pop_over_models:state.range_mode_model, mode: action.value }
+      }
+      else{
+         return { ...state,pop_over_models:state.time_mode_model, mode: action.value }
+      }
    }
    if (action.type === "slider_max") {
       return { ...state, slider_max: action.value }
