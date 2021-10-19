@@ -105,7 +105,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     var yScale3 = d3.scaleLinear().domain([d3.min(data_for_y_axis), d3.max(data_for_y_axis)]).range([height, 0]).nice();
     const regression = new SimpleLinearRegression(data_for_x_axis, data_for_y_axis);
     var predicted_data = data_for_x_axis.map(item => [item, regression.predict(item)])
-    predicted_data=predicted_data.filter(item=>yScale3(item[1])<height)
+    predicted_data=predicted_data.filter(item=>yScale3(item[1])<height).sort((a,b)=>a[0]-b[0])
     var lineGenerator = d3.line().x(d => xScale3(d[0])).y(d => yScale3(d[1]))
     var pathData = lineGenerator(predicted_data)
     console.log(data_for_x_axis,"data_for_x_axis",predicted_data,pathData)
