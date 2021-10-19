@@ -18,8 +18,8 @@ import "./App.scss";
 import * as d3 from 'd3';
 import * as algo1 from "./Algorithms/algo1";
 import ModelChart from "./components/Charts/Model/ModelChartComponent"
-import RangeChart from "./components/Charts/Range/RangeChartComponent"
-import YearChart from "./components/Charts/Time/YearChartComponent"
+import RangeChart from "./components/Charts/Range/01RangeChartComponent"
+import YearChart from "./components/Charts/Time/01YearChartComponent"
 import { Row, Col } from 'reactstrap';
 import * as $ from 'jquery';
 import { connect } from "react-redux";

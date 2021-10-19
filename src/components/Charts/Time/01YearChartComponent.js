@@ -8,8 +8,8 @@ import * as $ from 'jquery';
 import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
-import ExpChart from './ExpChartComponent';
-import Popover from '../Popover/Popover';
+import ExpChart from './02ExpChartComponent';
+import Popover from './03TimePopover';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
@@ -55,7 +55,7 @@ class SlopeChart extends Component {
       }
     })
     var selected_instances2 = selected_instances.filter(item => under_threshold_instances.includes(item))
-    console.log(selected_instances2, 'selected_instances2')
+    
     deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)

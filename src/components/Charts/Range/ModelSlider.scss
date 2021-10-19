@@ -16,11 +16,14 @@ $border_color:#eaeaea;
     grid-template-columns: 40px auto 40px 120px;
     color: grey!important;
     margin-top: 0px;
+    *{
+        z-index: 0!important;
+    }
     .MuiSlider-valueLabel{
         color:transparent !important;
         span:nth-child(1)>span {
             top:-10;
-            color:black !important;    
+            color:black !important;   
             }
     }
     /* slider line */

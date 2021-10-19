@@ -19,9 +19,9 @@ class SlopeChart extends Component {
     this.setState({ width: window.innerHeight })
   }
   componentDidUpdate(prevProps, prevState) {
-    this.Createsvg(this.props.model_name,this.props.exp_id,this.props.state_range)
+    this.Createsvg(this.props.model_name, this.props.exp_id, this.props.state_range)
   }
-  Createsvg = (model_name,exp_id,state_range) => {
+  Createsvg = (model_name, exp_id, state_range) => {
     var self = this
     var selected_instances = d3.range(state_range[0], state_range[1] + 1)
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
@@ -43,8 +43,8 @@ class SlopeChart extends Component {
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    if(exp_id in self.props.dragged_features){features_with_score=self.props.dragged_features[exp_id]}
-    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0]) 
+    if (exp_id in self.props.dragged_features) { features_with_score = self.props.dragged_features[exp_id] }
+    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
     var marginTop = 5;
@@ -90,6 +90,7 @@ class SlopeChart extends Component {
           var temp = [...self.props.dbclicked_features]
           if (!temp.includes(feature)) {
             temp.unshift(feature)
+            //temp.unshift(feature)
             d3.selectAll(".rect").classed("exp_chart_clicked", true)
           }
           self.props.set_dbclicked_features(temp)
@@ -114,7 +115,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index,self.props.threshold)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (self.props.clicked_features.includes(d[0])) {
@@ -138,34 +139,29 @@ class SlopeChart extends Component {
       function dragended(event, d) {
         var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this.parentNode).lower();
         d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
-        var difference = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex"))-origin_index
+        var difference = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex")) - origin_index
         //if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
         var origin_feature = d3.select(this).attr("feature_name")
-        
-        var temp1={}
-        self.props.exp_data.map((exp_data,index) => { // exp_data={[["r1exp",this.props.range_mode_range1],["r2exp",this.props.range_mode_range2]]}
+        var temp1 = {}
+        self.props.exp_data.map((exp_data, index) => { // exp_data={[["r1exp",this.props.range_mode_range1],["r2exp",this.props.range_mode_range2]]}
           var selected_instances = d3.range(exp_data[1][0], exp_data[1][1] + 1)
           if (self.props.histogram_data.length > 0) { selected_instances = self.props.histogram_data }
           var number_of_charts = 15 // change this number to get features when crossed
           var features_with_score = algo1.features_with_score(self.props.dataset, [model_name], selected_instances, self.props.selected_year,
             number_of_charts, self.props.rank_data)
-          if(exp_data[0] in self.props.dragged_features){
-            features_with_score=self.props.dragged_features[exp_data[0]]
+          if (exp_data[0] in self.props.dragged_features) {
+            features_with_score = self.props.dragged_features[exp_data[0]]
           }
           var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
-          var origin_index=indexed_features.indexOf(origin_feature)
-          var dest_index=origin_index+difference
-          if(dest_index<0){var dest_feature=indexed_features[0]}
-          else if(dest_index>number_of_charts-1){var dest_feature=indexed_features[number_of_charts-1]}
-          else{var dest_feature=indexed_features[dest_index]}
-
-          console.log(origin_feature,dest_feature,indexed_features,dest_index,exp_data[1][0],'test')
-
-          features_with_score[origin_feature]=features_with_score[origin_feature]-difference
-          features_with_score[dest_feature]=features_with_score[dest_feature]+difference
-          temp1[exp_data[0]]=features_with_score
+          var origin_index = indexed_features.indexOf(origin_feature)
+          var dest_index = origin_index + difference
+          if (dest_index < 0) { var dest_feature = indexed_features[0] }
+          else if (dest_index > number_of_charts - 1) { var dest_feature = indexed_features[number_of_charts - 1] }
+          else { var dest_feature = indexed_features[dest_index] }
+          features_with_score[origin_feature] = features_with_score[origin_feature] - difference
+          features_with_score[dest_feature] = features_with_score[dest_feature] + difference
+          temp1[exp_data[0]] = features_with_score
         })
-        console.log(temp1,'temp1')
         self.props.Set_dragged_features(temp1)
         //-------------------------------------
         d3.select(this).raise()
@@ -202,7 +198,6 @@ const maptstateToprop = (state) => {
     deviation_array: state.deviation_array,
     original_data: state.original_data,
     time_mode_model: state.time_mode_model,
-    chart_scale_type: state.chart_scale_type,
     dataset: state.dataset,
     histogram_data: state.histogram_data,
     sparkline_data: state.sparkline_data,

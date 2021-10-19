@@ -8,8 +8,8 @@ import * as $ from 'jquery';
 import SliderGroup1 from './SliderGroup1';
 import SliderGroup2 from './SliderGroup2';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
-import ExpChart from './ExpChartComponent';
-import Popover from '../Popover/Popover';
+import ExpChart from './02RangeExpChart';
+import Popover from './03RangePopover';
 
 class SlopeChart extends Component {
   constructor(props) {
@@ -34,7 +34,6 @@ class SlopeChart extends Component {
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
-  
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[this.props.range_mode_model])

@@ -9,7 +9,7 @@ import ExpChart from './ExpChartComponent';
 import './ModelSlider.scss';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
 import Grid from '@mui/material/Grid';
-import Popover from '../Popover/Popover';
+import Popover from '../Popover/01Popover';
 class SlopeChart extends Component {
   constructor(props) {
     super(props);

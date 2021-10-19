@@ -87,7 +87,6 @@ const maptstateToprop = (state) => {
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
   }
 }
