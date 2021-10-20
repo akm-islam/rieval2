@@ -1,6 +1,10 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import * as d3lasso from 'd3-lasso';
+import { createStore } from 'redux';
+import reducer from "../../../store/reducer";
+const store = createStore(reducer);
+const state = store.getState();
 export default function getMdsData(myurl, data) {
   return fetch(myurl, {
     method: 'POST',
@@ -14,8 +18,11 @@ export default function getMdsData(myurl, data) {
       return response;
     }).catch(error => console.error('Error: from Json Handler', error));
 }
-export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked_circles) {
-  //console.log(circle_data,"MDS_data")
+export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked_circles,deviation_array) {
+  console.log(circle_data,"MDS_data")
+  var circle_data=circle_data.sort((a,b)=>b['deviation']-a['deviation'])
+  var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, 1])
+   
   //---------------------------------------------------------------------------
   // Create mds ends here
   var margin = { item_top_margin: 15, right: 14, bottom: 0, left: 20, circ_radius: 5, item_left_margin: 25, item_right_margin: 3 }
@@ -31,7 +38,7 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
     .join("circle")
     .attr("cx", d => xScale(d['x']))
     .attr("cy", d => yScale(d['y']))
-    .attr("r", r)
+    .attr("r", d=>rScale(d['deviation']))
     .attr("fill", (d) => {
       return diverginColor(d['two_realRank']).replace(")",",.7)")
   })
@@ -43,7 +50,6 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
   // Lasso functions
   var lasso_start = function () {
     lasso.items()
-      .attr("r", 5) // reset size
       .classed("not_possible", true)
       .classed("selected", false);
   };
@@ -74,11 +80,9 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
     // Style the selected dots
     lasso.selectedItems()
       .classed("selected", true)
-      .attr("r", 6);
 
     // Reset the style of the not selected dots
     lasso.notSelectedItems()
-      .attr("r", 5);
 
   };
   var lasso = d3lasso.lasso()

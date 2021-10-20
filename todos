@@ -1,9 +1,5 @@
 ----------------------------------------------------
 make the contribution range for each model so that it doesn't change when another model is added
-Add drag and drop feature
-color legend
-circle size legend
-add circle size scaling 
 cross icon clicked remove on all - if crossed how you want to get it back
 handle the select features when circles are clicked - exclude clicked circles that falls outside of the selected range
 
@@ -16,20 +12,3 @@ clear all clicked circles
 ------Discuss later
 Cross icon when clicked- 
 Model precision on the legend- 
-
-
----------------------------------------- Meeting oct 1 Friday
-done - Add Regression line on pop over characters
-done - Model sorting - partially done
-done - Make the bar charts a histogram - continous
-
-
-done - Remove ++ and + from pop over characters
-done - Logarithmic scaling for circles (made exponent(0.2))
-done - Change Threshold to deviation threshold
-done - Double click and single click on model to highlight circles of a model
-* Circle border color to stand out selected ones.
-
-
-------------------------------------------
-double click on yearchart deviation plot to change the year has bug

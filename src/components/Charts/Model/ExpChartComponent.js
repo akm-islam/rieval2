@@ -182,7 +182,7 @@ class SlopeChart extends Component {
           item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           return item
         })
-        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles)
+        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles,this.props.deviation_array)
         misc_algo.handle_transparency("circle2", self.props.clicked_circles, self.props.anim_config)
       }
     })

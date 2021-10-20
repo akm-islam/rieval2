@@ -43,7 +43,7 @@ class SlopeChart extends Component {
       }
     })
     var selected_instances1 = selected_instances.filter(item => under_threshold_instances.includes(item))
-    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year1, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_time_mode_year1, this.props.dataset, this.props.threshold)
     //------------------------------
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.time_mode_year2 == item['1-qid'])
@@ -56,7 +56,7 @@ class SlopeChart extends Component {
     })
     var selected_instances2 = selected_instances.filter(item => under_threshold_instances.includes(item))
     
-    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
+    deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.time_mode_model], this.props.anim_config, this.props.time_mode_year2, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_time_mode_year2, this.props.dataset, this.props.threshold)
     //------------------------------
     misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
 
@@ -140,6 +140,8 @@ const mapdispatchToprop = (dispatch) => {
   return {
     Set_selected_instances: (val) => dispatch({ type: "selected_instances", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
+    Set_time_mode_year1:(val) => dispatch({ type: "time_mode_year1", value: val }),
+    Set_time_mode_year2:(val) => dispatch({ type: "time_mode_year2", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(SlopeChart);

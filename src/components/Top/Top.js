@@ -44,7 +44,7 @@ class App extends Component {
           </ButtonGroup>
           <SelectMode></SelectMode>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
-          <SortModels></SortModels>
+          {this.props.mode=="Model"?<SortModels></SortModels>:null}
           <Threshold></Threshold>
         </Grid>
         {this.props.view_data == false ?
@@ -54,7 +54,7 @@ class App extends Component {
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
                   <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => this.props.handleradioChange(val)}>
-                    {['Fiscal Dataset', 'School Dataset', 'House Dataset'].map((value) => {
+                    {['Fiscal Dataset', 'School Dataset'].map((value) => {
                       return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}
                   </RadioGroup>

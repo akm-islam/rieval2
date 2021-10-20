@@ -1,7 +1,12 @@
 import * as d3 from "d3";
+import { createStore } from 'redux';
+import reducer from "../../../store/reducer";
+const store = createStore(reducer);
+const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index,threshold) {
     var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
+    console.log(state,'state')
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
     var circ_data = []
@@ -27,7 +32,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var my_mean = d3.mean(sum_data)
     //----------
     selection.selectAll(".my_mean_line").data([0]).join("line").attr("class", "my_mean_line").attr("x1", xScale(my_mean)).attr("x2", xScale(my_mean)).attr("y1", 18).attr("y2", item_height).attr('stroke', "rgb(96, 96, 96,0.5)").attr('stroke-width', 1)
-    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([8, 1])
+    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, 1])
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])
