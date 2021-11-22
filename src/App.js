@@ -63,7 +63,7 @@ class App extends Component {
       self.setState({ grouped_by_year_data: grouped_by_year_data })
       self.setState({ original_data: original_data })
       self.props.Set_original_data(original_data)
-      self.props.Set_selected_year(years_for_dropdown[0])
+      //self.props.Set_selected_year(years_for_dropdown[0])
     })
     //-------------
     d3.csv(rank_data_filename).then(data => {

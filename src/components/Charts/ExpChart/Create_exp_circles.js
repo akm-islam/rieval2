@@ -5,7 +5,7 @@ const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index,threshold) {
-    var margin = { item_top_margin: 25, item_bottom_margin: 6, circ_radius: 5, item_left_margin: 6, item_right_margin: 6 }
+    var margin = { item_top_margin: 25, item_bottom_margin: 9, circ_radius: 5, item_left_margin: 9, item_right_margin: 9 }
     console.log(state,'state')
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"

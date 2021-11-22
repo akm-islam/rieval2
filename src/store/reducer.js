@@ -9,7 +9,7 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   default_models: ["LinearReg","CordAscent"], // Change the pop_over_models as well
+   default_models: ["MART","RandomFor"], // Change the pop_over_models as well
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
@@ -18,11 +18,11 @@ let initialState = {
    years_for_dropdown: [
       "2006"
    ],
-   selected_year: 2006,
+   selected_year: 2011,
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
-   dataset: "school", // change in componentDidmount in app.js too
+   dataset: "fiscal", // change in componentDidmount in app.js too
    histogram_data: [],
    chart_scale_type: "true",
    features_with_score: null,
@@ -52,7 +52,7 @@ let initialState = {
    changed: "year",
    popup_chart_data: null,
    pop_over: false,
-   pop_over_models: ["LinearReg","CordAscent"],
+   pop_over_models: ["MART","RandomFor"],
    clicked_features: [],
    drag_drop_feautre_data: {},
    dbclicked_features: [],
