@@ -44,7 +44,7 @@ class Legend extends Component {
       <Grid className="legend_container" container direction="column" justifyContent="center" alignItems="flex-start" style={{ width: "100%", height: "100%" }}>
         <Grid item style={{width:this.props.legend_width}}>
           <div item style={{ backgroundColor: 'rgb(211, 211, 211,0.5)', padding: 5, marginBottom: 5 }}>
-            <p className="title" style={{ marginBottom: 10 }}> Model Precision</p>
+            <p className="title" style={{ marginBottom: 10 }}> Model Deviation</p>
             <svg id="legend1"> </svg>
           </div>
         </Grid>

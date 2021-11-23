@@ -87,6 +87,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, threshold: action.value }
    }
    if (action.type === "clicked_circles") {
+      console.log(action.value)
       return { ...state, clicked_circles: action.value }
    }
    if (action.type === "average_y") {
@@ -236,7 +237,6 @@ const reducer = (state = initialState, action) => {
       return { ...state, pop_over_models: temp }
    }
    if (action.type === "clicked_features") {
-      //console.log(action.value)
       return { ...state, clicked_features: action.value }
    }
    return state;

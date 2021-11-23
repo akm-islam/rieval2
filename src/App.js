@@ -36,7 +36,16 @@ class App extends Component {
       histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",
     };
   }
-  componentDidMount() { this.dataprocessor(this.props.dataset) }
+  componentDidMount() { 
+    var self=this
+    this.dataprocessor(this.props.dataset) 
+    $(document).keyup(function(e) {
+      if (e.key === "Escape") {
+        self.props.Set_clicked_circles([])
+        self.props.Set_clicked_features([])
+     }
+ });
+  }
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
   dataprocessor = (dataset_name) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
@@ -192,7 +201,8 @@ const mapdispatchToprop = (dispatch) => {
     Set_lime_data: (val) => dispatch({ type: "lime_data", value: val }),
     Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
     Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
-
+    Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
+    Set_clicked_features: (val) => dispatch({ type: "clicked_features", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(App);
