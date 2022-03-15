@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import fiscal from "./Data/fiscal.csv";
 import school from "./Data/school.csv";
 import house from "./Data/house.csv";
-import three_publishers from "./Data/threepublisher.csv";
+import threepublisher from "./Data/threepublisher.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
@@ -13,6 +13,9 @@ import school_lime from "./Data/data/school/lime/school_lime.csv";
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";
+
+import threepublisher_rank from "./Data/data/threepublishers/lime/threepublisher_rank.csv";
+import threepublisher_lime from "./Data/data/threepublishers/lime/threepublisher_lime.csv";
 
 
 //------------------------------------------------All datasets imports ends here
@@ -50,7 +53,7 @@ class App extends Component {
   }
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
   dataprocessor = (dataset_name) => {
-    if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
+    if (dataset_name == "school") { this.process_data(threepublisher, threepublisher_rank, threepublisher_lime, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, fiscal_lime, dataset_name) }
     if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
   }
@@ -58,6 +61,7 @@ class App extends Component {
     var self = this
     //-------------
     d3.csv(slopechart_data_filename).then(original_data => {
+      if(dataset_name=="school"){original_data=original_data.filter(item=>item['publisher']=='THE')}
       var grouped_by_year_data = algo1.groupby_year(original_data).years
       var sparkline_data = algo1.groupby_year(original_data).sparkline_data
       var years_for_dropdown = Object.keys(grouped_by_year_data)
@@ -78,6 +82,7 @@ class App extends Component {
     })
     //-------------
     d3.csv(rank_data_filename).then(data => {
+      if(dataset_name=="school"){data=data.filter(item=>item['publisher']=='THE')}
       var nested_data = {}
       d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {
         nested_data[item.key] = item.values
@@ -86,6 +91,7 @@ class App extends Component {
     })
     //-------------
     d3.csv(lime_data_filename).then(temp_data => {
+      if(dataset_name=="school"){temp_data=temp_data.filter(item=>item['publisher']=='THE')}
       var data=temp_data.map(item=>{
         item['predicted']=parseInt(item['predicted'])
         item['two_realRank']=parseInt(item['two_realRank'])
@@ -172,7 +178,8 @@ const maptstateToprop = (state) => {
     clicked_items_in_slopechart: state.clicked_items_in_slopechart,
     config: state.config,
     lime_data: state.lime_data,
-    view_data: state.view_data
+    view_data: state.view_data,
+    publisher:state.publisher,
   }
 }
 const mapdispatchToprop = (dispatch) => {

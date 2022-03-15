@@ -57,7 +57,8 @@ let initialState = {
    drag_drop_feautre_data: {},
    dbclicked_features: [],
    default_model_scores: {},
-   all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
+   //all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
+   all_models: ["MART", "RandomFor"],
    average_y: false,
    average_m: false,
    clicked_circles:[],
@@ -67,6 +68,7 @@ let initialState = {
    dragged_features:{},
    //url:"http://0.0.0.0:5000/test",
    url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
+   publisher:'THE'
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
