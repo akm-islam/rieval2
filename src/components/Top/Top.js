@@ -15,6 +15,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import SelectMode from './SelectMode'
 import Threshold from './Threshold';
 import SortModels from './SortModels';
+import SelectPublisher from './SelectPublisher';
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends Component {
           <ButtonGroup aria-label="outlined button group" style={{marginRight:150,border:'none'}}>
           <Button style={{borderRadius:0,border:'none',borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
           <Button style={{borderRadius:0,border:'none', borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
+          {this.props.dataset=="school"?<SelectPublisher handleradioChange={this.props.handleradioChange}></SelectPublisher>:null}
           </ButtonGroup>
           <SelectMode></SelectMode>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
@@ -71,6 +73,7 @@ const maptstateToprop = (state) => {
   return {
     view_data: state.view_data,
     mode:state.mode,
+    dataset:state.dataset,
   }
 }
 const mapdispatchToprop = (dispatch) => {

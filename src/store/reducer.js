@@ -18,11 +18,11 @@ let initialState = {
    years_for_dropdown: [
       "2006"
    ],
-   selected_year: 2011,
+   selected_year: 2012,
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
-   dataset: "fiscal", // change in componentDidmount in app.js too
+   dataset: "school", // change in componentDidmount in app.js too
    histogram_data: [],
    chart_scale_type: "true",
    features_with_score: null,
@@ -58,7 +58,7 @@ let initialState = {
    dbclicked_features: [],
    default_model_scores: {},
    //all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
-   all_models: ["MART", "RandomFor"],
+   all_models: ["MART", "RandomFor"], // If school dataset is default
    average_y: false,
    average_m: false,
    clicked_circles:[],
@@ -72,10 +72,18 @@ let initialState = {
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "all_models") {
+      return { ...state, all_models: action.value }
+   }
+   if (action.type === "publisher") {
+      //console.log('dragged_features',action.value)
+      return { ...state, publisher: action.value }
+   }
    if (action.type === "dragged_features") {
       //console.log('dragged_features',action.value)
       return { ...state, dragged_features: action.value }
    }
+
    if (action.type === "selected_instances") {
       return { ...state, selected_instances: action.value }
    }

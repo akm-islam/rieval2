@@ -82,7 +82,7 @@ class App extends Component {
     })
     //-------------
     d3.csv(rank_data_filename).then(data => {
-      if(dataset_name=="school"){data=data.filter(item=>item['publisher']=='THE')}
+      if(dataset_name=="school"){data=data.filter(item=>item['publisher']==self.props.publisher)}
       var nested_data = {}
       d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {
         nested_data[item.key] = item.values
@@ -108,6 +108,8 @@ class App extends Component {
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
 
   handleradioChange = (selected_dataset) => {
+    if(selected_dataset=='School Dataset'){this.props.Set_all_models(["MART", "RandomFor"])}
+    else{this.props.Set_all_models(["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"])}
     this.props.Set_rank_data(null)
     this.props.Set_clicked_items_in_slopechart([])
     this.props.Set_state_range([1, 25])
@@ -212,6 +214,7 @@ const mapdispatchToprop = (dispatch) => {
     Set_default_model_scores: (val) => dispatch({ type: "default_model_scores", value: val }),
     Set_clicked_circles: (val) => dispatch({ type: "clicked_circles", value: val }),
     Set_clicked_features: (val) => dispatch({ type: "clicked_features", value: val }),
+    Set_all_models: (val) => dispatch({ type: "all_models", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(App);
