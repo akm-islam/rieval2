@@ -108,11 +108,11 @@ class App extends Component {
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
 
   handleradioChange = (selected_dataset) => {
-    if(selected_dataset=='School Dataset'){this.props.Set_all_models(["MART", "RandomFor"])}
+    if(selected_dataset=='School Dataset' || selected_dataset=='school'){this.props.Set_all_models(["MART", "RandomFor"])}
     else{this.props.Set_all_models(["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"])}
     this.props.Set_rank_data(null)
     this.props.Set_clicked_items_in_slopechart([])
-    this.props.Set_state_range([1, 25])
+    this.props.Set_state_range([1, 30])
     this.props.Set_histogram_data([])
     this.props.Set_mode("Model")
     this.props.Set_range_mode_range1([1, 25])
