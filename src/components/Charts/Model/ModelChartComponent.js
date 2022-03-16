@@ -79,7 +79,7 @@ class SlopeChart extends Component {
     //--------------------
     return (
       <Grid className="ModelChartParent" container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%', width: '100%', backgroundColor: 'white', margin: 2, padding: 2, boxShadow: "-2px 1px 4px -1px white" }}> {/* This model chart's height and width is the parent*/}
-        <Grid item className="left_container" style={{width:400, backgroundColor: "#fcfcfc" }}>
+        <Grid key={this.props.publisher} item className="left_container" style={{width:400, backgroundColor: "#fcfcfc" }}>
           {/* The deviation plot container starts below */}
           <div className="year_and_model_selector_and_slider_container"> {/* This is used to calculate the deviation plot height */}
             <YearModelSelection></YearModelSelection><ModelSlider></ModelSlider>
@@ -124,7 +124,8 @@ const maptstateToprop = (state) => {
     average_m: state.average_m,
     rank_data: state.rank_data,
     clicked_circles: state.clicked_circles,
-    threshold: state.threshold
+    threshold: state.threshold,
+    publisher:state.publisher
   }
 }
 const mapdispatchToprop = (dispatch) => {
