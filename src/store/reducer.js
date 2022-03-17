@@ -16,7 +16,7 @@ let initialState = {
       "Slope charts", "Rankings", "Explanation" // change in app.js
    ],
    years_for_dropdown: [
-      "2006"
+      "2012"
    ],
    selected_year: 2011,
    slider_min: 1,
@@ -125,6 +125,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, rank_data: action.value }
    }
    if (action.type === "original_data") {
+      console.log(action.value,'original_data')
       return { ...state, original_data: action.value }
    }
    if (action.type === "years_for_dropdown") {

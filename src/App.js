@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports
 import fiscal from "./Data/fiscal.csv";
-import school from "./Data/threepublishers_cwur.csv";
+import school from "./Data/School/CWUR/CWUR.csv";
 import house from "./Data/house.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
 
-import school_rank from "./Data/data/threepublishers_cwur/lime/threepublisher_rank.csv";
-import school_lime from "./Data/data/threepublishers_cwur/lime/threepublisher_lime.csv";
+import school_rank from "./Data/School/CWUR/CWUR_rank.csv";
+import school_lime from "./Data/School/CWUR/CWUR_lime.csv";
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";
@@ -88,7 +88,7 @@ class App extends Component {
       var data=temp_data.map(item=>{
         item['predicted']=parseInt(item['predicted'])
         item['two_realRank']=parseInt(item['two_realRank'])
-        item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
+        item['deviation']=Math.abs(item['predicted'] - item['two_realRank'])
         return item
       })
       var nested_data = {}
