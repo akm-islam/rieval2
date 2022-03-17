@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports
 import fiscal from "./Data/fiscal.csv";
-import school from "./Data/School/CWUR/CWUR.csv";
+import school from "./Data/school.csv";
+//import school from "./Data/School/RUR/CWUR.csv";
 import house from "./Data/house.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
 
-import school_rank from "./Data/School/CWUR/CWUR_rank.csv";
-import school_lime from "./Data/School/CWUR/CWUR_lime.csv";
+import school_rank from "./Data/data/school/lime/school_rank.csv";
+import school_lime from "./Data/data/school/lime/school_lime.csv";
+
+//import school_rank from "./Data/School/RUR/CWUR_rank.csv";
+//import school_lime from "./Data/School/RUR/CWUR_lime.csv";
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";
@@ -51,7 +55,7 @@ class App extends Component {
   dataprocessor = (dataset_name) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, fiscal_lime, dataset_name) }
-    if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
+    if (dataset_name == "rur") { this.process_data(house, house_rank, house_lime, dataset_name) }
   }
   process_data = (slopechart_data_filename, rank_data_filename, lime_data_filename, dataset_name) => {
     var self = this
@@ -114,15 +118,15 @@ class App extends Component {
       this.props.Set_dataset('fiscal')
       this.dataprocessor("fiscal")
     }
-    else if (selected_dataset == 'House Dataset') {
-      this.setState({ dataset: 'house' })
-      this.props.Set_dataset('house')
-      this.dataprocessor("house")
-    }
-    else {
+    else if (selected_dataset == 'School Dataset (USA)') {
       this.setState({ dataset: 'school' })
       this.props.Set_dataset('school')
       this.dataprocessor("school")
+    }
+    else {
+      this.setState({ dataset: 'rur' })
+      this.props.Set_dataset('rur')
+      this.dataprocessor("rur")
     }
   };
   render() {

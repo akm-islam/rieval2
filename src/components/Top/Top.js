@@ -54,7 +54,7 @@ class App extends Component {
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
                   <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => this.props.handleradioChange(val)}>
-                    {['Fiscal Dataset', 'School Dataset'].map((value) => {
+                    {['Fiscal Dataset', 'School Dataset (World)','School Dataset (USA)'].map((value) => {
                       return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}
                   </RadioGroup>

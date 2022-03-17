@@ -16,9 +16,9 @@ let initialState = {
       "Slope charts", "Rankings", "Explanation" // change in app.js
    ],
    years_for_dropdown: [
-      "2012"
+      "2006"
    ],
-   selected_year: 2011,
+   selected_year: 2006,
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
@@ -36,7 +36,7 @@ let initialState = {
    Legend_ready_to_vis: null,
    legend_model: "MART",
    legend_show_option: "Rank",
-   legend_year: 2012,
+   legend_year: 2006,
    mode: "Model",
    range_mode_model: "MART",
    range_mode_range1: [1, 25],

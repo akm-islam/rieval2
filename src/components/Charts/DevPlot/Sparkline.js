@@ -11,6 +11,7 @@ export default function Create_sparkline(parent, config, y_distance, sparkline_d
     var data = sparkline_data[d['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")]
     // Add X axis  
     var x = d3.scaleLinear().domain(d3.extent(data, function (d) { return d.year; })).range([0, s_width]);
+    console.log(sparkline_data,"sparkline")
     //-----------------------------------------------------------------------------------------------------------------------------------------Add the area
     s_svg.selectAll("path").remove()
     s_svg.append("path")
