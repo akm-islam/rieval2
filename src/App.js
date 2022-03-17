@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports
 import fiscal from "./Data/fiscal.csv";
-import school from "./Data/school.csv";
+import school from "./Data/threepublishers_cwur.csv";
 import house from "./Data/house.csv";
-import three_publishers from "./Data/threepublisher.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
 
-import school_rank from "./Data/data/school/lime/school_rank.csv";
-import school_lime from "./Data/data/school/lime/school_lime.csv";
+import school_rank from "./Data/data/threepublishers_cwur/lime/threepublisher_rank.csv";
+import school_lime from "./Data/data/threepublishers_cwur/lime/threepublisher_lime.csv";
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";

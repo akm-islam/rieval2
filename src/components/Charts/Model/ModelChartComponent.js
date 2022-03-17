@@ -67,6 +67,7 @@ class SlopeChart extends Component {
     //--------------------
     var deviation_array = []
     this.props.default_models.map(model => {
+      console.log("Model",model,this.props.lime_data)
       this.props.lime_data[model].map(item => {
         if (item['1-qid'] == this.props.selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
           deviation_array.push(item['deviation'])
