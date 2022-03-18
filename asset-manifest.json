@@ -1,20 +1,23 @@
 {
   "files": {
     "main.css": "/static/css/main.5cbe0162.chunk.css",
-    "main.js": "/static/js/main.f07be096.chunk.js",
-    "main.js.map": "/static/js/main.f07be096.chunk.js.map",
+    "main.js": "/static/js/main.a9e6e269.chunk.js",
+    "main.js.map": "/static/js/main.a9e6e269.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2a406b1a.js",
     "runtime-main.js.map": "/static/js/runtime-main.2a406b1a.js.map",
     "static/css/2.2a86faee.chunk.css": "/static/css/2.2a86faee.chunk.css",
-    "static/js/2.ab36cf1b.chunk.js": "/static/js/2.ab36cf1b.chunk.js",
-    "static/js/2.ab36cf1b.chunk.js.map": "/static/js/2.ab36cf1b.chunk.js.map",
+    "static/js/2.0dee8bf5.chunk.js": "/static/js/2.0dee8bf5.chunk.js",
+    "static/js/2.0dee8bf5.chunk.js.map": "/static/js/2.0dee8bf5.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.32c514ccb2c3e2c08b602385e02fe33c.js": "/precache-manifest.32c514ccb2c3e2c08b602385e02fe33c.js",
+    "precache-manifest.43c70d3940f001989c0cc9e3206d0f30.js": "/precache-manifest.43c70d3940f001989c0cc9e3206d0f30.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.5cbe0162.chunk.css.map": "/static/css/main.5cbe0162.chunk.css.map",
-    "static/js/2.ab36cf1b.chunk.js.LICENSE.txt": "/static/js/2.ab36cf1b.chunk.js.LICENSE.txt",
+    "static/js/2.0dee8bf5.chunk.js.LICENSE.txt": "/static/js/2.0dee8bf5.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/static/media/OpenSans-Regular.3ed9575d.ttf",
+    "static/media/RUR.csv": "/static/media/RUR.0f9e0be6.csv",
+    "static/media/RUR_lime.csv": "/static/media/RUR_lime.8528bdbd.csv",
+    "static/media/RUR_rank.csv": "/static/media/RUR_rank.1805a0d5.csv",
     "static/media/chart1_data.csv": "/static/media/chart1_data.d3b20544.csv",
     "static/media/fiscal.csv": "/static/media/fiscal.977bae2d.csv",
     "static/media/fiscal_lime.csv": "/static/media/fiscal_lime.312a4eb2.csv",
@@ -24,16 +27,13 @@
     "static/media/house_rank.csv": "/static/media/house_rank.f85c2352.csv",
     "static/media/school.csv": "/static/media/school.2d2c77ef.csv",
     "static/media/school_lime.csv": "/static/media/school_lime.2c25b5ee.csv",
-    "static/media/school_rank.csv": "/static/media/school_rank.edf0b9e3.csv",
-    "static/media/threepublisher.csv": "/static/media/threepublisher.c73b5e94.csv",
-    "static/media/threepublisher_lime.csv": "/static/media/threepublisher_lime.b0f989da.csv",
-    "static/media/threepublisher_rank.csv": "/static/media/threepublisher_rank.7dbf84ae.csv"
+    "static/media/school_rank.csv": "/static/media/school_rank.edf0b9e3.csv"
   },
   "entrypoints": [
     "static/js/runtime-main.2a406b1a.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.ab36cf1b.chunk.js",
+    "static/js/2.0dee8bf5.chunk.js",
     "static/css/main.5cbe0162.chunk.css",
-    "static/js/main.f07be096.chunk.js"
+    "static/js/main.a9e6e269.chunk.js"
   ]
 }
