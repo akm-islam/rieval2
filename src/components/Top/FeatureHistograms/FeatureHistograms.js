@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import exp_fiscal_CordAscent from "../../../Data/data/fiscal/lime/chart1_data.csv";
 import exp_school_CordAscent from "../../../Data/data/school/lime/chart1_data.csv";
 import exp_house_CordAscent from "../../../Data/data/house/lime/chart1_data.csv";
+import rur_histogram_data from "../../../Data/RUR/RUR_histogram_data.csv";
 import * as algo1 from "../../../Algorithms/algo1";
 import CreateHistogram from './CreateHistogram'
 import CreateBarChart from './CreateBarChart';
@@ -16,7 +17,7 @@ class FeatureHistograms extends Component {
         this.state = { feature_data: [] };
     }
     componentDidMount() {
-        var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent }
+        var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data }
         d3.csv(filename).then(feature_data => {
             this.setState({ feature_data: feature_data,all_instances:{} })
         })
@@ -41,7 +42,7 @@ class FeatureHistograms extends Component {
         var features_dict = algo1.features_with_score(this.props.dataset, this.props.default_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
         var sorted_features = Object.entries(features_dict).sort((first, second) => second[1] - first[1]).map(element => element[0])
         //--------------------
-        if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent }
+        if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data }
         //--------------------------------Iterate through each features
         const margin = { top: 10, right: 5, bottom: 50, left: 5 }; // Histogram
         //const margin = { top: 10, right: 5, bottom: 40, left: 5 } // Barchart

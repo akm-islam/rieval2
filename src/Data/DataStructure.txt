@@ -1,0 +1,5 @@
+The interface requires 4 types of files:
+1) First type contains the 1-qid,two_realRank,State,Model prediction(MART),model contribution(ndcg_term_MART)
+2) Second type contains 1-qid,two_realRank,State, feature, feature rank, model 
+2) Third type contains 1-qid,two_realRank,State, feature, feature lime contribution, model
+2) Fourth type contains 1-qid,two_realRank,State,feature
