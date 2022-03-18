@@ -26,10 +26,12 @@ function YearModelSelection(props) {
     props.Set_default_models([...temp_Models])
     console.log(temp_Models, default_model_scores, 'temp_model')
   };
+  console.log(props.dataset,"dataset")
+  if(props.dataset=="rur"){var all_models=["MART","RandomFor"]}else{var all_models=props.all_models}
   return (
     <div className="model_topbar" style={{ width: "100%", marginBottom: 2, display: 'flex', justifyContent: "center", margin: 0 }}>
       <div ><h5 style={{ display: "inline-block", marginLeft: 0, marginRight: 3, fontSize: 16, fontWeight: 600 }}>Years: </h5>{props.years_for_dropdown.map(item => <p className={props.selected_year == item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
-      <div style={{ marginLeft: 20 }}><h5 style={{ display: "inline-block", marginLeft: 0, marginRight: 3, fontSize: 16, fontWeight: 600 }}>Models:</h5>{props.all_models.map(item => <p modelName={item} className={props.default_models.includes(item) ? "years_p_selected years_p model_p" : "years_p model_p"} onClick={() => handle_model_click(item)}>{item}</p>)}</div>
+      <div style={{ marginLeft: 20 }}><h5 style={{ display: "inline-block", marginLeft: 0, marginRight: 3, fontSize: 16, fontWeight: 600 }}>Models:</h5>{all_models.map(item => <p modelName={item} className={props.default_models.includes(item) ? "years_p_selected years_p model_p" : "years_p model_p"} onClick={() => handle_model_click(item)}>{item}</p>)}</div>
     </div>
   );
 }
@@ -41,7 +43,8 @@ const maptstateToprop = (state) => {
     years_for_dropdown: state.years_for_dropdown,
     default_models: state.default_models,
     sort_by: state.sort_by,
-    grouped_by_year_data: state.grouped_by_year_data
+    grouped_by_year_data: state.grouped_by_year_data,
+    dataset:state.dataset
   }
 }
 const mapdispatchToprop = (dispatch) => {

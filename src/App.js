@@ -3,12 +3,17 @@ import React, { Component } from 'react';
 import fiscal from "./Data/fiscal.csv";
 import school from "./Data/school.csv";
 import house from "./Data/house.csv";
+import rur from "./Data/RUR/RUR.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
 
 import school_rank from "./Data/data/school/lime/school_rank.csv";
 import school_lime from "./Data/data/school/lime/school_lime.csv";
+
+import rur_rank from "./Data/RUR/RUR_rank.csv";
+import rur_lime from "./Data/RUR/RUR_lime.csv";
+
 
 import house_rank from "./Data/data/house/lime/house_rank.csv";
 import house_lime from "./Data/data/house/lime/house_lime.csv";
@@ -51,6 +56,7 @@ class App extends Component {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, fiscal_lime, dataset_name) }
     if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
+    if (dataset_name == "rur") { this.process_data(rur, rur_rank, rur_lime, dataset_name) }
   }
   process_data = (slopechart_data_filename, rank_data_filename, lime_data_filename, dataset_name) => {
     var self = this
@@ -117,6 +123,12 @@ class App extends Component {
       this.setState({ dataset: 'house' })
       this.props.Set_dataset('house')
       this.dataprocessor("house")
+    }
+    else if (selected_dataset == 'School Dataset (USA)') {
+      this.setState({ dataset: 'rur' })
+      this.props.Set_dataset('rur')
+      this.dataprocessor("rur")
+      this.props.Set_selected_year(2012)
     }
     else {
       this.setState({ dataset: 'school' })
