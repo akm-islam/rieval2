@@ -29,7 +29,7 @@ export function sort(type, state_range, default_models, selected_year, grouped_b
   }
   //----
 
-  //------------Handle AP sorting
+  //------------ Handle AP sorting
   if (type == 'Average Precision') {
     var mydict = {}
     default_models.forEach((model) => {
@@ -101,10 +101,9 @@ export function features_with_score(dataset, models, selected_instances, selecte
       }
     }
   }
+  console.log(temp_final,"temp_final")
   return temp_final;
 }
-
-
 export function sorted_features(dataset, model, selected_instances, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
  //return Object.keys(rank_data[model][0]).filter(item=>!['1-qid','model'].includes(item)).map(item=>item.replace("_feature_rank", ""))
   if (!selected_instances.length > 0) { return [] }

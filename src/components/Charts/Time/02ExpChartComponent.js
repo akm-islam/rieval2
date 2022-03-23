@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import CreatexpCircle from "../ExpChart/Create_exp_circles"
 import getMdsData from "../ExpChart/MDS"
 import { Create_MDS } from "../ExpChart/MDS"
+
 import "../ExpChart/MDS.css"
 class SlopeChart extends Component {
   constructor(props) {
