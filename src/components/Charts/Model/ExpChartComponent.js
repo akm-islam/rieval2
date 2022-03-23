@@ -30,6 +30,7 @@ class SlopeChart extends Component {
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
+    console.log(selected_instances,"selected_instances")
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //-------------------- Threshold filter
     var under_threshold_instances = []
@@ -44,6 +45,7 @@ class SlopeChart extends Component {
       })
     })
     selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
+    //console.log(selected_instances,"selected_instances2")
     //--------------------
 
     //------------------------------
@@ -171,7 +173,7 @@ class SlopeChart extends Component {
         d3.select(this).raise()
       }
     })
-    //--------------------------------------MDS Plot-------------------------------------//
+    //--------------------------------------MDS Plot
     var feature_contrib_data_for_mds = this.props.lime_data[model_name].filter(item => item['1-qid'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
     getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
       if (typeof data != 'undefined') {

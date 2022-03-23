@@ -38,6 +38,7 @@ class SlopeChart extends Component {
       })
     })
     selected_instances = selected_instances.filter(item => !under_threshold_instances.includes(item))
+    //console.log(selected_instances,"selected_instances2")
     //--------------------
 
     //------------------------------

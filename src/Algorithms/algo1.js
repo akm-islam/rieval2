@@ -76,6 +76,7 @@ export function groupby_year(original_data) {
   return { years: years, sparkline_data: sparkline_data };
 }
 export function features_with_score(dataset, models, selected_instances, selected_year, number_of_charts, rank_data) {
+  //console.log(dataset, models, selected_instances, selected_year, number_of_charts, rank_data,"abc")
   var temp1 = {}
   var temp_final = {}
   models.map(model => {
@@ -105,17 +106,24 @@ export function features_with_score(dataset, models, selected_instances, selecte
   return temp_final;
 }
 export function sorted_features(dataset, model, selected_instances, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
- //return Object.keys(rank_data[model][0]).filter(item=>!['1-qid','model'].includes(item)).map(item=>item.replace("_feature_rank", ""))
+  //return Object.keys(rank_data[model][0]).filter(item=>!['1-qid','model'].includes(item)).map(item=>item.replace("_feature_rank", ""))
   if (!selected_instances.length > 0) { return [] }
-  selected_instances = selected_instances.map(element => element - 1)
-  var tempvoted_data_with_score = {},items,data,feautures;
-
+  selected_instances = selected_instances.map(element => element -1)
+  var tempvoted_data_with_score = {},items,data,features;
   if (model == "ListNet") { return [] }
-  var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
-  data = selected_instances.map(index => data2[index])
-  feautures = Object.keys(data[0])
+
+  var filtered_rank_data = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
+  data = selected_instances.map(index => filtered_rank_data[index])
+  if(dataset=="rur"){
+    selected_instances = selected_instances.map(element => element)
+    data=filtered_rank_data.filter(item=>selected_instances.includes(parseInt(item['two_realRank'])))
+  }
+  features = Object.keys(data[0])
+  
+  var my_features_rank_col=features.filter(item=>item.includes("_feature_rank"))
+  features=my_features_rank_col
   data.map(item => {
-    feautures.forEach(feauture => {
+    features.forEach(feauture => {
       if (tempvoted_data_with_score[feauture] >= 0 || tempvoted_data_with_score[feauture] < 0) {
         tempvoted_data_with_score[feauture] = tempvoted_data_with_score[feauture] + (parseFloat(item[feauture]))
       }
@@ -133,6 +141,7 @@ export function sorted_features(dataset, model, selected_instances, selected_yea
   });
   var items2 = items.map((element) => element[0].replace("_feature_rank", ""))
   items2 = items2.filter(item => item != "1-qid" && item!="model")
+  //console.log(data,selected_instances,filtered_rank_data,"items2")
   return items2;
   //-----------------------------------------------------------------
 }
