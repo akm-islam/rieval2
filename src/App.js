@@ -38,7 +38,7 @@ class App extends Component {
     this.state = {
       random: 10,
       original_data: null, grouped_by_year_data: null, show: ["Slope charts", "Rankings", "Explanation"], view_data: 1,
-      histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",
+      histogram_data: [], ref_year: null, features_dict: {}, features_voted: null, Legend_ready_to_vis: null, legend_model: "CordAscent",width:window.innerWidth
     };
   }
   componentDidMount() { 
@@ -148,7 +148,7 @@ class App extends Component {
     }
   };
   render() {
-    var legend_width = 70
+    var legend_width = 80
     return (
       <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth}}>
         <div className="topBar_root" style={{ height: 35, width: window.innerWidth}}>
@@ -157,13 +157,13 @@ class App extends Component {
         {this.props.view_data ? <Row>
           <div style={{ width: window.innerWidth, height: window.innerHeight - $('.topBar_root').height(), padding: "2px 0px" }} key={this.props.view_data}>
             {this.state.view_data == true ?
-              <Grid className="charts_and_legend_container" style={{ height: '100%', width: '100%', border: "2px solid grey"}} container direction="row" justify="flex-start" alignItems="center" >
-                <Grid className="charts_container" style={{ height: '100%', width: $('.charts_and_legend_container').width() - legend_width }} container spacing={0} direction="row" justify="space-evenly" >
+              <Grid className="charts_and_legend_container" style={{ height: '100%', width: window.innerWidth, border: "2px solid grey"}} container direction="row" justify="flex-start" alignItems="center" >
+                <Grid className="charts_container" style={{ height: '100%', width: window.innerWidth - legend_width }} container spacing={0} direction="row" justify="space-evenly" >
                   {this.props.mode == "Model" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <ModelChart></ModelChart> : null}
                   {this.props.mode == "Ranges" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <RangeChart></RangeChart> : null}
                   {this.props.mode == "Time" && this.state.grouped_by_year_data != null && this.props.original_data != null && this.props.lime_data != null ? <YearChart></YearChart> : null}
                 </Grid>
-                <div style={{ padding: 0,marginTop:5, height: '100%', width: legend_width }}><Legend legend_width={legend_width}></Legend></div>
+                <div style={{ padding: 0,marginTop:5, height: '100%', width: legend_width-10 }}><Legend legend_width={legend_width}></Legend></div>
               </Grid> : null}
           </div>
         </Row> : null}
