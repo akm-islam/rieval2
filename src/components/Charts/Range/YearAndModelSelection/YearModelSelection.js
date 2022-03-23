@@ -21,6 +21,7 @@ const maptstateToprop = (state) => {
     years_for_dropdown: state.years_for_dropdown,
     default_models: state.default_models,
     range_mode_model:state.range_mode_model,
+    dataset:state.dataset,
   }
 }
 const mapdispatchToprop = (dispatch) => {
