@@ -4,17 +4,18 @@ import reducer from "../../../store/reducer";
 const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
-    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index,threshold) {
+    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold) {
     var margin = { item_top_margin: 25, item_bottom_margin: 9, circ_radius: 5, item_left_margin: 9, item_right_margin: 9 }
-    console.log(state,'state')
+
+    var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
     var circ_data = []
     var sum_data = []
     default_models.map(model => {
         lime_data[model].map(item => {
-            if (parseFloat(item[feature_contrib_name])>0 && item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
-                if(item['deviation']<threshold){sum_data.push(parseFloat(item[feature_contrib_name]))}
+            if (parseFloat(item[feature_contrib_name]) > 0 && item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+                if (item['deviation'] < threshold) { sum_data.push(parseFloat(item[feature_contrib_name])) }
                 item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
                 circ_data.push(item)
             }
@@ -42,8 +43,8 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
-            .attr("r", d => d['deviation']>threshold?0:rScale(d['deviation']))
-            //.attr('test',(d)=>console.log(rScale(50),'rScale',d['deviation']))
+            .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
+        //.attr('test',(d)=>console.log(rScale(50),'rScale',d['deviation']))
         // Update
         , update => update.attr('class', d => d['id'] + ' items circle2 my_circles')
             .transition().duration(anim_config.circle_animation).delay(anim_config.rank_animation + anim_config.deviation_animation + anim_config.feature_animation)
@@ -53,20 +54,28 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr('id', d => d['id'])
-            .attr("r", d => d['deviation']>threshold?0:rScale(d['deviation']))
+            .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
         , exit => exit.remove())
-    mycircles.attr("myindex",index).attr('feature_name',d[0]).on('click', d => {
+    mycircles.attr("myindex", index).attr('feature_name', d[0]).on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
     })
-    .attr("fill", (d) => {
-        return diverginColor(d['two_realRank']).replace(")",",.7)")
-    })
-    .style('stroke',(d) => {
-        return diverginColor(d['two_realRank'])
-    })
-    if(index==0){selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean)+5).attr("class", "avg_text").attr("myindex",index).attr("y", (item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin).text('avg').attr('font-size', 12)
-    .attr('dominant-baseline', "middle").attr('text-anchor','middle').attr('transform',d=>"rotate(-90,"+(xScale(my_mean)+5)+","+((item_height-margin.item_top_margin-margin.item_bottom_margin)/2+margin.item_top_margin)+")")}
-    else{selection.selectAll('.avg_text').remove()}
+        .attr("fill", (d) => {
+            return diverginColor(d['two_realRank']).replace(")", ",.7)")
+        })
+        .style('stroke', (d) => {
+            return diverginColor(d['two_realRank'])
+        })
+    if (index == 0) {
+        selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean) + 5).attr("class", "avg_text").attr("myindex", index).attr("y", (item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin).text('avg').attr('font-size', 12)
+        .attr('dominant-baseline', "middle").attr('text-anchor', 'middle').attr('transform', d => "rotate(-90," + (xScale(my_mean) + 5) + "," + ((item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin) + ")")
+    }
+    else { selection.selectAll('.avg_text').remove() }
+
+    mycircles.on("mouseover", d => {
+        div.transition().duration(200).style("opacity", .9);
+        div.html("<p>Name: "+d['State']+"</p>"+"<p>Ground Truth: "+d['two_realRank']+"</p>Model Outcome: "+d['predicted']+"</p>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 12) + "px")
+    }).on("mouseout", d => div.transition().duration(200).style("opacity", 0))
+
     // Draw circle ends here
     function getRandomArbitrary(min, max, seed) {
         min = min || 0;

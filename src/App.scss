@@ -117,9 +117,12 @@ div.tooltip {
     color: white;	
     border: 0px;		
     border-radius: 8px;			
-    pointer-events: none;			
+    pointer-events: none;
+    p{
+        margin: 5px;
+    }			
 }
 ::-webkit-scrollbar {
     display: none;
 }
-
+    
