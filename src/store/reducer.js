@@ -22,7 +22,7 @@ let initialState = {
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
-   dataset: "rur", // change in componentDidmount in app.js too
+   dataset: "fiscal", // change in componentDidmount in app.js too
    histogram_data: [],
    chart_scale_type: "true",
    features_with_score: null,
