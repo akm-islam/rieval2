@@ -114,7 +114,7 @@ CreateChart=()=>{
         }
       });    
     var data = data.filter(function (d) {
-        return (parseInt(d.two_realRank2) >= number_of_filters_start && parseInt(d.two_realRank2) <= number_of_filters_end)
+        return (parseInt(d.two_realRank) >= number_of_filters_start && parseInt(d.two_realRank) <= number_of_filters_end)
       }); //data2 will select only those ranks which are in the filter range
 
     //***** Feature sorting starts *****

@@ -90,22 +90,14 @@ class App extends Component {
     })
     //-------------
     d3.csv(lime_data_filename).then(temp_data => {
-      if(self.props.dataset=="rur"){      
-        var data=temp_data.map(item=>{
-        item['predicted']=parseInt(item['predicted'])
-        item['two_realRank']=parseInt(item['two_realRank'])
-        console.log(Math.abs(item['predicted'] - item['relative_order']),item['deviation']=Math.abs(item['predicted']-item['two_realRank']))
-        item['deviation']=Math.abs(item['predicted'] - item['relative_order'])
-        return item
-      })}
-      else{
+
         var data=temp_data.map(item=>{
           item['predicted']=parseInt(item['predicted'])
           item['two_realRank']=parseInt(item['two_realRank'])
           item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
           return item
         })
-      }
+      
 
       var nested_data = {}
       d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {

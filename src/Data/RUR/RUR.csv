@@ -1,4 +1,4 @@
-﻿1-qid,two_realRank,two_realRank2,State,MART,RandomFor,ndcg_term_MART,ndcg_term_RandomFor
+﻿1-qid,two_realRank2,two_realRank,State,MART,RandomFor,ndcg_term_MART,ndcg_term_RandomFor
 2012,2,1,Harvard University,1,5,0.5,0.193426404
 2012,3,2,Stanford University,1,4,0.333333333,0.143558853
 2012,4,3,Massachusetts Institute of Technology,1,1,0.25,0.25

@@ -46,7 +46,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
-          var two_realRank = parseInt(item['two_realRank2'])
+          var two_realRank = parseInt(item['two_realRank'])
           var predicted_rank = parseInt(item[model_name])
           a['two_realRank'] = two_realRank
           a['predicted_rank'] = predicted_rank
@@ -82,7 +82,7 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
       default_models.map(model_name => {
         data_for_all_years.map(item => {
           var a = {}
-          var two_realRank = parseInt(item['two_realRank2'])
+          var two_realRank = parseInt(item['two_realRank'])
           var predicted_rank = parseInt(item[model_name])
           a['two_realRank'] = two_realRank
           a['predicted_rank'] = predicted_rank
