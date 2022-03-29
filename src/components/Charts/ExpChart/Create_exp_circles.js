@@ -4,7 +4,7 @@ import reducer from "../../../store/reducer";
 const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
-    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold) {
+    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold,dataset) {
     var margin = { item_top_margin: 25, item_bottom_margin: 9, circ_radius: 5, item_left_margin: 9, item_right_margin: 9 }
 
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
@@ -70,7 +70,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
         .attr('dominant-baseline', "middle").attr('text-anchor', 'middle').attr('transform', d => "rotate(-90," + (xScale(my_mean) + 5) + "," + ((item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin) + ")")
     }
     else { selection.selectAll('.avg_text').remove() }
-
+    
     mycircles.on("mouseover", d => {
         div.transition().duration(200).style("opacity", .9);
         div.html("<p>Name: "+d['State']+"</p>"+"<p>Ground Truth: "+d['two_realRank']+"</p>Model Outcome: "+d['predicted']+"</p>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 12) + "px")
