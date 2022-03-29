@@ -18,9 +18,11 @@ class Legend extends Component {
     var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([8, 1])
     var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([8, legend1_height - 5])
     var legend1_ticks = legend1_yScale.ticks(4)
+    legend1_ticks=legend1_ticks.filter(item=>item % 1 === 0)
+    console.log(legend1_ticks,"legend1_ticks")
     var legend1_svg = d3.select('#legend1').attr('width', legend_container_width).attr('height', legend1_height)
     legend1_svg.selectAll('.legend1_circles').data(legend1_ticks).join('circle').attr('class', 'legend1_circles').attr('cx', 10).attr('cy', d => legend1_yScale(d)).attr('r', d => legend1_rScale(d)).attr('fill', 'grey')
-    legend1_svg.selectAll('.legend1_text').data(legend1_ticks).join('text').attr('class', 'legend1_text').attr('x', 20).attr('y', d => legend1_yScale(d)).text(d => d).attr('dominant-baseline', 'middle').attr('font-size', 10)
+    legend1_svg.selectAll('.legend1_text').data(legend1_ticks).join('text').attr('class', 'legend1_text').attr('x', 23).attr('y', d => legend1_yScale(d)).text(d => d).attr('dominant-baseline', 'middle').attr('font-size', 10)
 
     //--------------------------- Legend 2
     var min = d3.min(this.props.selected_instances), max = d3.max(this.props.selected_instances);
