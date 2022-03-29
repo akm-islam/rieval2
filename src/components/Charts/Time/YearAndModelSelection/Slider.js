@@ -43,26 +43,20 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="YearSlider" 
-        style={{height: 70, width:'100%',padding: 30}}>
+        <div className="YearSlider"
+            style={{ height: 70, width: '100%', padding: 30 }}>
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>
                 <TextField classes={{ input: classes.rang_input }} id="standard-basic" label="Lower" value={sliderRange[0]} style={{ width: "100%" }}
                     onChange={event => {
                         if (isNaN(parseInt(event.target.value))) {
                             set_sliderRange(["", sliderRange[1]])
-                        } else {
-                            if (event.target.value > sliderRange[1]) {
-                                alert("Lower range can not be larger than the upper range")
-                            }
-                            else {
-                                set_sliderRange([event.target.value, sliderRange[1]])
-                            }
-                        }
+                        } else
+                            set_sliderRange([event.target.value, sliderRange[1]])
                     }
                     }
                 />
             </div>
-            <div className="slider" style={{width: "100%", margin: "0px 0px" }}>
+            <div className="slider" style={{ width: "100%", margin: "0px 0px" }}>
                 <Slider value={sliderRange} onChange={(event, newValue) => set_sliderRange(newValue)} onChangeCommitted={(event, newValue) => props.Set_changed("range")}
                     valueLabelDisplay="auto" aria-labelledby="range-slider" valueLabelDisplay="on" min={1} max={props.slider_max} marks={marks}
                 />
@@ -74,7 +68,7 @@ function Modes(props) {
                             set_sliderRange([sliderRange[0], ""])
                         } else {
                             if (parseInt(event.target.value) > props.slider_max) {
-                                alert("Upper range can not exceed maximum")
+                                //alert("Upper range can not exceed maximum")
                                 set_sliderRange([sliderRange[0], props.slider_max])
                             }
                             else {
@@ -86,9 +80,17 @@ function Modes(props) {
                 />
             </div>
             <div className="button" item style={{ marginTop: -10 }}>
-                <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30,fontWeight:600,fontSize:18 }}
+                <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30, fontWeight: 600, fontSize: 18 }}
                     onClick={() => {
-                        props.Set_time_mode_range(sliderRange)
+                        if (sliderRange[0] > sliderRange[1]) {
+                            alert("Lower range can not be larger than the upper range")
+                        }
+                        else if (sliderRange[1] > sliderRange[0]) {
+                            alert("upper range can not be smaller than the lower range")
+                        }
+                        else {
+                            props.Set_time_mode_range(sliderRange)
+                        }
                     }}
                 >Update range</Button>
             </div>

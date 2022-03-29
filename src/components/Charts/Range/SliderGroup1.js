@@ -51,12 +51,7 @@ function Modes(props) {
                         if (isNaN(parseInt(event.target.value))) {
                             set_sliderRange(["", sliderRange[1]])
                         } else {
-                            if (event.target.value > sliderRange[1]) {
-                                alert("Lower range can not be larger than the upper range")
-                            }
-                            else {
                                 set_sliderRange([event.target.value, sliderRange[1]])
-                            }
                         }
                     }
                     }
@@ -74,7 +69,7 @@ function Modes(props) {
                             set_sliderRange([sliderRange[0], ""])
                         } else {
                             if (parseInt(event.target.value) > props.slider_max) {
-                                alert("Upper range can not exceed maximum")
+                                //alert("Upper range can not exceed maximum")
                                 set_sliderRange([sliderRange[0], props.slider_max])
                             }
                             else {
@@ -88,8 +83,17 @@ function Modes(props) {
             <div className="button" item xs="2" style={{ marginTop: -10 }}>
                 <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
                     onClick={() => {
-                        props.Set_range_mode_range1(sliderRange)
-                    }}
+                        if ( sliderRange[0] > sliderRange[1]) {
+                            alert("Lower range can not be larger than the upper range")
+                        }
+                        else if ( sliderRange[1] < sliderRange[0]) {
+                            alert("upper range can not be smaller than the lower range")
+                        }
+                        else{
+                            props.Set_range_mode_range1(sliderRange)
+                        }
+                    }
+                }
                 >Update range</Button>
             </div>
         </div>

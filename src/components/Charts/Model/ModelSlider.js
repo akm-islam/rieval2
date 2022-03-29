@@ -44,7 +44,8 @@ function Modes(props) {
     //console.log(props.marks)
     //-----------------------------------------------------------------
     return (
-        <div className="Modelslider" style={{height: 70, width: "99%",
+        <div className="Modelslider" style={{
+            height: 70, width: "99%",
             paddingTop: 30, border: "2px solid rgb(178, 178, 178,0.5)"
         }} >
             <div className="lower" style={{ padding: "0px 0px", marginTop: -20 }}>
@@ -52,19 +53,12 @@ function Modes(props) {
                     onChange={event => {
                         if (isNaN(parseInt(event.target.value))) {
                             set_sliderRange(["", sliderRange[1]])
-                        } else {
-                            if (event.target.value > sliderRange[1]) {
-                                alert("Lower range can not be larger than the upper range")
-                            }
-                            else {
-                                set_sliderRange([event.target.value, sliderRange[1]])
-                            }
-                        }
+                        } set_sliderRange([event.target.value, sliderRange[1]])
                     }
                     }
                 />
             </div>
-            <div className="slider" style={{width: "100%", margin: "0px 0px" }}>
+            <div className="slider" style={{ width: "100%", margin: "0px 0px" }}>
                 <Slider value={sliderRange} onChange={(event, newValue) => set_sliderRange(newValue)} onChangeCommitted={(event, newValue) => props.Set_changed("range")}
                     valueLabelDisplay="auto" aria-labelledby="range-slider" valueLabelDisplay="on" min={1} max={props.slider_max} marks={marks}
                 />
@@ -76,7 +70,7 @@ function Modes(props) {
                             set_sliderRange([sliderRange[0], ""])
                         } else {
                             if (parseInt(event.target.value) > props.slider_max) {
-                                alert("Upper range can not exceed maximum")
+                                //alert("Upper range can not exceed maximum")
                                 set_sliderRange([sliderRange[0], props.slider_max])
                             }
                             else {
@@ -90,11 +84,19 @@ function Modes(props) {
             <div className="button" item xs="2" style={{ marginTop: -10 }}>
                 <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30 }}
                     onClick={() => {
-                        var temp_Models = algo1.sort(props.sort_by, sliderRange, props.default_models, props.selected_year, props.grouped_by_year_data)[0];
-                        var default_model_scores = algo1.sort(props.sort_by, sliderRange,props.default_models, props.selected_year, props.grouped_by_year_data)[1];
-                        props.Set_default_model_scores(default_model_scores)
-                        props.Set_default_models([...temp_Models])
-                        props.Set_state_range(sliderRange)
+                        if (sliderRange[0] > sliderRange[1]) {
+                            alert("Lower range can not be larger than the upper range")
+                        }
+                        else if (sliderRange[1] < sliderRange[0]) {
+                            alert("Upper range can not be smaller than the lower range")
+                        }
+                        else{
+                            var temp_Models = algo1.sort(props.sort_by, sliderRange, props.default_models, props.selected_year, props.grouped_by_year_data)[0];
+                            var default_model_scores = algo1.sort(props.sort_by, sliderRange, props.default_models, props.selected_year, props.grouped_by_year_data)[1];
+                            props.Set_default_model_scores(default_model_scores)
+                            props.Set_default_models([...temp_Models])
+                            props.Set_state_range(sliderRange)    
+                        }
                     }}
                 >Update range</Button>
             </div>
