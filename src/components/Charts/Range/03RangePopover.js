@@ -49,7 +49,7 @@ export function SimplePopover(props) {
                 <div style={{ top: "2%", left: "14%", position: "fixed", pointerEvents: "none", backgroundColor: "transparent" }}>
                     <Draggable>
                         <Grid style={{ backgroundColor: "#ffffff", boxShadow: "3px 2px 15px -7px #000000", pointerEvents: "auto",display:"relative",zIndex:6 }}>
-                            <Grid container style={{ borderBottom: "1px solid #e2e2e2", marginBottom: 20 }} direction="row" justify="flex-end" alignItems="center" >
+                            <Grid container style={{ borderBottom: "1px solid #e2e2e2", marginBottom: 20 }} direction="row" justifyContent="flex-end" alignItems="center" >
                                 <Button color="secondary" id="draggable-dialog-title" onClick={handleClose}>close</Button>
                             </Grid>
                             <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
