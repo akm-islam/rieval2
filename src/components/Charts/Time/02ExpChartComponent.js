@@ -69,20 +69,11 @@ class SlopeChart extends Component {
           d3.event.preventDefault()
           self.setState({ excluded_features: [...self.state.excluded_features, d[0]] })
         })
-    })
-    feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
-      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18).attr("x", 0)
-        .on('click', () => {
-          if (self.props.clicked_features.includes(d[0])) {
-            self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))
-            d3.selectAll("." + d[0]).selectAll(".border_rect").remove()
-          }
-          else {
-            self.props.Set_clicked_features([...self.props.clicked_features, d[0]])
-            d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
-          }
-        })
-        .on('dblclick', () => {
+        //---
+        d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', 7.3)
+        .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
+        .attr('x', item_width - 30).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
           var feature = d[0]
           var year = selected_year
           d3.event.preventDefault()
@@ -109,7 +100,20 @@ class SlopeChart extends Component {
           //self.props.Set_popup_chart_data([popup_chart_data, feature])
           self.props.set_pop_over(true)
         })
-
+        //---
+    })
+    feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
+      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18).attr("x", 0)
+        .on('click', () => {
+          if (self.props.clicked_features.includes(d[0])) {
+            self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))
+            d3.selectAll("." + d[0]).selectAll(".border_rect").remove()
+          }
+          else {
+            self.props.Set_clicked_features([...self.props.clicked_features, d[0]])
+            d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
+          }
+        })
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, selected_year, [model_name], self.props.clicked_circles,
@@ -121,7 +125,7 @@ class SlopeChart extends Component {
       }
     })
     feature_containers.attr('add_drag_drop', function (d, index) {
-      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 18).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
+      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
         .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
       var deltaY, is_dragging;
       function dragstarted(event, d) {

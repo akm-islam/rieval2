@@ -30,7 +30,7 @@ class SlopeChart extends Component {
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    console.log(selected_instances,"selected_instances")
+    console.log(selected_instances, "selected_instances")
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //-------------------- Threshold filter
     var under_threshold_instances = []
@@ -71,13 +71,46 @@ class SlopeChart extends Component {
         .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
     })
     feature_containers.attr("add_cross_button", function (d, index) {
-      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
+      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3)
+        .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
         .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => {
-          //alert("clicked!")
           d3.event.preventDefault()
           self.setState({ excluded_features: [...self.state.excluded_features, d[0]] })
         })
+      //---
+      d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', 7.3)
+        .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
+        .attr('x', item_width - 30).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
+          d3.event.preventDefault()
+            var feature = d[0]
+            var year = self.props.selected_year
+            d3.event.preventDefault()
+            var temp = [...self.props.dbclicked_features]
+            if (!temp.includes(feature)) {
+              temp.unshift(feature)
+              d3.selectAll(".rect").classed("exp_chart_clicked", true)
+            }
+            self.props.set_dbclicked_features(temp)
+            //self.props.set_dbclicked_features([feature])
+            //----------------------------Data for popup chart
+            var popup_chart_data = {}
+            self.props.default_models.filter(item => item != "ListNet").map(model_name => {
+              var data = []
+              if (self.props.histogram_data.length > 0) {
+                data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
+              }
+              else {
+                data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
+              }
+              popup_chart_data[model_name] = data
+            })
+            self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
+            //self.props.Set_popup_chart_data([popup_chart_data, feature])
+            self.props.set_pop_over(true)
+        })
+      //---
     })
     feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
       d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18).attr("x", 0)
@@ -91,38 +124,10 @@ class SlopeChart extends Component {
             d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
           }
         })
-        .on('dblclick', () => {
-          var feature = d[0]
-          var year = self.props.selected_year
-          d3.event.preventDefault()
-          var temp = [...self.props.dbclicked_features]
-          if (!temp.includes(feature)) {
-            temp.unshift(feature)
-            d3.selectAll(".rect").classed("exp_chart_clicked", true)
-          }
-          self.props.set_dbclicked_features(temp)
-          //self.props.set_dbclicked_features([feature])
-          //----------------------------Data for popup chart
-          var popup_chart_data = {}
-          self.props.default_models.filter(item => item != "ListNet").map(model_name => {
-            var data = []
-            if (self.props.histogram_data.length > 0) {
-              data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
-            }
-            else {
-              data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
-            }
-            popup_chart_data[model_name] = data
-          })
-          self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
-          //self.props.Set_popup_chart_data([popup_chart_data, feature])
-          self.props.set_pop_over(true)
-        })
-
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index,self.props.threshold,self.props.dataset)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset)
     }).attr("height", item_height).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (self.props.clicked_features.includes(d[0])) {
@@ -130,7 +135,7 @@ class SlopeChart extends Component {
       }
     })
     feature_containers.attr('add_drag_drop', function (d, index) {
-      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 18).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
+      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
         .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
       var deltaY, is_dragging;
       function dragstarted(event, d) {
@@ -184,7 +189,7 @@ class SlopeChart extends Component {
           item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           return item
         })
-        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles,this.props.deviation_array)
+        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles, this.props.deviation_array)
         misc_algo.handle_transparency("circle2", self.props.clicked_circles, self.props.anim_config)
       }
     })
