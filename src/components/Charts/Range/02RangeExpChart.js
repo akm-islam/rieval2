@@ -117,34 +117,7 @@ class SlopeChart extends Component {
             d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
           }
         })
-        .on('dblclick', () => {
-          var feature = d[0]
-          var year = self.props.selected_year
-          d3.event.preventDefault()
-          var temp = [...self.props.dbclicked_features]
-          if (!temp.includes(feature)) {
-            temp.unshift(feature)
-            //temp.unshift(feature)
-            d3.selectAll(".rect").classed("exp_chart_clicked", true)
-          }
-          self.props.set_dbclicked_features(temp)
-          //self.props.set_dbclicked_features([feature])
-          //----------------------------Data for popup chart
-          var popup_chart_data = {}
-          self.props.default_models.filter(item => item != "ListNet").map(model_name => {
-            var data = []
-            if (self.props.histogram_data.length > 0) {
-              data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
-            }
-            else {
-              data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
-            }
-            popup_chart_data[model_name] = data
-          })
-          self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
-          //self.props.Set_popup_chart_data([popup_chart_data, feature])
-          self.props.set_pop_over(true)
-        })
+        
 
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
