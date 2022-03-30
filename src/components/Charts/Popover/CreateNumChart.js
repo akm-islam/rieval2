@@ -9,7 +9,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     return [data_arr[0], temp]
   })
   // set the dimensions and margins of the graph
-  var margin = { top: 0, right: 30, bottom: 45, left: 50, space_for_hist: 50 },
+  var margin = { top: 0, right: 30, bottom: 70, left: 50, space_for_hist: 50 },
     feature_width = 520 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom;
 
@@ -135,7 +135,10 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   })
   svg1.selectAll(".my_line").raise()
   svg1.selectAll(".scatterplot_g").raise()
-//---------------------------
+  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr('text-anchor',"middle").attr("y",height+30).text('feature value').attr("fill","#5b5959").attr("font-size",14)
+  svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline',"middle").attr('text-anchor',"middle").text('feature importance').attr("fill","#5b5959").attr("font-size",14)
+  .attr('transform',d=>"rotate(-90,"+0+","+height/2+")").attr("x", 0).attr("y", margin.left+20)
+  //---------------------------
   function regressionLine() {
     var xScale, yScale, xValue, yValue;
     var area = d3.area()
