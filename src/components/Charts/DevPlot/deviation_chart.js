@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import textures from 'textures';
-import Create_sparkline from "./Sparkline"
+
 
 export function Create_deviation_chart(parent_id,parent_exp_id, selected_instances, original_data, default_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor,sparkline_data,Set_selected_year,dataset,threshold) {
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
@@ -10,8 +10,9 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
   var data = original_data.filter(item => selected_year==item['1-qid'] && selected_instances.includes(parseInt(item['two_realRank'])))
   var temp_scale_data = []
   data.map(item => { default_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
+  
   // font_line_gap=sparkline_width+4
-  var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:20,font_line_gap: 24, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
+  var config = { space_for_state_name: 120,fontSize: 12, font_dy: -6, sparkline_width:0,font_line_gap: 5, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
   var y_distance = parent_height/selected_instances.length
   if(y_distance<15){var y_distance=15}
   d3.select("#" + parent_id).attr("height",y_distance*selected_instances)
@@ -36,9 +37,6 @@ export function Create_deviation_chart(parent_id,parent_exp_id, selected_instanc
     })
     .attr('fill', d => diverginColor(d['two_realRank'])).attr("dominant-baseline", "hanging").attr("font-size", config.fontSize)
       .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
-  }).attr("add_sparkline", function (d) {
-    // sparkline height is y_distance
-    if(dataset!='house'){Create_sparkline(d3.select(this),config,config.line_stroke_width,sparkline_data,d,diverginColor,selected_year,Set_selected_year)}
   })
     .attr("add_lines_and_circles", function (d) {
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))

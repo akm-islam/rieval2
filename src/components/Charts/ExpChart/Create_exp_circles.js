@@ -62,9 +62,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
         .attr("fill", (d) => {
             return diverginColor(d['two_realRank']).replace(")", ",.7)")
         })
-        .style('stroke', (d) => {
-            return diverginColor(d['two_realRank'])
-        })
+
     if (index == 0) {
         selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean) + 5).attr("class", "avg_text").attr("myindex", index).attr("y", (item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin).text('avg').attr('font-size', 12)
         .attr('dominant-baseline', "middle").attr('text-anchor', 'middle').attr('transform', d => "rotate(-90," + (xScale(my_mean) + 5) + "," + ((item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin) + ")")
