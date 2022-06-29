@@ -56,15 +56,19 @@ class SlopeChart extends Component {
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
     var marginTop = 5;
+    var marginBottom = 20;
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
-    var item_height = (parent_height - 10) / sorted_features.length - marginTop // 10 is the top margin
-    var feature_containers = d3.select('#' + model_name).attr('height', parent_height).selectAll(".feature_items").data(sorted_features, d => d[0])
-      .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop))
-        , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop))
+    var item_height = (parent_height - 10) / sorted_features.length - (marginTop+marginBottom) // 10 is the top margin
+    
+    var feature_containers = d3.select('#' + model_name).attr('height', parent_height)
+      .selectAll(".feature_items").data(sorted_features, d => d[0])
+      .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop+marginBottom))
+        , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop+marginBottom))
         , exit => exit.remove()
       )
-    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
+    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0]).attr("height", item_height+marginBottom+marginTop).attr('width', item_width)
+
     feature_containers.attr("add_title_text_and_rect_for_title_text", function (d, index) {
       d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
       d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex", index).attr('feature_name', d[0]).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
@@ -128,12 +132,18 @@ class SlopeChart extends Component {
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
         self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset)
-    }).attr("height", item_height).attr('width', item_width)
+    })
+    
     feature_containers.attr('check_clicked_features', d => {
       if (self.props.clicked_features.includes(d[0])) {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
+    feature_containers.attr("add_x_label", function (d, index) {
+      d3.select(this).selectAll(".x_label").data([0]).join('text').attr("x", item_width/2).attr("class", "x_label")
+      .attr('dominant-baseline',"middle").attr('text-anchor','middle').attr("y",item_height+marginTop+7).text('feature importance').attr("fill","black").attr("font-size",14)
+    })
+
     feature_containers.attr('add_drag_drop', function (d, index) {
       d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
         .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
