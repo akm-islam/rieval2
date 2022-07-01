@@ -14,7 +14,7 @@ export function SimplePopover(props) {
      var selected_instances = d3.range(d3.min([props.range_mode_range1[0], props.range_mode_range2[0]]), d3.max([props.range_mode_range1[1], props.range_mode_range2[1]]) + 1)
      var min = d3.min(selected_instances), max = d3.max(selected_instances);
      var d = (max - min) / 8;
-     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
+     var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#b5a2c1', '#baaec1', /*'#ffffe0',*/ '#a9bca7', '#a0bc9e', '#90bc8d', '#7fbf7b']);
      //------------------------------
      var selected_instances1 = d3.range(props.range_mode_range1[0], props.range_mode_range1[1] + 1)
      //-------------------- Threshold filter
