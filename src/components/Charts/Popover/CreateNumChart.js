@@ -15,8 +15,8 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
 
   data = data.filter(d => parseFloat(d[feature_contribute]) > 0)
 
-  var data_for_y_axis = data.map(item => parseFloat(item[feature])),
-  data_for_x_axis = data.map(item => parseFloat(item[feature_contribute]))
+  var data_for_x_axis = data.map(item => parseFloat(item[feature])),
+    data_for_y_axis = data.map(item => parseFloat(item[feature_contribute]))
 
   var xScale = d3.scaleLinear().domain([d3.min(data_for_x_axis), d3.max(data_for_x_axis)]).range([0, feature_width]).nice(),
     yScale = d3.scaleLinear().domain([d3.min(data_for_y_axis), d3.max(data_for_y_axis)]).range([height, 0]).nice(); // circles will start from y position 10 and go upto height-10
@@ -56,7 +56,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
 
   //------------------------------------------------------------------ Regression starts here
   var regression_data = []
-  scatterplot_data.map(data_by_model => { data_by_model[1].map(item => { regression_data.push([parseFloat(item[feature_contribute]), parseFloat(item[feature])]) }) })
+  scatterplot_data.map(data_by_model => { data_by_model[1].map(item => { regression_data.push([parseFloat(item[feature]), parseFloat(item[feature_contribute])]) }) })
   var data = regression_data
   var width = feature_width,
     height = height;

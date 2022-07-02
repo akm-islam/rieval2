@@ -28,7 +28,7 @@ class SlopeChart extends Component {
     var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0], this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1], this.props.range_mode_range2[1]]) + 1)
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#b5a2c1', '#baaec1', /*'#ffffe0',*/ '#a9bca7', '#a0bc9e', '#90bc8d', '#7fbf7b']);
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
     //------------------------------
     var selected_instances1 = d3.range(this.props.range_mode_range1[0], this.props.range_mode_range1[1] + 1)
     //-------------------- Threshold filter
@@ -67,7 +67,7 @@ class SlopeChart extends Component {
     var selected_instances = d3.range(d3.min([this.props.range_mode_range1[0], this.props.range_mode_range2[0]]), d3.max([this.props.range_mode_range1[1], this.props.range_mode_range2[1]]) + 1)
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#b5a2c1', '#baaec1', /*'#ffffe0',*/ '#a9bca7', '#a0bc9e', '#90bc8d', '#7fbf7b']);
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
     this.props.Set_selected_instances(selected_instances)
     //--------------------
     var deviation_array = []

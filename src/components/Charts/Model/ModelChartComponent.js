@@ -26,8 +26,8 @@ class SlopeChart extends Component {
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#b5a2c1', '#baaec1', /*'#ffffe0',*/ '#a9bca7', '#a0bc9e', '#90bc8d', '#7fbf7b']);
-
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
@@ -62,7 +62,7 @@ class SlopeChart extends Component {
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#b5a2c1', '#baaec1', /*'#ffffe0',*/ '#a9bca7', '#a0bc9e', '#90bc8d', '#7fbf7b']);
+    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
     this.props.Set_selected_instances(selected_instances)
     //--------------------
     var deviation_array = []

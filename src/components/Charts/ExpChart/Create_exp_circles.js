@@ -60,6 +60,9 @@ export default function CreatexpCircle(d, selection, selected_instances,
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
     })
         .attr("fill", (d) => {
+            if(clicked_circles.includes(d['id'])){
+                return "#e31a1c"
+            }
             return diverginColor(d['two_realRank']).replace(")", ",.7)")
         })
 

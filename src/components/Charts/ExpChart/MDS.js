@@ -42,9 +42,6 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
     .attr("fill", (d) => {
       return diverginColor(d['two_realRank']).replace(")",",.7)")
   })
-  .style('stroke',(d) => {
-      return diverginColor(d['two_realRank'])
-  })
     .attr('id', d => d['id'])
     .attr('class', 'my_circles')
   // Lasso functions
