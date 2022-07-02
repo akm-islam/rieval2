@@ -141,7 +141,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("add_x_label", function (d, index) {
       d3.select(this).selectAll(".x_label").data([0]).join('text').attr("x", item_width/2).attr("class", "x_label")
-      .attr('dominant-baseline',"middle").attr('text-anchor','middle').attr("y",item_height+marginTop+7).text('feature importance').attr("fill","black").attr("font-size",14)
+      .attr('dominant-baseline',"middle").attr('text-anchor','middle').attr("y",item_height+marginTop+7).text('feature importance').attr("fill","black").attr("font-size",13)
     })
 
     feature_containers.attr('add_drag_drop', function (d, index) {
