@@ -9,14 +9,14 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     return [data_arr[0], temp]
   })
   // set the dimensions and margins of the graph
-  var margin = { top: 0, right: 30, bottom: 70, left: 50, space_for_hist: 50 },
+  var margin = { top: 0, right: 30, bottom: 70, left: 50, space_for_hist: 0 },
     feature_width = 520 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom;
 
   data = data.filter(d => parseFloat(d[feature_contribute]) > 0)
 
-  var data_for_x_axis = data.map(item => parseFloat(item[feature])),
-    data_for_y_axis = data.map(item => parseFloat(item[feature_contribute]))
+  var data_for_y_axis = data.map(item => parseFloat(item[feature])),
+    data_for_x_axis = data.map(item => parseFloat(item[feature_contribute]))
 
   var xScale = d3.scaleLinear().domain([d3.min(data_for_x_axis), d3.max(data_for_x_axis)]).range([0, feature_width]).nice(),
     yScale = d3.scaleLinear().domain([d3.min(data_for_y_axis), d3.max(data_for_y_axis)]).range([height, 0]).nice(); // circles will start from y position 10 and go upto height-10
@@ -56,7 +56,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
 
   //------------------------------------------------------------------ Regression starts here
   var regression_data = []
-  scatterplot_data.map(data_by_model => { data_by_model[1].map(item => { regression_data.push([parseFloat(item[feature]), parseFloat(item[feature_contribute])]) }) })
+  scatterplot_data.map(data_by_model => { data_by_model[1].map(item => { regression_data.push([parseFloat(item[feature_contribute]), parseFloat(item[feature])]) }) })
   var data = regression_data
   var width = feature_width,
     height = height;
@@ -93,33 +93,31 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   }
   svg1.selectAll(".tick line").attr("stroke", "#EBEBEB")
   svg1.selectAll(".scatterplot_g").data(scatterplot_data).join('g').attr("id", d => d[0] + "scatterplot_g_id").attr("class", "scatterplot_g").attr("ax", function (d) {
-    var data_for_x_axis2 = d[1].map(item => parseFloat(item[feature]))
-    var data_for_y_axis2 = d[1].map(item => parseFloat(item[feature_contribute]))
+    var data_for_x_axis2 = d[1].map(item => parseFloat(item[feature_contribute]))
+    var data_for_y_axis2 = d[1].map(item => parseFloat(item[feature]))
 
     var xScale2 = d3.scaleLinear().domain([d3.min(data_for_x_axis2), d3.max(data_for_x_axis2)]).range([8, feature_width-8]).nice() // This scaling is for individual model
     var yScale2 = d3.scaleLinear().domain([d3.min(data_for_y_axis2), d3.max(data_for_y_axis2)]).range([height, 0]).nice(); // This scaling is for individual model
     d3.select(this).selectAll('circle').data(d[1])
       .join("circle")
-      .attr("cx", (d, i) => xScale2(d[feature]))
+      .attr("cx", (d, i) => xScale2(d[feature_contribute]))
       .attr("cy", (d, i) => {
-        if (yScale2(parseFloat(d[feature_contribute])) < 10) {
+        if (yScale2(parseFloat(d[feature])) < 10) {
           return 10;
         }
-        else if (yScale2(parseFloat(d[feature_contribute])) > (height - 10)) {
+        else if (yScale2(parseFloat(d[feature])) > (height - 10)) {
           return height - 10;
         }
-        return yScale2(parseFloat(d[feature_contribute])) - 0
+        return yScale2(parseFloat(d[feature])) - 0
 
       })
-      .attr("actual_Y_value", d => d[feature_contribute] + " : x value : " + d[feature])
+      .attr("actual_Y_value", d => d[feature] + " : x value : " + d[feature_contribute])
       //.attr("r", 4)
       .attr("r", d => parseFloat(d[feature_contribute]) <= 0 ? 0 : rScale(d['deviation']))
       .attr("fill", (d) => {
         return props.diverginColor(d['two_realRank']).replace(")", ",.6)")
       })
-      .style('stroke', (d) => {
-        return props.diverginColor(d['two_realRank'])
-      })
+
       .attr('class', d => 'my_circles')
       .attr("id", d => d['id'])
       .on('click', d => {
@@ -135,8 +133,8 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   })
   svg1.selectAll(".my_line").raise()
   svg1.selectAll(".scatterplot_g").raise()
-  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr('text-anchor',"middle").attr("y",height+30).text('feature value').attr("fill","#5b5959").attr("font-size",14)
-  svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline',"middle").attr('text-anchor',"middle").text('feature importance').attr("fill","#5b5959").attr("font-size",13)
+  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr('text-anchor',"middle").attr("y",height+30).text('feature importance').attr("fill","#5b5959").attr("font-size",14)
+  svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline',"middle").attr('text-anchor',"middle").text('feature value').attr("fill","#5b5959").attr("font-size",13)
   .attr('transform',d=>"rotate(-90,"+0+","+height/2+")").attr("x", 0).attr("y", margin.left+20)
   //---------------------------
   function regressionLine() {

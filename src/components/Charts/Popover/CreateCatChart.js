@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 var CreateCatChart = (data, feature, scatterplot_data,props) => {
     var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(props.deviation_array)).range([8, 1])
     var feature_contribute = feature + "_contribution"
-    var margin = { top: 0, right: 30, bottom: 85, left: 50, space_for_hist: 50 }, width = 520 - margin.left - margin.right, height = 270 - margin.top - margin.bottom;
+    var margin = { top: 0, right: 30, bottom: 85, left: 50, space_for_hist: 0 }, width = 520 - margin.left - margin.right, height = 270 - margin.top - margin.bottom;
     var barplot_data = {}
     data = data.filter(d => parseFloat(d[feature_contribute]) > 0)
     data.map(item => { if (barplot_data[item[feature]] > 0) { barplot_data[item[feature]] += 1 } else { barplot_data[item[feature]] = 1 } })
