@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import * as _ from "lodash";
 import "./CreateNumChart.css"
 var CreateNumChart = (data, feature, scatterplot_data, props) => {
-  var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(props.deviation_array)).range([8, 1])
+  var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(props.deviation_array)).range([6, 1])
   var feature_contribute = feature + "_contribution"
   var scatterplot_data = scatterplot_data.map(data_arr => {
     var temp = data_arr[1].filter(item => item['deviation'] < props.threshold && parseFloat(item[feature_contribute]) > 0)

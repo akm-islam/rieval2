@@ -15,8 +15,8 @@ class Legend extends Component {
     var legend_container_height = $('.legend_container').height()
     //--------------------------- Legend 1
     var legend1_height = 100
-    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([8, 1])
-    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([8, legend1_height - 5])
+    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, 1])
+    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, legend1_height - 5])
     var legend1_ticks = legend1_yScale.ticks(4)
     legend1_ticks=legend1_ticks.filter(item=>item % 1 === 0)
     console.log(legend1_ticks,"legend1_ticks")
@@ -65,6 +65,7 @@ const maptstateToprop = (state) => {
   return {
     selected_instances: state.selected_instances,
     deviation_array: state.deviation_array,
+    global_config:state.global_config
   }
 }
 const mapdispatchToprop = (dispatch) => {

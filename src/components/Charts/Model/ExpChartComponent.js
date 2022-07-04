@@ -30,7 +30,7 @@ class SlopeChart extends Component {
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    console.log(selected_instances, "selected_instances")
+    
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
     //-------------------- Threshold filter
     var under_threshold_instances = []
@@ -45,10 +45,7 @@ class SlopeChart extends Component {
       })
     })
     selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
-    //console.log(selected_instances,"selected_instances2")
-    //--------------------
 
-    //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     if (model_name in self.props.dragged_features) { features_with_score = self.props.dragged_features[model_name] }
