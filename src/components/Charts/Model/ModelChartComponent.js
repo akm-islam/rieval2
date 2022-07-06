@@ -26,8 +26,9 @@ class SlopeChart extends Component {
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([max + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
+    //var diverginColor = d3.scaleLinear().domain([max + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
     //var diverginColor = d3.scaleDiverging([min,(max - min) / 2 , max], d3.interpolateSpectral)
+    var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#af8dc3', '#dbd88c', '#7fbf7b']));
     
     //-------------------- Threshold filter
     var under_threshold_instances = []
@@ -63,7 +64,8 @@ class SlopeChart extends Component {
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
+    //var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
+    var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#af8dc3', '#dbd88c', '#7fbf7b']));
     //var diverginColor = d3.scaleDiverging([min,(max - min) / 2 , max], d3.interpolateSpectral)
     this.props.Set_selected_instances(selected_instances)
     //--------------------
