@@ -140,7 +140,7 @@ class App extends Component {
     }
   };
   render() {
-    var legend_width = 80
+    var legend_width = 120
     return (
       <div className="root_container" style={{ height: window.innerHeight, width: window.innerWidth}}>
         <div className="topBar_root" style={{ height: 35, width: window.innerWidth}}>

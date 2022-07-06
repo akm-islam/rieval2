@@ -19,7 +19,7 @@ class SlopeChart extends Component {
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.Createsvg(this.props.model_name, this.props.dragged_features, null)
     /*
     setTimeout(()=>{
@@ -32,6 +32,7 @@ class SlopeChart extends Component {
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
+    
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
@@ -52,11 +53,13 @@ class SlopeChart extends Component {
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
+    console.log(sorted_features,"sorted_features")
     var marginTop = 5;
-    var marginBottom = 20;
+    var marginBottom = 0;
+    var space_for_x_axis=25
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
-    var item_height = (parent_height - 10) / sorted_features.length - (marginTop+marginBottom) // 10 is the top margin
+    var item_height = (parent_height - space_for_x_axis) / sorted_features.length - (marginTop+marginBottom) // 10 is the top margin
     
     var feature_containers = d3.select('#' + model_name).attr('height', parent_height)
       .selectAll(".feature_items").data(sorted_features, d => d[0])
@@ -64,7 +67,15 @@ class SlopeChart extends Component {
         , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop+marginBottom))
         , exit => exit.remove()
       )
-    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0]).attr("height", item_height+marginBottom+marginTop).attr('width', item_width)
+    feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
+    .attr("height", function(d){
+      if(d[1]==sorted_features.length-1){
+        d3.select(this).selectAll(".myText").data([0]).join("text").attr("x", item_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr("y",item_height+13).text('Low <--- Feature Importance ---> High').attr('text-anchor','middle').attr("font-size",12).attr("fill","#2b2828")
+        return item_height+marginBottom+marginTop+space_for_x_axis
+      }
+      return item_height+marginBottom+marginTop
+    })
+    .attr('width', item_width)
 
     feature_containers.attr("add_title_text_and_rect_for_title_text", function (d, index) {
       d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
@@ -136,10 +147,12 @@ class SlopeChart extends Component {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
+    /*
     feature_containers.attr("add_x_label", function (d, index) {
       d3.select(this).selectAll(".x_label").data([0]).join('text').attr("x", item_width/2).attr("class", "x_label")
       .attr('dominant-baseline',"middle").attr('text-anchor','middle').attr("y",item_height+marginTop+7).text('feature importance').attr("fill","black").attr("font-size",13)
     })
+    */
 
     feature_containers.attr('add_drag_drop', function (d, index) {
       d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')

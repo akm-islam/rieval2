@@ -27,6 +27,7 @@ class App extends Component {
     };
   }
   buttonclickHandler = (value, type) => {
+    console.log(value)
     setTimeout(() => { this.setState({ random: Math.random() }) }, 500);
     type = "button" ? this.props.Set_view_data(value) : null
     type = "form" ? this.setState({ view_data: value }) : null
