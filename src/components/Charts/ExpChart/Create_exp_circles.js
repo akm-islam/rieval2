@@ -5,7 +5,7 @@ const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold,dataset) {
-    var margin = { item_top_margin: 25, item_bottom_margin: 9, circ_radius: 5, item_left_margin: 9, item_right_margin: 9 }
+    var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 13, item_right_margin: 13 }
 
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
     var feature_name = d[0]
@@ -41,10 +41,11 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
+                /*
                 if(clicked_circles.includes(d['id'])){
                     selection.selectAll(".myText"+i).data([0]).join("text").attr("x", x_transform).attr("class", "myText"+i).attr('dominant-baseline',"middle").attr("y",y_transform).text(d["State"])
                 }
-                
+                */
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
@@ -55,10 +56,12 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
+                /*
                 if(clicked_circles.includes(d['id'])){
                     selection.selectAll(".myText"+i).data([0]).join("text").attr("x", x_transform).attr("class", "myText"+i).attr('dominant-baseline',"middle").attr("y",y_transform).text(d["State"])
                     .attr("font-size",10)
                 }
+                */
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr('id', d => d['id'])
@@ -68,11 +71,19 @@ export default function CreatexpCircle(d, selection, selected_instances,
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
     })
         .attr("fill", (d) => {
+            return diverginColor(d['two_realRank']).replace(")", ",.7)")
+        })
+        .attr("stroke", (d) => {
             if(clicked_circles.includes(d['id'])){
                 return "#e31a1c"
             }
-            return diverginColor(d['two_realRank']).replace(")", ",.7)")
         })
+        .style("stroke-width", (d) => {
+            if(clicked_circles.includes(d['id'])){
+                return 2
+            }
+        })
+
 
     if (index == 0) {
         selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean) + 5).attr("class", "avg_text").attr("myindex", index).attr("y", (item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin).text('avg').attr('font-size', 12)

@@ -14,7 +14,7 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.exp = React.createRef()
     this.mds = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
+    this.state = { mds_height: 180, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
@@ -54,7 +54,7 @@ class SlopeChart extends Component {
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
     console.log(sorted_features,"sorted_features")
-    var marginTop = 5;
+    var marginTop = 2;
     var marginBottom = 0;
     var space_for_x_axis=25
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
@@ -70,10 +70,10 @@ class SlopeChart extends Component {
     feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
     .attr("height", function(d){
       if(d[1]==sorted_features.length-1){
-        d3.select(this).selectAll(".myText").data([0]).join("text").attr("x", item_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr("y",item_height+13).text('Low <--- Feature Importance ---> High').attr('text-anchor','middle').attr("font-size",12).attr("fill","#2b2828")
-        return item_height+marginBottom+marginTop+space_for_x_axis
+        d3.select(this.parentNode).selectAll(".myText").data([0]).join("text").attr("x", item_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr("y",parent_height-10).text('Low <--- Feature Importance ---> High').attr('text-anchor','middle').attr("font-size",12).attr("fill","#2b2828")
+        return item_height-marginBottom-marginTop
       }
-      return item_height+marginBottom+marginTop
+      return item_height-marginBottom-marginTop
     })
     .attr('width', item_width)
 
@@ -125,7 +125,7 @@ class SlopeChart extends Component {
       //---
     })
     feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
-      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18).attr("x", 0)
+      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18)
         .on('click', () => {
           if (self.props.clicked_features.includes(d[0])) {
             self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))

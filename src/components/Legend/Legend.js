@@ -17,7 +17,13 @@ class Legend extends Component {
     var legend1_height = 100
     var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, this.props.global_config.min_circle_r])
     var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, legend1_height - 5])
-    var legend1_ticks = legend1_yScale.ticks(4)
+    if(this.props.deviation_array.length>3){
+      var legend1_ticks = [d3.min(this.props.deviation_array),Math.ceil(d3.max(this.props.deviation_array)*.33),Math.ceil(d3.max(this.props.deviation_array)*.66),d3.max(this.props.deviation_array)]
+    }
+    else{
+      var legend1_ticks = this.props.deviation_array
+    }
+    
     legend1_ticks=legend1_ticks.filter(item=>item % 1 === 0)
     //console.log(legend1_ticks,"legend1_ticks")
     var legend1_svg = d3.select('#legend1').attr('width', legend_container_width).attr('height', legend1_height)

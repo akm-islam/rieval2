@@ -5,11 +5,15 @@ export function handle_transparency(class_name, clicked_circles, anim_config) {
         //d3.selectAll("." + "my_circles").attr('opacity', 0.3) // Circles
         clicked_circles.map(circle_id => {
             d3.selectAll("." + circle_id).attr('opacity', 1) // Groups
-            d3.selectAll("#" + circle_id).attr('fill', "#e31a1c") // Circles
+            //d3.selectAll("#" + circle_id).attr('fill', "#e31a1c")
+            d3.selectAll("#" + circle_id).attr("stroke", "#e31a1c")
+            .style("stroke-width",2)
         })
     }
     else {
         d3.selectAll(".items").attr('opacity', 1); // Groups
-        d3.selectAll("." + "my_circles").attr('opacity', 1) // Circles 
+        d3.selectAll(".my_circles").attr('opacity', 1) // Circles 
+        d3.selectAll(".items .my_circles").attr("stroke", "none")
+        .style("stroke-width",0)
     }
 }
