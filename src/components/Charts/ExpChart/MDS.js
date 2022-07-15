@@ -21,7 +21,7 @@ export default function getMdsData(myurl, data) {
 export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked_circles,deviation_array) {
   console.log(circle_data,"MDS_data")
   var circle_data=circle_data.sort((a,b)=>b['deviation']-a['deviation'])
-  var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, 1])
+  var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, state.global_config.min_circle_r])
    
   //---------------------------------------------------------------------------
   // Create mds ends here

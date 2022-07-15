@@ -15,7 +15,7 @@ class Legend extends Component {
     var legend_container_height = $('.legend_container').height()
     //--------------------------- Legend 1
     var legend1_height = 100
-    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, 1])
+    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, this.props.global_config.min_circle_r])
     var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, legend1_height - 5])
     var legend1_ticks = legend1_yScale.ticks(4)
     legend1_ticks=legend1_ticks.filter(item=>item % 1 === 0)

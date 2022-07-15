@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 let initialState = {
-   global_config:{max_circle_r:6},
+   global_config:{max_circle_r:6,min_circle_r:2.5},
    anim_config: {rank_animation:3000,deviation_animation:3000,feature_animation:3000,circle_animation:3000},
    appHandleChange: null,
    sparkline_data: null,
