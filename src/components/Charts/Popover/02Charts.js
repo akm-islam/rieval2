@@ -1,7 +1,6 @@
-import { merge } from 'jquery';
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import * as misc_algo from '../misc_algo'
+import * as misc_algo from '../../../Algorithms/misc_algo'
 import CreateCatChart from './CreateCatChart'
 import CreateNumChart from './CreateNumChart'
 class Chart extends Component {

@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import './YearModeComponent.scss';
 import { connect } from "react-redux";
 import * as deviation_chart from "../DevPlot/deviation_chart"
-import * as misc_algo from '../misc_algo'
+import * as misc_algo from '../../../Algorithms/misc_algo'
 import * as $ from 'jquery';
 import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';

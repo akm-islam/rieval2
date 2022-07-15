@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";
 import * as deviation_chart from "../DevPlot/deviation_chart"
-import * as misc_algo from '../misc_algo'
+import * as misc_algo from '../../../Algorithms/misc_algo'
 import * as $ from 'jquery';
 import ModelSlider from './ModelSlider';
 import ExpChart from './ExpChartComponent';
