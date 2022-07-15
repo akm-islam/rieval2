@@ -41,6 +41,10 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
+                if(clicked_circles.includes(d['id'])){
+                    selection.selectAll(".myText"+i).data([0]).join("text").attr("x", x_transform).attr("class", "myText"+i).attr('dominant-baseline',"middle").attr("y",y_transform).text(d["State"])
+                }
+                
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
@@ -51,6 +55,10 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
+                if(clicked_circles.includes(d['id'])){
+                    selection.selectAll(".myText"+i).data([0]).join("text").attr("x", x_transform).attr("class", "myText"+i).attr('dominant-baseline',"middle").attr("y",y_transform).text(d["State"])
+                    .attr("font-size",10)
+                }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr('id', d => d['id'])
