@@ -5,8 +5,7 @@ export function handle_transparency(class_name, clicked_circles, anim_config) {
         //d3.selectAll("." + "my_circles").attr('opacity', 0.3) // Circles
         clicked_circles.map(circle_id => {
             d3.selectAll("." + circle_id).attr('opacity', 1) // Groups
-            //d3.selectAll("#" + circle_id).attr('fill', "#e31a1c")
-            d3.selectAll("#" + circle_id).attr("stroke", "#e31a1c")
+            d3.selectAll("#" + circle_id).attr("stroke", "rgb(227, 26, 28,0.5)")
             .style("stroke-width",2)
         })
     }

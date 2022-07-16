@@ -39,7 +39,7 @@ export function Create_deviation_chart(parent_id, parent_exp_id, selected_instan
       .attr("x", 0).attr('text-anchor', 'end').attr("dy", config.font_dy)
   }).attr("stroke", (d) => {
     if (clicked_circles.includes(d['id'])) {
-      return "#e31a1c"
+      return "rgb(227, 26, 28,0.5)"
     }
   })
     .style("stroke-width", (d) => {

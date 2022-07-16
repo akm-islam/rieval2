@@ -79,7 +79,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
         })
         .attr("stroke", (d) => {
             if(clicked_circles.includes(d['id'])){
-                return "#e31a1c"
+                return "rgb(227, 26, 28,0.5)"
             }
         })
         .style("stroke-width", (d) => {
