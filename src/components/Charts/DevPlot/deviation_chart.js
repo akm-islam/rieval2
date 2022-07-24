@@ -2,8 +2,8 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import textures from 'textures';
 
-
 export function Create_deviation_chart(parent_id, parent_exp_id, selected_instances, original_data, default_models, anim_config, selected_year, average, clicked_circles, Set_clicked_circles, diverginColor, sparkline_data, Set_selected_year, dataset, threshold) {
+  console.log("Test",original_data[0])
   var div = d3.select("body").selectAll('.tooltip').data([0]).join("div").attr("class", "tooltip").style("opacity", 0);
   var parent_width = $("#" + parent_id).width() - 5
   var parent_height = $("." + 'deviation_plot_container_div').height() // deviation_plot_container_div is the div that contains the deviation plot for all modes
@@ -12,7 +12,7 @@ export function Create_deviation_chart(parent_id, parent_exp_id, selected_instan
   data.map(item => { default_models.map(model => temp_scale_data.push(Math.abs(parseInt(item[model]) - parseInt(item['two_realRank'])))) })
 
   // font_line_gap=sparkline_width+4
-  var config = { space_for_state_name: 120, fontSize: 12, font_dy: -6, sparkline_width: 0, font_line_gap: 5, line_stroke_width: 10, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
+  var config = { space_for_state_name: 120, fontSize: 12, font_dy: -6, sparkline_width: 0, font_line_gap: 5, line_stroke_width: 12, animation_duration: 0, container_height: 100, my_svg_top_margin: 10, myg_top_margin: 10 }
   var y_distance = parent_height / selected_instances.length
   if (y_distance < 15) { var y_distance = 15 }
   d3.select("#" + parent_id).attr("height", y_distance * selected_instances)
@@ -96,7 +96,8 @@ export function Create_deviation_chart(parent_id, parent_exp_id, selected_instan
           a['predicted_rank'] = predicted_rank
           a["model"] = model_name
           a['year'] = item['1-qid']
-          a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          //a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           a['className'] = "deviation_circles " + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           if (Math.abs(predicted_rank - two_realRank) < threshold) {
             circ_data.push(a)

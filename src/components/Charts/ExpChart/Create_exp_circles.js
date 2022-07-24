@@ -16,7 +16,8 @@ export default function CreatexpCircle(d, selection, selected_instances,
         lime_data[model].map(item => {
             if (parseFloat(item[feature_contrib_name]) > 0 && item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
                 if (item['deviation'] < threshold) { sum_data.push(parseFloat(item[feature_contrib_name])) }
-                item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+                //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+                item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
                 circ_data.push(item)
             }
         })
@@ -42,11 +43,10 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
                 if(clicked_circles.includes(d['id'])){
-                    selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"])
-                    .attr("font-size",10)
+                    //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("font-size",10)
                 }
                 else{
-                    selection.selectAll(".label"+d['id']).remove()
+                    //selection.selectAll(".label"+d['id']).remove()
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
@@ -60,11 +60,10 @@ export default function CreatexpCircle(d, selection, selected_instances,
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
                 
                 if(clicked_circles.includes(d['id'])){
-                    selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("opacity",0.7)
-                    .attr("font-size",10)
+                    //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("opacity",0.7).attr("font-size",10)
                 }
                 else{
-                    selection.selectAll(".label"+d['id']).remove()
+                    //selection.selectAll(".label"+d['id']).remove()
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
@@ -77,14 +76,16 @@ export default function CreatexpCircle(d, selection, selected_instances,
         .attr("fill", (d) => {
             return diverginColor(d['two_realRank']).replace(")", ",.7)")
         })
+// Also change in misc_algo.js
         .attr("stroke", (d) => {
             if(clicked_circles.includes(d['id'])){
-                return "rgb(227, 26, 28,0.5)"
+                return "rgb(227, 26, 28,0.75)"
             }
         })
-        .style("stroke-width", (d) => {
+        .style("stroke-width", function(d){
             if(clicked_circles.includes(d['id'])){
-                return 2
+                d3.select(this).raise()
+                return 2.5
             }
         })
 

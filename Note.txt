@@ -1,0 +1,3 @@
+To change the id of circles -
+change in deviation_charts.js - a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+change in Create_exp_circles.js - item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")

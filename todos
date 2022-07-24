@@ -1,14 +1,6 @@
-----------------------------------------------------
-make the contribution range for each model so that it doesn't change when another model is added
-cross icon clicked remove on all - if crossed how you want to get it back
-handle the select features when circles are clicked - exclude clicked circles that falls outside of the selected range
+The circle size in deviation plot is 5 but in exp chart it starts from 6
 
--------------
-Remove all special characters from the featureName
-
-------Ask professor
-clear all clicked circles
-
-------Discuss later
-Cross icon when clicked- 
-Model precision on the legend- 
+Advance likhe metrics ar box ta 
+-- Text baad diye dao
+-- Border thickness
+-- Highlight all circles instead of model wise

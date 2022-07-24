@@ -97,8 +97,7 @@ class App extends Component {
           item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
           return item
         })
-      
-
+        
       var nested_data = {}
       d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {
         nested_data[item.key] = item.values
