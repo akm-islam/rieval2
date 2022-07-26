@@ -19,7 +19,7 @@ function Inputs(props) {
     return (
         <ThemeProvider theme={outerTheme}>
             <form className={classes.root} noValidate autoComplete="off">
-                <span>Deviation threshold:</span>
+                <span style={{fontSize:14}}>Deviation threshold:</span>
                 <Input style={{width:30}} defaultValue={threshold} inputProps={{ 'aria-label': 'description' }} 
                 onChange={(event=>set_threshold(event.target.value))}
                 />

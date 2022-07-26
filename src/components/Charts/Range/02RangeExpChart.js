@@ -182,7 +182,8 @@ class SlopeChart extends Component {
         var circle_data = feature_contrib_data_for_mds.map((item, index) => {
           item['x'] = MDS_response[index][0]
           item['y'] = MDS_response[index][1]
-          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           return item
         })
         Create_MDS(this.mds, circle_data, "#mds" + this.props.exp_id, self.props.diverginColor, this.props.Set_clicked_circles,this.props.deviation_array)

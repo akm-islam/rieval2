@@ -61,7 +61,7 @@ let initialState = {
    average_y: false,
    average_m: false,
    clicked_circles:[],
-   threshold:10000,
+   threshold:100,
    deviation_array:[], // This is for legend
    selected_instances:[], // This is for legend
    dragged_features:{},
