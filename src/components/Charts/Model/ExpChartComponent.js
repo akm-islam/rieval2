@@ -21,11 +21,6 @@ class SlopeChart extends Component {
   }
   componentDidUpdate() {
     this.Createsvg(this.props.model_name, this.props.dragged_features, null)
-    /*
-    setTimeout(()=>{
-      misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
-    },3000)
-    */
   }
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this

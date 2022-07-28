@@ -6,7 +6,6 @@ const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold,dataset) {
     var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 13, item_right_margin: 13 }
-
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
     var feature_name = d[0]
     var feature_contrib_name = d[0] + "_contribution"
@@ -46,7 +45,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
                     //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("font-size",10)
                 }
                 else{
-                    //selection.selectAll(".label"+d['id']).remove()
+                    d3.select(this).attr("opacity",0.3)
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
@@ -63,21 +62,18 @@ export default function CreatexpCircle(d, selection, selected_instances,
                     //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("opacity",0.7).attr("font-size",10)
                 }
                 else{
-                    //selection.selectAll(".label"+d['id']).remove()
+                    d3.select(this).attr("opacity",0.3)
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
             .attr('id', d => d['id'])
             .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
         , exit => exit.remove())
-    mycircles.attr("myindex", index).attr('feature_name', d[0]).on('click', d => {
+
+    mycircles.attr("myindex", index).attr('feature_name', d[0])
+    .on('click', d => {
         Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
-    })
-        .attr("fill", (d) => {
-            return diverginColor(d['two_realRank']).replace(")", ",.7)")
-        })
-// Also change in misc_algo.js
-        .attr("stroke", (d) => {
+    }).attr("fill", d =>diverginColor(d['two_realRank']).replace(")", ",.7)")).attr("stroke", (d) => {
             if(clicked_circles.includes(d['id'])){
                 return "rgb(227, 26, 28,0.75)"
             }
