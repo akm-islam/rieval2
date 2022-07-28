@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 export function handle_transparency(class_name, clicked_circles, anim_config) {
-    
     d3.selectAll(".items .my_circles").attr("stroke", "none")
     d3.selectAll(".items .my_circles").attr('opacity', 1)
     if (clicked_circles.length != 0) {
