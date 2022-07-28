@@ -45,6 +45,7 @@ export function Create_MDS(mds_ref,circle_data,mds_id,diverginColor, Set_clicked
     .attr('class', 'my_circles')
     .attr("handle_opacity",function(d){
       if(clicked_circles.includes(d['id'])){
+        d3.select(this).attr("opacity",1)
     }
     else{
         d3.select(this).attr("opacity",0.3)
