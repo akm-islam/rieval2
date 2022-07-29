@@ -19,8 +19,13 @@ class SlopeChart extends Component {
   componentDidMount() {
     this.setState({ width: window.innerHeight })
   }
-  componentDidUpdate() {
-    this.Createsvg(this.props.model_name, this.props.dragged_features, null)
+  componentDidUpdate(prev_props) {
+    if(this.props.clicked_circles.length!=0 && JSON.stringify(prev_props.clicked_circles)===JSON.stringify(this.props.clicked_circles)){
+      misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    }
+    else{
+      this.Createsvg(this.props.model_name, this.props.dragged_features, null)
+    }
   }
   Createsvg = (model_name, dragged_features, indexed_features) => {
     var self = this
@@ -41,14 +46,12 @@ class SlopeChart extends Component {
       })
     })
     selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
-
     var number_of_charts = 8 + self.state.excluded_features.length
     var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
     if (model_name in self.props.dragged_features) { features_with_score = self.props.dragged_features[model_name] }
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
-    console.log(sorted_features,"sorted_features")
     var marginTop = 2;
     var marginBottom = 0;
     var space_for_x_axis=25
@@ -142,13 +145,6 @@ class SlopeChart extends Component {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
-    /*
-    feature_containers.attr("add_x_label", function (d, index) {
-      d3.select(this).selectAll(".x_label").data([0]).join('text').attr("x", item_width/2).attr("class", "x_label")
-      .attr('dominant-baseline',"middle").attr('text-anchor','middle').attr("y",item_height+marginTop+7).text('feature importance').attr("fill","black").attr("font-size",13)
-    })
-    */
-
     feature_containers.attr('add_drag_drop', function (d, index) {
       d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
         .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
@@ -195,6 +191,7 @@ class SlopeChart extends Component {
     })
     //--------------------------------------MDS Plot
     var feature_contrib_data_for_mds = this.props.lime_data[model_name].filter(item => item['1-qid'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
+
     getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
       if (typeof data != 'undefined') {
         var MDS_response = JSON.parse(data.response)
