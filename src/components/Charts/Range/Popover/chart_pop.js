@@ -33,7 +33,7 @@ class Chart extends Component {
     else {
       CreateNumChart(merged_arr, this.props.popup_chart_data[1], scatterplot_data,this.props,this.props.deviation_array) // calling the function to set the  graph empty when all models are unselected
     }
-    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    misc_algo.handle_transparency("None", this.props.clicked_circles, this.props.anim_config)
   }
 
   render() {

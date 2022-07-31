@@ -60,7 +60,7 @@ class SlopeChart extends Component {
 
     deviation_chart.Create_deviation_chart('r2d', 'r2exp', selected_instances2, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
-    misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+    misc_algo.handle_transparency("None", this.props.clicked_circles, this.props.anim_config)
 
   }
   render() {

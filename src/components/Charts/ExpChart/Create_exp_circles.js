@@ -37,7 +37,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])
-            .attr('class', d => 'my_circles')
+            .attr('class', d => 'my_circles exp_circles')
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
@@ -52,7 +52,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("r", d => d['deviation'] > threshold ? 0 : rScale(d['deviation']))
         //.attr('test',(d)=>console.log(rScale(50),'rScale',d['deviation']))
         // Update
-        , update => update.attr('class', d => d['id'] + ' items circle2 my_circles')
+        , update => update.attr('class', d => d['id'] + ' items exp_circles my_circles')
             .transition().duration(anim_config.circle_animation).delay(anim_config.rank_animation + anim_config.deviation_animation + anim_config.feature_animation)
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))

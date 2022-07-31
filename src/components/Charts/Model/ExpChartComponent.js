@@ -21,13 +21,13 @@ class SlopeChart extends Component {
   }
   componentDidUpdate(prev_props) {
     if(this.props.clicked_circles.length!=0 && JSON.stringify(prev_props.clicked_circles)===JSON.stringify(this.props.clicked_circles)){
-      misc_algo.handle_transparency("circle2", this.props.clicked_circles, this.props.anim_config)
+      misc_algo.handle_transparency("None", this.props.clicked_circles, this.props.anim_config)
     }
     else{
-      this.Createsvg(this.props.model_name, this.props.dragged_features, null)
+      this.Createsvg(this.props.model_name, null)
     }
   }
-  Createsvg = (model_name, dragged_features, indexed_features) => {
+  Createsvg = (model_name, indexed_features) => {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
     
@@ -203,7 +203,7 @@ class SlopeChart extends Component {
           return item
         })
         Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles, this.props.deviation_array,this.props.clicked_circles)
-        misc_algo.handle_transparency("circle2", self.props.clicked_circles, self.props.anim_config)
+        misc_algo.handle_transparency("None", self.props.clicked_circles, self.props.anim_config)
       }
     })
   }
