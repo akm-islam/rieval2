@@ -45,7 +45,7 @@ class Legend extends Component {
     var legend2_yScale = d3.scaleLinear().domain([min, max]).range([5, legend2_svg_height - 10])
     var legend2_ticks = d3.range(min, max + 1, max / 10)
     var rect_height = legend2_svg_height / legend2_ticks.length
-    var rect_width = 8
+    var rect_width = 12
     
     var legend2_svg = d3.select('#legend2').attr('width', legend_container_width).attr('height', legend2_svg_height)
     legend2_svg.selectAll('.legend2_rects').data(legend2_ticks).join('rect').attr('class', 'legend2_rects').attr('x', 10)

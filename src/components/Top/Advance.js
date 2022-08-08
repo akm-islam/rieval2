@@ -34,7 +34,7 @@ function Sort(props) {
         setAnchorEl2(null)
     };
     return (
-        <div className="sort" style={{ borderRight: "1px dashed #eaeaea", paddingLeft: 5 }}>
+        <div className="sort" style={{ borderRight: "1px dashed #eaeaea", paddingLeft: 5,marginLeft:"40%" }}>
             <Button aria-controls="fade-menu" aria-haspopup="true" onClick={(event)=>setAnchorEl1(event.currentTarget)}>Advance <ArrowDropDownIcon></ArrowDropDownIcon></Button>
             <Menu id="fade-menu" anchorEl={anchorEl1} keepMounted open={open1}  onClose={()=>setAnchorEl1(null)} TransitionComponent={Fade}>
             <div style={{padding:"0px 14px"}}><Threshold></Threshold></div>

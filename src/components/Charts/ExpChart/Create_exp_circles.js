@@ -4,7 +4,8 @@ import reducer from "../../../store/reducer";
 const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
-    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold,dataset) {
+    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold, dataset) {
+    console.log(selected_instances,"selected_instances",d[0])
     var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 13, item_right_margin: 13 }
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
     var feature_name = d[0]
@@ -13,7 +14,9 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var sum_data = []
     default_models.map(model => {
         lime_data[model].map(item => {
+            // The following line filters out all negative 
             if (parseFloat(item[feature_contrib_name]) > 0 && item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+                //if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
                 if (item['deviation'] < threshold) { sum_data.push(parseFloat(item[feature_contrib_name])) }
                 //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
                 item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
@@ -41,11 +44,11 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
-                if(clicked_circles.includes(d['id'])){
+                if (clicked_circles.includes(d['id'])) {
                     //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("font-size",10)
                 }
-                else{
-                    d3.select(this).attr("opacity",0.3)
+                else {
+                    d3.select(this).attr("opacity", 0.3)
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
@@ -57,12 +60,12 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
-                
-                if(clicked_circles.includes(d['id'])){
+
+                if (clicked_circles.includes(d['id'])) {
                     //selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["State"]).attr("opacity",0.7).attr("font-size",10)
                 }
-                else{
-                    d3.select(this).attr("opacity",0.3)
+                else {
+                    d3.select(this).attr("opacity", 0.3)
                 }
                 return "translate(" + x_transform + "," + y_transform + ")";
             })
@@ -71,15 +74,15 @@ export default function CreatexpCircle(d, selection, selected_instances,
         , exit => exit.remove())
 
     mycircles.attr("myindex", index).attr('feature_name', d[0])
-    .on('click', d => {
-        Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
-    }).attr("fill", d =>diverginColor(d['two_realRank']).replace(")", ",.7)")).attr("stroke", (d) => {
-            if(clicked_circles.includes(d['id'])){
+        .on('click', d => {
+            Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
+        }).attr("fill", d => diverginColor(d['two_realRank']).replace(")", ",.7)")).attr("stroke", (d) => {
+            if (clicked_circles.includes(d['id'])) {
                 return "rgb(227, 26, 28,0.75)"
             }
         })
-        .style("stroke-width", function(d){
-            if(clicked_circles.includes(d['id'])){
+        .style("stroke-width", function (d) {
+            if (clicked_circles.includes(d['id'])) {
                 d3.select(this).raise()
                 return 2.5
             }
@@ -88,13 +91,13 @@ export default function CreatexpCircle(d, selection, selected_instances,
 
     if (index == 0) {
         selection.selectAll(".avg_text").data(['avg']).join("text").attr("x", xScale(my_mean) + 5).attr("class", "avg_text").attr("myindex", index).attr("y", (item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin).text('avg').attr('font-size', 12)
-        .attr('dominant-baseline', "middle").attr('text-anchor', 'middle').attr('transform', d => "rotate(-90," + (xScale(my_mean) + 5) + "," + ((item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin) + ")")
+            .attr('dominant-baseline', "middle").attr('text-anchor', 'middle').attr('transform', d => "rotate(-90," + (xScale(my_mean) + 5) + "," + ((item_height - margin.item_top_margin - margin.item_bottom_margin) / 2 + margin.item_top_margin) + ")")
     }
     else { selection.selectAll('.avg_text').remove() }
-    
+
     mycircles.on("mouseover", d => {
         div.transition().duration(200).style("opacity", .9);
-        div.html("<p>Name: "+d['State']+"</p>"+"<p>Ground Truth: "+d['two_realRank']+"</p>Model Outcome: "+d['predicted']+"</p>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 12) + "px")
+        div.html("<p>Name: " + d['State'] + "</p>" + "<p>Ground Truth: " + d['two_realRank'] + "</p>Model Outcome: " + d['predicted'] + "</p>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 12) + "px")
     }).on("mouseout", d => div.transition().duration(200).style("opacity", 0))
 
     // Draw circle ends here

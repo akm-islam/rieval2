@@ -10,7 +10,7 @@ let initialState = {
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
    default_models: ["MART","RandomFor"], // Change the pop_over_models as well
-   state_range: [1, 30], // Change in handleradioChange
+   state_range: [1, 5], // Change in handleradioChange
    deviate_by: 0,
    show: [
       "Slope charts", "Rankings", "Explanation" // change in app.js
@@ -38,10 +38,10 @@ let initialState = {
    legend_show_option: "Rank",
    legend_year: 2012,
    mode: "Model",
-   range_mode_model: "RandomFor",
+   range_mode_model: "MART",
    range_mode_range1: [1, 25],
    range_mode_range2: [15, 40],
-   time_mode_model: "RandomFor",
+   time_mode_model: "MART",
    time_mode_year1: "Null",
    time_mode_year2: "Null",
    time_mode_range: [6, 32],

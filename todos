@@ -1,6 +1,12 @@
-The circle size in deviation plot is 5 but in exp chart it starts from 6
-
--- Advance likhe metrics ar box ta 
--- Text baad diye dao
--- Border thickness
--- Highlight all circles instead of model wise
+Todos
+-- blink the Border
+-- Done -- Time and Range mode e MART default
+-- Done -- Double the legend width
+-- Done -- Alaska selection issue
+-- Done -- Nebaraska issue
+-- Done -- Dynamically set default model in all modes
+-- Arrow in the exp plot
+-- Detail mode e y axis e tick
+-- Regresssion line e show coeff on hover
+-- Add histogram
+-- Advance on the right side
