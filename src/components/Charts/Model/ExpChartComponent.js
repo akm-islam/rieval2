@@ -20,19 +20,19 @@ class SlopeChart extends Component {
     this.setState({ width: window.innerHeight })
   }
   componentDidUpdate(prev_props) {
-    if(this.props.clicked_circles.length!=0 && JSON.stringify(prev_props.clicked_circles)===JSON.stringify(this.props.clicked_circles)){
+    this.Createsvg(this.props.model_name, null)
+    if (this.props.clicked_circles.length != 0 && JSON.stringify(prev_props.clicked_circles) === JSON.stringify(this.props.clicked_circles)) {
       misc_algo.handle_transparency("None", this.props.clicked_circles, this.props.anim_config)
     }
-    else{
+    else {
       this.Createsvg(this.props.model_name, null)
     }
   }
   Createsvg = (model_name, indexed_features) => {
     var self = this
     var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-    
     if (this.props.histogram_data.length > 0) { selected_instances = this.props.histogram_data }
-    
+
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
@@ -52,78 +52,90 @@ class SlopeChart extends Component {
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
-    var marginTop = 2;
-    var marginBottom = 0;
-    var space_for_x_axis=25
+    var marginTop = 2,marginBottom = 0, space_for_x_axis = 25,title_rect_height=25
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
-    var item_height = (parent_height - space_for_x_axis) / sorted_features.length - (marginTop+marginBottom) // 10 is the top margin
-    
+    var item_height = (parent_height - space_for_x_axis) / sorted_features.length - (marginTop + marginBottom) // 10 is the top margin
+
     var feature_containers = d3.select('#' + model_name).attr('height', parent_height)
       .selectAll(".feature_items").data(sorted_features, d => d[0])
-      .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop+marginBottom))
-        , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop+marginBottom))
+      .join(enter => enter.append("svg").attr("y", (d, i) => marginTop + i * (item_height + marginTop + marginBottom))
+        , update => update.transition().duration(2000).attr("y", (d, i) => marginTop + i * (item_height + marginTop + marginBottom))
         , exit => exit.remove()
       )
     feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
-    .attr("height", function(d){
-      if(d[1]==sorted_features.length-1){
-        d3.select(this.parentNode).selectAll(".myText").data([0]).join("text").attr("x", item_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr("y",parent_height-10).text('Low <--- Feature Importance ---> High').attr('text-anchor','middle').attr("font-size",12).attr("fill","#2b2828")
-        return item_height-marginBottom-marginTop
-      }
-      return item_height-marginBottom-marginTop
-    })
-    .attr('width', item_width)
+      .attr("height", function (d) {
+        if (d[1] == sorted_features.length - 1) {
+          var ft_svg_height = 25
+          var svg = d3.select(this.parentNode).selectAll(".ft_svg").data([0]).join("svg").attr("x", 0).attr("y", parent_height - ft_svg_height).attr("class", "ft_svg").attr("width", item_width).attr("height", ft_svg_height)
+          var markerBoxWidth = 8, markerBoxHeight = 8, refX = markerBoxWidth / 2, refY = markerBoxHeight / 2
+          svg.append('defs').append('marker').attr('id', 'arrow').attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+            .attr('refX', refX).attr('refY', refY).attr('markerWidth', markerBoxWidth).attr('markerHeight', markerBoxHeight).attr('orient', 'auto-start-reverse')
+            .append('path').attr('d', d3.line()([[0, 0], [0, 7], [7, 3.8]])).attr('stroke', '#777777').attr("fill","#777777");
+          //------------------------------------------------[[x2, y2], [x1, y1]]
+          svg.append('path').attr('d', d3.line()([[item_width / 2 - 65, 15], [50, 15]])).attr('stroke', '#777777').attr('marker-end', 'url(#arrow)').attr('fill', 'none');
+          svg.append('path').attr('d', d3.line()([[item_width - 50, 15], [65 + item_width / 2, 15]])).attr('stroke', '#777777').attr('marker-start', 'url(#arrow)').attr('fill', 'none');
+
+          svg.selectAll(".myText_low").data([0]).join("text").attr("x", 30).attr("class", "myText_low").attr('dominant-baseline', "middle").attr("y", 15).text('Low').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          svg.selectAll(".myText").data([0]).join("text").attr("x", item_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr("y", 15).text('Feature Importance').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          svg.selectAll(".myText_high").data([0]).join("text").attr("x", item_width-30).attr("class", "myText_high").attr('dominant-baseline', "middle").attr("y", 15).text('High').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          return item_height - marginBottom - marginTop
+        }
+        return item_height - marginBottom - marginTop
+      })
+      .attr('width', item_width)
+
 
     feature_containers.attr("add_title_text_and_rect_for_title_text", function (d, index) {
-      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
-      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex", index).attr('feature_name', d[0]).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
-        .attr("y", 2).attr('text-anchor', 'middle').attr('font-size', 12)
+      d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", title_rect_height).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
+      d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text")
+      .attr("myindex", index).attr('feature_name', d[0]).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "middle")
+      .attr("y", title_rect_height/2).attr('text-anchor', 'middle').attr('font-size', 14)
     })
     feature_containers.attr("add_cross_button", function (d, index) {
-      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3)
+      d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', title_rect_height/2)
         .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
-        .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 14).attr('fill', 'black')
         .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => {
           d3.event.preventDefault()
           self.setState({ excluded_features: [...self.state.excluded_features, d[0]] })
         })
       //---
-      d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', 7.3)
+      d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', title_rect_height/2)
         .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
         .attr('x', item_width - 30).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
           d3.event.preventDefault()
-            var feature = d[0]
-            var year = self.props.selected_year
-            d3.event.preventDefault()
-            var temp = [...self.props.dbclicked_features]
-            if (!temp.includes(feature)) {
-              temp.unshift(feature)
-              d3.selectAll(".rect").classed("exp_chart_clicked", true)
+          var feature = d[0]
+          var year = self.props.selected_year
+          d3.event.preventDefault()
+          var temp = [...self.props.dbclicked_features]
+          if (!temp.includes(feature)) {
+            temp.unshift(feature)
+            d3.selectAll(".rect").classed("exp_chart_clicked", true)
+          }
+          self.props.set_dbclicked_features(temp)
+          //self.props.set_dbclicked_features([feature])
+          //----------------------------Data for popup chart
+          var popup_chart_data = {}
+          self.props.default_models.filter(item => item != "ListNet").map(model_name => {
+            var data = []
+            if (self.props.histogram_data.length > 0) {
+              data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
             }
-            self.props.set_dbclicked_features(temp)
-            //self.props.set_dbclicked_features([feature])
-            //----------------------------Data for popup chart
-            var popup_chart_data = {}
-            self.props.default_models.filter(item => item != "ListNet").map(model_name => {
-              var data = []
-              if (self.props.histogram_data.length > 0) {
-                data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
-              }
-              else {
-                data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
-              }
-              popup_chart_data[model_name] = data
-            })
-            self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
-            //self.props.Set_popup_chart_data([popup_chart_data, feature])
-            self.props.set_pop_over(true)
+            else {
+              data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
+            }
+            popup_chart_data[model_name] = data
+          })
+          self.props.Set_popup_chart_data([popup_chart_data, feature]) // This is to update the pop when the year or anything changes during the pop up is open
+          //self.props.Set_popup_chart_data([popup_chart_data, feature])
+          self.props.set_pop_over(true)
         })
       //---
     })
     feature_containers.attr("add_rect_for_circle_background_and_handle_clicks", function (d, index) {
-      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - 18).attr("fill", "#f2f2f2").attr("y", 18)
+      d3.select(this).selectAll(".circ_rect").data([0]).join('rect').attr("class", "circ_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", item_height - title_rect_height).attr("fill", "#ffffff").attr("y", title_rect_height)
         .on('click', () => {
           if (self.props.clicked_features.includes(d[0])) {
             self.props.Set_clicked_features(self.props.clicked_features.filter(item => item != d[0]))
@@ -137,16 +149,16 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset,title_rect_height)
     })
-    
+
     feature_containers.attr('check_clicked_features', d => {
       if (self.props.clicked_features.includes(d[0])) {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
     feature_containers.attr('add_drag_drop', function (d, index) {
-      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", 18).style("fill", "transparent").style('cursor', 'move')
+      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", title_rect_height).style("fill", "transparent").style('cursor', 'move')
         .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
       var deltaY, is_dragging;
       function dragstarted(event, d) {
@@ -202,7 +214,7 @@ class SlopeChart extends Component {
           item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           return item
         })
-        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles, this.props.deviation_array,this.props.clicked_circles)
+        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles, this.props.deviation_array, this.props.clicked_circles)
         misc_algo.handle_transparency("None", self.props.clicked_circles, self.props.anim_config)
       }
     })
@@ -214,6 +226,8 @@ class SlopeChart extends Component {
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
         <svg ref={this.mds} id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: 0, width: "100%" }}></svg>
+        <marker id="arrow" markerUnits="strokeWidth" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
+          <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{ fill: "black" }}></path></marker>
       </div>
     )
   }

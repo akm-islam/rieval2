@@ -42,12 +42,13 @@ export function Create_deviation_chart(parent_id, parent_exp_id, selected_instan
       return "rgb(227, 26, 28,0.5)"
     }
   })
+  /*
     .style("stroke-width", (d) => {
       if (clicked_circles.includes(d['id'])) {
-        return 2
+        return 2.5
       }
     })
-
+*/
     .attr("add_lines_and_circles", function (d) {
       var data_for_all_years = data.filter(item => d['two_realRank'] == parseInt(item['two_realRank']))
       var line_data = []

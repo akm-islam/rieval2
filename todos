@@ -1,12 +1,16 @@
-Todos
--- blink the Border
+--------------------------------------------- Todos ---------------------------------------------
+-- Blink the Border
+
 -- Done -- Time and Range mode e MART default
 -- Done -- Double the legend width
--- Done -- Alaska selection issue
+
+-- Done -- Alaska selection issue(only positives are shown)
 -- Done -- Nebaraska issue
--- Done -- Dynamically set default model in all modes
--- Arrow in the exp plot
+-- Done -- Dynamically set default model in all modes (made it static)
+-- Done -- Advance on the right side (ask about it)
+-- Done -- Arrow in the exp plot
+
 -- Detail mode e y axis e tick
 -- Regresssion line e show coeff on hover
+
 -- Add histogram
--- Advance on the right side

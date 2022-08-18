@@ -10,7 +10,7 @@ let initialState = {
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
    default_models: ["MART","RandomFor"], // Change the pop_over_models as well
-   state_range: [1, 5], // Change in handleradioChange
+   state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
       "Slope charts", "Rankings", "Explanation" // change in app.js

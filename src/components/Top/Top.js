@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import * as $ from 'jquery';
 import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FeaturesDropdown from "./FeaturesDropdown"
@@ -37,14 +36,14 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Grid container>
+        <Grid container style={{position:"relative"}}>
           <ButtonGroup aria-label="outlined button group" style={{marginRight:150,border:'none'}}>
           <Button style={{borderRadius:0,border:'none',borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(1, "button")}>View Data</Button>
           <Button style={{borderRadius:0,border:'none', borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
           <SelectMode></SelectMode>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
-          {this.props.mode=="Model"?<Advance></Advance>:null}
+          {this.props.mode=="Model"?<div style={{position:"absolute",right:"20px"}}><Advance></Advance></div>:null}
         </Grid>
         {this.props.view_data == false ?
           <Row className="Topbar_container">

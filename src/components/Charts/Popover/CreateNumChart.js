@@ -9,7 +9,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     return [data_arr[0], temp]
   })
   // set the dimensions and margins of the graph
-  var margin = { top: 0, right: 30, bottom: 70, left: 50, space_for_hist: 0 },
+  var margin = { top: 0, right: 30, bottom: 70, left: 40, space_for_hist: 0 },
     feature_width = 520 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom;
 
@@ -77,7 +77,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   xScale.domain([d3.min(data, xValue) - diffX, d3.max(data, xValue) + diffX]);
   yScale.domain([d3.min(data, yValue) - diffY, d3.max(data, yValue) + diffY]);
   svg.selectAll(".regr").data([data]).join("g").attr("class", "regr").call(regrLine);
-  //------------------------------------------------------------------------------------------------------ Draw Circles
+  //------------------------------------------------------------------------------------------------------ Draw Circles ends
   //------------- Add X axis
   if (d3.max(d3.max(bins)) > 1000) {
     svg1.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
@@ -91,13 +91,18 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
       .call(d3.axisBottom(xScale).tickSize(-height * 1.3).tickValues(bins.map(item => item['x1'])))
       .select(".domain").remove()
   }
-  svg1.selectAll(".tick line").attr("stroke", "#EBEBEB")
+
   svg1.selectAll(".scatterplot_g").data(scatterplot_data).join('g').attr("id", d => d[0] + "scatterplot_g_id").attr("class", "scatterplot_g").attr("ax", function (d) {
     var data_for_x_axis2 = d[1].map(item => parseFloat(item[feature_contribute]))
     var data_for_y_axis2 = d[1].map(item => parseFloat(item[feature]))
 
-    var xScale2 = d3.scaleLinear().domain([d3.min(data_for_x_axis2), d3.max(data_for_x_axis2)]).range([8, feature_width-8]).nice() // This scaling is for individual model
-    var yScale2 = d3.scaleLinear().domain([d3.min(data_for_y_axis2), d3.max(data_for_y_axis2)]).range([height, 0]).nice(); // This scaling is for individual model
+    var xScale2 = d3.scaleLinear().domain([d3.min(data_for_x_axis2), d3.max(data_for_x_axis2)]).range([8, feature_width - 8]).nice() // This scaling is for individual model
+    var yScale2 = d3.scaleLinear().domain([d3.min(data_for_y_axis2), d3.max(data_for_y_axis2)]).range([height, 4]).nice(); // This scaling is for individual model
+        //------------- Y axis
+        svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
+        .attr("transform", "translate("+0+"," + margin.top + ")").call(d3.axisLeft(yScale2).ticks(5).tickSize(-feature_width).tickFormat(d3.format(".2s"))).select(".domain").remove()      
+        svg1.selectAll(".tick line").attr("stroke", "#EBEBEB")
+    
     d3.select(this).selectAll('circle').data(d[1])
       .join("circle")
       .attr("cx", (d, i) => xScale2(d[feature_contribute]))
@@ -124,18 +129,19 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
         props.Set_clicked_circles(props.clicked_circles.includes(d['id']) ? props.clicked_circles.filter(item => item != d['id']) : [...props.clicked_circles, d['id']])
       })
   })
+
   //--------------------------------------------------------------------------------------------------
   svg1.selectAll(".my_temp_rect").data([0]).join('rect').attr("class", "my_temp_rect").attr("width", "100%").attr("height", 100).style("fill", "white").attr("y", height)
   svg1.selectAll(".myXaxis").raise()
-  svg1.select(".regr-line").attr("fix",function(){
-    svg1.selectAll(".my_line").data([0]).join("line").attr("class", "my_line").attr("x1", d3.select(this).attr('x1')).attr("x2", d3.select(this).attr('x2')).attr("y1",d3.select(this).attr('y1')).attr("y2", d3.select(this).attr('y2')).attr("stroke-width", 2).attr("stroke", "#5c7eb7")
-    d3.select(this).attr("opacity",0)
+  svg1.select(".regr-line").attr("fix", function () {
+    svg1.selectAll(".my_line").data([0]).join("line").attr("class", "my_line").attr("x1", d3.select(this).attr('x1')).attr("x2", d3.select(this).attr('x2')).attr("y1", d3.select(this).attr('y1')).attr("y2", d3.select(this).attr('y2')).attr("stroke-width", 2).attr("stroke", "#5c7eb7")
+    d3.select(this).attr("opacity", 0)
   })
   svg1.selectAll(".my_line").raise()
   svg1.selectAll(".scatterplot_g").raise()
-  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width/2).attr("class", "myText").attr('dominant-baseline',"middle").attr('text-anchor',"middle").attr("y",height+30).text('feature importance').attr("fill","#5b5959").attr("font-size",14)
-  svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline',"middle").attr('text-anchor',"middle").text('feature value').attr("fill","#5b5959").attr("font-size",13)
-  .attr('transform',d=>"rotate(-90,"+0+","+height/2+")").attr("x", 0).attr("y", margin.left+20)
+  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr('text-anchor', "middle").attr("y", height + 30).text('feature importance').attr("fill", "#5b5959").attr("font-size", 14)
+  svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline', "middle").attr('text-anchor', "middle").text('feature value').attr("fill", "#5b5959").attr("font-size", 13)
+    .attr('transform', d => "rotate(-90," + 0 + "," + height / 2 + ")").attr("x", 0).attr("y", margin.left + 20)
   //---------------------------
   function regressionLine() {
     var xScale, yScale, xValue, yValue;
