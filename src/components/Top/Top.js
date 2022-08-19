@@ -13,7 +13,7 @@ import FeaturesDropdown from "./FeaturesDropdown"
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import SelectMode from './SelectMode'
 import Advance from './Advance';
-
+import LabelOn from './LabelOn';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +43,7 @@ class App extends Component {
           </ButtonGroup>
           <SelectMode></SelectMode>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
+          <LabelOn></LabelOn>
           {this.props.mode=="Model"?<div style={{position:"absolute",right:"20px"}}><Advance></Advance></div>:null}
         </Grid>
         {this.props.view_data == false ?
@@ -69,11 +70,13 @@ const maptstateToprop = (state) => {
   return {
     view_data: state.view_data,
     mode:state.mode,
+    
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
     Set_view_data: (val) => dispatch({ type: "view_data", value: val }),
+  
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(App);

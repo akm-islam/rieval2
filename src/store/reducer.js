@@ -67,11 +67,14 @@ let initialState = {
    dragged_features:{},
    //url:"http://0.0.0.0:5000/test",
    url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
+   label_on:true,
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {
+   if (action.type === "label_on") {
+      return { ...state, label_on: action.value }
+   }
    if (action.type === "dragged_features") {
-      //console.log('dragged_features',action.value)
       return { ...state, dragged_features: action.value }
    }
    if (action.type === "selected_instances") {

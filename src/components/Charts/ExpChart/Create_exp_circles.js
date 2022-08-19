@@ -4,7 +4,7 @@ import reducer from "../../../store/reducer";
 const store = createStore(reducer);
 const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
-    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold, dataset,title_rect_height) {
+    lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height, deviation_array, index, threshold, dataset,title_rect_height,label_on) {
     var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 13, item_right_margin: 13 }
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
     var feature_name = d[0]
@@ -43,7 +43,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
-                if(clicked_circles.includes(d['id'])){
+                if(label_on && clicked_circles.includes(d['id'])){
                     selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform-3).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["two_realRank"]).attr("opacity",0.7).attr("font-size",10)
                 }
                 else{
@@ -58,7 +58,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
             .attr("transform", function (d, i) {
                 var x_transform = xScale(parseFloat(d[feature_contrib_name]))
                 var y_transform = getRandomArbitrary(margin.item_top_margin, item_height - margin.item_bottom_margin, i)
-                if(clicked_circles.includes(d['id'])){
+                if(label_on && clicked_circles.includes(d['id'])){
                     selection.selectAll(".label"+d['id']).data([0]).join("text").attr("x", x_transform-3).attr("class", "label"+d['id']).attr('dominant-baseline',"middle").attr("y",y_transform+13).text(d["two_realRank"]).attr("opacity",0.7).attr("font-size",10)
                 }
                 else{
