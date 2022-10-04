@@ -13,6 +13,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var circ_data = []
     var sum_data = []
     //-----------------Get Global range for scaling
+    console.log(sorted_features,"sorted_features")
     var global_items = []
     sorted_features.map(feature => {
         lime_data[default_models[0]].map(item => {
@@ -114,6 +115,8 @@ export default function CreatexpCircle(d, selection, selected_instances,
         div.transition().duration(200).style("opacity", .9);
         div.html("<p>Name: " + d['State'] + "</p>" + "<p>Ground Truth: " + d['two_realRank'] + "</p>Model Outcome: " + d['predicted'] + "</p>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 12) + "px")
     }).on("mouseout", d => div.transition().duration(200).style("opacity", 0))
+    .attr("global_range",global_range)
+    .attr("scaled_value",d=>d[feature_contrib_name]+"-----"+xScale(parseFloat(d[feature_contrib_name])))
 
     // Draw circle ends here
     function getRandomArbitrary(min, max, seed) {
