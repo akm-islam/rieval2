@@ -79,6 +79,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   svg.selectAll(".regr").data([data]).join("g").attr("class", "regr").call(regrLine);
   //------------------------------------------------------------------------------------------------------ Draw Circles ends
   //------------- Add X axis
+  /*
   if (d3.max(d3.max(bins)) > 1000) {
     svg1.selectAll(".myXaxis").data([0]).join('g').attr("class", "myXaxis")
       .attr("transform", "translate(0," + height + ")")
@@ -91,6 +92,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
       .call(d3.axisBottom(xScale).tickSize(-height * 1.3).tickValues(bins.map(item => item['x1'])))
       .select(".domain").remove()
   }
+  */
 
   svg1.selectAll(".scatterplot_g").data(scatterplot_data).join('g').attr("id", d => d[0] + "scatterplot_g_id").attr("class", "scatterplot_g").attr("ax", function (d) {
     var data_for_x_axis2 = d[1].map(item => parseFloat(item[feature_contribute]))
@@ -166,12 +168,14 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
           .attr("d", area);
 
         var xDomain = xScale.domain();
+        /*
         d3.select(this).selectAll(".regr-line").data([0]).join('line')
           .attr("class", "regr-line")
           .attr("x1", xScale(xDomain[0]))
           .attr("y1", yScale((xDomain[0] * regr.slope) + regr.intercept))
           .attr("x2", xScale(xDomain[1]))
           .attr("y2", yScale((xDomain[1] * regr.slope) + regr.intercept));
+          */
       });
     }
 

@@ -14,7 +14,7 @@ function CheckboxLabels(props) {
             color: "gray",
           },
         }} checked={props.label_on}
-          onClick={() => props.Set_label_on(!props.label_on)} />} label={<Typography style={{fontSize:14,fontFamily:"Open Sans",marginLeft:3}}>Label On</Typography>} />
+          onClick={() => props.Set_label_on(!props.label_on)} />} label={<Typography style={{fontSize:14,fontFamily:"Open Sans",marginLeft:3}}>Rank Label On</Typography>} />
       </FormGroup>
     </div>
 
