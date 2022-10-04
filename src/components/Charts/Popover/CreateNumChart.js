@@ -141,7 +141,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
   })
   svg1.selectAll(".my_line").raise()
   svg1.selectAll(".scatterplot_g").raise()
-  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr('text-anchor', "middle").attr("y", height + 30).text('feature importance').attr("fill", "#5b5959").attr("font-size", 14)
+  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr('text-anchor', "middle").attr("y", height + 25).text('feature importance').attr("fill", "#5b5959").attr("font-size", 14)
   svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline', "middle").attr('text-anchor', "middle").text('feature value').attr("fill", "#5b5959").attr("font-size", 13)
     .attr('transform', d => "rotate(-90," + 0 + "," + height / 2 + ")").attr("x", 0).attr("y", margin.left + 20)
   //---------------------------
@@ -162,11 +162,12 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
         var upperConfidencePoints = prepareConfidencePoints(errorPoints.upperErrorPoints);
 
         var confidencePoints = _.zip(lowerConfidencePoints, upperConfidencePoints);
+        /*
         d3.select(this).selectAll(".regr-confidence").data([0]).join('path')
           .datum(confidencePoints)
           .attr("class", "regr-confidence")
           .attr("d", area);
-
+        */
         var xDomain = xScale.domain();
         /*
         d3.select(this).selectAll(".regr-line").data([0]).join('line')

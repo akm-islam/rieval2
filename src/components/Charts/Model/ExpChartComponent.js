@@ -157,67 +157,7 @@ class SlopeChart extends Component {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
       }
     })
-    feature_containers.attr('add_drag_drop', function (d, index) {
-      d3.select(this).selectAll(".my_rect").data([0]).join('rect').attr("class", "my_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", item_width - 33).attr("height", title_rect_height).style("fill", "transparent").style('cursor', 'move')
-        .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended).container(this.parentNode.parentNode)) // Set the parent node based on which the distance will be calculated
-      var deltaY, is_dragging;
-      function dragstarted(event, d) {
-        //d3.select(this).attr("width", '100%').attr("height", '100%').style('fill','rgb(249, 195, 87,0.3)')
-        d3.select(this.parentNode).raise()
-        deltaY = d3.select(this.parentNode).attr("y") - d3.event.y;
-      }
-      function dragged(event, d) {
-        is_dragging = true
-        d3.select(this.parentNode).raise()
-        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
-      }
-      function dragended(event, d) {
-        var origin_index = parseInt(d3.select(this).attr("myindex")); d3.select(this.parentNode).lower();
-        d3.select(this.parentNode).attr("y", d3.event.y + deltaY);
-        var difference = parseInt(d3.select(document.elementFromPoint(d3.event.sourceEvent.clientX, d3.event.sourceEvent.clientY)).attr("myindex")) - origin_index
-        //if (isNaN(dest_index)) { alert("Please drop properly!"); dest_index = origin_index }
-        var origin_feature = d3.select(this).attr("feature_name")
 
-        var temp1 = {}
-        var number_of_charts = 15 // change this number to have features when cross button clicked
-        self.props.default_models.map(model_name => {
-          var features_with_score = algo1.features_with_score(self.props.dataset, [model_name], selected_instances, self.props.selected_year, number_of_charts, self.props.rank_data)
-          if (model_name in self.props.dragged_features) {
-            features_with_score = self.props.dragged_features[model_name]
-          }
-          var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
-          var origin_index = indexed_features.indexOf(origin_feature)
-          var dest_index = origin_index + difference
-          if (dest_index < 0) { var dest_feature = indexed_features[0] }
-          else if (dest_index > number_of_charts - 1) { var dest_feature = indexed_features[number_of_charts - 1] }
-          else { var dest_feature = indexed_features[dest_index] }
-
-          features_with_score[origin_feature] = features_with_score[origin_feature] - difference
-          features_with_score[dest_feature] = features_with_score[dest_feature] + difference
-          temp1[model_name] = features_with_score
-        })
-        self.props.Set_dragged_features(temp1)
-        //-------------------------------------
-        d3.select(this).raise()
-      }
-    })
-    //--------------------------------------MDS Plot
-    var feature_contrib_data_for_mds = this.props.lime_data[model_name].filter(item => item['1-qid'] == this.props.selected_year && selected_instances.includes(item['two_realRank']))
-
-    getMdsData(this.props.url, { "data": feature_contrib_data_for_mds, "weight": features_with_score }).then(data => {
-      if (typeof data != 'undefined') {
-        var MDS_response = JSON.parse(data.response)
-        var circle_data = feature_contrib_data_for_mds.map((item, index) => {
-          item['x'] = MDS_response[index][0]
-          item['y'] = MDS_response[index][1]
-          //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + item["model"].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-          item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-          return item
-        })
-        Create_MDS(this.mds, circle_data, "#mds" + model_name, self.props.diverginColor, this.props.Set_clicked_circles, this.props.deviation_array, this.props.clicked_circles)
-        misc_algo.handle_transparency("None", self.props.clicked_circles, self.props.anim_config)
-      }
-    })
   }
   //------------------------------
   render() {
