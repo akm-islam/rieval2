@@ -8,7 +8,7 @@ import * as $ from 'jquery';
 import Year1DropDown from './Year1DropDown';
 import Year2DropDown from './Year2DropDown';
 import YearModelSelection from "./YearAndModelSelection/YearModelSelection"
-import ExpChart from './02ExpChartComponent';
+import ExpChart from './02ExpChartComponentTime';
 import Popover from './03TimePopover';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';

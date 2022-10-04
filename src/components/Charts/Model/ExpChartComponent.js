@@ -103,7 +103,7 @@ class SlopeChart extends Component {
       //---
       d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', title_rect_height/2)
         .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
-        .attr('x', item_width - 30).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .attr('x', item_width - 35).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
           d3.event.preventDefault()
           var feature = d[0]
@@ -164,7 +164,6 @@ class SlopeChart extends Component {
     return (
       <div key={this.props.model_name} className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
-        <svg ref={this.mds} id={"mds" + this.props.model_name} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: 0, width: "100%" }}></svg>
         <marker id="arrow" markerUnits="strokeWidth" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
           <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{ fill: "black" }}></path></marker>

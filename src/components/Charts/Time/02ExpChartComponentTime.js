@@ -63,7 +63,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("add_cross_button", function (d, index) {
       d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
-        .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 14).attr('fill', 'black')
         .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => {
           //alert("clicked!")
           d3.event.preventDefault()
@@ -72,7 +72,7 @@ class SlopeChart extends Component {
         //---
         d3.select(this).selectAll(".expand_button").data([0]).join("text").attr('y', 7.3)
         .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
-        .attr('x', item_width - 30).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
+        .attr('x', item_width - 35).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
           var feature = d[0]
           var year = selected_year
@@ -130,7 +130,6 @@ class SlopeChart extends Component {
     return (
       <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
-        <svg ref={this.mds} id={"mds" + this.props.exp_id} style={{ margin: 0, width: "100%", height: this.state.mds_height }}></svg>
         <svg id={this.props.exp_id} style={{ marginTop: 0, width: "100%" }}></svg>
       </div>
     )
