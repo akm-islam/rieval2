@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import * as algo1 from "../../../Algorithms/algo1";
 import * as $ from 'jquery';
 import CreatexpCircle from "../ExpChart/Create_exp_circles"
-import getMdsData from "../ExpChart/MDS"
-import { Create_MDS } from "../ExpChart/MDS"
 import "../ExpChart/MDS.css"
 class SlopeChart extends Component {
   constructor(props) {
@@ -13,7 +11,7 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.exp = React.createRef()
     this.mds = React.createRef()
-    this.state = { mds_height: 110, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
+    this.state = { mds_height: 10, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
@@ -48,7 +46,7 @@ class SlopeChart extends Component {
     var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
-    var marginTop = 5;
+    var marginTop = 5,marginBottom = 10
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + this.props.exp_id).width())
     var item_height = (parent_height - 10) / sorted_features.length - marginTop // 10 is the top margin
@@ -58,6 +56,7 @@ class SlopeChart extends Component {
         , exit => exit.remove()
       )
     feature_containers.attr("class", d => "feature_items " + d[0]).attr("myindex", (d, i) => i).attr('feature_name', d => d[0])
+
     feature_containers.attr("add_title_text_and_rect_for_title_text", function (d, index) {
       d3.select(this).selectAll(".title_rect").data([0]).join('rect').attr("class", "title_rect").attr("myindex", index).attr('feature_name', d[0]).attr("width", "100%").attr("height", 18).attr("fill", "#e2e2e2").attr("y", 0).attr("x", 0)
       d3.select(this).selectAll(".title_text").data([0]).join('text').attr("class", "title_text").attr("myindex", index).attr('feature_name', d[0]).attr('x', item_width / 2).text(d[0]).attr("dominant-baseline", "hanging")
@@ -122,8 +121,27 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold,self.props.dataset)
-    }).attr("height", item_height).attr('width', item_width)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold,self.props.dataset,'title_rect_height','label_on',sorted_features)
+    }).attr("height", function (d) {
+        if (d[1] == sorted_features.length - 1) {
+          var ft_svg_height = 25
+          
+          var svg = d3.select(this.parentNode).selectAll(".ft_svg").data([0]).join("svg").attr("x", 0).attr("y", parent_height - ft_svg_height).attr("class", "ft_svg").attr("width", item_width).attr("height", ft_svg_height)
+          var markerBoxWidth = 8, markerBoxHeight = 8, refX = markerBoxWidth / 2, refY = markerBoxHeight / 2
+          svg.append('defs').append('marker').attr('id', 'arrow').attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+            .attr('refX', refX).attr('refY', refY).attr('markerWidth', markerBoxWidth).attr('markerHeight', markerBoxHeight).attr('orient', 'auto-start-reverse')
+            .append('path').attr('d', d3.line()([[0, 0], [0, 7], [7, 3.8]])).attr('stroke', '#777777').attr("fill","#777777");
+          //------------------------------------------------[[x2, y2], [x1, y1]]
+          svg.append('path').attr('d', d3.line()([[item_width / 2 - 65, 15], [50, 15]])).attr('stroke', '#777777').attr('marker-end', 'url(#arrow)').attr('fill', 'none');
+          svg.append('path').attr('d', d3.line()([[item_width - 50, 15], [65 + item_width / 2, 15]])).attr('stroke', '#777777').attr('marker-start', 'url(#arrow)').attr('fill', 'none');
+
+          svg.selectAll(".myText_low").data([0]).join("text").attr("x", 30).attr("class", "myText_low").attr('dominant-baseline', "middle").attr("y", 15).text('Low').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          svg.selectAll(".myText").data([0]).join("text").attr("x", item_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr("y", 15).text('Feature Importance').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          svg.selectAll(".myText_high").data([0]).join("text").attr("x", item_width-30).attr("class", "myText_high").attr('dominant-baseline', "middle").attr("y", 15).text('High').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+          return item_height - marginBottom - marginTop
+        }
+        return item_height - marginBottom - marginTop
+      }).attr('width', item_width)
     feature_containers.attr('check_clicked_features', d => {
       if (self.props.clicked_features.includes(d[0])) {
         d3.selectAll("." + d[0]).selectAll(".border_rect").data([0]).join('rect').attr("class", "border_rect").attr("width", "100%").attr("height", "100%").style("stroke", "black").style("fill", "none").style("stroke-width", 5)
@@ -135,8 +153,10 @@ class SlopeChart extends Component {
     return (
       <div className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
-        
-        <svg id={this.props.exp_id} style={{ marginTop: 0, width: "100%" }}></svg>
+        <svg id={this.props.exp_id} style={{ marginTop: this.state.mds_height, width: "100%" }}></svg>
+        <marker id="arrow" markerUnits="strokeWidth" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
+          <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{ fill: "black" }}></path>
+        </marker>
       </div>
     )
   }

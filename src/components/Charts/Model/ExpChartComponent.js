@@ -14,7 +14,7 @@ class SlopeChart extends Component {
     this.line_color = null;
     this.exp = React.createRef()
     this.mds = React.createRef()
-    this.state = { mds_height: 180, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
+    this.state = { mds_height: 10, mouseX: 0, mouseY: 0, excluded_features: [], sorted_features: null, circle_data: null, indexed_features: null, random: true }
   }
   componentDidMount() {
     this.setState({ width: window.innerHeight })
@@ -67,11 +67,12 @@ class SlopeChart extends Component {
       .attr("height", function (d) {
         if (d[1] == sorted_features.length - 1) {
           var ft_svg_height = 25
-          var svg = d3.select(this.parentNode).selectAll(".ft_svg").data([0]).join("svg").attr("x", 0).attr("y", parent_height - ft_svg_height).attr("class", "ft_svg").attr("width", item_width).attr("height", ft_svg_height)
+          d3.select(this.parentNode).selectAll(".ft_svg").remove()
+          var svg = d3.select(this.parentNode).selectAll(".ft_svg").data([Math.random()]).join("svg").attr("x", 0).attr("y", parent_height - ft_svg_height).attr("class", "ft_svg").attr("width", item_width).attr("height", ft_svg_height)
           var markerBoxWidth = 8, markerBoxHeight = 8, refX = markerBoxWidth / 2, refY = markerBoxHeight / 2
-          svg.append('defs').append('marker').attr('id', 'arrow').attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+          svg.selectAll('defs').data([0]).join('defs').selectAll('#arrow').data([0]).join('marker').attr('id', 'arrow').attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
             .attr('refX', refX).attr('refY', refY).attr('markerWidth', markerBoxWidth).attr('markerHeight', markerBoxHeight).attr('orient', 'auto-start-reverse')
-            .append('path').attr('d', d3.line()([[0, 0], [0, 7], [7, 3.8]])).attr('stroke', '#777777').attr("fill","#777777");
+            .append('path').attr('id','path1').attr('d', d3.line()([[0, 0], [0, 7], [7, 3.8]])).attr('stroke', '#777777').attr("fill","#777777");
           //------------------------------------------------[[x2, y2], [x1, y1]]
           svg.append('path').attr('d', d3.line()([[item_width / 2 - 65, 15], [50, 15]])).attr('stroke', '#777777').attr('marker-end', 'url(#arrow)').attr('fill', 'none');
           svg.append('path').attr('d', d3.line()([[item_width - 50, 15], [65 + item_width / 2, 15]])).attr('stroke', '#777777').attr('marker-start', 'url(#arrow)').attr('fill', 'none');
@@ -149,7 +150,7 @@ class SlopeChart extends Component {
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, self.props.selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset,title_rect_height,self.props.label_on)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index, self.props.threshold, self.props.dataset,title_rect_height,self.props.label_on,sorted_features)
     })
 
     feature_containers.attr('check_clicked_features', d => {
@@ -164,9 +165,10 @@ class SlopeChart extends Component {
     return (
       <div key={this.props.model_name} className={"explanation_chart_parent exp" + this.props.model_name} style={{ width: '100%', height: '100%', "border": this.props.mode == 'Model' ? "2px solid #e2e2e2" : 'none', padding: "2px 5px" }}>
         <p className="title_p" style={{ padding: 0, margin: 0 }}>{this.props.model_name}</p>
-        <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: 0, width: "100%" }}></svg>
+        <svg ref={this.exp} id={this.props.model_name} style={{ marginTop: this.state.mds_height, width: "100%" }}></svg>
         <marker id="arrow" markerUnits="strokeWidth" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
-          <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{ fill: "black" }}></path></marker>
+          <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{ fill: "black" }}></path>
+        </marker>
       </div>
     )
   }
