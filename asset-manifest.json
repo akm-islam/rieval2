@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.4085322b.chunk.css",
-    "main.js": "/static/js/main.01c62f14.chunk.js",
-    "main.js.map": "/static/js/main.01c62f14.chunk.js.map",
+    "main.js": "/static/js/main.6a369893.chunk.js",
+    "main.js.map": "/static/js/main.6a369893.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2a406b1a.js",
     "runtime-main.js.map": "/static/js/runtime-main.2a406b1a.js.map",
     "static/css/2.2a86faee.chunk.css": "/static/css/2.2a86faee.chunk.css",
-    "static/js/2.c0f798c8.chunk.js": "/static/js/2.c0f798c8.chunk.js",
-    "static/js/2.c0f798c8.chunk.js.map": "/static/js/2.c0f798c8.chunk.js.map",
+    "static/js/2.c07a9d71.chunk.js": "/static/js/2.c07a9d71.chunk.js",
+    "static/js/2.c07a9d71.chunk.js.map": "/static/js/2.c07a9d71.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.b6408d672a20e5fde87f8ed185c6f89f.js": "/precache-manifest.b6408d672a20e5fde87f8ed185c6f89f.js",
+    "precache-manifest.92cfcfbe7441a2446b9a20a1f6b6dd39.js": "/precache-manifest.92cfcfbe7441a2446b9a20a1f6b6dd39.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.4085322b.chunk.css.map": "/static/css/main.4085322b.chunk.css.map",
-    "static/js/2.c0f798c8.chunk.js.LICENSE.txt": "/static/js/2.c0f798c8.chunk.js.LICENSE.txt",
+    "static/js/2.c07a9d71.chunk.js.LICENSE.txt": "/static/js/2.c07a9d71.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/static/media/OpenSans-Regular.3ed9575d.ttf",
     "static/media/RUR.csv": "/static/media/RUR.e8eaae8e.csv",
     "static/media/RUR_histogram_data.csv": "/static/media/RUR_histogram_data.ab6fad30.csv",
@@ -21,20 +21,20 @@
     "static/media/RUR_rank.csv": "/static/media/RUR_rank.1805a0d5.csv",
     "static/media/chart1_data.csv": "/static/media/chart1_data.d3b20544.csv",
     "static/media/fiscal.csv": "/static/media/fiscal.977bae2d.csv",
-    "static/media/fiscal_lime.csv": "/static/media/fiscal_lime.312a4eb2.csv",
+    "static/media/fiscal_lime.csv": "/static/media/fiscal_lime.866b43e5.csv",
     "static/media/fiscal_rank.csv": "/static/media/fiscal_rank.6e0a824e.csv",
     "static/media/house.csv": "/static/media/house.88979d03.csv",
-    "static/media/house_lime.csv": "/static/media/house_lime.b31dfb61.csv",
+    "static/media/house_lime.csv": "/static/media/house_lime.ce3dd233.csv",
     "static/media/house_rank.csv": "/static/media/house_rank.f85c2352.csv",
     "static/media/school.csv": "/static/media/school.2d2c77ef.csv",
-    "static/media/school_lime.csv": "/static/media/school_lime.2c25b5ee.csv",
+    "static/media/school_lime.csv": "/static/media/school_lime.1b116867.csv",
     "static/media/school_rank.csv": "/static/media/school_rank.edf0b9e3.csv"
   },
   "entrypoints": [
     "static/js/runtime-main.2a406b1a.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.c0f798c8.chunk.js",
+    "static/js/2.c07a9d71.chunk.js",
     "static/css/main.4085322b.chunk.css",
-    "static/js/main.01c62f14.chunk.js"
+    "static/js/main.6a369893.chunk.js"
   ]
 }
