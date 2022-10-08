@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import './Slider.scss';
-import * as $ from 'jquery'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -82,10 +82,11 @@ function Modes(props) {
             <div className="button" item style={{ marginTop: -10 }}>
                 <Button className="range_button" style={{ backgroundColor: "#ededed", height: 30, fontWeight: 600, fontSize: 18 }}
                     onClick={() => {
+                        console.log(sliderRange[0],'-----',sliderRange[1],'cons')
                         if (sliderRange[0] > sliderRange[1]) {
                             alert("Lower range can not be larger than the upper range")
                         }
-                        else if (sliderRange[1] > sliderRange[0]) {
+                        else if (sliderRange[1] < sliderRange[0]) {
                             alert("upper range can not be smaller than the lower range")
                         }
                         else {
