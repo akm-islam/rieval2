@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import * as algo1 from "../../../Algorithms/algo1";
 import * as $ from 'jquery';
 import CreatexpCircle from "../ExpChart/Create_exp_circles"
-import getMdsData from "../ExpChart/MDS"
-import { Create_MDS } from "../ExpChart/MDS"
 import "../ExpChart/MDS.css"
 import * as misc_algo from '../../../Algorithms/misc_algo'
 class SlopeChart extends Component {
