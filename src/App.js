@@ -90,7 +90,6 @@ class App extends Component {
     })
     //-------------
     d3.csv(lime_data_filename).then(temp_data => {
-
         var data=temp_data.map(item=>{
           item['predicted']=parseInt(item['predicted'])
           item['two_realRank']=parseInt(item['two_realRank'])
