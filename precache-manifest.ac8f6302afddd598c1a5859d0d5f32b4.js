@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9932b69d953b93e0479570941ceb501a",
+    "revision": "cfaa228268ffdb8e07881e145f11d5b5",
     "url": "/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/2.2a86faee.chunk.css"
   },
   {
-    "revision": "98f16e7dbd668d02d037",
+    "revision": "bd1c8774d85b799603a7",
     "url": "/static/css/main.4085322b.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.492e5c96.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "98f16e7dbd668d02d037",
-    "url": "/static/js/main.cc395a13.chunk.js"
+    "revision": "bd1c8774d85b799603a7",
+    "url": "/static/js/main.fd575294.chunk.js"
   },
   {
     "revision": "876ac95d9c7b9cb03f5d",
@@ -68,12 +68,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/fiscal.977bae2d.csv"
   },
   {
-    "revision": "866b43e558f09305c4fbcab0d7b9845e",
-    "url": "/static/media/fiscal_lime.866b43e5.csv"
+    "revision": "737ac6a5011a54d95e87dac93349d846",
+    "url": "/static/media/fiscal_lime.737ac6a5.csv"
   },
   {
-    "revision": "6e0a824ed0cc47613eeadcefe3b3e8b9",
-    "url": "/static/media/fiscal_rank.6e0a824e.csv"
+    "revision": "dcdaf12c199ec3bd6657a3c5f3c617da",
+    "url": "/static/media/fiscal_rank.dcdaf12c.csv"
   },
   {
     "revision": "88979d03a0f2c1d6ddf3f4bedcd91f46",
