@@ -6,7 +6,7 @@ const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height,
     deviation_array, index, threshold, dataset, title_rect_height, label_on,sorted_features) {
-    var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 5, item_right_margin: 5 }
+    var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 7, item_right_margin: 7 }
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
 
     var feature_contrib_name = d[0] + "_contribution"

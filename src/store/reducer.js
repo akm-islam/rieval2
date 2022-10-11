@@ -90,7 +90,6 @@ const reducer = (state = initialState, action) => {
       return { ...state, threshold: action.value }
    }
    if (action.type === "clicked_circles") {
-      console.log(action.value)
       return { ...state, clicked_circles: action.value }
    }
    if (action.type === "average_y") {
@@ -212,7 +211,7 @@ const reducer = (state = initialState, action) => {
       return { ...state,dragged_features:{}, histogram_data: action.value }
    }
    if (action.type === "dataset") {
-      return { ...state, dataset: action.value }
+      return { ...state, dataset: action.value,clicked_circles: [] }
    }
    if (action.type === "slider_and_feature_value") {
       return { ...state, slider_and_feature_value: action.value }

@@ -129,7 +129,7 @@ class SlopeChart extends Component {
         svg.append('path').attr('d', d3.line()([[item_width - 50, 15], [65 + item_width / 2, 15]])).attr('stroke', '#777777').attr('marker-start', 'url(#arrow)').attr('fill', 'none');
 
         svg.selectAll(".myText_low").data([0]).join("text").attr("x", 30).attr("class", "myText_low").attr('dominant-baseline', "middle").attr("y", 15).text('Low').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
-        svg.selectAll(".myText").data([0]).join("text").attr("x", item_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr("y", 15).text('Feature Importance').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+        svg.selectAll(".myText").data([0]).join("text").attr("x", item_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr("y", 15).text('attribute Importance').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
         svg.selectAll(".myText_high").data([0]).join("text").attr("x", item_width-30).attr("class", "myText_high").attr('dominant-baseline', "middle").attr("y", 15).text('High').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
         return item_height - marginBottom - marginTop
       }

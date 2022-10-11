@@ -12,22 +12,19 @@ var CreateCatChart = (data, feature, scatterplot_data,props) => {
         x = d3.scaleLinear().domain([d3.min(temp_x), d3.max(temp_x)]).range([0, width]).nice(); // circles will start from y position 10 and go upto height-10
 
     var y = d3.scaleBand().domain(temp_y).range([0, height]).padding(0.1);
-    
+
     // add the x Axis
     //------------------------------------------------------------- All svgs
     var parent_svg = d3.select("#" + props.myid).attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom + margin.space_for_hist),
         svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("y", margin.space_for_hist).attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
 
-
-            d3.selectAll('.svg11').selectAll('.myYtext').data([["+ ve", width * .42], ["++ ve", width * .93]]).join("text").attr("class", "myYtext")
-            .attr("y", height+30).attr("x", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
+            //d3.selectAll('.svg11').selectAll('.myYtext').data([["+ ve", width * .42], ["++ ve", width * .93]]).join("text").attr("class", "myYtext")
+            //.attr("y", height+30).attr("x", (d, i) => d[1] + 4).text(d => d[0]).attr('font-size', 14).attr("text-anchor", "end")
 
     var svg1 = parent_svg.selectAll('.svg11').data([0]).join('svg').attr("class", "svg11").selectAll(".myg").data([0]).join('g').attr("class", "myg").attr("transform",
         "translate(" + margin.left + "," + margin.top + ")")
-    svg1.selectAll(".myline2").data([0]).join('line').attr("class", "myline2").attr("x1", 15+width/2).attr("y1", 37).attr("x2", 15+width/2).attr("y2", height+5).attr("stroke", "#EBEBEB");
-    //svg1.selectAll(".myline3").data([0]).join('line').attr("class", "myline3").attr("x1", 0).attr("y1", height).attr("x2", width).attr("y2", height).attr("stroke", "#EBEBEB");
-
+   
     //------------- Add Y axis
     svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
         .attr("transform", "translate("+(width+20)+",20)")
@@ -57,9 +54,7 @@ var CreateCatChart = (data, feature, scatterplot_data,props) => {
             .attr("fill", (d) => {
                 return props.diverginColor(d['two_realRank']).replace(")",",.7)")
             })
-            .style('stroke',(d) => {
-                return props.diverginColor(d['two_realRank'])
-            })
+
             .attr('class', d => 'my_circles')
             .attr("id", d => d['id'])
             .on('click', d => {
