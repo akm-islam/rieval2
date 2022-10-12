@@ -54,16 +54,15 @@ export function SimplePopover(props) {
                             </Grid>
                             <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
                                 { 
-                                    props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Grid item container direction="row" ><Chart_pop
-                                        index={index}
-                                        popup_chart_data={[data1, item]} default_models={props.default_models}
-                                        myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')+"range1"} diverginColor={props.diverginColor}
-                                    ></Chart_pop>
-                                    <Chart_pop
-                                        index={index}
+                                    props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Grid item container direction="row" >
+                                        <Chart_pop index={index}
+                                        popup_chart_data={[data1, item]} default_models={props.default_models} group="Group 1"
+                                        myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')+"range1"} diverginColor={props.diverginColor}>
+                                        </Chart_pop>
+                                    <Chart_pop index={index} group="Group 2"
                                         popup_chart_data={[data2, item]} default_models={props.default_models}
-                                        myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')+"range2"} diverginColor={props.diverginColor}
-                                    ></Chart_pop></Grid>
+                                        myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')+"range2"} diverginColor={props.diverginColor}>
+                                    </Chart_pop></Grid>
                                     ) : <Chart_pop popup_chart_data={data1} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
                                 }
                             </Grid>

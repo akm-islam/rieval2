@@ -31,6 +31,7 @@ class Chart extends Component {
   render() {
     return (
       <div key={this.props.popup_chart_data[1]} style={{ margin: 10, padding: 10, border: this.props.index == 0 ? "3px solid #e5e5e5" : "white" }}>
+        <p style={{ color: "#4f4c4c", marginLeft: "42%", marginTop: 0, marginBottom: 5,fontWeight:600 }}>{this.props.group}</p>
         <svg id={this.props.myid}> </svg>
         <p style={{ color: "#4f4c4c", marginLeft: "42%", marginTop: -25, marginBottom: 0 }}>{this.props.popup_chart_data[1]}</p>
       </div>

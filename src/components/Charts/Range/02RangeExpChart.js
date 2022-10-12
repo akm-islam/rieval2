@@ -66,7 +66,6 @@ class SlopeChart extends Component {
       d3.select(this).selectAll(".cross_button").data([0]).join("text").attr('y', 7.3).attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
         .attr('x', item_width - 15).style('cursor', 'pointer').attr('font-size', 14).attr('fill', 'black')
         .text("\uf410").attr('class', "cross_button fa make_cursor").on('click', () => {
-          //alert("clicked!")
           d3.event.preventDefault()
           self.setState({ excluded_features: [...self.state.excluded_features, d[0]] })
         })
@@ -81,11 +80,9 @@ class SlopeChart extends Component {
           var temp = [...self.props.dbclicked_features]
           if (!temp.includes(feature)) {
             temp.unshift(feature)
-            //temp.unshift(feature)
             d3.selectAll(".rect").classed("exp_chart_clicked", true)
           }
           self.props.set_dbclicked_features(temp)
-          //self.props.set_dbclicked_features([feature])
           //----------------------------Data for popup chart
           var popup_chart_data = {}
           self.props.default_models.filter(item => item != "ListNet").map(model_name => {

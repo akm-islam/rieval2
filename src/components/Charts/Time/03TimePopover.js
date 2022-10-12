@@ -53,12 +53,12 @@ export function SimplePopover(props) {
                             <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
                                 {
                                     props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Grid item container direction="row" ><Chart_pop
-                                        index={index}
+                                        index={index} group={"Year 1 : "+props.time_mode_year1}
                                         popup_chart_data={[data1, item]} default_models={props.default_models}
                                         myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + "range1"} diverginColor={props.diverginColor}
                                     ></Chart_pop>
                                         <Chart_pop
-                                            index={index}
+                                            index={index} group={"Year 2 : "+props.time_mode_year2}
                                             popup_chart_data={[data2, item]} default_models={props.default_models}
                                             myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + "range2"} diverginColor={props.diverginColor}
                                         ></Chart_pop></Grid>

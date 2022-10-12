@@ -11,7 +11,6 @@ class Chart extends Component {
     this.setState({ a: 5 })
   }
   componentDidUpdate() {
-    //console.log(this.props.default_models,'popover',this.props.popup_chart_data[0])
     var temp_dict = {}
     this.props.default_models.filter(item => item != "ListNet").map(model => {
       temp_dict[model] = this.props.popup_chart_data[0][model].filter(item=>item['deviation']<this.props.threshold).map(item=>{
@@ -22,7 +21,6 @@ class Chart extends Component {
     })
     var merged_arr = [].concat.apply([], Object.values(temp_dict))
     var scatterplot_data = Object.entries(this.props.popup_chart_data[0]).filter(item => this.props.pop_over_models.includes(item[0]))
-    console.log(merged_arr,temp_dict,'temp',scatterplot_data)
     //----------------------------------------------------------------------------------------------------------Call createChart
     if (merged_arr.length > 0) { // This is to avoid the error caused by the next line
       if (isNaN(merged_arr[0][this.props.popup_chart_data[1]])) {
@@ -41,7 +39,7 @@ class Chart extends Component {
   render() {
     return (
       <div key={this.props.popup_chart_data[1]} style={{ margin: 10, padding: 10, border: this.props.index == 0 ? "3px solid #e5e5e5" : "white" }}>
-        <svg id={this.props.myid}> </svg>
+        <svg id={this.props.myid} className="pop_over"> </svg>
         <p style={{ color: "#4f4c4c", marginLeft: "42%", marginTop: -25, marginBottom: 0 }}>{this.props.popup_chart_data[1]}</p>
       </div>
     );
