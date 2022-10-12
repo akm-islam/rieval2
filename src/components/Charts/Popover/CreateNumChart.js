@@ -69,7 +69,26 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
 
   svg1.selectAll(".my_line").raise()
   svg1.selectAll(".scatterplot_g").raise()
-  svg1.selectAll(".myText").data([0]).join("text").attr("x", feature_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr('text-anchor', "middle").attr("y", height + 25).text('attribute importance').attr("fill", "#5b5959").attr("font-size", 14)
+
+  //---------------------------------------------Feature Importance with Arrow
+  var ft_svg_height = 25
+  parent_svg.selectAll(".ft_svg").remove()
+  var ft_svg = parent_svg.selectAll(".ft_svg").data([Math.random()]).join("svg").attr("x", 40).attr("y", height+10).attr("class", "ft_svg").attr("width", feature_width).attr("height", ft_svg_height)
+  var markerBoxWidth = 8, markerBoxHeight = 8, refX = markerBoxWidth / 2, refY = markerBoxHeight / 2
+  
+  ft_svg.selectAll('defs').data([0]).join('defs').selectAll('#arrow').data([0]).join('marker').attr('id', 'arrow').attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+    .attr('refX', refX).attr('refY', refY).attr('markerWidth', markerBoxWidth).attr('markerHeight', markerBoxHeight).attr('orient', 'auto-start-reverse')
+    .append('path').attr('id','path1').attr('d', d3.line()([[0, 0], [0, 7], [7, 3.8]])).attr('stroke', '#777777').attr("fill","#777777");
+  //------------------------------------------------[[x2, y2], [x1, y1]]
+  ft_svg.append('path').attr('d', d3.line()([[feature_width / 2 - 65, 15], [50, 15]])).attr('stroke', '#777777').attr('marker-end', 'url(#arrow)').attr('fill', 'none');
+  ft_svg.append('path').attr('d', d3.line()([[feature_width - 50, 15], [65 + feature_width / 2, 15]])).attr('stroke', '#777777').attr('marker-start', 'url(#arrow)').attr('fill', 'none');
+
+  ft_svg.selectAll(".myText_low").data([0]).join("text").attr("x", 30).attr("class", "myText_low").attr('dominant-baseline', "middle").attr("y", 15).text('Low').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+  ft_svg.selectAll(".myText").data([0]).join("text").attr("x", feature_width / 2).attr("class", "myText").attr('dominant-baseline', "middle").attr("y", 15).text('Attribute Importance').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+  ft_svg.selectAll(".myText_high").data([0]).join("text").attr("x", feature_width-30).attr("class", "myText_high").attr('dominant-baseline', "middle").attr("y", 15).text('High').attr('text-anchor', 'middle').attr("font-size", 12).attr("fill", "#2b2828")
+  //---------------------------------------------Feature Importance with Arrow
+  
+
   svg1.selectAll(".myText2").data([0]).join("text").attr("class", "myText2").attr('dominant-baseline', "middle").attr('text-anchor', "middle").text('attribute value').attr("fill", "#5b5959").attr("font-size", 13)
     .attr('transform', d => "rotate(-90," + 0 + "," + height / 2 + ")").attr("x", 0).attr("y", margin.left + 20)
   //---------------------------
