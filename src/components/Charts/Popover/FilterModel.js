@@ -43,7 +43,7 @@ function FadeMenu(props) {
   return (
     <div>
       <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-        Filter Models
+        Filter Rankers
         <ArrowDropDownIcon></ArrowDropDownIcon>
       </Button>
       <Menu

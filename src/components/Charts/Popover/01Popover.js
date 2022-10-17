@@ -6,7 +6,6 @@ import Draggable from 'react-draggable';
 import Grid from "@material-ui/core/Grid"
 import FilterModel from "./FilterModel"
 export function SimplePopover(props) {
-    console.log(props.dbclicked_features, 'popup_chart_data')
     const handleClose = () => {
         props.set_pop_over(false)
         props.set_dbclicked_features([])
