@@ -38,11 +38,11 @@ class SlopeChart extends Component {
 
     //------------------------------
     var number_of_charts = 8 + self.state.excluded_features.length
-    var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, selected_year, number_of_charts, this.props.rank_data)
-    if(exp_id in self.props.dragged_features){features_with_score=self.props.dragged_features[exp_id]}
-    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0]) 
+   
+    var indexed_features = algo1.getSortedFeatures(this.props.lime_data[model_name],selected_instances, this.props.selected_year)
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
+    
     var marginTop = 5,marginBottom = 10
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + this.props.exp_id).width())
@@ -113,8 +113,9 @@ class SlopeChart extends Component {
         })
     })
     feature_containers.attr("CreatexpCircle", function (d, index) {
+      var title_rect_height=16
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index,self.props.threshold,self.props.dataset,'title_rect_height','label_on',sorted_features)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index,self.props.threshold,self.props.dataset,title_rect_height,'label_on',sorted_features)
     })
     .attr("height", function (d) {
       if (d[1] == sorted_features.length - 1) {

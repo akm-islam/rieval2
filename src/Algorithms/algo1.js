@@ -106,20 +106,14 @@ export function features_with_score(dataset, models, selected_instances, selecte
   return temp_final;
 }
 export function sorted_features(dataset, model, selected_instances, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
-  //return Object.keys(rank_data[model][0]).filter(item=>!['1-qid','model'].includes(item)).map(item=>item.replace("_feature_rank", ""))
   if (!selected_instances.length > 0) { return [] }
   selected_instances = selected_instances.map(element => element -1)
   var tempvoted_data_with_score = {},items,data,features;
-  if (model == "ListNet") { return [] }
+  
 
   var filtered_rank_data = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
   data = selected_instances.map(index => filtered_rank_data[index])
-  if(dataset=="rur"){
-    selected_instances = selected_instances.map(element => element)
-    data=filtered_rank_data.filter(item=>selected_instances.includes(parseInt(item['two_realRank'])))
-  }
   features = Object.keys(data[0])
-  
   var my_features_rank_col=features.filter(item=>item.includes("_feature_rank"))
   features=my_features_rank_col
   data.map(item => {
@@ -142,6 +136,21 @@ export function sorted_features(dataset, model, selected_instances, selected_yea
   var items2 = items.map((element) => element[0].replace("_feature_rank", ""))
   items2 = items2.filter(item => item != "1-qid" && item!="model")
   //console.log(data,selected_instances,filtered_rank_data,"items2")
-  return items2;
+  console.log(items2,"items2")
+  return items2; // sorted items 
   //-----------------------------------------------------------------
+}
+
+export function getSortedFeatures(lime_data,selected_instances, selected_year) {
+  var filtered_data=lime_data.filter(item=>parseInt(item['1-qid'])==selected_year && selected_instances.includes(item['two_realRank']))
+  var feature_cols=Object.keys(filtered_data[0]).filter(item=>item.includes("_contribution")) //.map(item => item.replace("_contribution", ""))
+  var temp=[]
+  feature_cols.map(feature=>{
+    var x=0
+    filtered_data.map(item=>{
+      x+=parseFloat(item[feature])
+    })
+    temp.push([feature,x/selected_instances.length])
+  })
+return temp.sort((a,b)=>b[1]-a[1]).map(item => item[0].replace("_contribution", ""))
 }

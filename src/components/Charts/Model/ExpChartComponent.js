@@ -45,11 +45,16 @@ class SlopeChart extends Component {
     })
     selected_instances = selected_instances.filter(item => under_threshold_instances.includes(item))
     var number_of_charts = 8 + self.state.excluded_features.length
-    var features_with_score = algo1.features_with_score(this.props.dataset, [model_name], selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-    if (model_name in self.props.dragged_features) { features_with_score = self.props.dragged_features[model_name] }
-    var indexed_features = Object.entries(features_with_score).sort((a, b) => b[1] - a[1]).map((item, i) => item[0])
+    
+    var indexed_features = algo1.getSortedFeatures(this.props.lime_data[model_name],selected_instances, this.props.selected_year)
     var temp_sorted_features = indexed_features.filter(item => !this.state.excluded_features.includes(item))// Exclude crossed features 
     var sorted_features = temp_sorted_features.slice(0, number_of_charts).map((item, index) => [item, index])
+
+
+
+
+
+
     var marginTop = 2,marginBottom = 0, space_for_x_axis = 25,title_rect_height=25
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())

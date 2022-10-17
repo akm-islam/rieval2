@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import * as $ from "jquery"
 import * as d3 from 'd3';
 import exp_fiscal_CordAscent from "../../../Data/data/fiscal/lime/chart1_data.csv";
 import exp_school_CordAscent from "../../../Data/data/school/lime/chart1_data.csv";
 import exp_house_CordAscent from "../../../Data/data/house/lime/chart1_data.csv";
 import rur_histogram_data from "../../../Data/RUR/RUR_histogram_data.csv";
-import * as algo1 from "../../../Algorithms/algo1";
 import CreateHistogram from './CreateHistogram'
 import CreateBarChart from './CreateBarChart';
 import Button from '@material-ui/core/Button';
-import { delay } from 'lodash';
 class FeatureHistograms extends Component {
     constructor(props) {
         super(props);
@@ -37,18 +34,21 @@ class FeatureHistograms extends Component {
         var self = this
         var filename;
         var selected_instances = d3.range(this.props.state_range[0], this.props.state_range[1] + 1)
-        //--------------------
+       
+        //-------------------- Get the features and sort them
         var number_of_charts = 9
-        var features_dict = algo1.features_with_score(this.props.dataset, this.props.default_models, selected_instances, this.props.selected_year, number_of_charts, this.props.rank_data)
-        var sorted_features = Object.entries(features_dict).sort((first, second) => second[1] - first[1]).map(element => element[0])
+        var filtered_rank_data = this.props.rank_data[this.props.default_models[0]].filter(element => { if (parseInt(element['1-qid']) == parseInt(this.props.selected_year)) { return element } })
+        var data = selected_instances.map(index => filtered_rank_data[index])
+        var my_features_rank_col=Object.keys(data[0]).filter(item=>item.includes("_feature_rank"))
+        var sorted_features = my_features_rank_col.map((element) => element.replace("_feature_rank", "")).sort()
         //--------------------
+
+
         if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data }
         //--------------------------------Iterate through each features
-        const margin = { top: 10, right: 5, bottom: 50, left: 5 }; // Histogram
-        //const margin = { top: 10, right: 5, bottom: 40, left: 5 } // Barchart
+        
+        
         d3.select(".feature_histograms_container").selectAll(".feature").data(sorted_features, d => d).join("svg").attr("class", 'feature')
-            //.attr("width", feature_width)
-            //.attr("y", (d, feature_index) => feature_height * feature_index)
             .attr("add_histogram", function (d, feature_index) {
                 var histogram_data = []
                 if (!isNaN(self.state.feature_data[0][d])) {

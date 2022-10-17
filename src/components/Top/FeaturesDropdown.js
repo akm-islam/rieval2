@@ -17,7 +17,7 @@ export default function SimpleMenu() {
 
   return (
     <div style={{marginTop:-2}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Select Features<ArrowDropDownIcon></ArrowDropDownIcon></Button>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Select Attributes<ArrowDropDownIcon></ArrowDropDownIcon></Button>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} style={{marginTop:0}}>
        {anchorEl?<FeatureHistograms handleClose={handleClose}></FeatureHistograms>:null}
       </Menu>
