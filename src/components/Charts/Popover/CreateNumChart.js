@@ -35,7 +35,7 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     console.log(data_for_y_axis,"data_for_y_axis")
 
     svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
-      .attr("transform", "translate(" + 0 + "," + margin.top + ")").call(d3.axisLeft(yScale).ticks(5).tickSize(-feature_width).tickFormat(d=>d<1?d3.format(".2f")(d):d3.format(".2s")(d))).select(".domain").remove()
+      .attr("transform", "translate(" + 0 + "," + margin.top + ")").call(d3.axisLeft(yScale).ticks(5).tickSize(-feature_width).tickFormat(d=> d% 1 !== 0?d3.format(".2f")(d):d3.format(".2s")(d))).select(".domain").remove()
     svg1.selectAll(".tick line").attr("stroke", "#EBEBEB")
 
     d3.select(this).selectAll('circle').data(d[1])
