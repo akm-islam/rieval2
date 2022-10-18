@@ -26,7 +26,9 @@ class SlopeChart extends Component {
     //--------------------
     var min = d3.min(selected_instances), max = d3.max(selected_instances);
     var d = (max - min) / 8;
-    var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#af8dc3', '#dbd88c', '#7fbf7b']));
+    //var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#af8dc3', '#dbd88c', '#7fbf7b']));
+    //var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#be51fe', '#fff967', '#46ff3b'])); //100% saturation
+    var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#b37cd3', '#d9d58c', '#71ce6c'])); //50% saturation
     
     //-------------------- Threshold filter
     var under_threshold_instances = []
