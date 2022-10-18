@@ -32,8 +32,10 @@ var CreateNumChart = (data, feature, scatterplot_data, props) => {
     var xScale = d3.scaleLinear().domain(d3.extent(data_for_x_axis)).range([8, feature_width - 8]).nice() // This scaling is for individual model
     var yScale = d3.scaleLinear().domain(d3.extent(data_for_y_axis)).range([height, 4]).nice(); // This scaling is for individual model
     //------------- Y axis
+    console.log(data_for_y_axis,"data_for_y_axis")
+
     svg1.selectAll(".myYaxis").data([0]).join('g').attr("class", "myYaxis")
-      .attr("transform", "translate(" + 0 + "," + margin.top + ")").call(d3.axisLeft(yScale).ticks(5).tickSize(-feature_width).tickFormat(d3.format(".2s"))).select(".domain").remove()
+      .attr("transform", "translate(" + 0 + "," + margin.top + ")").call(d3.axisLeft(yScale).ticks(5).tickSize(-feature_width).tickFormat(d=>d<1?d3.format(".2f")(d):d3.format(".2s")(d))).select(".domain").remove()
     svg1.selectAll(".tick line").attr("stroke", "#EBEBEB")
 
     d3.select(this).selectAll('circle').data(d[1])
