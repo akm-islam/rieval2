@@ -11,7 +11,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
 
     var feature_contrib_name = d[0] + "_contribution"
     //-----------------Get Global range for scaling
-    console.log(sorted_features,"sorted_features")
+
     var global_items = []
     var biggest=0,b_feature="",b_item=""
     sorted_features.map(feature => {
@@ -26,7 +26,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
             }
         })
     })
-    var global_range=d3.extent(global_items.filter(item=>item>0))
+    var global_range=d3.extent(global_items)
     console.log(default_models,"default_models",biggest,b_feature,b_item)
     //-----------------Get Global range for scaling
     var circ_data = []
@@ -34,13 +34,14 @@ export default function CreatexpCircle(d, selection, selected_instances,
     default_models.map(model => {
         lime_data[model].map(item => {
             // The following line filters out all negative 
-            if (parseFloat(item[feature_contrib_name]) > 0 && item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
+            if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
                 if (item['deviation'] < threshold) { sum_data.push(parseFloat(item[feature_contrib_name])) }
                 item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
                 circ_data.push(item)
             }
         })
     })
+    console.log(circ_data,"circ_data")
     // Draw circle starts here
     var xScale = d3.scaleLinear().domain(global_range).range([margin.item_left_margin, item_width - margin.item_right_margin])
     //----------
