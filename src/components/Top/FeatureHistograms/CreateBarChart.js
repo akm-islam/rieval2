@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import * as $ from "jquery"
 export default function CreateChart(histogram_data, svg, feature_name, feature_index, number_of_features,store_instances,all_instances) {
-  //( feature_height, selected_year, handleHistogramselection, feature_data)
+  console.log(feature_name,histogram_data,"feature_name")  
   var parent_width = $(".feature_histograms_container").width()
   var parent_height = $(".feature_histograms_container").height()
   var feature_width = $(".feature_histograms_container").width()

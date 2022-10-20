@@ -48,7 +48,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     var my_mean = d3.mean(sum_data)
     //----------
     selection.selectAll(".my_mean_line").data([0]).join("line").attr("class", "my_mean_line").attr("x1", xScale(my_mean)).attr("x2", xScale(my_mean)).attr("y1", title_rect_height + 3).attr("y2", item_height).attr('stroke', "rgb(96, 96, 96,0.5)").attr('stroke-width', 1)
-    var rScale = d3.scalePow().exponent(0.2).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, state.global_config.min_circle_r])
+    var rScale = d3.scalePow().exponent(0.4).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, state.global_config.min_circle_r])
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])

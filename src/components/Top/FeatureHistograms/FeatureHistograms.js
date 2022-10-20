@@ -40,7 +40,8 @@ class FeatureHistograms extends Component {
         var filtered_rank_data = this.props.rank_data[this.props.default_models[0]].filter(element => { if (parseInt(element['1-qid']) == parseInt(this.props.selected_year)) { return element } })
         var data = selected_instances.map(index => filtered_rank_data[index])
         var my_features_rank_col=Object.keys(data[0]).filter(item=>item.includes("_feature_rank"))
-        var sorted_features = my_features_rank_col.map((element) => element.replace("_feature_rank", "")).sort()
+        var sorted_features = my_features_rank_col.map((element) => element.replace("_feature_rank", "")).sort((a, b) => a.localeCompare(b))
+        console.log(sorted_features,"dddd")
         //--------------------
 
 
@@ -71,6 +72,9 @@ class FeatureHistograms extends Component {
                             histogram_data.push(temp_dict)
                         }})
                     CreateBarChart(histogram_data, d3.select(this), d, feature_index, sorted_features.length,self.store_instances,self.state.all_instances)
+                }
+                if(d=="UAAL_pension_risk_free"){
+                    console.log(d,self.state.feature_data,"dddd")
                 }
             })
             .attr('id',d=>d)

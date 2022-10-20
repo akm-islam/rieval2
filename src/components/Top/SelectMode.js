@@ -27,7 +27,7 @@ export function SimpleMenu(props) {
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
                   <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => {handleClose();props.Set_histogram_data([]);props.Set_mode(val)}}>
-                    {['Model', 'Ranges', 'Time'].map((value) => {
+                    {['Ranker', 'Ranges', 'Time'].map((value) => {
                       return <FormControlLabel value={value} control={<Radio />} label={value} />
                     })}
                   </RadioGroup>
