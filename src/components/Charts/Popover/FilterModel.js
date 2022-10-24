@@ -43,7 +43,7 @@ function FadeMenu(props) {
   return (
     <div>
       <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-        Filter Rankers
+        Add More Rankers
         <ArrowDropDownIcon></ArrowDropDownIcon>
       </Button>
       <Menu
@@ -82,7 +82,7 @@ function FadeMenu(props) {
 }
 const maptstateToprop = (state) => {
   return {
-    pop_over_models:state.pop_over_models
+    pop_over_models:state.pop_over_models,
   }
 }
 const mapdispatchToprop = (dispatch) => {

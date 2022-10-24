@@ -40,8 +40,6 @@ class Chart extends Component {
 }
 const maptstateToprop = (state) => {
   return {
-    //popup_chart_data: state.popup_chart_data,
-    pop_over_models: state.pop_over_models,
     clicked_circles: state.clicked_circles,
     threshold: state.threshold,
     anim_config: state.anim_config,

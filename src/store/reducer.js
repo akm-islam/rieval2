@@ -68,6 +68,7 @@ let initialState = {
    //url:"http://0.0.0.0:5000/test",
    url:"http://privacyprofiling.njitvis.com:5000/api/v2/rieval_mds",
    label_on:true,
+   
 }
 //---InitialState ends here
 const reducer = (state = initialState, action) => {

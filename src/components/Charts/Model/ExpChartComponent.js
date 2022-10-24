@@ -55,7 +55,7 @@ class SlopeChart extends Component {
 
 
 
-    var marginTop = 2,marginBottom = 0, space_for_x_axis = 25,title_rect_height=25
+    var marginTop = 2,marginBottom = 0, space_for_x_axis = 25,title_rect_height=40
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
     var item_height = (parent_height - space_for_x_axis) / sorted_features.length - (marginTop + marginBottom) // 10 is the top margin
@@ -110,6 +110,9 @@ class SlopeChart extends Component {
         .attr('dominant-baseline', 'middle').attr("myindex", index).attr('feature_name', d[0]).raise()
         .attr('x', item_width - 35).style('cursor', 'pointer').attr('font-size', 12).attr('fill', 'black')
         .text("\uf31e").attr('class', "expand_button fa make_cursor").on('click', () => {
+          
+          self.props.Set_pop_over_models([self.props.model_name])
+
           d3.event.preventDefault()
           var feature = d[0]
           var year = self.props.selected_year
@@ -215,6 +218,7 @@ const mapdispatchToprop = (dispatch) => {
     set_dbclicked_features: (val) => dispatch({ type: "dbclicked_features", value: val }),
     Set_popup_chart_data: (val) => dispatch({ type: "popup_chart_data", value: val }),
     set_pop_over: (val) => dispatch({ type: "pop_over", value: val }),
+    Set_pop_over_models: (val) => dispatch({ type: "pop_over_models", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(SlopeChart);

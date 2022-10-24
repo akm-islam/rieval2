@@ -6,7 +6,7 @@ const state = store.getState();
 export default function CreatexpCircle(d, selection, selected_instances,
     lime_data, selected_year, default_models, clicked_circles, Set_clicked_circles, diverginColor, anim_config, item_width, item_height,
     deviation_array, index, threshold, dataset, title_rect_height, label_on,sorted_features) {
-    var margin = { item_top_margin: 35, item_bottom_margin: 20, circ_radius: 5, item_left_margin: 7, item_right_margin: 7 }
+    var margin = { item_top_margin: title_rect_height+6, item_bottom_margin: 8, circ_radius: 5, item_left_margin: 7, item_right_margin: 7 }
     var div = d3.select("body").selectAll(".tooltip").data([0]).join('div').attr("class", "tooltip").style("opacity", 0);
 
     var feature_contrib_name = d[0] + "_contribution"
@@ -27,7 +27,6 @@ export default function CreatexpCircle(d, selection, selected_instances,
         })
     })
     var global_range=d3.extent(global_items)
-    console.log(default_models,"default_models",biggest,b_feature,b_item)
     //-----------------Get Global range for scaling
     var circ_data = []
     var sum_data = []
@@ -41,7 +40,6 @@ export default function CreatexpCircle(d, selection, selected_instances,
             }
         })
     })
-    console.log(circ_data,"circ_data")
     // Draw circle starts here
     var xScale = d3.scaleLinear().domain(global_range).range([margin.item_left_margin, item_width - margin.item_right_margin])
     //----------
@@ -99,7 +97,6 @@ export default function CreatexpCircle(d, selection, selected_instances,
             }
         })
         .on('click', function (d) {
-            //d3.selectAll("#"+d['id']).style("stroke-width",10).attr("stroke","rgb(227, 26, 28,0.75)").raise().transition().duration(3000).style("stroke-width",2.5)
             Set_clicked_circles(clicked_circles.includes(d['id']) ? clicked_circles.filter(item => item != d['id']) : [...clicked_circles, d['id']])
         })
 
