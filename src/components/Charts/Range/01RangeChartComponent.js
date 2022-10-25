@@ -80,7 +80,6 @@ class SlopeChart extends Component {
       }
     })
     this.props.Set_deviation_array(deviation_array)
-    //console.log('deviation_array: ', d3.extent(deviation_array))
     //--------------------
     return (
       <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"

@@ -192,6 +192,7 @@ const mapdispatchToprop = (dispatch) => {
     set_dbclicked_features: (val) => dispatch({ type: "dbclicked_features", value: val }),
     Set_popup_chart_data: (val) => dispatch({ type: "popup_chart_data", value: val }),
     set_pop_over: (val) => dispatch({ type: "pop_over", value: val }),
+    Set_deviation_array: (val) => dispatch({ type: "deviation_array", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(SlopeChart);
