@@ -115,7 +115,7 @@ class SlopeChart extends Component {
     feature_containers.attr("CreatexpCircle", function (d, index) {
       var title_rect_height=16
       CreatexpCircle(d, d3.select(this), selected_instances, self.props.lime_data, selected_year, [model_name], self.props.clicked_circles,
-        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height, self.props.deviation_array, index,self.props.threshold,self.props.dataset,title_rect_height,'label_on',sorted_features)
+        self.props.Set_clicked_circles, self.props.diverginColor, self.props.anim_config, item_width, item_height-(marginTop+marginBottom), self.props.deviation_array, index,self.props.threshold,self.props.dataset,title_rect_height,'label_on',sorted_features)
     })
     .attr("height", function (d) {
       if (d[1] == sorted_features.length - 1) {
