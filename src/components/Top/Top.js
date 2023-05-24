@@ -11,7 +11,8 @@ import { connect } from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import FeaturesDropdown from "./FeaturesDropdown"
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import SelectMode from './SelectMode'
+import SelectMode from './SelectMode';
+import SelectExpMethod from './SelectExpMethod';
 import Advance from './Advance';
 import LabelOn from './LabelOn';
 class App extends Component {
@@ -43,6 +44,7 @@ class App extends Component {
           </ButtonGroup>
           <SelectMode></SelectMode>
           {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
+          <SelectExpMethod></SelectExpMethod>
           <LabelOn></LabelOn>
           {this.props.mode=="Model"?<div style={{position:"absolute",right:"20px"}}><Advance></Advance></div>:null}
         </Grid>
