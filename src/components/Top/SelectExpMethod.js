@@ -1,4 +1,5 @@
 import React from 'react';
+import * as d3 from 'd3';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -8,6 +9,12 @@ import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
+
+import fiscal_ice from "../../Data/data/fiscal/ice/fiscal_ice.csv";
+import fiscal_lime from "../../Data/data/fiscal/lime/fiscal_lime.csv";
+
+import school_lime from "../../Data/data/school/lime/school_lime.csv";
+import school_ice from "../../Data/data/school/ice/school_ice.csv";
 
 export function SelectExpMethod(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -19,6 +26,31 @@ export function SelectExpMethod(props) {
     setAnchorEl(null);
   };
 
+  const process_data_mini = (dataset,val, Set_lime_data) => {
+    var lime_data_filename = "";
+    if(dataset==="fiscal"){
+      lime_data_filename = (val === "lime")?fiscal_lime:fiscal_ice;
+    }
+    if(dataset==="school"){
+      lime_data_filename = (val === "lime")?school_lime:school_ice;
+    }
+    d3.csv(lime_data_filename).then(temp_data => {
+      var data=temp_data.map(item=>{
+        item['predicted']=parseInt(item['predicted'])
+        item['two_realRank']=parseInt(item['two_realRank'])
+        item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
+        return item
+      })
+      
+    var nested_data = {}
+    d3.nest().key(function (d) { return d.model; }).entries(data).map(item => {
+      nested_data[item.key] = item.values
+    })
+    Set_lime_data(nested_data)
+  })
+  }; //ending process_data_mini
+
+
   return (
     <div style={{marginTop:-2}}>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>Select Explanation Method<ArrowDropDownIcon></ArrowDropDownIcon></Button>
@@ -26,9 +58,14 @@ export function SelectExpMethod(props) {
        {anchorEl?<div style={{paddingLeft:10}}><form onSubmit={() => this.buttonclickHandler(1, "form")}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend"></FormLabel>
-                  <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => {handleClose();props.Set_exp_method(val)}}>
+                  <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => {
+                    handleClose();
+                    process_data_mini(props.dataset, val, props.Set_lime_data);
+                    console.log(val);
+                    props.Set_exp_method(val)
+                    }}>
                     {['LIME', 'ICE'].map((value) => {
-                      return <FormControlLabel value={value.toLowerCase()} control={<Radio />} label={value} />
+                      return <FormControlLabel value={value.toLowerCase()} control={<Radio />} label={value} checked={props.exp_method === value.toLowerCase()} />
                     })}
                   </RadioGroup>
                 </FormControl>
@@ -40,12 +77,15 @@ export function SelectExpMethod(props) {
 const maptstateToprop = (state) => {
   return {
     state_range: state.state_range,
+    dataset: state.dataset,
+    exp_method: state.exp_method,
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
     Set_exp_method: (val) => dispatch({ type: "exp_method", value: val }),
     Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),
+    Set_lime_data: (val) => dispatch({ type: "lime_data", value: val }),
   }
 }
 export default connect(maptstateToprop, mapdispatchToprop)(SelectExpMethod);
