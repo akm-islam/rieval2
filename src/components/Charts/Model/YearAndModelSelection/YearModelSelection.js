@@ -27,7 +27,9 @@ function YearModelSelection(props) {
     console.log(temp_Models, default_model_scores, 'temp_model')
   };
   console.log(props.dataset,"dataset")
-  if(props.dataset=="rur"){var all_models=["MART","RandomFor"]}else{var all_models=props.all_models}
+  if(props.dataset=="rur"){var all_models=["MART","RandomFor"]}
+  if(props.exp_method === "ice"){var all_models=props.all_models; if(!all_models.includes("SVM")){all_models.push("SVM")}}
+  else{var all_models=props.all_models}
   return (
     <div className="model_topbar" style={{ width: "100%", marginBottom: 2, display: 'flex', justifyContent: "center", margin: 0 }}>
       <div ><h5 style={{ display: "inline-block", marginLeft: 0, marginRight: 3, fontSize: 16, fontWeight: 600 }}>Years: </h5>{props.years_for_dropdown.map(item => <p className={props.selected_year == item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_year_click(item)}>{item}</p>)}</div>
@@ -44,7 +46,8 @@ const maptstateToprop = (state) => {
     default_models: state.default_models,
     sort_by: state.sort_by,
     grouped_by_year_data: state.grouped_by_year_data,
-    dataset:state.dataset
+    dataset:state.dataset,
+    exp_method: state.exp_method,
   }
 }
 const mapdispatchToprop = (dispatch) => {

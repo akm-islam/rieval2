@@ -56,7 +56,7 @@ class App extends Component {
 
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
   dataprocessor = (dataset_name, exp_method) => {
-    if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
+    if (dataset_name == "school") { this.process_data(school, school_rank, (exp_method==="lime")?school_lime:school_ice, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, (exp_method==="lime")?fiscal_lime:fiscal_ice, dataset_name) }
     if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
     if (dataset_name == "rur") { this.process_data(rur, rur_rank, rur_lime, dataset_name) }
@@ -128,7 +128,7 @@ class App extends Component {
     if (selected_dataset == 'Fiscal Dataset') {
       this.setState({ dataset: 'fiscal' })
       this.props.Set_dataset('fiscal')
-      this.dataprocessor("fiscal")
+      this.dataprocessor("fiscal", this.props.exp_method)
     }
     else if (selected_dataset == 'House Dataset') {
       this.setState({ dataset: 'house' })
@@ -144,7 +144,7 @@ class App extends Component {
     else {
       this.setState({ dataset: 'school' })
       this.props.Set_dataset('school')
-      this.dataprocessor("school")
+      this.dataprocessor("school", this.props.exp_method)
     }
   };
   render() {
