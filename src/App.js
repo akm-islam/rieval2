@@ -7,9 +7,11 @@ import rur from "./Data/RUR/RUR.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
 import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
+import fiscal_ice from "./Data/data/fiscal/ice/fiscal_ice.csv";
 
 import school_rank from "./Data/data/school/lime/school_rank.csv";
 import school_lime from "./Data/data/school/lime/school_lime.csv";
+import school_ice from "./Data/data/school/ice/school_ice.csv";
 
 import rur_rank from "./Data/RUR/RUR_rank.csv";
 import rur_lime from "./Data/RUR/RUR_lime.csv";
@@ -43,7 +45,7 @@ class App extends Component {
   }
   componentDidMount() { 
     var self=this
-    this.dataprocessor(this.props.dataset) 
+    this.dataprocessor(this.props.dataset, this.props.exp_method) 
     $(document).keyup(function(e) {
       if (e.key === "Escape") {
         self.props.Set_clicked_circles([])
@@ -52,9 +54,9 @@ class App extends Component {
  });
   }
   //-------------------------------------------------------------------------------------------------------------------- data processor processes data for initial render
-  dataprocessor = (dataset_name) => {
+  dataprocessor = (dataset_name, exp_method) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, school_lime, dataset_name) }
-    if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, fiscal_lime, dataset_name) }
+    if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, (exp_method==="lime")?fiscal_lime:fiscal_ice, dataset_name) }
     if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
     if (dataset_name == "rur") { this.process_data(rur, rur_rank, rur_lime, dataset_name) }
   }
@@ -183,7 +185,8 @@ const maptstateToprop = (state) => {
     clicked_items_in_slopechart: state.clicked_items_in_slopechart,
     config: state.config,
     lime_data: state.lime_data,
-    view_data: state.view_data
+    view_data: state.view_data,
+    exp_method: state.exp_method,
   }
 }
 const mapdispatchToprop = (dispatch) => {

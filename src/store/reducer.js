@@ -9,7 +9,8 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   default_models: ["MART","RandomFor"], // Change the pop_over_models as well
+   default_models: ["MART", "LinearReg"],//, "RandomFor"], // Change the pop_over_models as well
+   exp_method: "lime",
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
    show: [
@@ -129,6 +130,9 @@ const reducer = (state = initialState, action) => {
    }
    if (action.type === "original_data") {
       return { ...state, original_data: action.value }
+   }
+   if (action.type === "exp_method") {
+      return { ...state, exp_method: action.value }
    }
    if (action.type === "years_for_dropdown") {
       return { ...state, years_for_dropdown: action.value }
