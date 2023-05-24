@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.4085322b.chunk.css",
-    "main.js": "/static/js/main.f88b6dd6.chunk.js",
-    "main.js.map": "/static/js/main.f88b6dd6.chunk.js.map",
+    "main.js": "/static/js/main.bb2b90e8.chunk.js",
+    "main.js.map": "/static/js/main.bb2b90e8.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2a406b1a.js",
     "runtime-main.js.map": "/static/js/runtime-main.2a406b1a.js.map",
     "static/css/2.2a86faee.chunk.css": "/static/css/2.2a86faee.chunk.css",
-    "static/js/2.2ce00826.chunk.js": "/static/js/2.2ce00826.chunk.js",
-    "static/js/2.2ce00826.chunk.js.map": "/static/js/2.2ce00826.chunk.js.map",
+    "static/js/2.f75e81f8.chunk.js": "/static/js/2.f75e81f8.chunk.js",
+    "static/js/2.f75e81f8.chunk.js.map": "/static/js/2.f75e81f8.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.a5af428bed7c5c5d0c756c7eff7888bd.js": "/precache-manifest.a5af428bed7c5c5d0c756c7eff7888bd.js",
+    "precache-manifest.995cbf432fb3dc341289a87943cae6ad.js": "/precache-manifest.995cbf432fb3dc341289a87943cae6ad.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.4085322b.chunk.css.map": "/static/css/main.4085322b.chunk.css.map",
-    "static/js/2.2ce00826.chunk.js.LICENSE.txt": "/static/js/2.2ce00826.chunk.js.LICENSE.txt",
+    "static/js/2.f75e81f8.chunk.js.LICENSE.txt": "/static/js/2.f75e81f8.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/static/media/OpenSans-Regular.3ed9575d.ttf",
     "static/media/RUR.csv": "/static/media/RUR.e8eaae8e.csv",
     "static/media/RUR_histogram_data.csv": "/static/media/RUR_histogram_data.ab6fad30.csv",
@@ -21,20 +21,22 @@
     "static/media/RUR_rank.csv": "/static/media/RUR_rank.1805a0d5.csv",
     "static/media/chart1_data.csv": "/static/media/chart1_data.cca71c9e.csv",
     "static/media/fiscal.csv": "/static/media/fiscal.977bae2d.csv",
+    "static/media/fiscal_ice.csv": "/static/media/fiscal_ice.fc6537d2.csv",
     "static/media/fiscal_lime.csv": "/static/media/fiscal_lime.737ac6a5.csv",
     "static/media/fiscal_rank.csv": "/static/media/fiscal_rank.dcdaf12c.csv",
     "static/media/house.csv": "/static/media/house.88979d03.csv",
     "static/media/house_lime.csv": "/static/media/house_lime.ce3dd233.csv",
     "static/media/house_rank.csv": "/static/media/house_rank.f85c2352.csv",
     "static/media/school.csv": "/static/media/school.2d2c77ef.csv",
+    "static/media/school_ice.csv": "/static/media/school_ice.e58da7e4.csv",
     "static/media/school_lime.csv": "/static/media/school_lime.1b116867.csv",
     "static/media/school_rank.csv": "/static/media/school_rank.edf0b9e3.csv"
   },
   "entrypoints": [
     "static/js/runtime-main.2a406b1a.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.2ce00826.chunk.js",
+    "static/js/2.f75e81f8.chunk.js",
     "static/css/main.4085322b.chunk.css",
-    "static/js/main.f88b6dd6.chunk.js"
+    "static/js/main.bb2b90e8.chunk.js"
   ]
 }
