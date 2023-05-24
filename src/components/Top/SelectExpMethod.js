@@ -68,6 +68,8 @@ export function SelectExpMethod(props) {
                   <RadioGroup aria-label="gender" name="gender1" onChange={(event, val) => {
                     handleClose();
                     process_data_mini(props.dataset, val, props.Set_lime_data);
+                    if(val === "ice"){props.Set_default_models(props.default_models.filter(item => item != "RandomFor"))}
+                    if(val === "lime"){props.Set_default_models(props.default_models.filter(item => item != "SVM"))}
                     console.log(val);
                     props.Set_exp_method(val)
                     }}>
@@ -86,12 +88,14 @@ const maptstateToprop = (state) => {
     state_range: state.state_range,
     dataset: state.dataset,
     exp_method: state.exp_method,
+    default_models: state.default_models,
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
     Set_exp_method: (val) => dispatch({ type: "exp_method", value: val }),
     Set_histogram_data: (val) => dispatch({ type: "histogram_data", value: val }),
+    Set_default_models: (val) => dispatch({ type: "default_models", value: val }),
     Set_lime_data: (val) => dispatch({ type: "lime_data", value: val }),
   }
 }

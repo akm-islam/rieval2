@@ -28,7 +28,7 @@ function YearModelSelection(props) {
   };
   console.log(props.dataset,"dataset")
   if(props.dataset=="rur"){var all_models=["MART","RandomFor"]}
-  if(props.exp_method === "ice"){var all_models=props.all_models; if(!all_models.includes("SVM")){all_models.push("SVM")}}
+  if(props.exp_method === "ice"){var all_models=props.all_models; all_models = all_models.filter(d => d !== "RandomFor"); if(!all_models.includes("SVM")){all_models.push("SVM")}}
   else{var all_models=props.all_models}
   return (
     <div className="model_topbar" style={{ width: "100%", marginBottom: 2, display: 'flex', justifyContent: "center", margin: 0 }}>
