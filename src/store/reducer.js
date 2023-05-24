@@ -9,7 +9,7 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   default_models: ["MART", "LinearReg"],//, "RandomFor"], // Change the pop_over_models as well
+   default_models: ["MART", "LambdaMART"],//, "RandomFor"], // Change the pop_over_models as well
    exp_method: "lime",
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,

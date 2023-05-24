@@ -35,7 +35,14 @@ export function SelectExpMethod(props) {
       lime_data_filename = (val === "lime")?school_lime:school_ice;
     }
     d3.csv(lime_data_filename).then(temp_data => {
-      var data=temp_data.map(item=>{
+      var temp_data2 = temp_data.map(d=>{
+        var d1 = {};
+        for(var key of Object.keys(d)){
+          d1[key] = (d[key] === "")?"0":d[key]
+        }
+        return d1;
+      })
+      var data=temp_data2.map(item=>{
         item['predicted']=parseInt(item['predicted'])
         item['two_realRank']=parseInt(item['two_realRank'])
         item['deviation']=Math.abs(item['predicted']-item['two_realRank'])
