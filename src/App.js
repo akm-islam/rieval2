@@ -6,7 +6,7 @@ import house from "./Data/house.csv";
 import rur from "./Data/RUR/RUR.csv";
 
 import fiscal_rank from "./Data/data/fiscal/lime/fiscal_rank.csv";
-import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime.csv";
+import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime_may25.csv";
 import fiscal_ice from "./Data/data/fiscal/ice/fiscal_ice.csv";
 
 import school_rank from "./Data/data/school/lime/school_rank.csv";
