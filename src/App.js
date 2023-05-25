@@ -10,8 +10,8 @@ import fiscal_lime from "./Data/data/fiscal/lime/fiscal_lime_may25.csv";
 import fiscal_ice from "./Data/data/fiscal/ice/fiscal_ice_may25.csv";
 
 import school_rank from "./Data/data/school/lime/school_rank.csv";
-import school_lime from "./Data/data/school/lime/school_lime.csv";
-import school_ice from "./Data/data/school/ice/school_ice.csv";
+import school_lime from "./Data/data/school/lime/school_lime_may25.csv";
+import school_ice from "./Data/data/school/ice/school_ice_may25.csv";
 
 import rur_rank from "./Data/RUR/RUR_rank.csv";
 import rur_lime from "./Data/RUR/RUR_lime.csv";
