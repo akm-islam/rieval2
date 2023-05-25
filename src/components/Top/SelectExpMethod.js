@@ -10,11 +10,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import fiscal_ice from "../../Data/data/fiscal/ice/fiscal_ice.csv";
-import fiscal_lime from "../../Data/data/fiscal/lime/fiscal_lime.csv";
+import fiscal_ice from "../../Data/data/fiscal/ice/fiscal_ice_may25.csv";
+import fiscal_lime from "../../Data/data/fiscal/lime/fiscal_lime_may25.csv";
 
-import school_lime from "../../Data/data/school/lime/school_lime.csv";
-import school_ice from "../../Data/data/school/ice/school_ice.csv";
+import school_lime from "../../Data/data/school/lime/school_lime_may25.csv";
+import school_ice from "../../Data/data/school/ice/school_ice_may25.csv";
 
 export function SelectExpMethod(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,7 +69,7 @@ export function SelectExpMethod(props) {
                     handleClose();
                     process_data_mini(props.dataset, val, props.Set_lime_data);
                     if(val === "ice"){props.Set_default_models(props.default_models.filter(item => item != "RandomFor"))}
-                    if(val === "lime"){props.Set_default_models(props.default_models.filter(item => item != "SVM"))}
+                    //if(val === "lime"){props.Set_default_models(props.default_models.filter(item => item != "SVM"))}
                     console.log(val);
                     props.Set_exp_method(val)
                     }}>

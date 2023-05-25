@@ -59,7 +59,7 @@ let initialState = {
    dbclicked_features: [],
    default_model_scores: {},
    //all_models: ["MART", "RandomFor", "LinearReg", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
-   all_models: ["MART", "RandomFor", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet"],
+   all_models: ["MART", "RandomFor", "CordAscent", "LambdaMART", "LambdaRank", "RankBoost", "RankNet", "SVM"],
    average_y: false,
    average_m: false,
    clicked_circles:[],
