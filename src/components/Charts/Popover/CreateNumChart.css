@@ -1,0 +1,27 @@
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.plane {
+  fill: #eaeaf2;
+  opacity: .5;
+}
+
+.dot {
+  fill: #5c7eb7;
+  stroke: #5c7eb7;
+}
+
+.regr-confidence {
+  fill: #5c7eb7;
+  opacity: .2;
+}
+
+.regr-line {
+  stroke: #5c7eb7;
+  stroke-width: 2;
+}

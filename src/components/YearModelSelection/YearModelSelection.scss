@@ -1,0 +1,47 @@
+$backgroundColor: #e8e8e880;
+$icon_color:rgb(49, 49, 49);
+$marginleft:4px;
+$border_color:#eaeaea;
+.years_p{
+    font-size: 10px;
+    display: inline-block;
+    margin:0px 2px;
+    border: 1px solid #adadad;
+    padding: 0px 2px;
+    border-radius: 5px;
+}
+.years_p:hover{
+    cursor: pointer;
+    background-color: #dfdfdf;
+}
+.years_p_selected{
+    background-color: #dfdfdf;
+}
+.Topbar_container{
+    background-color: $backgroundColor;
+}
+.Topbar_parent{
+    overflow: hidden;
+    border-bottom: 1px solid $border_color;
+    background-color: $backgroundColor;
+    height: 35px;
+    div{
+        display: inline-block;
+    }  
+    .year{
+        padding-left:8px ;
+        input{
+            width: 40px!important;
+        }
+    }
+    .MuiTextField-root{
+        margin: 0px!important;
+    }
+    .menu{
+        margin-left:15px!important;
+        border-Right:1px dashed $border_color
+    }
+    .sort{
+        margin-left:0px!important;
+    }
+}

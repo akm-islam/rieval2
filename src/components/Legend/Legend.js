@@ -1,162 +1,87 @@
 import React, { Component, PureComponent } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import "./Sidebar.scss";
 import { connect } from "react-redux";
-import * as algo1 from "../../Algorithms/algo1";
+import Grid from '@mui/material/Grid';
+import './legend.scss'
 class Legend extends Component {
   constructor(props) {
     super(props);
-    this.state = { mywidth: $(".Legend_container").width(), myheight: (this.props.legend_data[this.props.legend_data.length - 1] * 26) + 160, range: null, original_data: null, checkboxValue: 'CordAscent' } // This is the default height
+    this.state = {} // This is the default height
   }
-  componentDidMount() {
-    this.setState({ checkboxValue: this.props.legend_model }) // updated model
-    var legend_year=this.props.legend_year;
-    var data1 = this.props.grouped_by_year_data[legend_year].slice(this.props.state_range[0] - 1, this.props.state_range[1])
-    this.CreateLegend(data1, legend_year)
-  }
+  componentDidMount() { this.setState({ rand: 10 }) }
   componentDidUpdate() {
-    var legend_year=this.props.legend_year
-    var data1 = this.props.grouped_by_year_data[legend_year].slice(this.props.state_range[0] - 1, this.props.state_range[1])
-    this.CreateLegend(data1, legend_year)
-  }
-  //-------------------------------------------------------------------------------------------------------------------------------------CreateChart function
-  CreateLegend = (data1, legend_year) => {
-    var sorted_features = algo1.sorted_features(this.props.dataset, this.props.legend_model, d3.range(this.props.state_range[0], this.props.state_range[1]), legend_year) // this is for legend
-    var min = this.props.state_range[0];
-    var max = this.props.state_range[1];
+    var legend_container_width = $('.legend_container').width()
+    var legend_container_height = $('.legend_container').height()
+    //--------------------------- Legend 1
+    var legend1_height = 100
+    var legend1_rScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, this.props.global_config.min_circle_r])
+    var legend1_yScale = d3.scaleLinear().domain(d3.extent(this.props.deviation_array)).range([this.props.global_config.max_circle_r, legend1_height - 5])
+    if(this.props.deviation_array.length>3){
+      var legend1_ticks = [d3.min(this.props.deviation_array),Math.ceil(d3.max(this.props.deviation_array)*.33),Math.ceil(d3.max(this.props.deviation_array)*.66),d3.max(this.props.deviation_array)]
+    }
+    else{
+      var legend1_ticks = this.props.deviation_array
+    }
+    
+    legend1_ticks=legend1_ticks.filter(item=>item % 1 === 0)
+    //console.log(legend1_ticks,"legend1_ticks")
+    var legend1_svg = d3.select('#legend1').attr('width', legend_container_width).attr('height', legend1_height)
+    legend1_svg.selectAll('.legend1_circles').data(legend1_ticks).join('circle').attr('class', 'legend1_circles').attr('cx', 10).attr('cy', d => legend1_yScale(d)).attr('r', d => legend1_rScale(d)).attr('fill', 'grey')
+    legend1_svg.selectAll('.legend1_text').data(legend1_ticks).join('text').attr('class', 'legend1_text').attr('x', 23).attr('y', d => legend1_yScale(d)).attr('dominant-baseline', 'middle').attr('font-size', 10)
+    .text(d =>{
+      if(d==d3.min(legend1_ticks)){return d+" (Most Precise)" }
+      if(d==d3.max(legend1_ticks)){return d+" (Least Precise)" }
+      return d
+    })
+    //--------------------------- Legend 2
+    var min = d3.min(this.props.selected_instances), max = d3.max(this.props.selected_instances);
     var d = (max - min) / 8;
-    var line_color = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', /*'#ffffe0',*/ '#ffbcaf', '#f4777f', '#cf3759', '#93003a']);
-    var margin = { left: 10, right: 10, top: 40, bottom: 10 }
-    var text_spacing = 25;
-    var SVG = d3.select("#legend_svg")
-    if (data1.length < 20) {
-      var mydomain = data1.map(element => {
-        return element["two_realRank"]
-      });
+    //var diverginColor = d3.scaleLinear().domain([min + d * 7, min + d * 6, min + d * 5, min + d * 4, min + d * 3, min + d * 2, min]).interpolate(d3.interpolateRgb).range(['#af8dc3','#b197c1','#dbd88c','#dbd88c', '#dbd88c', '#90bc8d', '#7fbf7b']);
+    //var diverginColor = d3.scaleDiverging([min,(max - min) / 2 , max], d3.interpolateSpectral)
+    //var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#af8dc3', '#dbd88c', '#7fbf7b']));
+    var diverginColor = d3.scaleDiverging([max, parseInt((max+min)/2), min], d3.interpolateRgbBasis(['#b37cd3', '#d9d58c', '#71ce6c'])); //50% saturation
+    var legend2_svg_height = legend_container_height / 2 - 50
 
-      line_color = d3.scaleOrdinal().domain(mydomain).range(["#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd",
-        "#c5b0d5", "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"]);
-    }
-    //---------------------------------------------------------
-    var size = 12
-    if (this.props.legend_show_option == "Rank") {
-      SVG.selectAll(".myrects")
-        .data(data1, d => d)
-        .join("rect")
-        //.transition().duration(5000)
-        .attr("class", "myrects")
-        .attr("x", margin.left)
-        .attr("y", (d, i) => i * text_spacing + margin.top - (size / 1.5))
-        .attr("width", size)
-        .attr("height", size)
-        .style("fill", function (d) { return line_color(d['two_realRank']) })
-      // Add one dot in the legend for each name.
-      SVG.selectAll(".mylabels")
-        .data(data1, d => d["State"])
-        .join("text")
-        .attr("id", d => d["State"].replace(/ +/g, ""))
-        .attr("class", "mylabels")
-        .attr("x", margin.left + size * 1.2)
-        .attr("y", (d, i) => i * text_spacing + margin.top)
-        .style("fill", function (d) { return line_color(d['two_realRank']) })
-        .text(function (d) {
-          var tex;
-          tex = d["State"].length > 25 ? d["State"].replace("University", "U").substring(0, 25) : d["State"]
-          return tex + " (" + d['two_realRank'] + ")"
-        })
-        .attr("text-anchor", "left")
-        .attr("font-size", 12)
-        .style("alignment-baseline", "middle")
-      // Add one dot in the legend for each name.
-      SVG.selectAll(".rank_text").data(["rank"], d => d).join("text").attr("x", 0).attr("class", "rank_text")
-        .attr("y", 15).text("Rank")
-
-    }
-    //---------------------------------------------------------
-    else {
-      SVG.selectAll(".myrects").remove()
-      SVG.selectAll(".mylabels")
-        .data(sorted_features)
-        .join("text")
-        .attr("class", "mylabels")
-        .attr("x", margin.left)
-        .attr("y", (d, i) => i * text_spacing + margin.top)
-        .style("fill", function (d) { "grey" })
-        .text(function (d, i) { return i + 1 + ") " + d })
-        .attr("text-anchor", "left")
-        .attr("font-size", 12)
-        .style("alignment-baseline", "middle")
-      SVG.selectAll(".rank_text").data(["rank"], d => d).join("text").attr("class", "rank_text").attr("x", 0).attr("y", 15).text("Features")
-    }
+    var legend2_yScale = d3.scaleLinear().domain([min, max]).range([5, legend2_svg_height - 10])
+    var legend2_ticks = d3.range(min, max + 1, max / 10)
+    var rect_height = legend2_svg_height / legend2_ticks.length
+    var rect_width = 12
+    
+    var legend2_svg = d3.select('#legend2').attr('width', legend_container_width).attr('height', legend2_svg_height)
+    legend2_svg.selectAll('.legend2_rects').data(legend2_ticks).join('rect').attr('class', 'legend2_rects').attr('x', 10)
+    .attr('y', (d, i) => rect_height*i).attr('width', rect_width).attr('height', rect_height).attr('fill', d => diverginColor(d))
+    legend2_svg.selectAll(".legend2_labels").data([min, parseInt(max / 2), max]).join("text").attr("x", 10 + rect_width + 2).attr("class", "legend2_labels").attr('dominant-baseline', "middle").attr('y', (d, i) => i == 0 ? legend2_yScale(d) + rect_height / 2 : legend2_yScale(d)).text(d => d).attr('font-size', 12)
   }
+
   render() {
     return (
-      <div className="legend_div" style={{ height: this.state.myheight, width: this.state.mywidth, marginBottom: 5 }}>
-        <div className="Show">
-          <Autocomplete
-            defaultValue={this.props.legend_show_option}
-            id="debug"
-            debug
-            options={["Rank", "Feature"].map((option) => option)}
-            renderInput={(params) => (
-              <TextField {...params} label="Show" margin="normal" />
-            )}
-            onChange={(event, value) => this.props.Set_legend_show_option(value)}
-          />
-        </div>
-        {this.props.legend_show_option != "Rank" ? <div className="model">
-          <Autocomplete
-            defaultValue={this.props.legend_model}
-            id="debug"
-            debug
-            options={["CordAscent", "LambdaMART", "LambdaRank", "LinearReg", "ListNet", "MART", "RandomFor", "RankBoost", "RankNet"].map((option) => option)}
-            renderInput={(params) => (
-              <TextField {...params} label="Model" margin="normal" />
-            )}
-            onChange={(event, value) => this.props.Set_legend_model(value)}
-          />
-        </div> : null}
-        <div>
-          <div className="year">
-            <Autocomplete
-              defaultValue={this.props.selected_year.toString()}
-              id="debug"
-              debug
-              options={this.props.years_for_dropdown.map((option) => option)}
-              renderInput={(params) => (
-                <TextField {...params} label="Year" margin="normal" fullWidth={true} />
-              )}
-              onChange={(event, value) => {
-                this.props.Set_legend_year(parseInt(value))
-              }
-              }
-            />
+      <Grid className="legend_container" container direction="column" justifyContent="center" alignItems="flex-start" style={{ width: "100%", height: "100%" }}>
+        <Grid item style={{width:this.props.legend_width}}>
+          <div item style={{ backgroundColor: 'rgb(211, 211, 211,0.5)', padding: 5, marginBottom: 5 }}>
+            <p className="title" style={{ marginBottom: 10 }}> Rank Deviation</p>
+            <svg id="legend1"> </svg>
           </div>
-          <svg id="legend_svg" style={{ height: this.state.myheight, width: this.state.mywidth }}></svg>
-        </div>
-      </div>
+        </Grid>
+        <Grid item container direction="column" alignItems="center" style={{width:this.props.legend_width,backgroundColor: 'rgb(211, 211, 211,0.5)', padding: 5 }}>
+            <p className="title" style={{ marginBottom: 10 }}> Rank Range</p>
+            <p style={{ margin:0,fontSize:12,display:"block" }}>High</p>
+            <Grid item><svg id="legend2" style={{marginTop:3,marginBottom:0}} transform="translate(40,0)"></svg></Grid>
+            <p style={{ margin:0,fontSize:12 }}>Low</p>
+        </Grid>
+      </Grid>
     );
   }
 }
-
 const maptstateToprop = (state) => {
   return {
-    state_range: state.state_range,
-    selected_year: state.selected_year,
-    dataset: state.dataset,
-    legend_show_option: state.legend_show_option,
-    legend_model: state.legend_model,
-    years_for_dropdown: state.years_for_dropdown,
-    legend_year:state.legend_year,
+    selected_instances: state.selected_instances,
+    deviation_array: state.deviation_array,
+    global_config:state.global_config
   }
 }
 const mapdispatchToprop = (dispatch) => {
   return {
-    Set_legend_show_option: (val) => dispatch({ type: "legend_show_option", value: val }),
-    Set_legend_model: (val) => dispatch({ type: "legend_model", value: val }),
     Set_legend_year: (val) => dispatch({ type: "legend_year", value: val }),
   }
 }

@@ -1,20 +1,6 @@
-export function groupby_year(original_data) {
-  var years = {}
-  var sparkline_data = {}
-  original_data.forEach(element => {
-    years[element['1-qid']] = []
-    sparkline_data[element['State'].replace(/ /g, '').replace(/[^\w\s]/gi, '')] = []
-  });
-
-  original_data.forEach(element => {
-    var temp_dict = { year: parseInt(element['1-qid']), rank: parseInt(element['two_realRank']) }
-    sparkline_data[element['State'].replace(/ /g, '').replace(/[^\w\s]/gi, '')].push(temp_dict)
-    years[element['1-qid']].push(element)
-  });
-  return { years: years, sparkline_data: sparkline_data };
-}
 //------------------------------------------------------------------------------------------------- Sort Models
 export function sort(type, state_range, default_models, selected_year, grouped_by_year_data) {
+  console.log(type, state_range, default_models, selected_year, grouped_by_year_data,'sort')
   //------------Handle ndgc sorting
   if (type == 'Discounted Cumulative Gain') {
     var nDCG_dict = { "ndcg_term_CordAscent": 0, "ndcg_term_LambdaMART": 0, "ndcg_term_LambdaRank": 0, "ndcg_term_LinearReg": 0, "ndcg_term_ListNet": 0, "ndcg_term_MART": 0, "ndcg_term_RandomFor": 0, "ndcg_term_RankBoost": 0, "ndcg_term_RankNet": 0 }
@@ -43,7 +29,7 @@ export function sort(type, state_range, default_models, selected_year, grouped_b
   }
   //----
 
-  //------------Handle AP sorting
+  //------------ Handle AP sorting
   if (type == 'Average Precision') {
     var mydict = {}
     default_models.forEach((model) => {
@@ -74,15 +60,29 @@ export function sort(type, state_range, default_models, selected_year, grouped_b
     return [temp,[0]]
   }
 }
+export function groupby_year(original_data) {
+  var years = {}
+  var sparkline_data = {}
+  original_data.forEach(element => {
+    years[element['1-qid']] = []
+    sparkline_data[element['State'].replace(/ /g, '').replace(/[^\w\s]/gi, '')] = []
+  });
 
-
-export function features_with_score(dataset, models, state_range, selected_year, number_of_charts, rank_data) {
+  original_data.forEach(element => {
+    var temp_dict = { year: parseInt(element['1-qid']), rank: parseInt(element['two_realRank']) }
+    sparkline_data[element['State'].replace(/ /g, '').replace(/[^\w\s]/gi, '')].push(temp_dict)
+    years[element['1-qid']].push(element)
+  });
+  return { years: years, sparkline_data: sparkline_data };
+}
+export function features_with_score(dataset, models, selected_instances, selected_year, number_of_charts, rank_data) {
+  //console.log(dataset, models, selected_instances, selected_year, number_of_charts, rank_data,"abc")
   var temp1 = {}
   var temp_final = {}
   models.map(model => {
     var temp2 = {}
     var v = number_of_charts;
-    var top_nine = sorted_features(dataset, model, state_range, selected_year,rank_data)
+    var top_nine = sorted_features(dataset, model, selected_instances, selected_year,rank_data)
     if (top_nine.length < number_of_charts) { v = top_nine.length;; number_of_charts = top_nine.length } // This is because number of charts is calculated based on space but there are cases when we don't have that many features
     for (var i = 0; i < number_of_charts; i++) {
       temp2[top_nine[i]] = v;
@@ -102,22 +102,22 @@ export function features_with_score(dataset, models, state_range, selected_year,
       }
     }
   }
+  console.log(temp_final,"temp_final")
   return temp_final;
 }
+export function sorted_features(dataset, model, selected_instances, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
+  if (!selected_instances.length > 0) { return [] }
+  selected_instances = selected_instances.map(element => element -1)
+  var tempvoted_data_with_score = {},items,data,features;
+  
 
-
-export function sorted_features(dataset, model, state_range, selected_year,rank_data) { // Uses feature rank to rank and return features name by removing the feature_rank string
-  if (!state_range.length > 0) { return [] }
-  state_range = state_range.map(element => element - 1)
-  var tempvoted_data_with_score = {},items,data,feautures;
-
-  if (model == "ListNet") { return [] }
-  var data2 = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
-  data = state_range.map(index => data2[index])
-  feautures = Object.keys(data[0])
-
+  var filtered_rank_data = rank_data[model].filter(element => { if (parseInt(element['1-qid']) == parseInt(selected_year)) { return element } })
+  data = selected_instances.map(index => filtered_rank_data[index])
+  features = Object.keys(data[0])
+  var my_features_rank_col=features.filter(item=>item.includes("_feature_rank"))
+  features=my_features_rank_col
   data.map(item => {
-    feautures.forEach(feauture => {
+    features.forEach(feauture => {
       if (tempvoted_data_with_score[feauture] >= 0 || tempvoted_data_with_score[feauture] < 0) {
         tempvoted_data_with_score[feauture] = tempvoted_data_with_score[feauture] + (parseFloat(item[feauture]))
       }
@@ -135,6 +135,22 @@ export function sorted_features(dataset, model, state_range, selected_year,rank_
   });
   var items2 = items.map((element) => element[0].replace("_feature_rank", ""))
   items2 = items2.filter(item => item != "1-qid" && item!="model")
-  return items2;
+  //console.log(data,selected_instances,filtered_rank_data,"items2")
+  console.log(items2,"items2")
+  return items2; // sorted items 
   //-----------------------------------------------------------------
+}
+
+export function getSortedFeatures(lime_data,selected_instances, selected_year) {
+  var filtered_data=lime_data.filter(item=>parseInt(item['1-qid'])==selected_year && selected_instances.includes(item['two_realRank']))
+  var feature_cols=Object.keys(filtered_data[0]).filter(item=>item.includes("_contribution")) //.map(item => item.replace("_contribution", ""))
+  var temp=[]
+  feature_cols.map(feature=>{
+    var x=0
+    filtered_data.map(item=>{
+      x+=parseFloat(item[feature])
+    })
+    temp.push([feature,x/selected_instances.length])
+  })
+return temp.sort((a,b)=>b[1]-a[1]).map(item => item[0].replace("_contribution", ""))
 }

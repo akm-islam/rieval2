@@ -20,7 +20,7 @@ export function groupby_year(original_data){
   return {years:years,sparkline_data:sparkline_data};
   }
 
-  //data,this.state.state_range,this.state.defualt_models,this.state.selected_year,this.state.grouped_by_year_data
+  //data,this.state.state_range,this.state.default_models,this.state.selected_year,this.state.grouped_by_year_data
   export function sort(type,state_range,default_models,selected_year,grouped_by_year_data){
   //------------Handle ndgc sorting
     if(type=='Discounted Cumulative Gain'){

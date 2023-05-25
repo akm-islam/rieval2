@@ -1,0 +1,40 @@
+$backgroundColor: #ffffff;
+$icon_color:rgb(49, 49, 49);
+$marginleft:4px;
+$border_color:#eaeaea;
+.exp_parent{
+    display: grid;
+    column-gap: 10px;
+    padding: 0px 10px;
+    grid-template-columns: auto auto auto auto auto;
+}
+.Modelslider{
+    display: grid;
+    width: 100%;
+    column-gap: 20px;
+    padding: 0px 10px;
+    grid-template-columns: 40px auto 40px 120px;
+    color: grey!important;
+    margin-top: 0px;
+    .MuiSlider-valueLabel{
+        color:transparent !important;
+        span:nth-child(1)>span {
+            top:-10;
+            color:black !important;    
+            }
+    }
+    /* slider line */
+    .MuiSlider-colorPrimary{
+        color: $icon_color !important;
+    }
+    .MuiSvgIcon-root{
+        color: rgb(104, 103, 103) !important; 
+        }
+    .MuiSlider-markLabel{
+        font-size: 10px!important;
+        top: 20px!important;
+    }
+}
+.title_text{
+    font-weight: 600;
+}

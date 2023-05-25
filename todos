@@ -1,10 +1,16 @@
+--------------------------------------------- Todos ---------------------------------------------
+-- Blink the Border
 
-13) overalqual house dataset histogram on pop up
-14) filter by Country usa and check the contribution
-15) ask about the logic for feature contribution
-16) decide on ref year in tracking
-17) time mode color
-18) update button on feature selection
-19) range change on out of range issue
+-- Done -- Time and Range mode e MART default
+-- Done -- Double the legend width
 
-----------------------------------------------------
+-- Done -- Alaska selection issue(only positives are shown)
+-- Done -- Nebaraska issue
+-- Done -- Dynamically set default model in all modes (made it static)
+-- Done -- Advance on the right side (ask about it)
+-- Done -- Arrow in the exp plot
+
+-- Detail mode e y axis e tick
+-- Regresssion line e show coeff on hover
+
+-- Add histogram
