@@ -35,7 +35,6 @@ class SlopeChart extends Component {
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
-    console.log("Checking", year_data[0])
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[this.props.range_mode_model])
