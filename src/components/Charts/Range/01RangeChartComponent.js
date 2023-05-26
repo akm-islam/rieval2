@@ -35,6 +35,7 @@ class SlopeChart extends Component {
     //-------------------- Threshold filter
     var under_threshold_instances = []
     var year_data = this.props.original_data.filter(item => this.props.selected_year == item['1-qid'])
+    console.log("Checking", year_data[0])
       year_data.map(item => {
         var two_realRank = parseInt(item['two_realRank'])
         var predicted_rank = parseInt(item[this.props.range_mode_model])
@@ -43,6 +44,7 @@ class SlopeChart extends Component {
         }
       })
     
+    //console.log("Checking", selected_instances1, under_threshold_instances)
     selected_instances1 = selected_instances1.filter(item => under_threshold_instances.includes(item))
     deviation_chart.Create_deviation_chart('r1d', 'r1exp', selected_instances1, this.props.original_data, [this.props.range_mode_model], this.props.anim_config, this.props.selected_year, this.props.average_m, this.props.clicked_circles, this.props.Set_clicked_circles, diverginColor, this.props.sparkline_data, this.props.Set_selected_year, this.props.dataset, this.props.threshold)
     //------------------------------
