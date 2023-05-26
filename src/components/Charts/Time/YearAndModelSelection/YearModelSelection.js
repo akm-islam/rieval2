@@ -9,6 +9,8 @@ function YearModelSelection(props) {
   }
   var handle_model_click = (model) => props.Set_time_mode_model(model)
   if(props.dataset=="rur"){var all_models=["MART","RandomFor"]}else{var all_models=props.all_models}
+  if(props.exp_method === "ice"){var all_models=props.all_models; all_models = all_models.filter(d => d !== "RandomFor"); if(!all_models.includes("SVM")){all_models.push("SVM")}}
+  else{var all_models=props.all_models}
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center" style={{width:'100%',height:76,padding:3}}>
       <Grid item xs={4} style={{marginTop:5, marginLeft: 5,verticalAlign:'baseline' }}><h5 style={{ display: "inline-block", marginRight: 5,marginTop:-4, fontSize: 20,fontWeight:600 }}>Rankers:</h5>{all_models.map(item => <p className={props.time_mode_model == item ? "years_p_selected years_p" : "years_p"} onClick={() => handle_model_click(item)}>{item}</p>)}</Grid>
