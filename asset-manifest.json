@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.4085322b.chunk.css",
-    "main.js": "/static/js/main.f5f76e09.chunk.js",
-    "main.js.map": "/static/js/main.f5f76e09.chunk.js.map",
+    "main.js": "/static/js/main.2f027ecf.chunk.js",
+    "main.js.map": "/static/js/main.2f027ecf.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2a406b1a.js",
     "runtime-main.js.map": "/static/js/runtime-main.2a406b1a.js.map",
     "static/css/2.2a86faee.chunk.css": "/static/css/2.2a86faee.chunk.css",
     "static/js/2.f75e81f8.chunk.js": "/static/js/2.f75e81f8.chunk.js",
     "static/js/2.f75e81f8.chunk.js.map": "/static/js/2.f75e81f8.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.9154f50622e0fe9c67b8ba0cfdd635d5.js": "/precache-manifest.9154f50622e0fe9c67b8ba0cfdd635d5.js",
+    "precache-manifest.4125b31287957720edba157dc16e0f17.js": "/precache-manifest.4125b31287957720edba157dc16e0f17.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.4085322b.chunk.css.map": "/static/css/main.4085322b.chunk.css.map",
@@ -20,14 +20,14 @@
     "static/media/RUR_lime.csv": "/static/media/RUR_lime.ab094de9.csv",
     "static/media/RUR_rank.csv": "/static/media/RUR_rank.1805a0d5.csv",
     "static/media/chart1_data.csv": "/static/media/chart1_data.cca71c9e.csv",
-    "static/media/fiscal.csv": "/static/media/fiscal.977bae2d.csv",
+    "static/media/fiscal.csv": "/static/media/fiscal.21e1942b.csv",
     "static/media/fiscal_ice_may25.csv": "/static/media/fiscal_ice_may25.fdc31ac9.csv",
     "static/media/fiscal_lime_may25.csv": "/static/media/fiscal_lime_may25.c7da8bee.csv",
     "static/media/fiscal_rank.csv": "/static/media/fiscal_rank.dcdaf12c.csv",
     "static/media/house.csv": "/static/media/house.88979d03.csv",
     "static/media/house_lime.csv": "/static/media/house_lime.ce3dd233.csv",
     "static/media/house_rank.csv": "/static/media/house_rank.f85c2352.csv",
-    "static/media/school.csv": "/static/media/school.2d2c77ef.csv",
+    "static/media/school.csv": "/static/media/school.515cf770.csv",
     "static/media/school_ice_may25.csv": "/static/media/school_ice_may25.c13bd244.csv",
     "static/media/school_lime_may25.csv": "/static/media/school_lime_may25.d3117c82.csv",
     "static/media/school_rank.csv": "/static/media/school_rank.edf0b9e3.csv"
@@ -37,6 +37,6 @@
     "static/css/2.2a86faee.chunk.css",
     "static/js/2.f75e81f8.chunk.js",
     "static/css/main.4085322b.chunk.css",
-    "static/js/main.f5f76e09.chunk.js"
+    "static/js/main.2f027ecf.chunk.js"
   ]
 }
