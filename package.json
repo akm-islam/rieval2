@@ -1,8 +1,8 @@
 {
   "name": "03_2slopechart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
-  "homepage": "https://njitvis.github.io",
+  "homepage": "https://njitvis.github.io/",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
