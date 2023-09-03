@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import textures from 'textures';
