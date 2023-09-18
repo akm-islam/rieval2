@@ -15,7 +15,8 @@ import school_rank from "./Data/data/school/lime/school_rank.csv";
 import school_lime from "./Data/data/school/lime/school_lime_may25.csv";
 import school_ice from "./Data/data/school/ice/school_ice_may25.csv";
 
-import airbnb_lime from "./Data/data/airbnb/airbnb_lime.csv";
+import airbnb_rank from "./Data/data/airbnb/lime/airbnb_rank.csv";
+import airbnb_lime from "./Data/data/airbnb/lime/airbnb_lime.csv";
 
 import rur_rank from "./Data/RUR/RUR_rank.csv";
 import rur_lime from "./Data/RUR/RUR_lime.csv";
@@ -62,7 +63,7 @@ class App extends Component {
   dataprocessor = (dataset_name, exp_method) => {
     if (dataset_name == "school") { this.process_data(school, school_rank, (exp_method==="lime")?school_lime:school_ice, dataset_name) }
     if (dataset_name == "fiscal") { this.process_data(fiscal, fiscal_rank, (exp_method==="lime")?fiscal_lime:fiscal_ice, dataset_name) }
-    if (dataset_name == "airbnb") { this.process_data(airbnb, fiscal_rank, (exp_method==="lime")?airbnb_lime:airbnb_lime, dataset_name) }
+    if (dataset_name == "airbnb") { this.process_data(airbnb, airbnb_rank, (exp_method==="lime")?airbnb_lime:airbnb_lime, dataset_name) }
     if (dataset_name == "house") { this.process_data(house, house_rank, house_lime, dataset_name) }
     if (dataset_name == "rur") { this.process_data(rur, rur_rank, rur_lime, dataset_name) }
   }

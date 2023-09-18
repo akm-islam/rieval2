@@ -59,6 +59,7 @@ class SlopeChart extends Component {
     var parent_height = parseInt($('.explanation_chart_parent').height()) - this.state.mds_height - parseInt($('.title_p').height())
     var item_width = parseInt($("#" + model_name).width())
     var item_height = (parent_height - space_for_x_axis) / sorted_features.length - (marginTop + marginBottom) // 10 is the top margin
+    //console.log("Item height ", indexed_features,item_height)
 
     var feature_containers = d3.select('#' + model_name).attr('height', parent_height)
       .selectAll(".feature_items").data(sorted_features, d => d[0])

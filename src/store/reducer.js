@@ -217,14 +217,15 @@ const reducer = (state = initialState, action) => {
       return { ...state,dragged_features:{}, histogram_data: action.value }
    }
    if (action.type === "dataset") {
-      var def_models;
+      var def_models = state.default_models;
       var sel_year = state.selected_year;
+      var all_models_local = state.all_models_local
       if(action.value === "airbnb"){
          def_models = ["Brooklyn_SVM", "Manhattan_SVM"];
-         sel_year = "Brooklyn"
+         sel_year = "Brooklyn";
+         all_models_local = ["Bronx_SVM", "Brooklyn_SVM", "Manhattan_SVM", "Queens_SVM", "Staten_Island_SVM", "NYC_SVM"]
       }
-      else{def_models = ["MART", "LambdaMART"]}
-      return { ...state, dataset: action.value,clicked_circles: [], default_models: def_models, selected_year: sel_year}
+      return { ...state, dataset: action.value,clicked_circles: [], default_models: def_models, selected_year: sel_year, all_models:all_models_local}
    }
    if (action.type === "slider_and_feature_value") {
       return { ...state, slider_and_feature_value: action.value }
