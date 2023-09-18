@@ -1,24 +1,27 @@
 {
   "files": {
     "main.css": "/trivea/static/css/main.c89b81f1.chunk.css",
-    "main.js": "/trivea/static/js/main.2b40b3cb.chunk.js",
-    "main.js.map": "/trivea/static/js/main.2b40b3cb.chunk.js.map",
+    "main.js": "/trivea/static/js/main.ddf42cfe.chunk.js",
+    "main.js.map": "/trivea/static/js/main.ddf42cfe.chunk.js.map",
     "runtime-main.js": "/trivea/static/js/runtime-main.37e6e4e3.js",
     "runtime-main.js.map": "/trivea/static/js/runtime-main.37e6e4e3.js.map",
     "static/css/2.2a86faee.chunk.css": "/trivea/static/css/2.2a86faee.chunk.css",
-    "static/js/2.21c821a1.chunk.js": "/trivea/static/js/2.21c821a1.chunk.js",
-    "static/js/2.21c821a1.chunk.js.map": "/trivea/static/js/2.21c821a1.chunk.js.map",
+    "static/js/2.e5bc4a98.chunk.js": "/trivea/static/js/2.e5bc4a98.chunk.js",
+    "static/js/2.e5bc4a98.chunk.js.map": "/trivea/static/js/2.e5bc4a98.chunk.js.map",
     "index.html": "/trivea/index.html",
-    "precache-manifest.f627ef8e0e161d8bef382ad0e7076dc4.js": "/trivea/precache-manifest.f627ef8e0e161d8bef382ad0e7076dc4.js",
+    "precache-manifest.a683b22bc2a0eb09047f9e0c31151593.js": "/trivea/precache-manifest.a683b22bc2a0eb09047f9e0c31151593.js",
     "service-worker.js": "/trivea/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/trivea/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.c89b81f1.chunk.css.map": "/trivea/static/css/main.c89b81f1.chunk.css.map",
-    "static/js/2.21c821a1.chunk.js.LICENSE.txt": "/trivea/static/js/2.21c821a1.chunk.js.LICENSE.txt",
+    "static/js/2.e5bc4a98.chunk.js.LICENSE.txt": "/trivea/static/js/2.e5bc4a98.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/trivea/static/media/OpenSans-Regular.3ed9575d.ttf",
     "static/media/RUR.csv": "/trivea/static/media/RUR.e8eaae8e.csv",
     "static/media/RUR_histogram_data.csv": "/trivea/static/media/RUR_histogram_data.ab6fad30.csv",
     "static/media/RUR_lime.csv": "/trivea/static/media/RUR_lime.ab094de9.csv",
     "static/media/RUR_rank.csv": "/trivea/static/media/RUR_rank.1805a0d5.csv",
+    "static/media/airbnb.csv": "/trivea/static/media/airbnb.f2354d6e.csv",
+    "static/media/airbnb_lime.csv": "/trivea/static/media/airbnb_lime.60f608cc.csv",
+    "static/media/airbnb_rank.csv": "/trivea/static/media/airbnb_rank.542cd163.csv",
     "static/media/chart1_data.csv": "/trivea/static/media/chart1_data.cca71c9e.csv",
     "static/media/fiscal.csv": "/trivea/static/media/fiscal.21e1942b.csv",
     "static/media/fiscal_ice_may25.csv": "/trivea/static/media/fiscal_ice_may25.fdc31ac9.csv",
@@ -35,8 +38,8 @@
   "entrypoints": [
     "static/js/runtime-main.37e6e4e3.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.21c821a1.chunk.js",
+    "static/js/2.e5bc4a98.chunk.js",
     "static/css/main.c89b81f1.chunk.css",
-    "static/js/main.2b40b3cb.chunk.js"
+    "static/js/main.ddf42cfe.chunk.js"
   ]
 }
