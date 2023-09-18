@@ -6,8 +6,8 @@ import * as themes from '../../themes'
 function FadeMenu(props) {
     return (
             <div className="year_drop_down_container1">
-                <p style={{ margin: 0, marginTop: 3, fontSize: 16, fontWeight: 600 }}>Year 1 :</p>
-                <Autocomplete style={{ width: 100 }} disableClearable
+                <p style={{ margin: 0, marginTop: 3, fontSize: 16, fontWeight: 600 }}>{(props.dataset === "airbnb")?"Borough 1 :":"Year 1 :"}</p>
+                <Autocomplete style={{width:(props.dataset === "airbnb")?160:100}} disableClearable
                     defaultValue={props.time_mode_year1.toString()}
                     id="debug"
                     debug
@@ -27,6 +27,7 @@ const maptstateToprop = (state) => {
     return {
         time_mode_year1: state.time_mode_year1,
         years_for_dropdown: state.years_for_dropdown,
+        dataset: state.dataset,
     }
 }
 const mapdispatchToprop = (dispatch) => {

@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 function FadeMenu(props) {
     return (
         <div className="year_drop_down_container1">
-            <p style={{margin:0,marginTop:3,fontSize:16,fontWeight:600}}>Year 2 :</p>
-            <Autocomplete style={{width:100}} disableClearable
+            <p style={{margin:0,marginTop:3,fontSize:16,fontWeight:600}}>{(props.dataset === "airbnb")?"Borough 2 :":"Year 2 :"}</p>
+            <Autocomplete style={{width:(props.dataset === "airbnb")?160:100}} disableClearable
                 defaultValue={props.time_mode_year2.toString()}
                 id="debug"
                 debug
@@ -25,6 +25,7 @@ const maptstateToprop = (state) => {
     return {
         time_mode_year2: state.time_mode_year2,
         years_for_dropdown: state.years_for_dropdown,
+        dataset: state.dataset,
     }
 }
 const mapdispatchToprop = (dispatch) => {

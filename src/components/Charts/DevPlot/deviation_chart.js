@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-concat */
+/* eslint-disable no-useless-concat, eqeqeq, array-callback-return, no-redeclare   */
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import textures from 'textures';
