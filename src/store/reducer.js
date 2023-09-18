@@ -222,14 +222,16 @@ const reducer = (state = initialState, action) => {
       var all_models_local = state.all_models_local;
       var range_mode_model_local = state.range_mode_model;
       var time_mode_model_local = state.time_mode_model;
+      var pop_over_models_local = state.pop_over_models;
       if(action.value === "airbnb"){
          def_models = ["Brooklyn_SVM", "Manhattan_SVM"];
          sel_year = "Brooklyn";
          all_models_local = ["Bronx_SVM", "Brooklyn_SVM", "Manhattan_SVM", "Queens_SVM", "Staten_Island_SVM", "NYC_SVM"];
          range_mode_model_local = "Brooklyn_SVM";
          time_mode_model_local = "Brooklyn_SVM";
+         pop_over_models_local = ["Brooklyn_SVM", "Manhattan_SVM"];
       }
-      return { ...state, dataset: action.value,clicked_circles: [], default_models: def_models, selected_year: sel_year, all_models:all_models_local, range_mode_model: range_mode_model_local, time_mode_model: time_mode_model_local}
+      return { ...state, dataset: action.value,clicked_circles: [], default_models: def_models, selected_year: sel_year, all_models:all_models_local, range_mode_model: range_mode_model_local, time_mode_model: time_mode_model_local, pop_over_models: pop_over_models_local}
    }
    if (action.type === "slider_and_feature_value") {
       return { ...state, slider_and_feature_value: action.value }

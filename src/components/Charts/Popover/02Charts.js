@@ -19,6 +19,7 @@ class Chart extends Component {
         return item
       })
     })
+    //console.log(this.props.popup_chart_data)
     var merged_arr = [].concat.apply([], Object.values(temp_dict))
     var scatterplot_data = Object.entries(this.props.popup_chart_data[0]).filter(item => this.props.pop_over_models.includes(item[0]))
     //----------------------------------------------------------------------------------------------------------Call createChart

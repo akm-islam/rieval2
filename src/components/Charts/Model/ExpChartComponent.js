@@ -130,10 +130,14 @@ class SlopeChart extends Component {
           self.props.default_models.filter(item => item != "ListNet").map(model_name => {
             var data = []
             if (self.props.histogram_data.length > 0) {
-              data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });
+              if(self.props.dataset === "airbnb"){data = self.props.lime_data[model_name].filter(element => { if ((element['1-qid'] == year) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });}
+              else{data = self.props.lime_data[model_name].filter(element => { if ((parseInt(element['1-qid']) == parseInt(year)) && (self.props.histogram_data.includes(parseInt(element['two_realRank'])))) { return element } });}
+              
             }
             else {
-              data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
+              if(self.props.dataset === "airbnb"){data = self.props.lime_data[model_name].filter(element => element['1-qid'] == year && selected_instances.includes(parseInt(element['two_realRank'])))}
+              else{data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))}
+              //data = self.props.lime_data[model_name].filter(element => parseInt(element['1-qid']) == parseInt(year) && selected_instances.includes(parseInt(element['two_realRank'])))
             }
             popup_chart_data[model_name] = data
           })

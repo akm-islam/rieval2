@@ -237,6 +237,7 @@ class Chart extends Component {
         //self.props.Set_popup_chart_data([popup_chart_data,feature]) // This is to update the pop when the year or anything changes during the pop up is open
         self.props.Set_popup_chart_data([popup_chart_data, feature])
         self.props.set_pop_over(true)
+        console.log(popup_chart_data)
       })
     //---------------------------------------------------------------------------------------------------------------------------------- SVG2 for title and circles
     var svg2 = svg1.selectAll('.svg2').data([0]).join('svg').attr('class', 'svg2').attr("width", width + margin.left2 + margin.right2).attr("height", height + margin.space_for_feature_title + margin.bottom2)
