@@ -142,7 +142,9 @@ export function sorted_features(dataset, model, selected_instances, selected_yea
 }
 
 export function getSortedFeatures(lime_data,selected_instances, selected_year) {
-  var filtered_data=lime_data.filter(item=>parseInt(item['1-qid'])==selected_year && selected_instances.includes(item['two_realRank']))
+  //console.log("Lime Data: ",selected_year, lime_data.filter(item=>item['1-qid']==selected_year))
+  //var filtered_data=lime_data.filter(item=>parseInt(item['1-qid'])==selected_year && selected_instances.includes(item['two_realRank']))
+  var filtered_data=lime_data.filter(item=>item['1-qid']==selected_year && selected_instances.includes(item['two_realRank']))
   var feature_cols=Object.keys(filtered_data[0]).filter(item=>item.includes("_contribution")) //.map(item => item.replace("_contribution", ""))
   var temp=[]
   feature_cols.map(feature=>{
@@ -152,5 +154,6 @@ export function getSortedFeatures(lime_data,selected_instances, selected_year) {
     })
     temp.push([feature,x/selected_instances.length])
   })
+  //console.log("Algo1 ", Object.keys(filtered_data[0]))
 return temp.sort((a,b)=>b[1]-a[1]).map(item => item[0].replace("_contribution", ""))
 }

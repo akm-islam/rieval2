@@ -9,7 +9,8 @@ let initialState = {
    lime_data: null,
    grouped_by_year_data: null,
    slope_chart_ready_to_vis: null,
-   default_models: ["MART", "LambdaMART"],//, "RandomFor"], // Change the pop_over_models as well
+   dataset: "fiscal", // change in componentDidmount in app.js too
+   default_models:["MART", "LambdaMART"],//, "RandomFor"], // Change the pop_over_models as well
    exp_method: "lime",
    state_range: [1, 30], // Change in handleradioChange
    deviate_by: 0,
@@ -23,7 +24,6 @@ let initialState = {
    slider_min: 1,
    slider_max: 50,
    view_data: 1,
-   dataset: "fiscal", // change in componentDidmount in app.js too
    histogram_data: [],
    chart_scale_type: "true",
    features_with_score: null,
@@ -217,7 +217,19 @@ const reducer = (state = initialState, action) => {
       return { ...state,dragged_features:{}, histogram_data: action.value }
    }
    if (action.type === "dataset") {
-      return { ...state, dataset: action.value,clicked_circles: [] }
+      var def_models = state.default_models;
+      var sel_year = state.selected_year;
+      var all_models_local = state.all_models_local;
+      var range_mode_model_local = state.range_mode_model;
+      var time_mode_model_local = state.time_mode_model;
+      if(action.value === "airbnb"){
+         def_models = ["Brooklyn_SVM", "Manhattan_SVM"];
+         sel_year = "Brooklyn";
+         all_models_local = ["Bronx_SVM", "Brooklyn_SVM", "Manhattan_SVM", "Queens_SVM", "Staten_Island_SVM", "NYC_SVM"];
+         range_mode_model_local = "Brooklyn_SVM";
+         time_mode_model_local = "Brooklyn_SVM";
+      }
+      return { ...state, dataset: action.value,clicked_circles: [], default_models: def_models, selected_year: sel_year, all_models:all_models_local, range_mode_model: range_mode_model_local, time_mode_model: time_mode_model_local}
    }
    if (action.type === "slider_and_feature_value") {
       return { ...state, slider_and_feature_value: action.value }
