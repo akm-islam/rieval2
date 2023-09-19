@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/trivea/static/css/main.c89b81f1.chunk.css",
-    "main.js": "/trivea/static/js/main.66a6390c.chunk.js",
-    "main.js.map": "/trivea/static/js/main.66a6390c.chunk.js.map",
-    "runtime-main.js": "/trivea/static/js/runtime-main.37e6e4e3.js",
-    "runtime-main.js.map": "/trivea/static/js/runtime-main.37e6e4e3.js.map",
+    "main.js": "/trivea/static/js/main.2486c8a2.chunk.js",
+    "main.js.map": "/trivea/static/js/main.2486c8a2.chunk.js.map",
+    "runtime-main.js": "/trivea/static/js/runtime-main.c0439820.js",
+    "runtime-main.js.map": "/trivea/static/js/runtime-main.c0439820.js.map",
     "static/css/2.2a86faee.chunk.css": "/trivea/static/css/2.2a86faee.chunk.css",
-    "static/js/2.d7d8cbee.chunk.js": "/trivea/static/js/2.d7d8cbee.chunk.js",
-    "static/js/2.d7d8cbee.chunk.js.map": "/trivea/static/js/2.d7d8cbee.chunk.js.map",
+    "static/js/2.1d979f60.chunk.js": "/trivea/static/js/2.1d979f60.chunk.js",
+    "static/js/2.1d979f60.chunk.js.map": "/trivea/static/js/2.1d979f60.chunk.js.map",
     "index.html": "/trivea/index.html",
-    "precache-manifest.0a53d02e6a73e01f8e2c66f8f4059e46.js": "/trivea/precache-manifest.0a53d02e6a73e01f8e2c66f8f4059e46.js",
+    "precache-manifest.8195440eb70c83a5738f760b7f81380c.js": "/trivea/precache-manifest.8195440eb70c83a5738f760b7f81380c.js",
     "service-worker.js": "/trivea/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/trivea/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.c89b81f1.chunk.css.map": "/trivea/static/css/main.c89b81f1.chunk.css.map",
-    "static/js/2.d7d8cbee.chunk.js.LICENSE.txt": "/trivea/static/js/2.d7d8cbee.chunk.js.LICENSE.txt",
+    "static/js/2.1d979f60.chunk.js.LICENSE.txt": "/trivea/static/js/2.1d979f60.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/trivea/static/media/OpenSans-Regular.3ed9575d.ttf",
     "static/media/RUR.csv": "/trivea/static/media/RUR.e8eaae8e.csv",
     "static/media/RUR_histogram_data.csv": "/trivea/static/media/RUR_histogram_data.ab6fad30.csv",
@@ -37,10 +37,10 @@
     "static/media/school_rank.csv": "/trivea/static/media/school_rank.edf0b9e3.csv"
   },
   "entrypoints": [
-    "static/js/runtime-main.37e6e4e3.js",
+    "static/js/runtime-main.c0439820.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.d7d8cbee.chunk.js",
+    "static/js/2.1d979f60.chunk.js",
     "static/css/main.c89b81f1.chunk.css",
-    "static/js/main.66a6390c.chunk.js"
+    "static/js/main.2486c8a2.chunk.js"
   ]
 }

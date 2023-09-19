@@ -1,31 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "315a3905486d3acdbddb7bec21c555ae",
+    "revision": "ac8f58f044f7135c5e151753fa7d3840",
     "url": "/trivea/index.html"
   },
   {
-    "revision": "3275276fefc58655b28a",
+    "revision": "407db3daacf12f0ec37b",
     "url": "/trivea/static/css/2.2a86faee.chunk.css"
   },
   {
-    "revision": "6d08141e824d3e90ddcc",
+    "revision": "8fbffc180191b3687307",
     "url": "/trivea/static/css/main.c89b81f1.chunk.css"
   },
   {
-    "revision": "3275276fefc58655b28a",
-    "url": "/trivea/static/js/2.d7d8cbee.chunk.js"
+    "revision": "407db3daacf12f0ec37b",
+    "url": "/trivea/static/js/2.1d979f60.chunk.js"
   },
   {
     "revision": "cd0067c34919426a199c1c664406c422",
-    "url": "/trivea/static/js/2.d7d8cbee.chunk.js.LICENSE.txt"
+    "url": "/trivea/static/js/2.1d979f60.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6d08141e824d3e90ddcc",
-    "url": "/trivea/static/js/main.66a6390c.chunk.js"
+    "revision": "8fbffc180191b3687307",
+    "url": "/trivea/static/js/main.2486c8a2.chunk.js"
   },
   {
-    "revision": "53dd7d2256e2e987c97a",
-    "url": "/trivea/static/js/runtime-main.37e6e4e3.js"
+    "revision": "54649cdb208b0a69e148",
+    "url": "/trivea/static/js/runtime-main.c0439820.js"
   },
   {
     "revision": "fb7e3a294cb07a54605a8bb27f0cd528",
