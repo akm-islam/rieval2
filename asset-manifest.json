@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/trivea/static/css/main.c89b81f1.chunk.css",
-    "main.js": "/trivea/static/js/main.ddf42cfe.chunk.js",
-    "main.js.map": "/trivea/static/js/main.ddf42cfe.chunk.js.map",
+    "main.js": "/trivea/static/js/main.8619e441.chunk.js",
+    "main.js.map": "/trivea/static/js/main.8619e441.chunk.js.map",
     "runtime-main.js": "/trivea/static/js/runtime-main.37e6e4e3.js",
     "runtime-main.js.map": "/trivea/static/js/runtime-main.37e6e4e3.js.map",
     "static/css/2.2a86faee.chunk.css": "/trivea/static/css/2.2a86faee.chunk.css",
     "static/js/2.e5bc4a98.chunk.js": "/trivea/static/js/2.e5bc4a98.chunk.js",
     "static/js/2.e5bc4a98.chunk.js.map": "/trivea/static/js/2.e5bc4a98.chunk.js.map",
     "index.html": "/trivea/index.html",
-    "precache-manifest.a683b22bc2a0eb09047f9e0c31151593.js": "/trivea/precache-manifest.a683b22bc2a0eb09047f9e0c31151593.js",
+    "precache-manifest.0c57424c6d1078f6ca1ac256001b05ff.js": "/trivea/precache-manifest.0c57424c6d1078f6ca1ac256001b05ff.js",
     "service-worker.js": "/trivea/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/trivea/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.c89b81f1.chunk.css.map": "/trivea/static/css/main.c89b81f1.chunk.css.map",
@@ -40,6 +40,6 @@
     "static/css/2.2a86faee.chunk.css",
     "static/js/2.e5bc4a98.chunk.js",
     "static/css/main.c89b81f1.chunk.css",
-    "static/js/main.ddf42cfe.chunk.js"
+    "static/js/main.8619e441.chunk.js"
   ]
 }

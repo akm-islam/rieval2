@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0ce003385ab375f442c5eacc58ac57f9",
+    "revision": "81ede24f29c626830db9ecc0e6338eb1",
     "url": "/trivea/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/trivea/static/css/2.2a86faee.chunk.css"
   },
   {
-    "revision": "c7bb4151991ba351a717",
+    "revision": "7485bceef13e46e0c3b7",
     "url": "/trivea/static/css/main.c89b81f1.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/trivea/static/js/2.e5bc4a98.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c7bb4151991ba351a717",
-    "url": "/trivea/static/js/main.ddf42cfe.chunk.js"
+    "revision": "7485bceef13e46e0c3b7",
+    "url": "/trivea/static/js/main.8619e441.chunk.js"
   },
   {
     "revision": "53dd7d2256e2e987c97a",
