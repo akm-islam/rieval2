@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/trivea/static/css/main.c89b81f1.chunk.css",
-    "main.js": "/trivea/static/js/main.8619e441.chunk.js",
-    "main.js.map": "/trivea/static/js/main.8619e441.chunk.js.map",
+    "main.js": "/trivea/static/js/main.418f41a6.chunk.js",
+    "main.js.map": "/trivea/static/js/main.418f41a6.chunk.js.map",
     "runtime-main.js": "/trivea/static/js/runtime-main.37e6e4e3.js",
     "runtime-main.js.map": "/trivea/static/js/runtime-main.37e6e4e3.js.map",
     "static/css/2.2a86faee.chunk.css": "/trivea/static/css/2.2a86faee.chunk.css",
-    "static/js/2.e5bc4a98.chunk.js": "/trivea/static/js/2.e5bc4a98.chunk.js",
-    "static/js/2.e5bc4a98.chunk.js.map": "/trivea/static/js/2.e5bc4a98.chunk.js.map",
+    "static/js/2.79f97321.chunk.js": "/trivea/static/js/2.79f97321.chunk.js",
+    "static/js/2.79f97321.chunk.js.map": "/trivea/static/js/2.79f97321.chunk.js.map",
     "index.html": "/trivea/index.html",
-    "precache-manifest.0c57424c6d1078f6ca1ac256001b05ff.js": "/trivea/precache-manifest.0c57424c6d1078f6ca1ac256001b05ff.js",
+    "precache-manifest.4ee18f3a00c2d13b83bd1b0b4adb5f5f.js": "/trivea/precache-manifest.4ee18f3a00c2d13b83bd1b0b4adb5f5f.js",
     "service-worker.js": "/trivea/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/trivea/static/css/2.2a86faee.chunk.css.map",
     "static/css/main.c89b81f1.chunk.css.map": "/trivea/static/css/main.c89b81f1.chunk.css.map",
-    "static/js/2.e5bc4a98.chunk.js.LICENSE.txt": "/trivea/static/js/2.e5bc4a98.chunk.js.LICENSE.txt",
+    "static/js/2.79f97321.chunk.js.LICENSE.txt": "/trivea/static/js/2.79f97321.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/trivea/static/media/OpenSans-Regular.3ed9575d.ttf",
     "static/media/RUR.csv": "/trivea/static/media/RUR.e8eaae8e.csv",
     "static/media/RUR_histogram_data.csv": "/trivea/static/media/RUR_histogram_data.ab6fad30.csv",
@@ -22,6 +22,7 @@
     "static/media/airbnb.csv": "/trivea/static/media/airbnb.f2354d6e.csv",
     "static/media/airbnb_lime.csv": "/trivea/static/media/airbnb_lime.60f608cc.csv",
     "static/media/airbnb_rank.csv": "/trivea/static/media/airbnb_rank.542cd163.csv",
+    "static/media/airbnb_shap.csv": "/trivea/static/media/airbnb_shap.711c54e3.csv",
     "static/media/chart1_data.csv": "/trivea/static/media/chart1_data.cca71c9e.csv",
     "static/media/fiscal.csv": "/trivea/static/media/fiscal.21e1942b.csv",
     "static/media/fiscal_ice_may25.csv": "/trivea/static/media/fiscal_ice_may25.fdc31ac9.csv",
@@ -38,8 +39,8 @@
   "entrypoints": [
     "static/js/runtime-main.37e6e4e3.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.e5bc4a98.chunk.js",
+    "static/js/2.79f97321.chunk.js",
     "static/css/main.c89b81f1.chunk.css",
-    "static/js/main.8619e441.chunk.js"
+    "static/js/main.418f41a6.chunk.js"
   ]
 }

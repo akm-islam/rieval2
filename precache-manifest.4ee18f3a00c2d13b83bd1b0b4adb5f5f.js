@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "81ede24f29c626830db9ecc0e6338eb1",
+    "revision": "77216bb144634ebbc0e064dfefddf67a",
     "url": "/trivea/index.html"
   },
   {
-    "revision": "e6f2dfd16fe402ffceb0",
+    "revision": "ccaecbaf89ac5ce4af1e",
     "url": "/trivea/static/css/2.2a86faee.chunk.css"
   },
   {
-    "revision": "7485bceef13e46e0c3b7",
+    "revision": "d8be8d14951ab5fc9d8d",
     "url": "/trivea/static/css/main.c89b81f1.chunk.css"
   },
   {
-    "revision": "e6f2dfd16fe402ffceb0",
-    "url": "/trivea/static/js/2.e5bc4a98.chunk.js"
+    "revision": "ccaecbaf89ac5ce4af1e",
+    "url": "/trivea/static/js/2.79f97321.chunk.js"
   },
   {
     "revision": "cd0067c34919426a199c1c664406c422",
-    "url": "/trivea/static/js/2.e5bc4a98.chunk.js.LICENSE.txt"
+    "url": "/trivea/static/js/2.79f97321.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "7485bceef13e46e0c3b7",
-    "url": "/trivea/static/js/main.8619e441.chunk.js"
+    "revision": "d8be8d14951ab5fc9d8d",
+    "url": "/trivea/static/js/main.418f41a6.chunk.js"
   },
   {
     "revision": "53dd7d2256e2e987c97a",
@@ -62,6 +62,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "542cd163e8fd6d8c81380fa2f6baae31",
     "url": "/trivea/static/media/airbnb_rank.542cd163.csv"
+  },
+  {
+    "revision": "711c54e39481a5494c86267b33eaf3cf",
+    "url": "/trivea/static/media/airbnb_shap.711c54e3.csv"
   },
   {
     "revision": "45acbae83aae91fa3274fb284fd02aef",
