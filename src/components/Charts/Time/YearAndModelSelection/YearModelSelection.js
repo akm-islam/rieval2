@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, no-redeclare */
 import React from 'react';
 import "./YearModelSelection.scss";
 import { connect } from "react-redux";

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-dupe-keys */
 import { createMuiTheme } from "@material-ui/core/styles";
 
 // Create a theme instance.

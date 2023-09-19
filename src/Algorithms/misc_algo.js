@@ -1,8 +1,9 @@
+/* eslint-disable array-callback-return, no-useless-concat */
 import * as d3 from 'd3';
 export function handle_transparency(class_name, clicked_circles, anim_config) {
     console.log("CLicked circles: ", clicked_circles)    
     d3.selectAll(".my_circles").attr("stroke", "none")
-    if (clicked_circles.length != 0) { // If there are no clicked circles make all opacity 1
+    if (clicked_circles.length !== 0) { // If there are no clicked circles make all opacity 1
         d3.selectAll(".items").attr('opacity', 0.3) // Groups
         d3.selectAll(".exp_circles").attr('opacity', 0.3) // Circles
         d3.selectAll(".mds_circles").attr('opacity', 0.3) // Circles

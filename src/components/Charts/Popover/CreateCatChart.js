@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat, eqeqeq, array-callback-return, no-redeclare */
 import * as d3 from 'd3';
 var CreateCatChart = (data, feature, scatterplot_data,props) => {
     var rScale = d3.scalePow().exponent(0.4).domain(d3.extent(props.deviation_array)).range([6, 1])

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, array-callback-return, eqeqeq, no-useless-concat */
 import * as d3 from "d3";
 import { createStore } from 'redux';
 import reducer from "../../../store/reducer";

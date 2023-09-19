@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, no-redeclare */
 import * as d3 from 'd3';
 import * as _ from "lodash";
 import "./CreateNumChart.css"

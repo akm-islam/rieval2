@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, array-callback-return, no-redeclare, no-useless-escape, no-loop-func */
 //------------------------------------------------------------------------------------------------- Sort Models
 export function sort(type, state_range, default_models, selected_year, grouped_by_year_data) {
   console.log(type, state_range, default_models, selected_year, grouped_by_year_data,'sort')

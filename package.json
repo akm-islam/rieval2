@@ -1,6 +1,6 @@
 {
-  "name": "03_2slopechart",
-  "version": "0.1.5",
+  "name": "trivea",
+  "version": "0.1.6",
   "private": true,
   "homepage": "https://njitvis.github.io/trivea",
   "dependencies": {

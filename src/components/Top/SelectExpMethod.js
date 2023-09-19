@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq, array-callback-return */
 import React from 'react';
 import * as d3 from 'd3';
 import Button from '@material-ui/core/Button';

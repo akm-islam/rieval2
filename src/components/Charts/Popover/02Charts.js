@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq, array-callback-return, no-useless-constructor */
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as misc_algo from '../../../Algorithms/misc_algo'

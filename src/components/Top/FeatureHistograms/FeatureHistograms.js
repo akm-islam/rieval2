@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, array-callback-return */
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as d3 from 'd3';

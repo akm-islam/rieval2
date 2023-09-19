@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, array-callback-return */
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";
@@ -121,11 +122,9 @@ const maptstateToprop = (state) => {
     state_range: state.state_range,
     selected_year: state.selected_year,
     lime_data: state.lime_data,
-    default_models: state.default_models,
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,
-    dataset: state.dataset,
     anim_config: state.anim_config,
     average_m: state.average_m,
     rank_data: state.rank_data,

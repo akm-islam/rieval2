@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq, array-callback-return, no-redeclare */
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";

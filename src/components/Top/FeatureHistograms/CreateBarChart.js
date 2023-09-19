@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, array-callback-return */
 import * as d3 from 'd3';
 import * as $ from "jquery"
 export default function CreateChart(histogram_data, svg, feature_name, feature_index, number_of_features,store_instances,all_instances) {

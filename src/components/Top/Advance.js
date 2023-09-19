@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 import React from 'react';
 import { connect } from "react-redux";
 import Button from '@material-ui/core/Button';
@@ -24,7 +25,7 @@ function Sort(props) {
 
     const sortModels = (event) => {
         set_sort_by(event.target.value)
-        if (event.target.value == "None") { var val = "Alphabetically" }
+        if (event.target.value === "None") { var val = "Alphabetically" }
         else { var val = event.target.value }
         props.Set_sort_by(val)
         var temp_Models = algo1.sort(val, props.state_range, props.default_models, props.selected_year, props.grouped_by_year_data)[0];

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as d3 from "d3"
 import * as $ from "jquery"
 export default function CreateHistogram(histogram_data, svg, feature_name, feature_index, number_of_features, store_instances) {

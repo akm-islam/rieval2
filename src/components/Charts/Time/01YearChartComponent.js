@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq, array-callback-return, no-redeclare */
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import './YearModeComponent.scss';
@@ -136,7 +137,6 @@ const maptstateToprop = (state) => {
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,
-    dataset: state.dataset,
     anim_config: state.anim_config,
     average_m: state.average_m,
     rank_data: state.rank_data,

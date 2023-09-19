@@ -30,9 +30,9 @@ function FadeMenu(props) {
   };
   //----------------
   const checkboxChanged = (event) => {
-    let temp_Models=[...props.pop_over_models].filter(item=>item!="ListNet")
+    let temp_Models=[...props.pop_over_models].filter(item=>item!=="ListNet")
     if (temp_Models.includes(event.target.value)) {
-      temp_Models = props.pop_over_models.filter(item => item != event.target.value)
+      temp_Models = props.pop_over_models.filter(item => item !== event.target.value)
       props.Set_pop_over_models(temp_Models)
     }
     else {

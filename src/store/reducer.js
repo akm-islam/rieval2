@@ -46,7 +46,6 @@ let initialState = {
    time_mode_year1: "Null",
    time_mode_year2: "Null",
    time_mode_range: [6, 32],
-   chart_scale_type: "true",
    slider_and_feature_value: { 'Rank range': 1, 'Feature': 1 },
    prev_prop: {},
    replay: false,
@@ -161,10 +160,10 @@ const reducer = (state = initialState, action) => {
       return { ...state, deviate_by: action.value }
    }
    if (action.type === "mode") {
-      if(action.value=='Model'){
+      if(action.value==="Model"){
          return { ...state,pop_over_models:state.default_models, mode: action.value }
       }
-      if(action.value=='Ranges'){
+      if(action.value==="Ranges"){
          return { ...state,pop_over_models:[state.range_mode_model], mode: action.value }
       }
       else{
@@ -255,7 +254,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, pop_over: action.value }
    }
    if (action.type === "pop_over_models") {
-      var temp = action.value.filter(item => item != "ListNet")
+      var temp = action.value.filter(item => item !== "ListNet")
       return { ...state, pop_over_models: temp }
    }
    if (action.type === "clicked_features") {

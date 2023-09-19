@@ -1,3 +1,4 @@
+/* eslint-disable  eqeqeq, array-callback-return, no-redeclare */
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { connect } from "react-redux";
@@ -83,8 +84,8 @@ class SlopeChart extends Component {
     this.props.Set_deviation_array(deviation_array)
     //--------------------
     return (
-      <Grid key={this.props.mode} className="RangeChartParent" container direction="row" justifyContent="space-between"
-        className="slope_chart_exp" style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", overflow: 'hidden' }}>
+      <Grid key={this.props.mode} className="RangeChartParent slope_chart_exp" container direction="row" justifyContent="space-between"
+        style={{ width: "100%", height: '100%', backgroundColor: 'white', padding: "0px 0px", overflow: 'hidden' }}>
         <div className="year_and_model_selector_and_slider_container" style={{ width: "100%" }}> {/* This is used to calculate the deviation plot height */}
           <YearModelSelection></YearModelSelection>
         </div>
@@ -134,7 +135,6 @@ const maptstateToprop = (state) => {
     original_data: state.original_data,
     dataset: state.dataset,
     sparkline_data: state.sparkline_data,
-    dataset: state.dataset,
     anim_config: state.anim_config,
     average_m: state.average_m,
     rank_data: state.rank_data,

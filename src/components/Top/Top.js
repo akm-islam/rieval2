@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq */
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports ends here
 import { Row, Col } from 'reactstrap';
@@ -43,10 +44,10 @@ class App extends Component {
           <Button style={{borderRadius:0,border:'none', borderRight:'1px solid #bfbfbf'}} onClick={() => this.buttonclickHandler(0, "button")}>Load Data</Button>
           </ButtonGroup>
           <SelectMode></SelectMode>
-          {this.props.mode=="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
+          {this.props.mode==="Model"?<FeaturesDropdown></FeaturesDropdown>:null}
           <SelectExpMethod></SelectExpMethod>
           <LabelOn></LabelOn>
-          {this.props.mode=="Model"?<div style={{position:"absolute",right:"20px"}}><Advance></Advance></div>:null}
+          {this.props.mode==="Model"?<div style={{position:"absolute",right:"20px"}}><Advance></Advance></div>:null}
         </Grid>
         {this.props.view_data == false ?
           <Row className="Topbar_container">

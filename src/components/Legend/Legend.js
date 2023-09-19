@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, no-redeclare */
 import React, { Component, PureComponent } from 'react';
 import * as d3 from 'd3';
 import * as $ from 'jquery';

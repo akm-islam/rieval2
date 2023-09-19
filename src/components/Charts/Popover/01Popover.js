@@ -1,7 +1,8 @@
+/* eslint-disable eqeqeq, no-useless-escape  */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
-import Chart_pop from './02Charts'
+import ChartPop from './02Charts'
 import Draggable from 'react-draggable';
 import Grid from "@material-ui/core/Grid"
 import FilterModel from "./FilterModel"
@@ -27,32 +28,32 @@ export function SimplePopover(props) {
                             {
                                 props.mode == "Model" ? <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
                                     {
-                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Chart_pop
+                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <ChartPop
                                             index={index}
                                             popup_chart_data={[props.popup_chart_data[0], item]} default_models={props.default_models}
                                             myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')} diverginColor={props.diverginColor}
-                                        ></Chart_pop>) : <Chart_pop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
+                                        ></ChartPop>) : <ChartPop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></ChartPop>
                                     }
                                 </Grid> : null
                             }
                             {
                                 props.mode == "Ranges" ? <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
                                     {
-                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Chart_pop index={index}
+                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <ChartPop index={index}
                                             popup_chart_data={[props.popup_chart_data[0], item]} default_models={props.default_models}
                                             myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')} diverginColor={props.diverginColor}
-                                        ></Chart_pop>) : <Chart_pop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
+                                        ></ChartPop>) : <ChartPop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></ChartPop>
                                     }
                                 </Grid> : null
                             }
                             {
                                 props.mode == "Time" ? <Grid container direction="row" justify="center" alignItems="center" style={{ maxHeight: 700, overflow: "scroll", maxWidth: 1600 }}>
                                     {
-                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <Chart_pop
+                                        props.dbclicked_features.length > 0 ? props.dbclicked_features.map((item, index) => <ChartPop
                                             index={index}
                                             popup_chart_data={[props.popup_chart_data[0], item]} default_models={props.default_models}
                                             myid={item.replace(/\s/g, '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')} diverginColor={props.diverginColor}
-                                        ></Chart_pop>) : <Chart_pop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></Chart_pop>
+                                        ></ChartPop>) : <ChartPop popup_chart_data={props.popup_chart_data} default_models={props.default_models} myid="myid1" diverginColor={props.diverginColor} textClickHandler_original={props.textClickHandler_original}></ChartPop>
                                     }
                                 </Grid> : null
                             }

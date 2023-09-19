@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, eqeqeq, array-callback-return */
 import React, { Component } from 'react';
 //------------------------------------------------All datasets imports
 import fiscal from "./Data/fiscal.csv";
