@@ -17,6 +17,7 @@ import school_ice from "./Data/data/school/ice/school_ice_may25.csv";
 
 import airbnb_rank from "./Data/data/airbnb/lime/airbnb_rank.csv";
 import airbnb_lime from "./Data/data/airbnb/lime/airbnb_lime.csv";
+import airbnb_shap from "./Data/data/airbnb/shap/airbnb_shap.csv";
 
 import rur_rank from "./Data/RUR/RUR_rank.csv";
 import rur_lime from "./Data/RUR/RUR_lime.csv";

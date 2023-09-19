@@ -16,6 +16,9 @@ import fiscal_lime from "../../Data/data/fiscal/lime/fiscal_lime_may25.csv";
 import school_lime from "../../Data/data/school/lime/school_lime_may25.csv";
 import school_ice from "../../Data/data/school/ice/school_ice_may25.csv";
 
+import airbnb_lime from "../../Data/data/airbnb/lime/airbnb_lime.csv";
+import airbnb_shap from "../../Data/data/airbnb/shap/airbnb_shap.csv";
+
 export function SelectExpMethod(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -33,6 +36,9 @@ export function SelectExpMethod(props) {
     }
     if(dataset==="school"){
       lime_data_filename = (val === "lime")?school_lime:school_ice;
+    }
+    if(dataset==="airbnb"){
+      lime_data_filename = (val === "lime")?airbnb_lime:airbnb_shap;
     }
     d3.csv(lime_data_filename).then(temp_data => {
       var temp_data2 = temp_data.map(d=>{
@@ -73,7 +79,7 @@ export function SelectExpMethod(props) {
                     console.log(val);
                     props.Set_exp_method(val)
                     }}>
-                    {['LIME', 'ICE'].map((value) => {
+                    {((props.dataset === "airbnb")?['LIME', 'SHAP']:['LIME', 'ICE']).map((value) => {
                       return <FormControlLabel value={value.toLowerCase()} control={<Radio />} label={value} checked={props.exp_method === value.toLowerCase()} />
                     })}
                   </RadioGroup>
