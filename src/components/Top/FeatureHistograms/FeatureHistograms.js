@@ -5,6 +5,7 @@ import exp_fiscal_CordAscent from "../../../Data/data/fiscal/lime/chart1_data.cs
 import exp_school_CordAscent from "../../../Data/data/school/lime/chart1_data.csv";
 import exp_house_CordAscent from "../../../Data/data/house/lime/chart1_data.csv";
 import rur_histogram_data from "../../../Data/RUR/RUR_histogram_data.csv";
+import exp_airbnb_histogram_data from "../../../Data/data/airbnb/lime/chart1_data.csv"
 import CreateHistogram from './CreateHistogram'
 import CreateBarChart from './CreateBarChart';
 import Button from '@material-ui/core/Button';
@@ -14,7 +15,7 @@ class FeatureHistograms extends Component {
         this.state = { feature_data: [] };
     }
     componentDidMount() {
-        var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data }
+        var filename; if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "house") { filename = exp_house_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data } else if (this.props.dataset == "airbnb") { filename = exp_airbnb_histogram_data }
         d3.csv(filename).then(feature_data => {
             this.setState({ feature_data: feature_data,all_instances:{} })
         })
@@ -37,7 +38,8 @@ class FeatureHistograms extends Component {
        
         //-------------------- Get the features and sort them
         var number_of_charts = 9
-        var filtered_rank_data = this.props.rank_data[this.props.default_models[0]].filter(element => { if (parseInt(element['1-qid']) == parseInt(this.props.selected_year)) { return element } })
+        //var filtered_rank_data = this.props.rank_data[this.props.default_models[0]].filter(element => { if (parseInt(element['1-qid']) == parseInt(this.props.selected_year)) { return element } })
+        var filtered_rank_data = this.props.rank_data[this.props.default_models[0]].filter(element => { if (element['1-qid'] == this.props.selected_year) { return element } })
         var data = selected_instances.map(index => filtered_rank_data[index])
         var my_features_rank_col=Object.keys(data[0]).filter(item=>item.includes("_feature_rank"))
         var sorted_features = my_features_rank_col.map((element) => element.replace("_feature_rank", "")).sort((a, b) => a.localeCompare(b))
@@ -45,7 +47,7 @@ class FeatureHistograms extends Component {
         //--------------------
 
 
-        if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data }
+        if (this.props.dataset == "fiscal") { filename = exp_fiscal_CordAscent } else if (this.props.dataset == "school") { filename = exp_school_CordAscent } else if (this.props.dataset == "rur") { filename = rur_histogram_data } else if (this.props.dataset == "airbnb") { filename = exp_airbnb_histogram_data }
         //--------------------------------Iterate through each features
         
         
