@@ -35,7 +35,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
             // The following line filters out all negative 
             if (item['1-qid'] == selected_year && selected_instances.includes(parseInt(item['two_realRank']))) {
                 if (item['deviation'] < threshold) { sum_data.push(parseFloat(item[feature_contrib_name])) }
-                item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+                item['id'] = "id_" + item['State'].replace(/ /g, '').replace("+", "_").replace(".", "_").replace(/[^a-zA-Z0-9_ ]/g, "")
                 circ_data.push(item)
             }
         })
@@ -47,7 +47,7 @@ export default function CreatexpCircle(d, selection, selected_instances,
     //----------
     selection.selectAll(".my_mean_line").data([0]).join("line").attr("class", "my_mean_line").attr("x1", xScale(my_mean)).attr("x2", xScale(my_mean)).attr("y1", title_rect_height + 3).attr("y2", item_height).attr('stroke', "rgb(96, 96, 96,0.5)").attr('stroke-width', 1)
     var rScale = d3.scalePow().exponent(0.4).domain(d3.extent(deviation_array)).range([state.global_config.max_circle_r, state.global_config.min_circle_r])
-    //console.log(circ_data)
+    console.log(circ_data)
     var mycircles = selection.selectAll(".my_circles").data(circ_data, d => d['id']).join(
         enter => enter.append('circle')
             .attr('id', d => d['id'])

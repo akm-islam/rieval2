@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
-export function handle_transparency(class_name, clicked_circles, anim_config) {    
+export function handle_transparency(class_name, clicked_circles, anim_config) {
+    console.log("CLicked circles: ", clicked_circles)    
     d3.selectAll(".my_circles").attr("stroke", "none")
     if (clicked_circles.length != 0) { // If there are no clicked circles make all opacity 1
         d3.selectAll(".items").attr('opacity', 0.3) // Groups

@@ -100,7 +100,7 @@ export function Create_deviation_chart(parent_id, parent_exp_id, selected_instan
           a["model"] = model_name
           a['year'] = item['1-qid']
           //a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-          a['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+          a['id'] = "id_" + item['State'].replace(/ /g, '').replace("+", "_").replace(".", "_").replace(/[^a-zA-Z0-9_ ]/g, "")
           a['className'] = "dev_circles " + model_name.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
           if (Math.abs(predicted_rank - two_realRank) < threshold) {
             circ_data.push(a)

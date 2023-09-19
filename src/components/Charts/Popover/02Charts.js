@@ -15,7 +15,7 @@ class Chart extends Component {
     this.props.default_models.filter(item => item != "ListNet").map(model => {
       temp_dict[model] = this.props.popup_chart_data[0][model].filter(item=>item['deviation']<this.props.threshold).map(item=>{
         //item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "") + model.replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
-        item['id'] = item['State'].replace(/ /g, '').replace(/[^a-zA-Z ]/g, "")
+        item['id'] = "id_" + item['State'].replace(/ /g, '').replace("+", "_").replace(".", "_").replace(/[^a-zA-Z0-9_ ]/g, "")
         return item
       })
     })
