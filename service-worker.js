@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/trivea/precache-manifest.4ee18f3a00c2d13b83bd1b0b4adb5f5f.js"
+  "/trivea/precache-manifest.0a53d02e6a73e01f8e2c66f8f4059e46.js"
 );
 
 self.addEventListener('message', (event) => {
